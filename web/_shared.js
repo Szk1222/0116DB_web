@@ -29,6 +29,14 @@
     { href: 'tool_reader.html', name: '标贝悦读', en: 'YueReader' },
   ];
 
+  /* 工具平台：纵向四个工具 */
+  const TOOLS_PLATFORMS = [
+    { href: 'tools_overview.html',   name: '标注平台', en: 'Annotation' },
+    { href: 'tool_collection.html',  name: '采集平台', en: 'Collection' },
+    { href: 'tool_reader.html',      name: '标贝悦读', en: 'YueReader' },
+    { href: 'tool_openplatform.html',name: '开放平台', en: 'Open Platform' },
+  ];
+
   const SOL_DATA_PRODUCT = [
     { href: 'solution_tts.html',  name: '语音合成',      en: 'TTS' },
     { href: 'solution_asr.html',  name: '语音识别',      en: 'ASR' },
@@ -120,23 +128,10 @@
       ${megaCol('文本 & 大模型', '', [DATASETS[4], DATASETS[5]], 'datasets_overview.html')}
     </div>`;
 
-    /* 工具平台 mega */
-    const toolsMega = `<div class="nav-mega" style="min-width:520px;">
-      <div class="mega-col" style="min-width:140px;">
-        ${sectionTitle('标注平台', 'tools_overview.html')}
-        ${TOOLS_ANNOTATION.map(it => `<a href="${it.href}">${IC}<span>${it.name}</span></a>`).join('')}
-      </div>
-      <div class="mega-col" style="min-width:120px;">
-        ${sectionTitle('采集平台', 'tools_overview.html')}
-        ${TOOLS_COLLECTION.map(it => `<a href="${it.href}">${IC}<span>${it.name}</span></a>`).join('')}
-      </div>
-      <div class="mega-col" style="min-width:120px;">
-        ${sectionTitle('标贝悦读', 'tools_overview.html')}
-        ${TOOLS_READER.map(it => `<a href="${it.href}">${IC}<span>${it.name}</span></a>`).join('')}
-      </div>
-      <div class="mega-col" style="min-width:120px;">
-        ${sectionTitle('开放平台', 'tools_overview.html')}
-        ${TOOLS_OPENPLATFORM.map(it => `<a href="${it.href}">${IC}<span>${it.name}</span></a>`).join('')}
+    /* 工具平台 mega：纵向四个二级标题（与其它栏目二级标题样式一致，无三级） */
+    const toolsMega = `<div class="nav-mega" style="min-width:188px;">
+      <div class="mega-col mega-col-vertical" style="min-width:168px;border-right:0;padding-right:16px;">
+        ${TOOLS_PLATFORMS.map(it => sectionTitle(it.name, it.href)).join('')}
       </div>
     </div>`;
 
@@ -296,9 +291,9 @@
           <div class="footer-bottom">
             <div class="fb-links">
               <a href="#">标贝科技服务声明</a>
-              <a href="#">个人信息保护政策</a>
+              <a href="https://www.data-baker.com/m/#/about/personRightFile " target="_blank" rel="noopener noreferrer">个人信息保护政策</a>
               <a href="#">意见反馈</a>
-              <span>鲁ICP备2023038621号</span>
+              <a href="https://beian.miit.gov.cn/#/Integrated/index" target="_blank" rel="noopener noreferrer">鲁ICP备2023038621号</a>
             </div>
             <span>© 2025 DataBaker Technology · All rights reserved.</span>
           </div>
@@ -316,6 +311,10 @@
       <button class="sidebar-btn" onclick="openChatPopup()" title="在线咨询">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         <span class="sb-label">咨询</span>
+      </button>
+      <button class="sidebar-btn" onclick="openMessageModal()" title="留言">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v10c0 1.1-.9 2-2 2H8l-4 4V6c0-1.1.9-2 2-2z"/><path d="M8 9h8M8 13h5"/></svg>
+        <span class="sb-label">留言</span>
       </button>
       <button class="sidebar-btn" title="客服二维码">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.45 2 2 0 0 1 3.59 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2z"/></svg>
@@ -417,18 +416,74 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         </div>
         <p>您好！欢迎咨询标贝科技，我们的专属顾问将在工作时间内尽快回复。</p>
-        <div class="cp-tel">
+        <button class="cp-human" onclick="openHumanChat()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
+          转人工客服
+        </button>
+        <a class="cp-tel" href="tel:4008982016">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.45 2 2 0 0 1 3.59 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2z"/></svg>
           400 898 2016
+        </a>
+      </div>`;
+
+    /* 留言弹窗 */
+    const msgModal = document.createElement('div');
+    msgModal.className = 'msg-modal';
+    msgModal.id = 'messageModal';
+    msgModal.innerHTML = `
+      <div class="msg-box" role="dialog" aria-labelledby="msgModalTitle" aria-modal="true">
+        <div class="msg-head">
+          <span id="msgModalTitle">请您留言</span>
+          <button class="msg-min" onclick="closeMessageModal()" aria-label="关闭" title="关闭">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14"/></svg>
+          </button>
         </div>
+        <form class="msg-body" onsubmit="return submitMessageForm(event)" novalidate>
+          <div class="msg-corp">
+            <p class="msg-corp-name">北京标贝科技股份有限公司</p>
+            <p class="msg-corp-tel">400-898-2016、010-8260-3083</p>
+          </div>
+          <div class="msg-field">
+            <textarea name="content" rows="3" required placeholder="请在此输入留言内容，我们会尽快与您联系。（必填）"></textarea>
+          </div>
+          <div class="msg-field">
+            <span class="msg-pre">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </span>
+            <input type="text" name="name" required placeholder="姓名（必填）" />
+          </div>
+          <div class="msg-field">
+            <span class="msg-pre">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.45 2 2 0 0 1 3.59 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2z"/></svg>
+            </span>
+            <input type="tel" name="phone" required pattern="^[0-9+\\-\\s()]{6,20}$" placeholder="电话（必填）" />
+          </div>
+          <div class="msg-field">
+            <span class="msg-pre">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            </span>
+            <input type="text" name="org" required placeholder="学校/企业（必填）" />
+          </div>
+          <div class="msg-field">
+            <span class="msg-pre">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></svg>
+            </span>
+            <input type="email" name="email" placeholder="邮箱" />
+          </div>
+          <div class="msg-actions">
+            <button type="submit" class="msg-submit">提交</button>
+          </div>
+        </form>
       </div>`;
 
     document.body.appendChild(sidebar);
     document.body.appendChild(modal);
     document.body.appendChild(chat);
+    document.body.appendChild(msgModal);
 
     /* 点击背景关闭弹窗 */
     modal.addEventListener('click', e => { if (e.target === modal) closeTrialModal(); });
+    msgModal.addEventListener('click', e => { if (e.target === msgModal) closeMessageModal(); });
   }
 
   /* 全局暴露弹窗方法 */
@@ -436,6 +491,107 @@
   window.closeTrialModal = () => document.getElementById('trialModal').classList.remove('is-open');
   window.openChatPopup   = () => document.getElementById('chatPopup').classList.add('is-open');
   window.closeChatPopup  = () => document.getElementById('chatPopup').classList.remove('is-open');
+  window.openMessageModal = () => {
+    const m = document.getElementById('messageModal');
+    if (!m) return;
+    m.classList.add('is-open');
+    setTimeout(() => { const t = m.querySelector('textarea'); if (t) t.focus(); }, 80);
+  };
+  window.closeMessageModal = () => {
+    const m = document.getElementById('messageModal');
+    if (m) m.classList.remove('is-open');
+  };
+  /* 留言提交 → DataBakerAPI.submitForm（接口与移动端一致：
+     POST /customer/demand/uploadV2，含 bd_vid 转化跟踪与手机号校验，
+     参考原官网 footerForm.vue / mobile/js/api.js） */
+  const LEAD_FORM_TYPE = 7;            // formType：与官网“留资”表单一致
+  const LEAD_SOURCE_INFO = 'PC端留言'; // sourceInfo：会自动按 bd_vid 加 “SEM-” 前缀
+
+  window.submitMessageForm = async (ev) => {
+    ev.preventDefault();
+    const form = ev.target;
+    const get = n => (form.elements[n] && form.elements[n].value || '').trim();
+    const lead = {
+      customerName:    get('name'),
+      customerMobile:  get('phone'),
+      customerCompany: get('org'),
+      customerEmail:   get('email'),
+      demandContent:   get('content')
+    };
+
+    /* 前端必填高亮（content/name/phone/org），手机号交由 DataBakerAPI.validateLead 校验 */
+    let firstInvalid = null;
+    [['content', !!lead.demandContent],
+     ['name',    !!lead.customerName],
+     ['phone',   /^1[3456789]\d{9}$/.test(lead.customerMobile)],
+     ['org',     !!lead.customerCompany]].forEach(([n, ok]) => {
+      const el = form.elements[n];
+      if (!el) return;
+      el.closest('.msg-field').classList.toggle('is-invalid', !ok);
+      if (!ok && !firstInvalid) firstInvalid = el;
+    });
+
+    const api = window.DataBakerAPI;
+    /* 校验（照搬原官网顺序与文案） */
+    const err = api ? api.validateLead(lead) : (firstInvalid ? '请完整填写必填项' : '');
+    if (err || firstInvalid) {
+      if (firstInvalid) firstInvalid.focus();
+      if (err) alert(err);
+      return false;
+    }
+
+    const btn = form.querySelector('.msg-submit');
+    const old = btn.textContent;
+    btn.disabled = true; btn.textContent = '提交中…';
+
+    try {
+      if (!api) throw new Error('接口未就绪，请稍后重试');
+      await api.submitForm(lead, { formType: LEAD_FORM_TYPE, sourceInfo: LEAD_SOURCE_INFO });
+      btn.textContent = '✓ 提交成功';
+      setTimeout(() => {
+        form.reset();
+        form.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+        btn.disabled = false; btn.textContent = old;
+        window.closeMessageModal();
+      }, 900);
+    } catch (e) {
+      alert((e && e.message) || '提交失败，请稍后重试');
+      btn.disabled = false; btn.textContent = old;
+    }
+    return false;
+  };
+
+  /* 在线咨询「转人工客服」→ 唤起百度商桥/爱番番（与移动端一致），
+     页内组件未就绪时回退到商桥对话页（参考 mobile/index.html openHumanChat） */
+  const QIAO_URL = 'https://p.qiao.baidu.com/cps/chat?siteId=14907061&userId=30234502';
+  window.openHumanChat = function () {
+    try {
+      const im = window.AffIm;
+      if (im) {
+        if (typeof im.openIm === 'function') { im.openIm(); return; }
+        if (typeof im.open   === 'function') { im.open();   return; }
+        if (typeof im.show   === 'function') { im.show();   return; }
+      }
+    } catch (e) { /* ignore，走回退 */ }
+    window.open(QIAO_URL, '_blank', 'noopener');
+  };
+
+  /* 动态加载接口封装与百度商桥脚本（无需逐页修改 HTML） */
+  function loadOnce(src) {
+    if (document.querySelector(`script[data-shared-src="${src}"]`)) return;
+    const s = document.createElement('script');
+    s.src = src; s.defer = true; s.setAttribute('data-shared-src', src);
+    document.head.appendChild(s);
+  }
+  loadOnce('js/api.js');
+  loadOnce('js/baidu.js');
+  /* ESC 关闭留言弹窗 */
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      const m = document.getElementById('messageModal');
+      if (m && m.classList.contains('is-open')) window.closeMessageModal();
+    }
+  });
 
   /* ── Cursor ─────────────────────────────────────── */
   function cursor() {
