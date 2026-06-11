@@ -155,13 +155,7 @@
       <header class="header" id="header">
         <div class="header-inner">
           <a href="homepage.html" class="logo" aria-label="标贝科技首页">
-            <span class="logo-mark" aria-hidden="true">
-              <span></span><span></span><span></span><span></span><span></span><span></span>
-            </span>
-            <span class="logo-text">
-              <strong class="logo-name">标贝科技</strong>
-              <span class="logo-en">DataBaker · AI Data</span>
-            </span>
+            <img class="logo-img" src="images/logo.png" alt="标贝科技 DataBaker Technology" />
           </a>
 
           <nav class="nav" aria-label="主导航">

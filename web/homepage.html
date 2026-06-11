@@ -578,6 +578,22 @@ h2.display, h1.display {
 /* =========================================================
    CTA
    ========================================================= */
+/* 合作伙伴 · 四条 logo 图横向轮播（参考移动端，白色卡片 PNG 在深色区块上滚动） */
+.logo-rows { display: grid; gap: 14px; width: 100%; max-width: 1080px; margin: 8px auto 0; }
+.logo-row {
+  position: relative; overflow: hidden; padding: 6px 0;
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+.logo-row-track { display: flex; width: max-content; align-items: center; will-change: transform; }
+.logo-row-track img { height: 58px; width: auto; display: block; flex: 0 0 auto; margin-right: 14px; }
+@keyframes logo-row-left  { from { transform: translateX(0); }   to { transform: translateX(-50%); } }
+@keyframes logo-row-right { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+.logo-row-track.is-left  { animation: logo-row-left  var(--dur, 60s) linear infinite; }
+.logo-row-track.is-right { animation: logo-row-right var(--dur, 60s) linear infinite; }
+.logo-row:hover .logo-row-track { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) { .logo-row-track { animation: none; } }
+
 .cta-section { padding: 110px 0; position: relative; overflow: hidden; }
 .cta-card { position: relative; padding: 80px 60px; border: 1px solid var(--line-strong); border-radius: var(--r-lg); background: linear-gradient(135deg, rgba(4,105,207,0.18), rgba(112,87,200,0.18) 50%, rgba(24,166,184,0.18)); overflow: hidden; isolation: isolate; }
 .cta-card::before {
@@ -862,15 +878,15 @@ h2.display, h1.display {
         </div>
 
         <div class="viz-flow-line">
-          <div class="viz-flow-step"><span class="ip">// INGEST</span><span class="lb">采集</span></div>
+          <div class="viz-flow-step"><span class="ip"> INGEST</span><span class="lb">采集</span></div>
           <svg class="arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          <div class="viz-flow-step"><span class="ip">// CLEAN</span><span class="lb">清洗 / 脱敏</span></div>
+          <div class="viz-flow-step"><span class="ip"> CLEAN</span><span class="lb">清洗 / 脱敏</span></div>
           <svg class="arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          <div class="viz-flow-step"><span class="ip">// DELIVER</span><span class="lb">交付</span></div>
+          <div class="viz-flow-step"><span class="ip"> DELIVER</span><span class="lb">交付</span></div>
         </div>
 
         <div class="viz-progress">
-          <div class="viz-progress-head"><span>// PROCESSING</span><b>72%</b></div>
+          <div class="viz-progress-head"><span> PROCESSING</span><b>72%</b></div>
           <div class="viz-progress-bar"><i></i></div>
         </div>
 
@@ -914,7 +930,7 @@ h2.display, h1.display {
           </div>
         </div>
         <div class="viz-progress" style="margin-top: 14px;">
-          <div class="viz-progress-head"><span>// ANNOTATION</span><b>75%</b></div>
+          <div class="viz-progress-head"><span> ANNOTATION</span><b>75%</b></div>
           <div class="viz-progress-bar"><i style="width:75%"></i></div>
         </div>
       </div>
@@ -943,50 +959,85 @@ h2.display, h1.display {
   </div>
 </section>
 
-<!-- CAPABILITY -->
-<section class="section">
+<!-- PIPELINE 3 / LLM DATA -->
+<section class="flow-section" style="padding-top: 0;">
   <div class="container">
-    <div class="cap-grid" data-reveal>
-      <div>
-        <span class="eyebrow"> 05 · Capability</span>
-        <h2 class="display" style="margin-top: 18px;">围绕多模态模型<br/>把数据生产变成 <span class="glow-text">工程能力</span></h2>
-        <p style="color: var(--text-mute); margin-top: 18px; max-width: 480px;">三大方向并行推进——稳定的工程化交付是模型可持续优化的前提。</p>
+    <div class="flow-grid" data-reveal>
+      <div class="flow-copy">
+        <span class="eyebrow"> 05 · Foundation Model Data</span>
+        <h2 class="display">为大模型构建 <span class="glow-text">高质量训练语料</span></h2>
+        <p>从预训练语料到指令微调、偏好对齐与安全评测，覆盖大模型数据生产全链路。</p>
+        <div class="flow-feat">
+          <div class="flow-feat-item">
+            <span class="ix">001</span>
+            <div><h4>指令微调语料 (SFT)</h4><p>多领域指令-响应对设计与撰写，覆盖问答、改写、推理、代码与多轮对话场景。</p></div>
+          </div>
+          <div class="flow-feat-item">
+            <span class="ix">002</span>
+            <div><h4>偏好对齐数据 (RLHF / DPO)</h4><p>人工偏好排序、有害性标注与多模型答案比对，支撑奖励模型训练与价值对齐。</p></div>
+          </div>
+          <div class="flow-feat-item">
+            <span class="ix">003</span>
+            <div><h4>评测与知识增强</h4><p>构建评测基准与行业知识库，结构化抽取与事实核验，持续度量模型能力边界。</p></div>
+          </div>
+        </div>
+        <a class="flow-arrow" href="#">了解大模型数据服务 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
       </div>
-      <div class="cap-stack">
-        <article class="cap-item">
-          <div class="icb"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 10v3M6 6v11M10 3v18M14 8v7M18 5v13M22 10v3"/></svg></div>
-          <div>
-            <h3>语音智能</h3>
-            <p>覆盖 ASR、TTS、音色、情绪、口音与噪声场景，帮助模型获得更稳健的听说能力。</p>
-            <div class="pill-row"><span>多语种 / 方言</span><span>真实噪声环境</span><span>韵律 / 音素标注</span></div>
+
+      <div class="flow-viz" data-tilt>
+        <div class="viz-title-bar">
+          <span class="dots"><i></i><i></i><i></i></span>
+          <span class="title"> llm-data / pipeline</span>
+          <span class="badge">SFT · RLHF</span>
+        </div>
+        <div class="viz-collect-row">
+          <div class="viz-mod">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
+            <span class="nm">指令</span><span class="ct"> 86,200</span>
           </div>
-        </article>
-        <article class="cap-item">
-          <div class="icb"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"/></svg></div>
-          <div>
-            <h3>视觉理解</h3>
-            <p>支持图像与视频数据生产，兼顾目标检测、分割、动作、时序事件与多模态对齐。</p>
-            <div class="pill-row"><span>2D / 时序标注</span><span>复杂场景采集</span><span>抽检与返修</span></div>
+          <div class="viz-mod">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 10v12M2 14l3-9a2 2 0 0 1 2-1h11a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2h-5l1 5a2 2 0 0 1-2 2z"/></svg>
+            <span class="nm">偏好</span><span class="ct"> 24,500</span>
           </div>
-        </article>
-        <article class="cap-item">
-          <div class="icb"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 18V5M15 13a4.17 4.17 0 0 1-3-4 4.17 4.17 0 0 1-3 4M17.6 6.5A3 3 0 1 0 12 5a3 3 0 1 0-5.6 1.5M18 18a4 4 0 0 0 2-7.5M6 18a4 4 0 0 1-2-7.5"/></svg></div>
-          <div>
-            <h3>大模型数据</h3>
-            <p>围绕指令、偏好、评测与行业知识增强，组织高质量文本与多模态语料。</p>
-            <div class="pill-row"><span>指令微调语料</span><span>偏好与安全评测</span><span>知识结构化</span></div>
+          <div class="viz-mod">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            <span class="nm">评测</span><span class="ct"> 9,640</span>
           </div>
-        </article>
+          <div class="viz-mod">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            <span class="nm">知识</span><span class="ct"> 51,080</span>
+          </div>
+        </div>
+
+        <div class="viz-flow-line">
+          <div class="viz-flow-step"><span class="ip"> SFT</span><span class="lb">指令微调</span></div>
+          <svg class="arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          <div class="viz-flow-step"><span class="ip"> RLHF</span><span class="lb">偏好对齐</span></div>
+          <svg class="arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          <div class="viz-flow-step"><span class="ip"> EVAL</span><span class="lb">评测验收</span></div>
+        </div>
+
+        <div class="viz-progress">
+          <div class="viz-progress-head"><span> ALIGNMENT</span><b>88%</b></div>
+          <div class="viz-progress-bar"><i style="width:88%"></i></div>
+        </div>
+
+        <div class="viz-tags">
+          <span class="viz-tag">多轮对话</span>
+          <span class="viz-tag">安全对齐</span>
+          <span class="viz-tag">事实核验</span>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
+
 <!-- VOICE TABS -->
 <section class="section" id="voice">
   <div class="container">
     <div class="section-head" data-reveal>
-      <span class="eyebrow"> 06 · Voice Model</span>
+      <span class="eyebrow"> 07 · Voice Model</span>
       <h2 class="display">在线感受 <span class="glow-text">声波 × 模型</span> 的精度边界</h2>
       <p>ASR、TTS、音色克隆共享同一展示框架，切换标签查看不同任务的实时回路。</p>
     </div>
@@ -1013,11 +1064,11 @@ h2.display, h1.display {
           <div><h3>ASR · 语音识别模型</h3><p>覆盖远场、噪声、方言与行业词汇场景，适合训练和评测识别模型。</p></div>
         </div>
         <div class="wave" id="waveAsr"></div>
-        <div class="v-result"><span class="pl"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span><span>// 识别结果：多模态数据正在完成清洗、质检与训练集拆分</span></div>
+        <div class="v-result"><span class="pl"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span><span> 识别结果：多模态数据正在完成清洗、质检与训练集拆分</span></div>
       </div>
       <div class="v-side">
-        <div class="v-metric"><strong>16k / 48k</strong><span>// 常见采样率</span></div>
-        <div class="v-metric"><strong>97.6%</strong><span>// 平均识别准确率</span></div>
+        <div class="v-metric"><strong>16k / 48k</strong><span> 常见采样率</span></div>
+        <div class="v-metric"><strong>97.6%</strong><span> 平均识别准确率</span></div>
       </div>
     </div>
 
@@ -1028,11 +1079,11 @@ h2.display, h1.display {
           <div><h3>TTS · 语音合成数据</h3><p>面向音色、情绪、韵律和多说话人建模，强调棚录质量与文本覆盖。</p></div>
         </div>
         <div class="wave" id="waveTts"></div>
-        <div class="v-result"><span class="pl"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span><span>// 合成提示：清晰、自然、稳定的音频片段已完成韵律标注</span></div>
+        <div class="v-result"><span class="pl"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span><span> 合成提示：清晰、自然、稳定的音频片段已完成韵律标注</span></div>
       </div>
       <div class="v-side">
-        <div class="v-metric"><strong>Studio</strong><span>// 录音棚级质量</span></div>
-        <div class="v-metric"><strong>20+</strong><span>// 可扩展风格</span></div>
+        <div class="v-metric"><strong>Studio</strong><span> 录音棚级质量</span></div>
+        <div class="v-metric"><strong>20+</strong><span> 可扩展风格</span></div>
       </div>
     </div>
 
@@ -1043,11 +1094,11 @@ h2.display, h1.display {
           <div><h3>音色克隆数据工程</h3><p>构建授权样本、风格样本与安全评测集，降低上线风险。</p></div>
         </div>
         <div class="wave" id="waveClone"></div>
-        <div class="v-result"><span class="pl"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span><span>// 克隆评估：目标音色、情绪强度和稳定性已进入人工复核</span></div>
+        <div class="v-result"><span class="pl"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span><span> 克隆评估：目标音色、情绪强度和稳定性已进入人工复核</span></div>
       </div>
       <div class="v-side">
-        <div class="v-metric"><strong>Voice</strong><span>// 音色一致性</span></div>
-        <div class="v-metric"><strong>Safe</strong><span>// 授权与安全校验</span></div>
+        <div class="v-metric"><strong>Voice</strong><span> 音色一致性</span></div>
+        <div class="v-metric"><strong>Safe</strong><span> 授权与安全校验</span></div>
       </div>
     </div>
   </div>
@@ -1057,7 +1108,7 @@ h2.display, h1.display {
 <section class="section" id="datasets">
   <div class="container">
     <div class="section-head" data-reveal>
-      <span class="eyebrow"> 07 · Datasets</span>
+      <span class="eyebrow"> 08 · Datasets</span>
       <h2 class="display">六大数据集入口 · <span class="glow-text">即开即用</span></h2>
       <p>从语音识别到大模型微调，每一类数据集都附带详尽的样本统计与试用通道。</p>
     </div>
@@ -1075,7 +1126,7 @@ h2.display, h1.display {
         <div class="ds-eyebrow"><span class="lbl">TTS Dataset</span><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 10v3M6 6v11M10 3v18M14 8v7M18 5v13M22 10v3"/></svg></span></div>
         <h3>语音合成数据集</h3>
         <p>面向语音合成、音色克隆与情感表达的高一致性录音与标注数据。</p>
-        <div class="ds-meta"><span>Studio</span><span>韵律标</span><span>多说话人</span></div>
+        <div class="ds-meta"><span>Studio</span><span>韵律标注</span><span>多人说话</span></div>
         <div class="ds-foot"><span>查看详情</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
       </a>
 
@@ -1118,7 +1169,7 @@ h2.display, h1.display {
 <section class="section" id="news" style="padding-top:0;">
   <div class="container">
     <div class="section-head" data-reveal>
-      <span class="eyebrow"> 08 · News &amp; Insights</span>
+      <span class="eyebrow"> 09 · News &amp; Insights</span>
       <h2 class="display">新闻<span class="glow-text">资讯</span></h2>
       <p>洞察 AI 数据行业前沿动态，了解标贝科技最新产品与合作进展。</p>
     </div>
@@ -1181,9 +1232,35 @@ h2.display, h1.display {
   <div class="container">
     <div class="cta-card" data-reveal>
       <div class="cta-inner">
-        <span class="eyebrow"> 09 · Get Started</span>
-        <h2>把第一版原型推进为<br/><span class="glow-text">可上线、可扩展的官网</span></h2>
-        <p>项目已按 SSG 架构组织，可直接部署到静态托管环境；后续接入 CMS、案例页或多语言时都有清晰扩展点。</p>
+        <span class="eyebrow"> 10 · Partners</span>
+        <h2>与全球领先企业和机构<br/><span class="glow-text">携手共建 AI 数据生态</span></h2>
+        <p>服务于头部互联网企业、研究机构与垂直行业领导者，已累计与 1000+ 团队建立合作。</p>
+        <div class="logo-rows" aria-label="合作伙伴">
+          <div class="logo-row">
+            <div class="logo-row-track is-left" style="--dur:46s;">
+              <img src="images/partners_rows/partnership-01-new.png" alt="合作伙伴" loading="lazy" />
+              <img src="images/partners_rows/partnership-01-new.png" alt="" aria-hidden="true" loading="lazy" />
+            </div>
+          </div>
+          <div class="logo-row">
+            <div class="logo-row-track is-right" style="--dur:52s;">
+              <img src="images/partners_rows/partnership-02.png" alt="合作伙伴" loading="lazy" />
+              <img src="images/partners_rows/partnership-02.png" alt="" aria-hidden="true" loading="lazy" />
+            </div>
+          </div>
+          <div class="logo-row">
+            <div class="logo-row-track is-left" style="--dur:50s;">
+              <img src="images/partners_rows/partnership-03.png" alt="合作伙伴" loading="lazy" />
+              <img src="images/partners_rows/partnership-03.png" alt="" aria-hidden="true" loading="lazy" />
+            </div>
+          </div>
+          <div class="logo-row">
+            <div class="logo-row-track is-right" style="--dur:56s;">
+              <img src="images/partners_rows/partnership-04.png" alt="合作伙伴" loading="lazy" />
+              <img src="images/partners_rows/partnership-04.png" alt="" aria-hidden="true" loading="lazy" />
+            </div>
+          </div>
+        </div>
         <div class="cta-actions">
           <a class="btn btn-primary" href="mailto:contact@databaker.com" data-magnetic>
             联系我们 contact@databaker.com

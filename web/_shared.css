@@ -170,6 +170,13 @@ h1, h2, h3, h4 { color: var(--text-hi); margin: 0; text-wrap: balance; }
 .header.is-scrolled { background: rgba(7,13,32,0.78); backdrop-filter: blur(18px) saturate(180%); border-bottom: 1px solid var(--line); }
 
 .logo { display: inline-flex; align-items: center; gap: 12px; }
+/* 平台 logo 图（标贝科技 · DataBaker Technology）。深色 header 上做提亮以保证可读 */
+.logo-img {
+  height: 38px; width: auto; display: block;
+  filter: brightness(1.6) contrast(1.12) saturate(1.15);
+  transition: filter 220ms ease, transform 220ms ease;
+}
+.logo:hover .logo-img { filter: brightness(1.8) contrast(1.12) saturate(1.25); transform: translateY(-1px); }
 .logo-mark { display: flex; align-items: end; gap: 3px; height: 32px; }
 .logo-mark span { width: 5px; border-radius: 2px; background: linear-gradient(180deg, var(--brand-hi), var(--brand)); box-shadow: 0 0 8px rgba(76,201,240,0.5); animation: barWave 2.2s ease-in-out infinite; }
 .logo-mark span:nth-child(1){ height: 12px; animation-delay: 0s; }

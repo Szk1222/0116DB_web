@@ -462,93 +462,66 @@
 .carousel:hover .carousel-track { animation-play-state: paused; }
 @keyframes scroll-x { to { transform: translateX(calc(-50% - 9px)); } }
 
-/* honors */
+/* honors · 三大轮播块（曾获科技奖项 / ISO 认证 / 软件·高新及安全认定） */
+.honor-group { margin-top: 44px; }
+.honor-group:first-of-type { margin-top: 6px; }
+.honor-group-title {
+  font-family: var(--font-cn); font-size: 1.06rem; font-weight: 600;
+  color: var(--text-hi); margin: 0 0 18px; padding-left: 14px;
+  position: relative; letter-spacing: 0.02em;
+}
+.honor-group-title::before {
+  content: ""; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+  width: 4px; height: 17px; border-radius: 2px;
+  background: linear-gradient(180deg, var(--brand-hi), var(--violet-hi));
+}
+
+/* honors · 证书图片卡（取自原官网） */
 .honor-card {
-  flex: 0 0 280px;
-  position: relative; padding: 22px 22px 20px;
+  flex: 0 0 auto;            /* 宽度由内联 style 控制：纵向 200px / 横向 270px */
+  align-self: flex-start;    /* 高度按各自图片自适应，顶部对齐 */
+  position: relative; padding: 14px 14px 16px;
   border: 1px solid var(--line); border-radius: var(--r-lg);
   background: linear-gradient(180deg, rgba(20,36,72,0.7), rgba(10,20,46,0.7));
   transition: all 240ms ease;
-  display: grid; grid-template-columns: 64px 1fr; gap: 16px; align-items: center;
+  display: flex; flex-direction: column; gap: 12px;
 }
 .honor-card:hover { border-color: rgba(76,201,240,0.5); transform: translateY(-4px); }
-.honor-badge {
-  width: 64px; height: 72px; border-radius: 8px;
-  background: linear-gradient(160deg, rgba(76,201,240,0.18), rgba(177,77,255,0.18));
-  border: 1px solid var(--line-strong);
-  display: grid; place-items: center; position: relative;
+.honor-img {
+  width: 100%; border-radius: 8px; overflow: hidden;
+  background: #fff; border: 1px solid var(--line-strong);
 }
-.honor-badge::before, .honor-badge::after {
-  content: ""; position: absolute; left: 50%; transform: translateX(-50%);
-  border-left: 12px solid transparent; border-right: 12px solid transparent;
-  width: 0; height: 0;
+.honor-img img { width: 100%; height: auto; display: block; }
+.honor-meta { display: grid; gap: 5px; }
+.honor-card h4 {
+  font-family: var(--font-cn); font-size: 0.92rem; font-weight: 600;
+  color: var(--text-hi); margin: 0; line-height: 1.4;
 }
-.honor-badge::before { bottom: -10px; border-top: 12px solid rgba(76,201,240,0.5); }
-.honor-badge svg { width: 28px; height: 28px; color: var(--brand-hi); }
-.honor-card h4 { font-family: var(--font-cn); font-size: 0.92rem; font-weight: 600; color: var(--text-hi); margin: 0 0 4px; line-height: 1.35; }
 .honor-card small {
-  display: block;
-  color: var(--text-mute);
-  font-family: var(--font-cn);
-  font-size: 11.5px;
-  line-height: 1.45;
-  letter-spacing: 0.02em;
-}
-.honor-card small i {
-  font-style: normal;
-  font-family: var(--font-mono);
-  color: var(--text-dim);
-  letter-spacing: 0.12em;
-  margin-right: 6px;
+  display: block; color: var(--text-mute); font-family: var(--font-cn);
+  font-size: 11.5px; line-height: 1.45; letter-spacing: 0.02em;
 }
 
-/* partners */
-.partner-card {
-  flex: 0 0 200px; height: 100px;
-  border: 1px solid var(--line); border-radius: var(--r);
-  background: linear-gradient(180deg, rgba(20,36,72,0.55), rgba(10,20,46,0.55));
-  position: relative; overflow: hidden;
-  transition: all 240ms ease;
+/* partners · 四条 logo 图横向轮播（参考移动端，白色卡片 PNG 在深色区块上滚动） */
+.logo-rows { display: grid; gap: 14px; }
+.logo-row {
+  position: relative; overflow: hidden; padding: 6px 0;
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
 }
-.partner-card:hover {
-  border-color: rgba(76,201,240,0.5);
-  background: linear-gradient(180deg, rgba(76,201,240,0.08), rgba(177,77,255,0.06));
-  transform: translateY(-3px);
+.logo-row-track {
+  display: flex; width: max-content; align-items: center; will-change: transform;
 }
-/* image-slot fills the card; user drops a logo in -> swaps the text */
-.partner-card image-slot {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  display: block; background: transparent;
-  z-index: 1;
+.logo-row-track img {
+  height: 58px; width: auto; display: block; flex: 0 0 auto;
+  margin-right: 14px;   /* 与图内卡片间距一致，避免首尾相贴 */
 }
-.partner-card image-slot::part(frame) { background: transparent; border-radius: var(--r); }
-.partner-card image-slot::part(image) { padding: 14px; box-sizing: border-box; }
-.partner-card image-slot:not([data-filled])::part(ring) { display: none; }
-.partner-card image-slot[data-filled]::part(ring)       { display: none; }
-.partner-card image-slot::part(empty) {
-  opacity: 0; transition: opacity 200ms ease;
-  background: rgba(7,13,32,0.6); color: var(--text-mute);
-}
-.partner-card:hover image-slot:not([data-filled])::part(empty) { opacity: 1; }
-/* fallback text shows through when slot is empty; hidden once filled */
-.partner-card .pn-text {
-  position: absolute; inset: 0; z-index: 0;
-  display: grid; place-items: center;
-  text-align: center; line-height: 1.15;
-  pointer-events: none;
-  transition: opacity 200ms ease;
-}
-.partner-card image-slot[data-filled] ~ .pn-text { opacity: 0; }
-.partner-card .pn-text b {
-  display: block; color: var(--text-hi);
-  font-family: var(--font-cn); font-size: 1.02rem; font-weight: 700;
-  letter-spacing: 0.01em;
-}
-.partner-card .pn-text small {
-  display: block; color: var(--text-mute); font-family: var(--font-mono);
-  font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; margin-top: 4px;
-}
+@keyframes logo-row-left  { from { transform: translateX(0); }   to { transform: translateX(-50%); } }
+@keyframes logo-row-right { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+.logo-row-track.is-left  { animation: logo-row-left  var(--dur, 60s) linear infinite; }
+.logo-row-track.is-right { animation: logo-row-right var(--dur, 60s) linear infinite; }
+.logo-row:hover .logo-row-track { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) { .logo-row-track { animation: none; } }
 
 /* =========================================================
    News
@@ -1000,41 +973,43 @@
       <p>200+ 项资质认证，国家级、行业级与体系认证并行，持续以专业能力获得认可。</p>
     </div>
 
-    <div class="carousel" data-reveal style="--dur: 70s;">
-      <div class="carousel-track" id="honorsTrack">
-        <!-- honor cards injected by JS (duplicated for seamless loop) -->
+    <!-- 曾获科技奖项 · 纵向一行 + 横向一行 -->
+    <div class="honor-group" data-reveal>
+      <h3 class="honor-group-title">曾获科技奖项</h3>
+      <div class="carousel" style="--dur: 72s; margin-bottom: 14px;">
+        <div class="carousel-track" id="awardsPortraitTrack"></div>
+      </div>
+      <div class="carousel" style="--dur: 58s;">
+        <div class="carousel-track" id="awardsLandscapeTrack"></div>
+      </div>
+    </div>
+
+    <!-- ISO 认证 -->
+    <div class="honor-group" data-reveal>
+      <h3 class="honor-group-title">ISO 认证</h3>
+      <div class="carousel" style="--dur: 46s;">
+        <div class="carousel-track" id="isoTrack"></div>
+      </div>
+    </div>
+
+    <!-- 软件认定 · 高新及安全认定 -->
+    <div class="honor-group" data-reveal>
+      <h3 class="honor-group-title">软件认定 · 高新及安全认定</h3>
+      <div class="carousel" style="--dur: 38s;">
+        <div class="carousel-track" id="certTrack"></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- =========================================================
-     6) 合作伙伴 · Carousel
-     ========================================================= -->
-<section class="about-section" id="partners">
-  <div class="container">
-    <div class="section-head" data-reveal>
-      <span class="eyebrow">05 · PARTNERS</span>
-      <h2 class="display">合作<span class="glow-text">伙伴</span></h2>
-      <p>服务于头部互联网企业、研究机构与垂直行业领导者，已累计与 1000+ 团队建立合作。</p>
-    </div>
-
-    <div class="carousel" data-reveal style="--dur: 50s;">
-      <div class="carousel-track" id="partnersTrack1"></div>
-    </div>
-    <div class="carousel" data-reveal style="--dur: 60s; margin-top: 14px;">
-      <div class="carousel-track" id="partnersTrack2"></div>
-    </div>
-  </div>
-</section>
 
 <!-- =========================================================
-     7) 新闻资讯
+     6) 新闻资讯
      ========================================================= -->
 <section class="about-section" id="news">
   <div class="container">
     <div class="section-head" data-reveal>
-      <span class="eyebrow">06 · NEWS</span>
+      <span class="eyebrow">05 · NEWS</span>
       <h2 class="display">新闻<span class="glow-text">资讯</span></h2>
       <p>关注标贝最新动态，了解 AI 数据领域前沿实践与行业洞察。</p>
     </div>
@@ -1061,6 +1036,46 @@
   </div>
 </section>
 
+
+<!-- =========================================================
+     7) 合作伙伴 · Carousel
+     ========================================================= -->
+<section class="about-section" id="partners">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow">06 · PARTNERS</span>
+      <h2 class="display">合作<span class="glow-text">伙伴</span></h2>
+      <p>服务于头部互联网企业、研究机构与垂直行业领导者，已累计与 1000+ 团队建立合作。</p>
+    </div>
+
+    <div class="logo-rows" data-reveal>
+      <div class="logo-row">
+        <div class="logo-row-track is-left" style="--dur:46s;">
+          <img src="images/partners_rows/partnership-01-new.png" alt="合作伙伴" loading="lazy" />
+          <img src="images/partners_rows/partnership-01-new.png" alt="" aria-hidden="true" loading="lazy" />
+        </div>
+      </div>
+      <div class="logo-row">
+        <div class="logo-row-track is-right" style="--dur:52s;">
+          <img src="images/partners_rows/partnership-02.png" alt="合作伙伴" loading="lazy" />
+          <img src="images/partners_rows/partnership-02.png" alt="" aria-hidden="true" loading="lazy" />
+        </div>
+      </div>
+      <div class="logo-row">
+        <div class="logo-row-track is-left" style="--dur:50s;">
+          <img src="images/partners_rows/partnership-03.png" alt="合作伙伴" loading="lazy" />
+          <img src="images/partners_rows/partnership-03.png" alt="" aria-hidden="true" loading="lazy" />
+        </div>
+      </div>
+      <div class="logo-row">
+        <div class="logo-row-track is-right" style="--dur:56s;">
+          <img src="images/partners_rows/partnership-04.png" alt="合作伙伴" loading="lazy" />
+          <img src="images/partners_rows/partnership-04.png" alt="" aria-hidden="true" loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 <!-- =========================================================
      8) CTA 联系我们
      ========================================================= -->
@@ -1093,94 +1108,64 @@
    ========================================================= */
 (function() {
 
-  // ── 荣誉资质 数据（对齐旧版官网实际资质）─────────────────────────────
-  const HONORS = [
-    { name: '2024语解风云榜·中国 Top10',          en: '大模型语料数据联盟',                  icon: 'trophy' },
-    { name: '2024 金融科技竞争力百强企业',         en: '中关村互联网金融研究院',              icon: 'star'   },
-    { name: '核心竞争力评价',                      en: '2020 获得创新型企业评价',             icon: 'badge'  },
-    { name: '光合组织 · 成员单位',                 en: '2021 年成为海光产业生态合作组织成员', icon: 'medal'  },
-    { name: '华为技术认证',                        en: '2020 年与华为完成鲲鹏兼容性认证',     icon: 'shield' },
-    { name: '优秀服务机器人企业奖',                en: '2019 年荣获 RFC 联盟优秀服务机器人企业奖', icon: 'trophy' },
-    { name: '北京市「专精特新」中小企业',           en: '2021 获得北京市「专精特新」中小企业', icon: 'star'   },
-    { name: '青岛市创新型中小企业',                en: '青岛市民营经济发展局',                icon: 'badge'  },
-    { name: '人工智能融合发展和安全应用典型案例',   en: '国家工业信息安全发展研究中心',        icon: 'medal'  },
+  // ── 荣誉资质 数据（对齐原官网证书图片，顺序与原站一致）──────────────
+  // w：与原官网一致，纵向图 200px、横向图 270px
+  // 1) 曾获科技奖项 —— 纵向（200）单独一行、横向（270）单独一行
+  const AWARDS = [
+    { img: 'list4-10', w: 200, name: '2024语解风云榜·中国Top10',          en: '大模型语料数据联盟' },
+    { img: 'list4-11', w: 200, name: '2024金融科技竞争力百强企业',         en: '中关村互联网金融研究院' },
+    { img: 'list4-1',  w: 200, name: '核心竞争力评价',                      en: '2020年获得创新创业型评价' },
+    { img: 'list4-2',  w: 200, name: '光合组织',                           en: '2021年成为海光产业生态合作组织成员' },
+    { img: 'list4-3',  w: 200, name: '华为技术认证',                       en: '2020年与华为云鲲鹏云服务完成兼容性认证' },
+    { img: 'list4-8',  w: 270, name: '优秀服务机器人企业奖',               en: '2019年荣获RFC联盟优秀服务机器人企业奖' },
+    { img: 'list4-9',  w: 270, name: '“专精特新”中小企业',                 en: '2021获得北京市“专精特新”中小企业' },
+    { img: 'list4-12', w: 270, name: '青岛市创新型中小企业',               en: '青岛市民营经济发展局' },
+    { img: 'list4-13', w: 270, name: '人工智能融合发展和安全应用典型案例', en: '国家工业信息安全发展研究中心' },
+    { img: 'list4-4',  w: 200, name: '最具商业价值奖',                     en: '' },
+    { img: 'list4-5',  w: 200, name: '科创产业新锐TOP50',                  en: '2020年获得中国科创产业TOP50' },
+    { img: 'list4-6',  w: 200, name: '最佳交互系统奖',                     en: '2020年获得最佳交互系统奖' },
+    { img: 'list4-7',  w: 200, name: '语音合成解决方案优秀产品',           en: '2020年获得首届深圳人工智能展优秀产品' },
   ];
 
-  const ICONS = {
-    trophy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h12v6a6 6 0 0 1-12 0V4z"/><path d="M4 4h2v3a2 2 0 0 1-2 2H3"/><path d="M20 4h-2v3a2 2 0 0 0 2 2h1"/><path d="M10 17v3M14 17v3M8 21h8"/></svg>',
-    star:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15 9 22 9.5 16.5 14 18.5 21 12 17 5.5 21 7.5 14 2 9.5 9 9 12 2"/></svg>',
-    shield: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>',
-    medal:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="14" r="7"/><path d="M8 8l-4-6h6l4 6"/><path d="M16 8l4-6h-6l-4 6"/></svg>',
-    badge:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2 4 4 .5-3 3 1 4-4-2-4 2 1-4-3-3 4-.5z"/><path d="M8 14v8l4-2 4 2v-8"/></svg>',
-  };
+  // 2) ISO 认证（纵向证书）
+  const ISO = [
+    { img: 'list1-1', w: 200, name: 'ISO9001',  en: '质量管理体系认证' },
+    { img: 'list1-2', w: 200, name: 'ISO27001', en: '信息安全管理体系认证' },
+    { img: 'list1-3', w: 200, name: 'ISO20000', en: '信息技术服务管理体系认证' },
+    { img: 'list1-4', w: 200, name: 'ISO14001', en: '环境管理体系认证' },
+    { img: 'list1-5', w: 200, name: 'ISO45001', en: '职业健康安全管理体系认证' },
+    { img: 'list1-6', w: 200, name: 'ISO27701', en: '隐私信息管理体系认证' },
+  ];
 
-  function honorCard(h, i) {
-    return `<div class="honor-card">
-      <div class="honor-badge">${ICONS[h.icon] || ICONS.trophy}</div>
-      <div>
+  // 3) 软件认定 + 高新及安全认定（横向证书，同一轮播块）
+  const CERTS = [
+    { img: 'list2-1', w: 270, name: '软件企业证书',         en: '2025年获得中国软件协会颁发软件企业证书' },
+    { img: 'list2-2', w: 270, name: '软件产品证书',         en: '2024年获得中国软件协会颁发语音识别软件产品证书' },
+    { img: 'list3-1', w: 270, name: '国家高新技术企业',     en: '2023年获得高新技术企业认定' },
+    { img: 'list3-2', w: 270, name: '信息系统安全等级保护', en: '2023年获得信息系统安全等级保护备案证明' },
+  ];
+
+  function honorCard(h) {
+    return `<div class="honor-card" style="flex-basis:${h.w}px;width:${h.w}px;">
+      <div class="honor-img"><img src="images/honors/${h.img}.png" alt="${h.name}" loading="lazy"></div>
+      <div class="honor-meta">
         <h4>${h.name}</h4>
-        <small><i>${String(i+1).padStart(2,'0')}</i>${h.en}</small>
+        ${h.en ? `<small>${h.en}</small>` : ''}
       </div>
     </div>`;
   }
-  const honorsHtml = HONORS.map(honorCard).join('');
-  document.getElementById('honorsTrack').innerHTML = honorsHtml + honorsHtml;
-
-  // ── 合作伙伴 数据（中英双语 logo 卡）─────────────
-  // 每张卡片内嵌 <image-slot>，可拖入图片或在 HTML 里设置
-  //   <image-slot src="images/alibaba.png">
-  // 来替换为真实 logo，无图时回退为中英文文字占位
-  const PARTNERS_A = [
-    { id: 'alibaba',  cn: '阿里巴巴', en: 'ALIBABA GROUP' },
-    { id: 'tencent',  cn: '腾讯',     en: 'TENCENT' },
-    { id: 'baidu',    cn: '百度',     en: 'BAIDU' },
-    { id: 'netease',  cn: '网易',     en: 'NETEASE' },
-    { id: 'jd',       cn: '京东',     en: 'JD.COM' },
-    { id: 'lenovo',   cn: '联想',     en: 'LENOVO' },
-    { id: 'huawei',   cn: '华为',     en: 'HUAWEI' },
-    { id: 'xiaomi',   cn: '小米',     en: 'XIAOMI' },
-    { id: 'sogou',    cn: '搜狗',     en: 'SOGOU' },
-    { id: 'didi',     cn: '滴滴',     en: 'DIDI' },
-    { id: 'midea',    cn: '美的',     en: 'MIDEA' },
-    { id: 'kuaishou', cn: '快手',     en: 'KUAISHOU' },
-    { id: 'samsung',  cn: '三星',     en: 'SAMSUNG' },
-    { id: 'oppo',     cn: 'OPPO',     en: 'OPPO' },
-  ];
-  const PARTNERS_B = [
-    { id: 'microsoft',cn: '微软',     en: 'MICROSOFT' },
-    { id: 'wechat',   cn: '微信',     en: 'WECHAT' },
-    { id: 'cmcc',     cn: '中国移动', en: 'CHINA MOBILE' },
-    { id: 'unicom',   cn: '中国联通', en: 'CHINA UNICOM' },
-    { id: 'ximalaya', cn: '喜马拉雅', en: 'XIMALAYA' },
-    { id: 'ke',       cn: '贝壳',     en: 'KE.COM' },
-    { id: 'sunyard',  cn: '信雅达',   en: 'SUNYARD' },
-    { id: 'hudun',    cn: '虎盾',     en: 'HUDUN' },
-    { id: 'mobvoi',   cn: '出门问问', en: 'MOBVOI' },
-    { id: 'changhong',cn: '长虹',     en: 'CHANGHONG' },
-    { id: 'xinhua',   cn: '新华网',   en: 'XINHUA NET' },
-    { id: 'pku',      cn: '北京大学', en: 'PEKING UNIVERSITY' },
-    { id: 'thu',      cn: '清华大学', en: 'TSINGHUA UNIVERSITY' },
-    { id: 'edaijia',  cn: 'E 代驾',   en: 'E-DAIJIA' },
-  ];
-  function partnerCard(p) {
-    // image-slot fit=contain so logos preserve their aspect-ratio;
-    // src="" 留空，作者可改为 src="images/<id>.png" 一次性配齐；
-    // 也可在编辑模式拖入图片，自动持久化到 .image-slots.state.json
-    return `<div class="partner-card">
-      <image-slot
-        id="partner-${p.id}"
-        fit="contain"
-        shape="rounded" radius="8"
-        src=""
-        placeholder="拖入 ${p.cn} logo"
-      ></image-slot>
-      <div class="pn-text"><b>${p.cn}</b><small>${p.en}</small></div>
-    </div>`;
+  function fillTrack(id, arr) {
+    const el = document.getElementById(id);
+    if (!el || !arr.length) return;
+    const html = arr.map(honorCard).join('');
+    el.innerHTML = html + html;   // 复制一份，无缝循环
   }
-  const a = PARTNERS_A.map(partnerCard).join('');
-  const b = PARTNERS_B.map(partnerCard).join('');
-  document.getElementById('partnersTrack1').innerHTML = a + a;
-  document.getElementById('partnersTrack2').innerHTML = b + b;
+  fillTrack('awardsPortraitTrack',  AWARDS.filter(h => h.w === 200));
+  fillTrack('awardsLandscapeTrack', AWARDS.filter(h => h.w === 270));
+  fillTrack('isoTrack',  ISO);
+  fillTrack('certTrack', CERTS);
+
+  // ── 合作伙伴 改为四条 logo 图横向轮播（静态 PNG，无需 JS 渲染）──
 
   // ── 发展历程 已改为 5 列纵向，不再需要 phase pills + 滚动联动 ──
 
