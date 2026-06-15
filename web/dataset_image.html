@@ -36,6 +36,11 @@
 .cat-card { position: relative; padding: 0; border: 1px solid var(--line); border-radius: var(--r-lg); background: linear-gradient(180deg, rgba(13,26,58,0.55), rgba(10,20,46,0.55)); overflow: hidden; transition: all 240ms ease; }
 .cat-card:hover { border-color: rgba(76,201,240,0.4); transform: translateY(-4px); }
 .cat-card .thumb { aspect-ratio: 16/9; position: relative; overflow: hidden; }
+.cat-card .thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; transition: transform 600ms ease; }
+.cat-card:hover .thumb img { transform: scale(1.05); }
+.cat-card .thumb.has-img::before { display: none; }
+.cat-card .thumb.has-img::after { z-index: 1; }
+.cat-card .thumb.has-img .demo-box { display: none; }
 .cat-card .thumb::before { content: ""; position: absolute; inset: 0; background-image: repeating-linear-gradient(45deg, rgba(76,201,240,0.18) 0 4px, transparent 4px 8px); }
 .cat-card .thumb::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(5,8,19,0.0) 0%, rgba(5,8,19,0.7) 100%); }
 .cat-card .thumb.v2::before { background-image: repeating-linear-gradient(45deg, rgba(177,77,255,0.18) 0 4px, transparent 4px 8px); }
@@ -139,7 +144,8 @@
     </div>
     <div class="cat-grid" data-reveal>
       <article class="cat-card">
-        <div class="thumb">
+        <div class="thumb has-img">
+          <img src="images/datasets/cat-face.jpg" alt="人脸属性数据集" loading="lazy">
           <span class="lab">人脸</span>
           <div class="demo-box" style="top:24%;left:30%;width:38%;height:46%"><b>FACE · 0.97</b></div>
         </div>
@@ -150,7 +156,8 @@
         </div>
       </article>
       <article class="cat-card">
-        <div class="thumb v2">
+        <div class="thumb v2 has-img">
+          <img src="images/datasets/cat-auto.jpg" alt="自动驾驶感知" loading="lazy">
           <span class="lab">自动驾驶</span>
           <div class="demo-box" style="top:42%;left:8%;width:40%;height:36%;border-color:#b14dff"><b style="background:#b14dff;color:#fff">CAR · 0.94</b></div>
           <div class="demo-box" style="top:36%;left:56%;width:30%;height:30%;border-color:#b14dff"><b style="background:#b14dff;color:#fff">PED · 0.91</b></div>
@@ -162,7 +169,8 @@
         </div>
       </article>
       <article class="cat-card">
-        <div class="thumb v3">
+        <div class="thumb v3 has-img">
+          <img src="images/datasets/cat-retail.jpg" alt="零售商品识别" loading="lazy">
           <span class="lab">商品</span>
           <div class="demo-box" style="top:18%;left:18%;width:64%;height:60%;border-color:#44e08a"><b style="background:#44e08a;color:#060d22">SKU · 0.96</b></div>
         </div>
@@ -173,7 +181,8 @@
         </div>
       </article>
       <article class="cat-card">
-        <div class="thumb v4">
+        <div class="thumb v4 has-img">
+          <img src="images/datasets/cat-ocr.jpg" alt="OCR 多语种文字识别" loading="lazy">
           <span class="lab">OCR</span>
           <div class="demo-box" style="top:22%;left:14%;width:30%;height:14%;border-color:#ff4dcb"><b style="background:#ff4dcb;color:#fff">TEXT</b></div>
           <div class="demo-box" style="top:48%;left:20%;width:60%;height:14%;border-color:#ff4dcb"><b style="background:#ff4dcb;color:#fff">LINE</b></div>
@@ -185,7 +194,8 @@
         </div>
       </article>
       <article class="cat-card">
-        <div class="thumb v5">
+        <div class="thumb v5 has-img">
+          <img src="images/datasets/cat-medical.jpg" alt="医疗影像数据" loading="lazy">
           <span class="lab">医疗</span>
           <div class="demo-box" style="top:26%;left:32%;width:36%;height:40%;border-color:#ffc850"><b style="background:#ffc850;color:#060d22">LESION</b></div>
         </div>
@@ -196,7 +206,8 @@
         </div>
       </article>
       <article class="cat-card">
-        <div class="thumb v6">
+        <div class="thumb v6 has-img">
+          <img src="images/datasets/cat-satellite.jpg" alt="遥感与卫星图" loading="lazy">
           <span class="lab">遥感</span>
           <div class="demo-box" style="top:14%;left:16%;width:18%;height:18%"><b>BLD</b></div>
           <div class="demo-box" style="top:48%;left:54%;width:28%;height:28%;border-color:#b14dff"><b style="background:#b14dff;color:#fff">VEH</b></div>

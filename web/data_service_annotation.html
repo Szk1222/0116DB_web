@@ -77,6 +77,87 @@
   .types-grid { grid-template-columns: 1fr; }
   .q-metrics, .q-tools { grid-template-columns: 1fr 1fr; }
 }
+
+/* ===== 标注类型 · 交替图文 ===== */
+.dc-types { display:grid; gap:46px; }
+.dc-type { display:grid; grid-template-columns:0.82fr 1.18fr; gap:46px; align-items:center; }
+.dc-type.rev .dc-media { order:2; }
+.dc-media { position:relative; border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; aspect-ratio:4/3; background:linear-gradient(150deg, rgba(13,26,58,0.85), rgba(7,13,32,0.92)); display:grid; place-items:center; }
+.dc-media img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:1; }
+.dc-media .ph { display:flex; flex-direction:column; align-items:center; gap:10px; color:var(--brand-hi); opacity:0.42; }
+.dc-media .ph svg { width:50px; height:50px; }
+.dc-media .ph span { font-family:var(--font-mono); font-size:11px; letter-spacing:0.16em; }
+.dc-type-eyebrow { font-family:var(--font-mono); font-size:11px; letter-spacing:0.18em; color:var(--brand-hi); text-transform:uppercase; }
+.dc-type h3 { font-family:var(--font-display); font-size:1.5rem; font-weight:600; color:var(--text-hi); margin:10px 0 12px; }
+.dc-type .dc-desc { color:var(--text-mute); font-size:0.95rem; line-height:1.8; margin:0 0 18px; max-width:580px; }
+.dc-chips { display:flex; flex-wrap:wrap; gap:8px; }
+.dc-chips span { padding:6px 13px; border-radius:99px; border:1px solid var(--line); background:rgba(76,201,240,0.05); color:var(--text); font-size:0.82rem; transition:all 200ms ease; }
+.dc-chips span:hover { border-color:var(--brand-hi); color:var(--brand-hi); background:rgba(76,201,240,0.1); transform:translateY(-1px); }
+
+/* ===== 应用场景 · 横向展开手风琴 ===== */
+.scene-acc { display:flex; gap:12px; height:430px; }
+.sa-item { position:relative; flex:1 1 0; min-width:0; overflow:hidden; border:1px solid var(--line); border-radius:18px; cursor:pointer; transition:flex-grow .55s cubic-bezier(.4,0,.2,1), border-color .35s ease, box-shadow .35s ease; }
+.sa-item.is-active { flex-grow:7; border-color:transparent; box-shadow:0 0 0 1px var(--accent) inset, 0 26px 60px rgba(0,0,0,0.45); }
+.sa-ph, .sa-bg, .sa-grad { position:absolute; inset:0; }
+.sa-ph { background:var(--accent); opacity:0.20; }
+.sa-bg { background-image:var(--img); background-size:cover; background-position:center; transition:transform .7s ease; }
+.sa-item.is-active .sa-bg { transform:scale(1.05); }
+.sa-grad { background:linear-gradient(180deg, rgba(7,13,32,0.12) 0%, rgba(7,13,32,0.5) 52%, rgba(7,13,32,0.92) 100%); }
+.sa-content { position:absolute; inset:0; z-index:2; display:flex; flex-direction:column; justify-content:flex-end; padding:22px 20px; }
+.sa-icon { width:42px; height:42px; border-radius:10px; margin-bottom:auto; border:1px solid rgba(255,255,255,0.2); background:rgba(7,13,32,0.42); -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px); display:grid; place-items:center; color:#fff; }
+.sa-icon svg { width:22px; height:22px; }
+.sa-title { font-family:var(--font-display); font-weight:600; color:#fff; font-size:1.12rem; margin:0; white-space:nowrap; }
+.sa-item:not(.is-active) .sa-title { writing-mode:vertical-rl; text-orientation:mixed; letter-spacing:0.08em; align-self:center; }
+.sa-detail { max-height:0; opacity:0; overflow:hidden; transition:opacity .45s ease, max-height .55s ease; }
+.sa-item.is-active .sa-detail { max-height:360px; opacity:1; margin-top:14px; }
+.sa-cap { margin-top:14px; font-family:var(--font-mono); font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent); filter:brightness(1.25); }
+.sa-detail p { color:rgba(255,255,255,0.85); font-size:0.9rem; line-height:1.7; margin:8px 0 0; max-width:470px; }
+.sa-link { display:inline-flex; align-items:center; gap:6px; margin-top:16px; color:#fff; font-family:var(--font-display); font-weight:600; font-size:0.9rem; text-decoration:none; }
+.sa-link svg { width:16px; height:16px; transition:transform .2s ease; }
+.sa-link:hover svg { transform:translateX(4px); }
+
+/* ===== 平台工具 ===== */
+.dc-tool { position:relative; overflow:hidden; border:1px solid var(--line-strong); border-radius:var(--r-lg); padding:44px 48px; display:flex; align-items:center; justify-content:space-between; gap:32px; background:linear-gradient(120deg, rgba(4,105,207,0.22), rgba(112,87,200,0.18) 55%, rgba(24,166,184,0.18)); }
+.dc-tool::after { content:""; position:absolute; right:-8%; top:-40%; width:420px; height:420px; border-radius:50%; background:radial-gradient(circle, rgba(76,201,240,0.3), transparent 60%); filter:blur(40px); pointer-events:none; }
+.dc-tool-text { position:relative; z-index:1; max-width:680px; }
+.dc-tool-text h3 { font-family:var(--font-display); font-size:1.5rem; font-weight:600; color:var(--text-hi); margin:10px 0 12px; }
+.dc-tool-text p { color:var(--text); font-size:0.95rem; line-height:1.8; margin:0 0 20px; }
+.dc-tool-icon { position:relative; z-index:1; flex:0 0 auto; width:96px; height:96px; border-radius:20px; border:1px solid var(--line-strong); background:rgba(7,13,32,0.4); display:grid; place-items:center; color:var(--brand-hi); }
+.dc-tool-icon svg { width:48px; height:48px; }
+
+/* ===== 服务优势 ===== */
+.dc-adv-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(230px,1fr)); gap:20px; }
+.dc-adv-card { padding:30px 26px; border:1px solid var(--line); border-radius:var(--r-lg); background:linear-gradient(180deg, rgba(13,26,58,0.55), rgba(10,20,46,0.55)); transition:all 240ms ease; }
+.dc-adv-card:hover { transform:translateY(-4px); border-color:rgba(76,201,240,0.4); box-shadow:0 18px 40px rgba(4,105,207,0.2); }
+.dc-adv-card .icb { margin-bottom:18px; }
+.dc-adv-card h3 { font-family:var(--font-display); font-size:1.18rem; font-weight:600; color:var(--text-hi); margin:0 0 10px; }
+.dc-adv-card p { color:var(--text-mute); font-size:0.88rem; line-height:1.75; margin:0; }
+
+/* ===== 流程 ===== */
+.flow-rail { position:relative; padding:36px 24px; border:1px solid var(--line); border-radius:var(--r-lg); background:linear-gradient(180deg, rgba(10,20,46,0.65), rgba(7,13,32,0.65)); overflow:hidden; }
+.flow-rail::before { content:""; position:absolute; top:50%; left:5%; right:5%; height:1px; background:var(--grad-line); }
+.flow-steps { display:grid; grid-template-columns:repeat(5,1fr); gap:0; position:relative; }
+.flow-step { position:relative; text-align:center; padding:12px; }
+.flow-step .dot { width:36px; height:36px; margin:0 auto 16px; border-radius:50%; background:rgba(13,26,58,0.95); border:1.5px solid var(--brand-hi); display:grid; place-items:center; color:var(--brand-hi); font-family:var(--font-tech); font-size:1rem; font-weight:700; box-shadow:0 0 18px rgba(76,201,240,0.45); position:relative; z-index:2; }
+.flow-step h4 { font-family:var(--font-display); font-size:1rem; font-weight:600; margin:0 0 6px; }
+.flow-step p { color:var(--text-mute); font-size:0.82rem; margin:0; line-height:1.6; }
+.flow-step .code { display:block; margin-top:8px; color:var(--text-dim); font-family:var(--font-mono); font-size:10px; letter-spacing:0.1em; }
+
+@media (max-width:1100px){
+  .flow-steps { grid-template-columns:1fr; gap:18px; }
+  .flow-rail::before { display:none; }
+}
+@media (max-width:900px){
+  .dc-type { grid-template-columns:1fr; gap:22px; }
+  .dc-type.rev .dc-media { order:0; }
+  .scene-acc { flex-direction:column; height:auto; }
+  .sa-item { flex:none; height:120px; }
+  .sa-item.is-active { flex:none; height:300px; }
+  .sa-item:not(.is-active) .sa-title { writing-mode:horizontal-tb; align-self:flex-start; }
+  .dc-tool { flex-direction:column; align-items:flex-start; padding:32px 26px; }
+}
+@media (prefers-reduced-motion: reduce){ .sa-item{ transition:none; } .sa-bg{ transition:none; } }
+
 </style>
 </head>
 <body>
@@ -88,7 +169,7 @@
   <div class="container">
     <div class="hero-grid">
       <div data-reveal>
-        <nav class="crumbs" aria-label="面包局>
+        <nav class="crumbs" aria-label="面包屑">
           <a href="homepage.html">首页</a>
           <span class="sep">/</span>
           <span>数据服务</span>
@@ -98,9 +179,9 @@
         <span class="eyebrow">Data Annotation · 数据标注</span>
         <h1 class="display">
           <span class="line">AI 驱动</span>
-          <span class="line glow-text">高精度多模态标</span>
+          <span class="line glow-text">高精度多模态标注</span>
         </h1>
-        <p class="lead">AI 预标法+ 专业标注呀+ 质检员交叉审核，叠加自研标注平台，让大规模数据生产同时具备精度、效率与可追溯性，适配各类训练与评测任务</p>
+        <p class="lead">AI 预标注 + 专业标注员 + 质检员交叉审核，叠加自研标注平台，让大规模数据生产同时具备精度、效率与可追溯性，适配各类训练与评测任务</p>
         <div class="page-actions">
           <a href="homepage.html#contact" class="btn btn-primary">
             预约标注试点
@@ -117,9 +198,9 @@
           <span class="badge">●LIVE</span>
         </div>
         <div class="anno-toolbar">
-          <i class="active" title="框通><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="2" width="12" height="12" rx="1"/></svg></i>
-          <i title="多边当><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><polygon points="8,2 14,6 12,13 4,13 2,6"/></svg></i>
-          <i title="关键点><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="4" cy="4" r="1.5"/><circle cx="12" cy="4" r="1.5"/><circle cx="8" cy="12" r="1.5"/></svg></i>
+          <i class="active" title="框选"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="2" width="12" height="12" rx="1"/></svg></i>
+          <i title="多边形"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><polygon points="8,2 14,6 12,13 4,13 2,6"/></svg></i>
+          <i title="关键点"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="4" cy="4" r="1.5"/><circle cx="12" cy="4" r="1.5"/><circle cx="8" cy="12" r="1.5"/></svg></i>
           <i title="语义分割"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 8c2-3 4-3 6 0s4 3 6 0"/><path d="M2 12c2-3 4-3 6 0s4 3 6 0"/></svg></i>
         </div>
         <div class="anno-canvas">
@@ -129,7 +210,7 @@
         </div>
         <div class="anno-foot">
           <span class="led"></span>
-          <span>AI 预标法· <b>已识分18 个目栀/b></span>
+          <span>AI 预标注 · <b>已识别 18 个目标</b></span>
           <span class="gap"></span>
           <span>IoU <b>0.92</b></span>
         </div>
@@ -138,138 +219,94 @@
   </div>
 </section>
 
-<!-- ANNOTATION TYPES -->
+<!-- 标注能力 -->
 <section class="section">
   <div class="container">
     <div class="section-head" data-reveal>
-      <span class="eyebrow">01 · Types</span>
-      <h2 class="display">全模态span class="glow-text">标注能力矩阵</span></h2>
-      <p>覆盖图像、视频、语音、文本、D 点云与大模型偏好评测六大类，单一项目可融合多种标注形式</p>
+      <span class="eyebrow">01 · Capabilities</span>
+      <h2 class="display">数据标注<span class="glow-text">服务能力</span></h2>
+      <p>全数据类型的标注，涵盖文本、语音、图像视频、点云、3D / 4D 等标注类型，可根据用户需求提供场景化数据标注解决方案</p>
     </div>
-    <div class="types-grid" data-reveal>
-      <article class="type-card">
-        <div class="head">
-          <div class="icb icb-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="3"/><rect x="7" y="7" width="6" height="6" rx="1"/><rect x="14" y="10" width="5" height="5" rx="1" stroke-dasharray="2 1"/></svg></div>
-          <h3>图像标注</h3>
-        </div>
-        <div class="pills"><span>目标检</span><span>语义分割</span><span>关键</span><span>3D </span></div>
-        <p>BBox / Polygon / Mask / Keypoint 等多形态标注，支持稠密目标、遮挡场景与超大分辨率图像</p>
-      </article>
-      <article class="type-card">
-        <div class="head">
-          <div class="icb icb-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 9v6M7 6v12M10 8v8M13 5v14M16 7v10M19 9v6" stroke-linecap="round"/></svg></div>
-          <h3>语音标注</h3>
-        </div>
-        <div class="pills"><span>转写</span><span>音素对齐</span><span>情感</span><span>说话</span></div>
-        <p>逐字时间戳对齐、说话人分离、情感分类、噪声事件标记，适配 ASR / TTS / 声纹模型训练</p>
-      </article>
-      <article class="type-card">
-        <div class="head">
-          <div class="icb icb-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M7 8h10M7 12h10M7 16h6"/></svg></div>
-          <h3>文本标注</h3>
-        </div>
-        <div class="pills"><span>NER</span><span>关系</span><span>意图</span><span>分类</span></div>
-        <p>命名实体、关系抽取、意图识别、情感分类、对话状态等多种文本标注任务支持</p>
-      </article>
-      <article class="type-card">
-        <div class="head">
-          <div class="icb icb-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="M16 10l6-3v10l-6-3z"/></svg></div>
-          <h3>视频标注</h3>
-        </div>
-        <div class="pills"><span>目标追踪</span><span>行为识别</span><span>时序切分</span></div>
-        <p>帧级 BBox / 时序切片 / 动作分类 / 多目栀ID 追踪，适配自动驾驶与行为识别场景</p>
-      </article>
-      <article class="type-card">
-        <div class="head">
-          <div class="icb icb-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2L22 7v10L12 22 2 17V7L12 2z"/><path d="M12 2v20M2 7l10 5 10-5" opacity=".6"/></svg></div>
-          <h3>3D / 激光雷</h3>
-        </div>
-        <div class="pills"><span>点云 3D </span><span>融合标注</span><span>语义分割</span></div>
-        <p>点云 3D BBox、点云语义分割、相机与雷达多传感器融合标注，原生支持自动驾驶数据集格式</p>
-      </article>
-      <article class="type-card featured">
-        <div class="head">
-          <div class="icb icb-sm" style="border-color:rgba(177,77,255,0.4);color:var(--violet-hi)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 6-6"/></svg></div>
-          <h3>大模型标法span class="hot">HOT</span></h3>
-        </div>
-        <div class="pills"><span>RLHF 偏好</span><span>SFT 指令</span><span>评测打分</span></div>
-        <p>RLHF 偏好对比、SFT 指令微调、对齐评测、安全红队等大模型专属标注任务，支持多人交叉打分</p>
-      </article>
+    <div class="dc-types">
+<div class="dc-type" data-reveal><div class="dc-media"><img src="images/annotation/type-voice.png" alt="语音标注" loading="lazy" onerror="this.style.display='none'"><div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10a7 7 0 0 1-14 0M12 19v3M8 22h8"/></svg><span>语音标注</span></div></div><div><span class="dc-type-eyebrow">01 · Audio</span><h3>语音标注</h3><p class="dc-desc">将海量的语音数据进行逐字标注，并根据不同的任务需求，对情感、语气、说话者等进行多维度的标记。</p><div class="dc-chips"><span>ASR标注</span><span>词性标注</span><span>语音切割</span><span>情绪判定</span><span>声纹识别</span><span>音素标注</span><span>韵律标注</span><span>发音校对</span><span>语音清洗</span></div></div></div>
+<div class="dc-type rev" data-reveal><div><span class="dc-type-eyebrow">02 · 4D</span><h3>4D 标注</h3><p class="dc-desc">多维度获取信息，高精度标注，精确地描述物体在三维空间中的位置、形状、大小以及随时间的变化情况。</p><div class="dc-chips"><span>4D 车道线标注</span><span>4D 多边形区域标注</span><span>4D 关键点标注</span></div></div><div class="dc-media"><img src="images/annotation/type-4d.png" alt="4D 标注" loading="lazy" onerror="this.style.display='none'"><div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l9 5v10l-9 5-9-5V7l9-5z"/><path d="M12 2v20M3 7l9 5 9-5"/></svg><span>4D 标注</span></div></div></div>
+<div class="dc-type" data-reveal><div class="dc-media"><img src="images/annotation/type-pointcloud.png" alt="点云标注" loading="lazy" onerror="this.style.display='none'"><div class="ph"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><circle cx="5" cy="6" r="1.3"/><circle cx="10" cy="4" r="1.3"/><circle cx="15" cy="7" r="1.3"/><circle cx="19" cy="5" r="1.3"/><circle cx="6" cy="12" r="1.3"/><circle cx="12" cy="11" r="1.3"/><circle cx="18" cy="13" r="1.3"/><circle cx="8" cy="18" r="1.3"/><circle cx="14" cy="17" r="1.3"/><circle cx="19" cy="19" r="1.3"/></svg><span>点云标注</span></div></div><div><span class="dc-type-eyebrow">03 · Point Cloud</span><h3>点云标注</h3><p class="dc-desc">精确捕捉三维空间中物体的形状、结构和细节，适应多种复杂环境，为机器学习模型提供高精度的三维数据。</p><div class="dc-chips"><span>3D 点云连续帧</span><span>点云语义分割</span><span>2D&3D 标注</span><span>障碍物识别</span><span>道路边界检测</span><span>物体识别及抓取</span><span>运动物体连续帧标注</span><span>点云物体分割</span></div></div></div>
+<div class="dc-type rev" data-reveal><div><span class="dc-type-eyebrow">04 · Image</span><h3>图片标注</h3><p class="dc-desc">准确标出图片中的关键对象、区域和属性，为机器学习模型提供丰富的视觉信息。</p><div class="dc-chips"><span>障碍物标注</span><span>红绿灯标注</span><span>人脸标注</span><span>姿态标注</span><span>车道线标注</span><span>井盖标注</span><span>病理标注</span><span>医学分割</span><span>产品识别及分类</span></div></div><div class="dc-media"><img src="images/annotation/type-image.png" alt="图片标注" loading="lazy" onerror="this.style.display='none'"><div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="12" r="2.5"/><path d="M3 17l5-5 4 4 3-3 6 6"/></svg><span>图片标注</span></div></div></div>
+<div class="dc-type" data-reveal><div class="dc-media"><img src="images/annotation/type-video.png" alt="视频标注" loading="lazy" onerror="this.style.display='none'"><div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="M16 10l6-3v10l-6-3z"/></svg><span>视频标注</span></div></div><div><span class="dc-type-eyebrow">05 · Video</span><h3>视频标注</h3><p class="dc-desc">提取视频中的关键信息，捕捉视频中的动态变化，为计算机视觉和机器学习算法提供丰富的数据支持。</p><div class="dc-chips"><span>物体识别标注</span><span>动作描述标注</span><span>场景类型标注</span><span>情感分析标注</span><span>字幕识别标注</span><span>视频类型层标注</span><span>关键帧图象层标注</span><span>图象中的物体层标注</span></div></div></div>
+<div class="dc-type rev" data-reveal><div><span class="dc-type-eyebrow">06 · Text</span><h3>文本标注</h3><p class="dc-desc">助力机器学习更好地识别文本中的意图或情感，增强机器对自然语言的理解能力。</p><div class="dc-chips"><span>实体标注</span><span>词性标注</span><span>情感分析标注</span><span>关系抽取标注</span><span>语义角色标注</span><span>文本分类标注</span><span>意图识别标注</span></div></div><div class="dc-media"><img src="images/annotation/type-text.png" alt="文本标注" loading="lazy" onerror="this.style.display='none'"><div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 9h8M8 13h6M8 17h7"/></svg><span>文本标注</span></div></div></div>
     </div>
   </div>
 </section>
 
-<!-- QUALITY SYSTEM -->
+<!-- 应用场景 -->
 <section class="section" style="padding-top:0">
   <div class="container">
-    <div class="quality-grid">
-      <div data-reveal>
-        <span class="eyebrow">02 · QA System</span>
-        <h2 class="display" style="font-size:clamp(1.8rem,3.2vw,2.6rem);margin:18px 0 18px">多重<span class="glow-text">质量保障体系</span></h2>
-        <p style="color:var(--text-mute); max-width:520px; margin:0 0 24px;">AI 预检 + 专业标注员初栀+ 质检员交叉审栀+ 客户验收，四道关卡保障标注精度与一致性，所有环节皆可追溯</p>
-        <div class="q-step-list">
-          <div class="q-step">
-            <div class="num">01</div>
-            <div>
-              <h4>AI 预标注与辅助检</h4>
-              <p>引入自研预标模型，自动识别明显目标并输出置信度，大幅压缩重复劳动</p>
-            </div>
-          </div>
-          <div class="q-step">
-            <div class="num">02</div>
-            <div>
-              <h4>专业标注员初</h4>
-              <p>分领域培训认证的标注员负责精修与复杂场景判断，按任务难度分级派单</p>
-            </div>
-          </div>
-          <div class="q-step">
-            <div class="num">03</div>
-            <div>
-              <h4>质检员交叉审</h4>
-              <p>独立质检团队按抽样率与全检规则进行交叉复核，记录返工原因形成迭代闭环</p>
-            </div>
-          </div>
-          <div class="q-step">
-            <div class="num">04</div>
-            <div>
-              <h4>客户验收与反馈闭</h4>
-              <p>客户验收意见直接进入工单系统，复训规则同步至 AI 预标模型与标注员培训</p>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="section-head" data-reveal>
+      <span class="eyebrow">02 · Scenarios</span>
+      <h2 class="display">数据标注<span class="glow-text">应用场景</span></h2>
+      <p>通过人机融合的工作流数据标注方案，定制化解决您的场景化数据标注需求</p>
+    </div>
+    <div class="scene-acc" data-reveal>
+<div class="sa-item is-active" style="--accent:#4cc9f0;--img:url('images/annotation/scene-driving.png');"><span class="sa-ph"></span><span class="sa-bg"></span><span class="sa-grad"></span><div class="sa-content"><div class="sa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-3l-2-6H5l-2 6v3z"/><circle cx="7.5" cy="17" r="1.5"/><circle cx="16.5" cy="17" r="1.5"/></svg></div><h4 class="sa-title">智能驾驶</h4><div class="sa-detail"><span class="sa-cap">核心能力</span><p>图片通用拉框、车道线、DMS、3D 点云、2D/3D 融合、全景语义分割等标注类型，支持自动驾驶、智能驾舱、自动泊车等场景数据标注。</p><a class="sa-link" href="javascript:void(0)" onclick="openMessageModal()">获取方案 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div></div></div>
+<div class="sa-item" style="--accent:#ff4dcb;--img:url('images/annotation/scene-embodied.png');"><span class="sa-ph"></span><span class="sa-bg"></span><span class="sa-grad"></span><div class="sa-content"><div class="sa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="8" width="14" height="10" rx="2"/><path d="M12 8V4M9 4h6"/><circle cx="9.5" cy="13" r="1"/><circle cx="14.5" cy="13" r="1"/><path d="M3 13v2M21 13v2"/></svg></div><h4 class="sa-title">具身智能</h4><div class="sa-detail"><span class="sa-cap">核心能力</span><p>面向机器人与具身智能体的多模态标注，覆盖操作轨迹、动作分割、3D 姿态、抓取点检测与多模态对齐，支撑 VLA 等具身大模型训练。</p><a class="sa-link" href="javascript:void(0)" onclick="openMessageModal()">获取方案 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div></div></div>
+<div class="sa-item" style="--accent:#b14dff;--img:url('images/annotation/scene-home.png');"><span class="sa-ph"></span><span class="sa-bg"></span><span class="sa-grad"></span><div class="sa-content"><div class="sa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l9-9 9 9M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></div><h4 class="sa-title">智能家居</h4><div class="sa-detail"><span class="sa-cap">核心能力</span><p>人物语音转写、行为意图、声纹识别、领域识别、语句泛化、语义分割等标注类型，支持智能音箱、智能电视、智能扫地机器人等场景数据标注。</p><a class="sa-link" href="javascript:void(0)" onclick="openMessageModal()">获取方案 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div></div></div>
+<div class="sa-item" style="--accent:#44e08a;--img:url('images/annotation/scene-security.png');"><span class="sa-ph"></span><span class="sa-bg"></span><span class="sa-grad"></span><div class="sa-content"><div class="sa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div><h4 class="sa-title">智慧安防</h4><div class="sa-detail"><span class="sa-cap">核心能力</span><p>人脸打点、骨骼关键点、人体拉框、视频切分、目标跟踪、语义分割等标注类型，支持平安城市、车辆人流监测、人脸识别等场景。应用场景：平安城市、人流检测、动作识别、车辆识别。</p><a class="sa-link" href="javascript:void(0)" onclick="openMessageModal()">获取方案 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div></div></div>
+<div class="sa-item" style="--accent:#ffc850;--img:url('images/annotation/scene-finance.png');"><span class="sa-ph"></span><span class="sa-bg"></span><span class="sa-grad"></span><div class="sa-content"><div class="sa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6M12 22v-6M2 12h6M22 12h-6"/><circle cx="12" cy="12" r="3"/></svg></div><h4 class="sa-title">智能金融</h4><div class="sa-detail"><span class="sa-cap">核心能力</span><p>车辆保险鉴定、人物对话转写、命名实体识别、票据文字识别（OCR）、人脸标注、风控数据标注等标注类型，支持身份认证、智能风控、智慧柜台等场景。</p><a class="sa-link" href="javascript:void(0)" onclick="openMessageModal()">获取方案 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div></div></div>
+    </div>
+  </div>
+</section>
 
-      <div data-reveal style="display:grid;gap:18px">
-        <div class="q-overview">
-          <div class="top">
-            <h4>标注质量概览</h4>
-            <span class="pill pill-green">●实时监控</span>
-          </div>
-          <div class="q-metrics">
-            <div class="q-metric"><span class="v">99.2<em>%</em></span><span class="l">标注准确</span></div>
-            <div class="q-metric"><span class="v">98.6<em>%</em></span><span class="l">客户验收</span></div>
-            <div class="q-metric"><span class="v">3.4<em>×</em></span><span class="l">AI 提速倍率</span></div>
-            <div class="q-metric"><span class="v">72<em>h</em></span><span class="l">平均交付周期</span></div>
-          </div>
-          <div class="q-tools">
-            <div class="q-tool">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="2" width="7" height="7" rx="1"/><rect x="11" y="2" width="7" height="7" rx="1"/><rect x="2" y="11" width="7" height="7" rx="1"/><rect x="11" y="11" width="7" height="7" rx="1"/></svg>
-              <span>框</span>
-            </div>
-            <div class="q-tool">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4"><polygon points="10,3 17,7 15,15 5,15 3,7"/></svg>
-              <span>多边</span>
-            </div>
-            <div class="q-tool">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="6" cy="6" r="1.6"/><circle cx="14" cy="6" r="1.6"/><circle cx="10" cy="15" r="1.6"/></svg>
-              <span>关键</span>
-            </div>
-            <div class="q-tool">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M10 2L18 6v8L10 18 2 14V6L10 2z"/></svg>
-              <span>3D 点云</span>
-            </div>
-          </div>
-        </div>
+<!-- 平台工具 -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow">03 · Tool</span>
+      <h2 class="display">标贝<span class="glow-text">数据标注平台工具</span></h2>
+      <p>标注平台支持多款数据标注工具组件，通过配置选择可实现全类型数据的标注，有效满足复杂多样的数据标注需求</p>
+    </div>
+    <div class="dc-tool" data-reveal>
+      <div class="dc-tool-text">
+        <span class="dc-type-eyebrow">AI Data Platform</span>
+        <h3>一站式 AI 数据平台</h3>
+        <p>标贝科技 AI 数据平台集成丰富标注工具、智能预标注模型及项目管理功能于一体，支持语音、图像、视频、点云、4D、多模态、大模型等百余种标注场景。以高可用、高可靠、高安全为核心，满足大规模、多行业、多场景、多模态等细分领域数据需求。</p>
+        <a href="tools_overview.html" class="btn btn-ghost">了解更多 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+      <div class="dc-tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M6 8h4M6 11h7"/></svg></div>
+    </div>
+  </div>
+</section>
+
+<!-- 服务优势 -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow">04 · Advantages</span>
+      <h2 class="display">数据标注<span class="glow-text">服务优势</span></h2>
+    </div>
+    <div class="dc-adv-grid" data-reveal>
+      <div class="dc-adv-card"><div class="icb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><h3>专业的服务团队</h3><p>在全国自建多个数据中心，拥有众多稳定的外包合作供应商与众包资源，专属项目经理全程多维度管控，确保数据交付质量。</p></div>
+      <div class="dc-adv-card"><div class="icb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg></div><h3>丰富的项目经验</h3><p>具备数百个大型项目落地经验，积累跨行业领域的项目能力，覆盖智能驾驶、金融、医疗等领域，及时响应复杂项目需求。</p></div>
+      <div class="dc-adv-card"><div class="icb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div><h3>全面的安全管理</h3><p>多项专业机构认证的 ISO 质量管理与信息安全认证，完善的项目管理流程及数据安全防护体系，确保数据生产和交付安全。</p></div>
+      <div class="dc-adv-card"><div class="icb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><h3>高效的标注能力</h3><p>基于行业领先的算法能力，自研一站式 AI 标注平台，支持语音、文本、图像、视频、点云等全类型数据的主流标注场景。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 标注流程 -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow">05 · Process</span>
+      <h2 class="display">数据标注<span class="glow-text">流程</span></h2>
+      <p>依托定制化专项服务方案与人机协同项目运行方式，助力数据释放更多应用潜能</p>
+    </div>
+    <div class="flow-rail" data-reveal>
+      <div class="flow-steps">
+        <div class="flow-step"><div class="dot">01</div><h4>需求对接</h4><p>明确标注规范、数据类型与验收标准</p><span class="code">scope.json</span></div>
+        <div class="flow-step"><div class="dot">02</div><h4>规范制定</h4><p>制定标注规则、试标校准与样例集</p><span class="code">rule.spec</span></div>
+        <div class="flow-step"><div class="dot">03</div><h4>AI 预标注</h4><p>自研模型自动预标，压缩重复劳动</p><span class="code">preanno.ai</span></div>
+        <div class="flow-step"><div class="dot">04</div><h4>人工精标</h4><p>分领域认证标注员精修与复杂判断</p><span class="code">label.run</span></div>
+        <div class="flow-step"><div class="dot">05</div><h4>质检交付</h4><p>交叉质检 + 客户验收 + 加密交付</p><span class="code">deliver.tar</span></div>
       </div>
     </div>
   </div>
@@ -281,7 +318,7 @@
     <div class="cta-card" data-reveal>
       <div class="cta-inner">
         <span class="eyebrow">Next Step</span>
-        <h2>启动高质量数据标</h2>
+        <h2>启动高质量数据标注</h2>
         <p>把标注规范交给我们，从规则确认到数据交付，标贝团队提供端到端的项目管理与质量保障</p>
         <div class="cta-actions">
           <a href="homepage.html#contact" class="btn btn-primary">
@@ -294,6 +331,9 @@
 
 <div id="footer-placeholder"></div>
 <script src="_shared.js"></script>
+<script>
+(function(){var items=[].slice.call(document.querySelectorAll(".scene-acc .sa-item"));if(!items.length)return;function on(it){items.forEach(function(x){x.classList.toggle("is-active",x===it);});}items.forEach(function(it){it.addEventListener("mouseenter",function(){on(it);});it.addEventListener("click",function(){on(it);});});})();
+</script>
 </body>
 </html>
 

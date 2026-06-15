@@ -81,6 +81,74 @@
 @media (max-width: 720px) {
   .scene-grid { grid-template-columns: 1fr; }
 }
+
+/* ===== 采集类型 · 交替图文 ===== */
+.dc-types { display:grid; gap:46px; }
+.dc-type { display:grid; grid-template-columns:0.82fr 1.18fr; gap:46px; align-items:center; }
+.dc-type.rev .dc-media { order:2; }
+.dc-media { position:relative; border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; aspect-ratio:4/3; background:linear-gradient(150deg, rgba(13,26,58,0.85), rgba(7,13,32,0.92)); display:grid; place-items:center; }
+.dc-media img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:1; }
+.dc-media .ph { display:flex; flex-direction:column; align-items:center; gap:10px; color:var(--brand-hi); opacity:0.42; }
+.dc-media .ph svg { width:50px; height:50px; }
+.dc-media .ph span { font-family:var(--font-mono); font-size:11px; letter-spacing:0.16em; }
+.dc-type-eyebrow { font-family:var(--font-mono); font-size:11px; letter-spacing:0.18em; color:var(--brand-hi); text-transform:uppercase; }
+.dc-type h3 { font-family:var(--font-display); font-size:1.5rem; font-weight:600; color:var(--text-hi); margin:10px 0 12px; }
+.dc-type .dc-desc { color:var(--text-mute); font-size:0.95rem; line-height:1.8; margin:0 0 18px; max-width:580px; }
+.dc-chips { display:flex; flex-wrap:wrap; gap:8px; }
+.dc-chips span { padding:6px 13px; border-radius:99px; border:1px solid var(--line); background:rgba(76,201,240,0.05); color:var(--text); font-size:0.82rem; transition:all 200ms ease; }
+.dc-chips span:hover { border-color:var(--brand-hi); color:var(--brand-hi); background:rgba(76,201,240,0.1); transform:translateY(-1px); }
+
+/* ===== 应用场景 · 横向展开手风琴 ===== */
+.scene-acc { display:flex; gap:12px; height:430px; }
+.sa-item { position:relative; flex:1 1 0; min-width:0; overflow:hidden; border:1px solid var(--line); border-radius:18px; cursor:pointer; transition:flex-grow .55s cubic-bezier(.4,0,.2,1), border-color .35s ease, box-shadow .35s ease; }
+.sa-item.is-active { flex-grow:7; border-color:transparent; box-shadow:0 0 0 1px var(--accent) inset, 0 26px 60px rgba(0,0,0,0.45); }
+.sa-ph, .sa-bg, .sa-grad { position:absolute; inset:0; }
+.sa-ph { background:var(--accent); opacity:0.20; }
+.sa-bg { background-image:var(--img); background-size:cover; background-position:center; transition:transform .7s ease; }
+.sa-item.is-active .sa-bg { transform:scale(1.05); }
+.sa-grad { background:linear-gradient(180deg, rgba(7,13,32,0.12) 0%, rgba(7,13,32,0.5) 52%, rgba(7,13,32,0.92) 100%); }
+.sa-content { position:absolute; inset:0; z-index:2; display:flex; flex-direction:column; justify-content:flex-end; padding:22px 20px; }
+.sa-icon { width:42px; height:42px; border-radius:10px; margin-bottom:auto; border:1px solid rgba(255,255,255,0.2); background:rgba(7,13,32,0.42); -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px); display:grid; place-items:center; color:#fff; }
+.sa-icon svg { width:22px; height:22px; }
+.sa-title { font-family:var(--font-display); font-weight:600; color:#fff; font-size:1.12rem; margin:0; white-space:nowrap; }
+.sa-item:not(.is-active) .sa-title { writing-mode:vertical-rl; text-orientation:mixed; letter-spacing:0.08em; align-self:center; }
+.sa-detail { max-height:0; opacity:0; overflow:hidden; transition:opacity .45s ease, max-height .55s ease; }
+.sa-item.is-active .sa-detail { max-height:340px; opacity:1; margin-top:14px; }
+.sa-cap { margin-top:14px; font-family:var(--font-mono); font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent); filter:brightness(1.25); }
+.sa-detail p { color:rgba(255,255,255,0.85); font-size:0.9rem; line-height:1.7; margin:8px 0 0; max-width:470px; }
+.sa-link { display:inline-flex; align-items:center; gap:6px; margin-top:16px; color:#fff; font-family:var(--font-display); font-weight:600; font-size:0.9rem; text-decoration:none; }
+.sa-link svg { width:16px; height:16px; transition:transform .2s ease; }
+.sa-link:hover svg { transform:translateX(4px); }
+
+/* ===== 平台工具 ===== */
+.dc-tool { position:relative; overflow:hidden; border:1px solid var(--line-strong); border-radius:var(--r-lg); padding:44px 48px; display:flex; align-items:center; justify-content:space-between; gap:32px; background:linear-gradient(120deg, rgba(4,105,207,0.22), rgba(112,87,200,0.18) 55%, rgba(24,166,184,0.18)); }
+.dc-tool::after { content:""; position:absolute; right:-8%; top:-40%; width:420px; height:420px; border-radius:50%; background:radial-gradient(circle, rgba(76,201,240,0.3), transparent 60%); filter:blur(40px); pointer-events:none; }
+.dc-tool-text { position:relative; z-index:1; max-width:660px; }
+.dc-tool-text h3 { font-family:var(--font-display); font-size:1.5rem; font-weight:600; color:var(--text-hi); margin:10px 0 12px; }
+.dc-tool-text p { color:var(--text); font-size:0.95rem; line-height:1.8; margin:0 0 20px; }
+.dc-tool-icon { position:relative; z-index:1; flex:0 0 auto; width:96px; height:96px; border-radius:20px; border:1px solid var(--line-strong); background:rgba(7,13,32,0.4); display:grid; place-items:center; color:var(--brand-hi); }
+.dc-tool-icon svg { width:48px; height:48px; }
+
+/* ===== 服务优势 ===== */
+.dc-adv-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+.dc-adv-card { padding:30px 28px; border:1px solid var(--line); border-radius:var(--r-lg); background:linear-gradient(180deg, rgba(13,26,58,0.55), rgba(10,20,46,0.55)); transition:all 240ms ease; }
+.dc-adv-card:hover { transform:translateY(-4px); border-color:rgba(76,201,240,0.4); box-shadow:0 18px 40px rgba(4,105,207,0.2); }
+.dc-adv-card .icb { margin-bottom:18px; }
+.dc-adv-card h3 { font-family:var(--font-display); font-size:1.2rem; font-weight:600; color:var(--text-hi); margin:0 0 10px; }
+.dc-adv-card p { color:var(--text-mute); font-size:0.9rem; line-height:1.75; margin:0; }
+
+@media (max-width:900px){
+  .dc-type { grid-template-columns:1fr; gap:22px; }
+  .dc-type.rev .dc-media { order:0; }
+  .scene-acc { flex-direction:column; height:auto; }
+  .sa-item { flex:none; height:120px; }
+  .sa-item.is-active { flex:none; height:300px; }
+  .sa-item:not(.is-active) .sa-title { writing-mode:horizontal-tb; align-self:flex-start; }
+  .dc-tool { flex-direction:column; align-items:flex-start; padding:32px 26px; }
+  .dc-adv-grid { grid-template-columns:1fr; }
+}
+@media (prefers-reduced-motion: reduce){ .sa-item{ transition:none; } .sa-bg{ transition:none; } }
+
 </style>
 </head>
 <body>
@@ -92,7 +160,7 @@
   <div class="container">
     <div class="hero-grid">
       <div data-reveal>
-        <nav class="crumbs" aria-label="面包局>
+        <nav class="crumbs" aria-label="面包屑">
           <a href="homepage.html">首页</a>
           <span class="sep">/</span>
           <span>数据服务</span>
@@ -102,7 +170,7 @@
         <span class="eyebrow">Data Collection · 数据采集</span>
         <h1 class="display">
           <span class="line">专业数据采集服务</span>
-          <span class="line glow-text">多模态· 多场晀· 全合</span>
+          <span class="line glow-text">多模态 · 多场景 · 全合规</span>
         </h1>
         <p class="lead">围绕大模型、语音、视觉、自动驾驶等核心场景，标贝构建了覆盖全国的采集网络与标准化作业体系，从样本设计到入库验收，确保数据可训练、可验证、可追溯</p>
         <div class="page-actions">
@@ -131,7 +199,7 @@
             <span class="led"></span>
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="12" r="2.5"/><path d="M3 17l5-5 4 4 3-3 6 6"/></svg>
             <span class="nm">图像采集</span>
-            <span class="ct">多角庀· 多光</span>
+            <span class="ct">多角度 · 多光照</span>
           </div>
           <div class="cs-mod">
             <span class="led"></span>
@@ -143,7 +211,7 @@
             <span class="led"></span>
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 9h8M8 13h6M8 17h7"/></svg>
             <span class="nm">文本采集</span>
-            <span class="ct">多语种· 多领</span>
+            <span class="ct">多语种 · 多领域</span>
           </div>
         </div>
         <div class="viz-flux">
@@ -161,156 +229,104 @@
   </div>
 </section>
 
-<!-- SCENES -->
+<!-- 采集类型 -->
 <section class="section">
   <div class="container">
     <div class="section-head" data-reveal>
-      <span class="eyebrow">01 · Coverage</span>
-      <h2 class="display">覆盖<span class="glow-text">全类型数</span>采集场景</h2>
-      <p>从语音、图像、视频到文本与多模态数据，标贝采集网络覆盖一线城市与多地区方言区，可按需扩展至海外采集点，满足模型训练所需的样本规模与多样性</p>
+      <span class="eyebrow">01 · Types</span>
+      <h2 class="display">数据采集<span class="glow-text">类型</span></h2>
+      <p>支持文本、图片、音视频全类型数据定制采集，真实场景，交付能力强</p>
     </div>
-    <div class="scene-grid" data-reveal>
-      <article class="scene-card">
-        <span class="ix"><em>01</em> · VOICE</span>
-        <div class="icb icb-sm" style="margin-bottom:6px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10a7 7 0 0 1-14 0M12 19v3"/></svg></div>
-        <h3>语音数据采集</h3>
-        <p>覆盖普通话、方言、外语及多种口音，支持朗读、对话、远场、噪声等多种录音环境</p>
-        <div class="scene-tags"><span>方言</span><span>远场</span><span>情感</span><span>多语</span></div>
-      </article>
-      <article class="scene-card">
-        <span class="ix"><em>02</em> · VISION</span>
-        <div class="icb icb-sm" style="margin-bottom:6px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="12" r="2.5"/><path d="M3 17l5-5 4 4 3-3 6 6"/></svg></div>
-        <h3>图像数据采集</h3>
-        <p>人脸、行为、商品、医疗影像、遥感等多类型图像采集，多角度、多光照、多设备覆盖</p>
-        <div class="scene-tags"><span>人脸</span><span>OCR</span><span>医疗</span><span>遥感</span></div>
-      </article>
-      <article class="scene-card">
-        <span class="ix"><em>03</em> · VIDEO</span>
-        <div class="icb icb-sm" style="margin-bottom:6px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="M16 10l6-3v10l-6-3z"/></svg></div>
-        <h3>视频数据采集</h3>
-        <p>行为识别、自动驾驶、手势、动作捕捉等场景化视频采集，支持多通路同步录制</p>
-        <div class="scene-tags"><span>行为</span><span>驾驶</span><span>手势</span><span>多机</span></div>
-      </article>
-      <article class="scene-card">
-        <span class="ix"><em>04</em> · TEXT</span>
-        <div class="icb icb-sm" style="margin-bottom:6px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 9h8M8 13h6M8 17h7"/></svg></div>
-        <h3>文本数据采集</h3>
-        <p>问答对、对话、垂类语料、指令偏好等文本采集与撰写，支持多语言、多领域分发</p>
-        <div class="scene-tags"><span>QA</span><span>对话</span><span>RLHF</span><span>多语</span></div>
-      </article>
+    <div class="dc-types">
+<div class="dc-type" data-reveal><div class="dc-media"><img src="images/collection/type-voice.png" alt="语音数据采集" loading="lazy" onerror="this.style.display='none'"><div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10a7 7 0 0 1-14 0M12 19v3M8 22h8"/></svg><span>语音数据采集</span></div></div><div><span class="dc-type-eyebrow">01 · Audio</span><h3>语音数据采集</h3><p class="dc-desc">支持全球 180+ 个地区的超过 250 种语言方言，为您量身定制全面的语言数据。</p><div class="dc-chips"><span>唤醒词、指令词采集</span><span>多通道远场景录音采集</span><span>儿童/成人/老人语音采集</span><span>方言、外语采集</span><span>自然对话语音采集</span><span>多种风格音色录制</span><span>虚拟偶像音色录制</span><span>平均音色录制</span><span>车载语音采集</span><span>中文男女声录制</span></div></div></div>
+<div class="dc-type rev" data-reveal><div><span class="dc-type-eyebrow">02 · Image</span><h3>图片数据采集</h3><p class="dc-desc">全球多人种、特定场景及物体、特定语言及载体的采集能力，全方位支持您的图像采集需求。</p><div class="dc-chips"><span>多人种人像采集</span><span>情感图像采集</span><span>手势图像采集</span><span>动作图像采集</span><span>多语言OCR图像采集</span><span>试卷/公式手写采集</span><span>收据/票据采集</span><span>书本/海报/杂志采集</span><span>街景图像采集</span><span>驾驶员采集</span><span>建筑物裂缝采集</span><span>扫地机器人视角采集</span><span>动物图像采集</span><span>通用物体采集</span><span>特定情景采集</span><span>海外情景采集</span><span>3D人脸采集</span><span>3D物体采集</span></div></div><div class="dc-media"><img src="images/collection/type-image.png" alt="图片数据采集" loading="lazy" onerror="this.style.display='none'"><div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="12" r="2.5"/><path d="M3 17l5-5 4 4 3-3 6 6"/></svg><span>图片数据采集</span></div></div></div>
+<div class="dc-type" data-reveal><div class="dc-media"><img src="images/collection/type-video.png" alt="视频数据采集" loading="lazy" onerror="this.style.display='none'"><div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="M16 10l6-3v10l-6-3z"/></svg><span>视频数据采集</span></div></div><div><span class="dc-type-eyebrow">03 · Video</span><h3>视频数据采集</h3><p class="dc-desc">多场景、多国家地点的采集能力，快速高效地响应您的数据需求。</p><div class="dc-chips"><span>多人种视频采集</span><span>面部动作视频采集</span><span>行人行为采集</span><span>老人跌倒视频采集</span><span>亲属人脸采集</span><span>儿童活动视频采集</span><span>动物视频采集</span><span>道路交通采集</span><span>自然天气视频采集</span><span>体育运动视频采集</span></div></div></div>
+<div class="dc-type rev" data-reveal><div><span class="dc-type-eyebrow">04 · Text</span><h3>文本数据采集</h3><p class="dc-desc">提供英语、越南语、泰语、印尼语、阿拉伯语、葡萄牙语、意大利语等超过 250 种语言及方言的文本采集服务。</p><div class="dc-chips"><span>方言发音词典制作</span><span>多语言发音词典制作</span><span>多轮对话文本</span><span>金融QA语料采集</span><span>医疗引导语料采集</span><span>社区问答语料采集</span><span>少数民族普通话平行语料采集</span></div></div><div class="dc-media"><img src="images/collection/type-text.png" alt="文本数据采集" loading="lazy" onerror="this.style.display='none'"><div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 9h8M8 13h6M8 17h7"/></svg><span>文本数据采集</span></div></div></div>
     </div>
   </div>
 </section>
 
-<!-- PROCESS -->
+<!-- 应用场景 -->
 <section class="section" style="padding-top:0">
   <div class="container">
     <div class="section-head" data-reveal>
-      <span class="eyebrow">02 · Pipeline</span>
-      <h2 class="display">标准匀span class="glow-text">五步采集流程</span></h2>
-      <p>从需求拆解到样本入库，每个节点都附带可量化的检查项，确保规模化采集下交付质量的稳定</p>
+      <span class="eyebrow">02 · Scenarios</span>
+      <h2 class="display">数据采集<span class="glow-text">应用场景</span></h2>
+      <p>我们推出多种行业性数据采集解决方案，支持多种场景化采集，保证数据质量</p>
     </div>
+    <div class="scene-acc" data-reveal>
+<div class="sa-item is-active" style="--accent:#4cc9f0;--img:url('images/collection/scene-driving.png');"><span class="sa-ph"></span><span class="sa-bg"></span><span class="sa-grad"></span><div class="sa-content"><div class="sa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-3l-2-6H5l-2 6v3z"/><circle cx="7.5" cy="17" r="1.5"/><circle cx="16.5" cy="17" r="1.5"/></svg></div><h4 class="sa-title">智能驾驶</h4><div class="sa-detail"><span class="sa-cap">核心能力</span><p>驾驶员信息、路况信息、车辆、3D 点云数据、DMS（驾驶员抽烟 / 转头）、车载语音唤醒词等采集类型，支持自动驾驶、智能驾舱、自动泊车等场景数据采集。</p><a class="sa-link" href="javascript:void(0)" onclick="openMessageModal()">获取方案 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div></div></div>
+<div class="sa-item" style="--accent:#ff4dcb;--img:url('images/collection/scene-embodied.png');"><span class="sa-ph"></span><span class="sa-bg"></span><span class="sa-grad"></span><div class="sa-content"><div class="sa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="8" width="14" height="10" rx="2"/><path d="M12 8V4M9 4h6"/><circle cx="9.5" cy="13" r="1"/><circle cx="14.5" cy="13" r="1"/><path d="M3 13v2M21 13v2"/></svg></div><h4 class="sa-title">具身智能</h4><div class="sa-detail"><span class="sa-cap">核心能力</span><p>面向机器人与具身智能体的多模态数据采集，覆盖视觉、语音、动作轨迹、操作示教与第一视角视频，支持感知—决策—控制全链路训练数据采集。</p><a class="sa-link" href="javascript:void(0)" onclick="openMessageModal()">获取方案 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div></div></div>
+<div class="sa-item" style="--accent:#b14dff;--img:url('images/collection/scene-home.png');"><span class="sa-ph"></span><span class="sa-bg"></span><span class="sa-grad"></span><div class="sa-content"><div class="sa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l9-9 9 9M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></div><h4 class="sa-title">智能家居</h4><div class="sa-detail"><span class="sa-cap">核心能力</span><p>唤醒词、控制词、指定语料、情绪类型采集，覆盖中英文、国内各地方言及东南亚、欧洲、非洲小语种，支持智能音箱、智能电视、扫地机器人等场景数据采集。</p><a class="sa-link" href="javascript:void(0)" onclick="openMessageModal()">获取方案 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div></div></div>
+<div class="sa-item" style="--accent:#44e08a;--img:url('images/collection/scene-security.png');"><span class="sa-ph"></span><span class="sa-bg"></span><span class="sa-grad"></span><div class="sa-content"><div class="sa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div><h4 class="sa-title">智慧安防</h4><div class="sa-detail"><span class="sa-cap">核心能力</span><p>道路视频、车辆、动作等采集类型，支持平安城市、车辆人流监测等场景数据采集。应用场景：平安城市、人流检测、动作识别、车辆识别。</p><a class="sa-link" href="javascript:void(0)" onclick="openMessageModal()">获取方案 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div></div></div>
+<div class="sa-item" style="--accent:#ffc850;--img:url('images/collection/scene-finance.png');"><span class="sa-ph"></span><span class="sa-bg"></span><span class="sa-grad"></span><div class="sa-content"><div class="sa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6M12 22v-6M2 12h6M22 12h-6"/><circle cx="12" cy="12" r="3"/></svg></div><h4 class="sa-title">智能金融</h4><div class="sa-detail"><span class="sa-cap">核心能力</span><p>票据信息、保险标的、对话语音等采集类型，支持身份认证、智能风控、智慧柜台等场景数据采集。</p><a class="sa-link" href="javascript:void(0)" onclick="openMessageModal()">获取方案 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div></div></div>
+    </div>
+  </div>
+</section>
 
+<!-- 平台工具 -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow">03 · Tool</span>
+      <h2 class="display">标贝<span class="glow-text">采集平台工具</span></h2>
+      <p>覆盖图像、文本、语音、视频的全渠道、多场景定制化、精细化数据采集工具</p>
+    </div>
+    <div class="dc-tool" data-reveal>
+      <div class="dc-tool-text">
+        <span class="dc-type-eyebrow">EasyColl · 标贝易采</span>
+        <h3>标贝易采</h3>
+        <p>标贝科技自主研发的一款集语音、图像、视频采集于一体的数据采集工具，任务灵活，可实现多种复杂类型项目的采集、验收全栈式服务及解决方案。</p>
+        <a href="tool_collection.html" class="btn btn-ghost">了解更多 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+      <div class="dc-tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><circle cx="17.5" cy="17.5" r="3.5"/></svg></div>
+    </div>
+  </div>
+</section>
+
+<!-- 服务优势 -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow">04 · Advantages</span>
+      <h2 class="display">数据采集<span class="glow-text">服务优势</span></h2>
+    </div>
+    <div class="dc-adv-grid" data-reveal>
+      <div class="dc-adv-card">
+        <div class="icb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l9 5-9 5-9-5 9-5z"/><path d="M3 12l9 5 9-5M3 17l9 5 9-5"/></svg></div>
+        <h3>垂直行业定制</h3>
+        <p>采集资源和能力覆盖数十个细分行业，包含智能驾驶、智慧医疗、智慧城市、智能家居、智慧金融、智慧教育等。</p>
+      </div>
+      <div class="dc-adv-card">
+        <div class="icb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"/></svg></div>
+        <h3>核心技术保障</h3>
+        <p>百余项核心技术专利和软著支持，自研一站式 AI 数据平台，算法控制进行实时质检，保障标准化采集管理与实施。</p>
+      </div>
+      <div class="dc-adv-card">
+        <div class="icb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/><path d="M8.5 13.5L7 22l5-3 5 3-1.5-8.5"/></svg></div>
+        <h3>权威资质认证</h3>
+        <p>通过 ISO27001 等系列权威资质认证，确保数据安全性与合规性。同时自研数据可视化平台，严格把控数据生产的每一个环节。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 采集流程 -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow">05 · Process</span>
+      <h2 class="display">数据采集<span class="glow-text">流程</span></h2>
+      <p>依托多节点采集渠道，定制化搭建专属数据采集业务场景，持续为您提供个性化数据采集解决方案</p>
+    </div>
     <div class="flow-rail" data-reveal>
       <div class="flow-steps">
-        <div class="flow-step">
-          <div class="dot">01</div>
-          <h4>需求拆</h4>
-          <p>对齐目标任务、样本维度与验收口径</p>
-          <span class="code">scope.json</span>
-        </div>
-        <div class="flow-step">
-          <div class="dot">02</div>
-          <h4>方案设计</h4>
-          <p>制定采集脚本、设备规格与人员配比</p>
-          <span class="code">plan.yaml</span>
-        </div>
-        <div class="flow-step">
-          <div class="dot">03</div>
-          <h4>规模采集</h4>
-          <p>分布式场地与志愿者网络并行作业</p>
-          <span class="code">collect.run</span>
-        </div>
-        <div class="flow-step">
-          <div class="dot">04</div>
-          <h4>质量审核</h4>
-          <p>AI 初筛 + 人工抽检 + 字段合规校验</p>
-          <span class="code">qa.audit</span>
-        </div>
-        <div class="flow-step">
-          <div class="dot">05</div>
-          <h4>交付入库</h4>
-          <p>结构化打包、加密交付、版本可追溯</p>
-          <span class="code">deliver.tar</span>
-        </div>
+        <div class="flow-step"><div class="dot">01</div><h4>需求沟通</h4><p>明确采集类型、规模、场景与验收标准</p><span class="code">scope.json</span></div>
+        <div class="flow-step"><div class="dot">02</div><h4>方案定制</h4><p>制定采集脚本、设备规格与资源配比</p><span class="code">plan.yaml</span></div>
+        <div class="flow-step"><div class="dot">03</div><h4>采集执行</h4><p>多节点渠道并行采集，实时进度跟踪</p><span class="code">collect.run</span></div>
+        <div class="flow-step"><div class="dot">04</div><h4>质量校验</h4><p>AI 初筛 + 人工抽检 + 合规校验</p><span class="code">qa.audit</span></div>
+        <div class="flow-step"><div class="dot">05</div><h4>交付入库</h4><p>结构化打包、加密交付、版本可追溯</p><span class="code">deliver.tar</span></div>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- CAPABILITY -->
-<section class="section" style="padding-top:0">
-  <div class="container">
-    <div class="section-head" data-reveal>
-      <span class="eyebrow">03 · Capability</span>
-      <h2 class="display">支撑大规模采集的<span class="glow-text">基础设施能力</span></h2>
-    </div>
-    <div class="cap-grid" data-reveal>
-      <div class="cap-card">
-        <div class="icb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 12h18M12 3v18M5 5l14 14M19 5L5 19"/></svg></div>
-        <h3>分布式采集网</h3>
-        <p>多城市自建录音棚、外采团队与志愿者池，弹性扩容采集规模</p>
-        <ul class="cap-list">
-          <li>多城市自建录音棚 + 外采</li>
-          <li>20W+ 经认证志愿者池</li>
-          <li>可定向调度方言与口音分</li>
-        </ul>
-      </div>
-      <div class="cap-card">
-        <div class="icb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 10h18M8 4v6M16 4v6"/></svg></div>
-        <h3>专业采集设备矩阵</h3>
-        <p>从专业录音设备到多机位同步采集，硬件指标可按项目定制</p>
-        <ul class="cap-list">
-          <li>录音检/ 拾音麦阵分/ 远场设备</li>
-          <li>多机位高清相机与同步触发</li>
-          <li>车载 / 头戴 / 移动端多端覆</li>
-        </ul>
-      </div>
-      <div class="cap-card">
-        <div class="icb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l9 4-9 4-9-4 9-4z"/><path d="M3 12l9 4 9-4M3 17l9 4 9-4"/></svg></div>
-        <h3>合规与数据治</h3>
-        <p>合规审核贯穿全流程，敏感数据脱敏与授权链路完整存档</p>
-        <ul class="cap-list">
-          <li>个人信息授权链路完整</li>
-          <li>敏感数据脱敏与水印追</li>
-          <li>符合 GDPR / 等保 / 信安要求</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- INDUSTRY -->
-<section class="section" style="padding-top:0">
-  <div class="container">
-    <div class="section-head" data-reveal>
-      <span class="eyebrow">04 · Industries</span>
-      <h2 class="display">适用<span class="glow-text">行业与场</span></h2>
-      <p>覆盖大模型、自动驾驶、智能终端、医疗、金融、教育等核心赛道</p>
-    </div>
-    <div class="industry-grid" data-reveal>
-      <span class="industry-tag"><span class="id">01</span>大模型训</span>
-      <span class="industry-tag"><span class="id">02</span>自动驾驶</span>
-      <span class="industry-tag"><span class="id">03</span>具身智能</span>
-      <span class="industry-tag"><span class="id">04</span>语音交互</span>
-      <span class="industry-tag"><span class="id">05</span>计算机视</span>
-      <span class="industry-tag"><span class="id">06</span>智能客服</span>
-      <span class="industry-tag"><span class="id">07</span>医疗健康</span>
-      <span class="industry-tag"><span class="id">08</span>金融风控</span>
-      <span class="industry-tag"><span class="id">09</span>工业检</span>
-      <span class="industry-tag"><span class="id">10</span>多语言 NLP</span>
-      <span class="industry-tag"><span class="id">11</span>教育科技</span>
-      <span class="industry-tag"><span class="id">12</span>搜索推荐</span>
     </div>
   </div>
 </section>
@@ -322,7 +338,7 @@
       <div class="cta-inner">
         <span class="eyebrow">Next Step</span>
         <h2>启动你的数据采集项目</h2>
-        <p>把你的训练需求告诉我们，从样本设计到合规交付，标贝团阀48 小时内给出可执行方案</p>
+        <p>把你的训练需求告诉我们，从样本设计到合规交付，标贝团队 48 小时内给出可执行方案</p>
         <div class="cta-actions">
           <a href="homepage.html#contact" class="btn btn-primary">
             预约方案沟通            <svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -334,6 +350,9 @@
 
 <div id="footer-placeholder"></div>
 <script src="_shared.js"></script>
+<script>
+(function(){var items=[].slice.call(document.querySelectorAll(".scene-acc .sa-item"));if(!items.length)return;function on(it){items.forEach(function(x){x.classList.toggle("is-active",x===it);});}items.forEach(function(it){it.addEventListener("mouseenter",function(){on(it);});it.addEventListener("click",function(){on(it);});});})();
+</script>
 </body>
 </html>
 
