@@ -40,32 +40,43 @@
 @media(max-width:1100px){ .overview-grid{ grid-template-columns:1fr 1fr; } }
 @media(max-width:720px){ .overview-grid{ grid-template-columns:1fr; } }
 
-/* ── 应用场景（Scenarios）─────────────────────────── */
-.scn-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
-.scn-card {
-  position: relative; padding: 24px 20px 22px;
-  border: 1px solid var(--line); border-radius: var(--r-lg);
-  background: linear-gradient(180deg, rgba(13,26,58,0.55), rgba(10,20,46,0.55));
-  overflow: hidden; transition: all 220ms ease;
+/* ── 应用场景 · 横向展开手风琴（参考原官网卡片：折叠窄条 / 展开宽卡）──── */
+.scene-acc { display:flex; gap:12px; height:430px; }
+.sa-item {
+  position:relative; flex:1 1 0; min-width:0; overflow:hidden;
+  border:1px solid var(--line); border-radius:18px; cursor:pointer;
+  transition: flex-grow .55s cubic-bezier(.4,0,.2,1), border-color .35s ease, box-shadow .35s ease;
 }
-.scn-card::before {
-  content:""; position:absolute; inset:0;
-  background: radial-gradient(circle at 80% -20%, rgba(76,201,240,0.18), transparent 55%);
-  opacity:0; transition: opacity 260ms ease; pointer-events: none;
+.sa-item.is-active { flex-grow:7; border-color:transparent; box-shadow:0 0 0 1px var(--accent) inset, 0 26px 60px rgba(0,0,0,0.45); }
+.sa-ph, .sa-bg, .sa-grad { position:absolute; inset:0; }
+.sa-ph  { background:var(--accent); opacity:0.20; }                 /* 占位主题色，配图缺失时显示 */
+.sa-bg  { background-image:var(--img); background-size:cover; background-position:center; transition:transform .7s ease; }
+.sa-item.is-active .sa-bg { transform:scale(1.05); }
+.sa-grad { background:linear-gradient(180deg, rgba(7,13,32,0.12) 0%, rgba(7,13,32,0.5) 52%, rgba(7,13,32,0.92) 100%); }
+.sa-content { position:absolute; inset:0; z-index:2; display:flex; flex-direction:column; justify-content:flex-end; padding:22px 20px; }
+.sa-icon {
+  width:42px; height:42px; border-radius:10px; margin-bottom:auto;
+  border:1px solid rgba(255,255,255,0.2); background:rgba(7,13,32,0.42);
+  -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px);
+  display:grid; place-items:center; color:#fff;
 }
-.scn-card:hover { transform: translateY(-4px); border-color: rgba(76,201,240,0.45); box-shadow: 0 18px 40px rgba(4,105,207,0.22); }
-.scn-card:hover::before { opacity:1; }
-.scn-icon {
-  width:44px; height:44px; border-radius:10px;
-  border:1px solid var(--line-strong); background: rgba(76,201,240,0.08);
-  color: var(--brand-hi); display:grid; place-items:center; margin-bottom:14px;
+.sa-icon svg { width:22px; height:22px; }
+.sa-title { font-family:var(--font-display); font-weight:600; color:#fff; font-size:1.12rem; margin:0; white-space:nowrap; }
+.sa-item:not(.is-active) .sa-title { writing-mode:vertical-rl; text-orientation:mixed; letter-spacing:0.08em; align-self:center; }
+.sa-detail { max-height:0; opacity:0; overflow:hidden; transition:opacity .45s ease, max-height .55s ease; }
+.sa-item.is-active .sa-detail { max-height:280px; opacity:1; margin-top:14px; }
+.sa-tag { display:inline-block; font-family:var(--font-mono); font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:#fff; padding:3px 9px; border:1px solid rgba(255,255,255,0.3); border-radius:99px; background:rgba(255,255,255,0.08); }
+.sa-cap { margin-top:14px; font-family:var(--font-mono); font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent); filter:brightness(1.25); }
+.sa-detail p { color:rgba(255,255,255,0.85); font-size:0.9rem; line-height:1.7; margin:8px 0 0; max-width:440px; }
+.sa-link { display:inline-flex; align-items:center; gap:6px; margin-top:16px; color:#fff; font-family:var(--font-display); font-weight:600; font-size:0.9rem; text-decoration:none; }
+.sa-link svg { width:16px; height:16px; transition:transform .2s ease; }
+.sa-link:hover svg { transform:translateX(4px); }
+@media(max-width:900px){
+  .scene-acc { flex-direction:column; height:auto; }
+  .sa-item { flex:none; height:120px; }
+  .sa-item.is-active { flex:none; height:300px; }
+  .sa-item:not(.is-active) .sa-title { writing-mode:horizontal-tb; align-self:flex-start; }
 }
-.scn-icon svg { width:22px; height:22px; }
-.scn-card h4 { font-family: var(--font-display); font-size:1.05rem; font-weight:600; margin:0 0 6px; color: var(--text-hi); }
-.scn-card p { color: var(--text-mute); font-size:0.84rem; line-height:1.65; margin:0; }
-.scn-card .scn-tag { margin-top:14px; display:inline-block; padding:2px 8px; border-radius:99px; font-family:var(--font-mono); font-size:9px; letter-spacing:0.1em; text-transform:uppercase; color: var(--text-mute); border:1px solid var(--line); }
-@media(max-width:1100px){ .scn-grid{ grid-template-columns:repeat(2,1fr); } }
-@media(max-width:560px){ .scn-grid{ grid-template-columns:1fr; } }
 
 /* ── 数据采集标注定制（Custom）─────────────────────── */
 .cust-grid { display:grid; grid-template-columns: repeat(4, 1fr); gap:20px; }
@@ -281,54 +292,110 @@
       <p>从语音交互到大模型训练，覆盖 8 大行业核心场景，支持算法预研到产品商用的全链路 AI 数据需求。</p>
     </div>
 
-    <div class="scn-grid" data-reveal>
-      <div class="scn-card">
-        <div class="scn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 1 3 3v8a3 3 0 0 1-6 0V4a3 3 0 0 1 3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8"/></svg></div>
-        <h4>智能语音交互</h4>
-        <p>ASR 识别、TTS 合成、声纹、唤醒词等多场景训练语料，覆盖中英及方言。</p>
-        <span class="scn-tag">ASR · TTS · VPR</span>
+    <div class="scene-acc" data-reveal>
+      <div class="sa-item is-active" style="--accent:#4cc9f0;--img:url('images/scenes/embodied.jpg');">
+        <span class="sa-ph"></span><span class="sa-bg"></span><span class="sa-grad"></span>
+        <div class="sa-content">
+          <div class="sa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="8" width="14" height="10" rx="2"/><path d="M12 8V4M9 4h6"/><circle cx="9.5" cy="13" r="1"/><circle cx="14.5" cy="13" r="1"/><path d="M3 13v2M21 13v2"/></svg></div>
+          <h4 class="sa-title">具身智能</h4>
+          <div class="sa-detail">
+            <span class="sa-tag">ROBOT · VLA · MULTIMODAL</span>
+            <div class="sa-cap">核心能力</div>
+            <p>面向机器人与具身智能体的多模态数据，覆盖视觉、语音、动作轨迹与操作示教，支撑感知—决策—控制闭环训练。</p>
+            <a class="sa-link" href="javascript:void(0)" onclick="openMessageModal()">获取方案<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          </div>
+        </div>
       </div>
-      <div class="scn-card">
-        <div class="scn-icon" style="background:rgba(177,77,255,0.08);border-color:rgba(177,77,255,0.22);color:var(--violet-hi)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/></svg></div>
-        <h4>智能客服</h4>
-        <p>外呼质检、坐席辅助、意图理解，提供高质量对话与语音语料。</p>
-        <span class="scn-tag">DIALOG · QA</span>
+      <div class="sa-item" style="--accent:#b14dff;--img:url('images/scenes/service.jpg');">
+        <span class="sa-ph"></span><span class="sa-bg"></span><span class="sa-grad"></span>
+        <div class="sa-content">
+          <div class="sa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/></svg></div>
+          <h4 class="sa-title">智能客服</h4>
+          <div class="sa-detail">
+            <span class="sa-tag">DIALOG · QA</span>
+            <div class="sa-cap">核心能力</div>
+            <p>外呼质检、坐席辅助、意图理解，提供高质量对话与语音语料。</p>
+            <a class="sa-link" href="javascript:void(0)" onclick="openMessageModal()">获取方案<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          </div>
+        </div>
       </div>
-      <div class="scn-card">
-        <div class="scn-icon" style="background:rgba(68,224,138,0.08);border-color:rgba(68,224,138,0.22);color:#44e08a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-3l-2-6H5l-2 6v3z"/><circle cx="7.5" cy="17" r="1.5"/><circle cx="16.5" cy="17" r="1.5"/></svg></div>
-        <h4>车载 / 智能驾驶</h4>
-        <p>3D 点云、4D BEV、车道线、舱内行为多模态数据，加速自动驾驶研发。</p>
-        <span class="scn-tag">3D · LIDAR · BEV</span>
+      <div class="sa-item" style="--accent:#44e08a;--img:url('images/scenes/auto.jpg');">
+        <span class="sa-ph"></span><span class="sa-bg"></span><span class="sa-grad"></span>
+        <div class="sa-content">
+          <div class="sa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-3l-2-6H5l-2 6v3z"/><circle cx="7.5" cy="17" r="1.5"/><circle cx="16.5" cy="17" r="1.5"/></svg></div>
+          <h4 class="sa-title">车载 / 智能驾驶</h4>
+          <div class="sa-detail">
+            <span class="sa-tag">3D · LIDAR · BEV</span>
+            <div class="sa-cap">核心能力</div>
+            <p>3D 点云、4D BEV、车道线、舱内行为多模态数据，加速自动驾驶研发。</p>
+            <a class="sa-link" href="javascript:void(0)" onclick="openMessageModal()">获取方案<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          </div>
+        </div>
       </div>
-      <div class="scn-card">
-        <div class="scn-icon" style="background:rgba(255,200,80,0.08);border-color:rgba(255,200,80,0.22);color:#ffc850"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l9-9 9 9M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></div>
-        <h4>智能家居 / IoT</h4>
-        <p>远场唤醒、近场指令、声源定位等小型设备 AI 训练数据。</p>
-        <span class="scn-tag">FAR-FIELD · IOT</span>
+      <div class="sa-item" style="--accent:#ffc850;--img:url('images/scenes/home.jpg');">
+        <span class="sa-ph"></span><span class="sa-bg"></span><span class="sa-grad"></span>
+        <div class="sa-content">
+          <div class="sa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l9-9 9 9M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></div>
+          <h4 class="sa-title">智能家居 / IoT</h4>
+          <div class="sa-detail">
+            <span class="sa-tag">FAR-FIELD · IOT</span>
+            <div class="sa-cap">核心能力</div>
+            <p>远场唤醒、近场指令、声源定位等小型设备 AI 训练数据。</p>
+            <a class="sa-link" href="javascript:void(0)" onclick="openMessageModal()">获取方案<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          </div>
+        </div>
       </div>
-      <div class="scn-card">
-        <div class="scn-icon" style="background:rgba(255,77,203,0.08);border-color:rgba(255,77,203,0.22);color:var(--magenta)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6M12 22v-6M2 12h6M22 12h-6"/><circle cx="12" cy="12" r="3"/></svg></div>
-        <h4>金融科技</h4>
-        <p>金融术语语音、证件文档 OCR、风控文本，满足金融合规要求。</p>
-        <span class="scn-tag">OCR · COMPLIANCE</span>
+      <div class="sa-item" style="--accent:#ff4dcb;--img:url('images/scenes/finance.jpg');">
+        <span class="sa-ph"></span><span class="sa-bg"></span><span class="sa-grad"></span>
+        <div class="sa-content">
+          <div class="sa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6M12 22v-6M2 12h6M22 12h-6"/><circle cx="12" cy="12" r="3"/></svg></div>
+          <h4 class="sa-title">金融科技</h4>
+          <div class="sa-detail">
+            <span class="sa-tag">OCR · COMPLIANCE</span>
+            <div class="sa-cap">核心能力</div>
+            <p>金融术语语音、证件文档 OCR、风控文本，满足金融合规要求。</p>
+            <a class="sa-link" href="javascript:void(0)" onclick="openMessageModal()">获取方案<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          </div>
+        </div>
       </div>
-      <div class="scn-card">
-        <div class="scn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.5-1.5 3-3.5 3-6a4 4 0 0 0-8 0 4 4 0 0 0-8 0c0 2.5 1.5 4.5 3 6M12 8v13M9 21h6"/></svg></div>
-        <h4>医疗健康</h4>
-        <p>医学影像、电子病历、医疗对话语料，加速医疗 AI 算法落地。</p>
-        <span class="scn-tag">MEDICAL · EHR</span>
+      <div class="sa-item" style="--accent:#4cc9f0;--img:url('images/scenes/medical.jpg');">
+        <span class="sa-ph"></span><span class="sa-bg"></span><span class="sa-grad"></span>
+        <div class="sa-content">
+          <div class="sa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.5-1.5 3-3.5 3-6a4 4 0 0 0-8 0 4 4 0 0 0-8 0c0 2.5 1.5 4.5 3 6M12 8v13M9 21h6"/></svg></div>
+          <h4 class="sa-title">医疗健康</h4>
+          <div class="sa-detail">
+            <span class="sa-tag">MEDICAL · EHR</span>
+            <div class="sa-cap">核心能力</div>
+            <p>医学影像、电子病历、医疗对话语料，加速医疗 AI 算法落地。</p>
+            <a class="sa-link" href="javascript:void(0)" onclick="openMessageModal()">获取方案<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          </div>
+        </div>
       </div>
-      <div class="scn-card">
-        <div class="scn-icon" style="background:rgba(177,77,255,0.08);border-color:rgba(177,77,255,0.22);color:var(--violet-hi)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></svg></div>
-        <h4>教育科研</h4>
-        <p>儿童语料、学科文本、双语翻译数据，支撑教育领域智能化产品。</p>
-        <span class="scn-tag">K12 · NLP</span>
+      <div class="sa-item" style="--accent:#b14dff;--img:url('images/scenes/edu.jpg');">
+        <span class="sa-ph"></span><span class="sa-bg"></span><span class="sa-grad"></span>
+        <div class="sa-content">
+          <div class="sa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></svg></div>
+          <h4 class="sa-title">教育科研</h4>
+          <div class="sa-detail">
+            <span class="sa-tag">K12 · NLP</span>
+            <div class="sa-cap">核心能力</div>
+            <p>儿童语料、学科文本、双语翻译数据，支撑教育领域智能化产品。</p>
+            <a class="sa-link" href="javascript:void(0)" onclick="openMessageModal()">获取方案<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          </div>
+        </div>
       </div>
-      <div class="scn-card">
-        <div class="scn-icon" style="background:rgba(68,224,138,0.08);border-color:rgba(68,224,138,0.22);color:#44e08a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
-        <h4>大模型训练</h4>
-        <p>预训练语料、SFT 指令对、RLHF 偏好数据，覆盖 LLM 全链路。</p>
-        <span class="scn-tag">PRETRAIN · SFT · RLHF</span>
+      <div class="sa-item" style="--accent:#44e08a;--img:url('images/scenes/llm.jpg');">
+        <span class="sa-ph"></span><span class="sa-bg"></span><span class="sa-grad"></span>
+        <div class="sa-content">
+          <div class="sa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+          <h4 class="sa-title">大模型训练</h4>
+          <div class="sa-detail">
+            <span class="sa-tag">PRETRAIN · SFT · RLHF</span>
+            <div class="sa-cap">核心能力</div>
+            <p>预训练语料、SFT 指令对、RLHF 偏好数据，覆盖 LLM 全链路。</p>
+            <a class="sa-link" href="javascript:void(0)" onclick="openMessageModal()">获取方案<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -464,9 +531,7 @@
         <h2>获取数据集样本</h2>
         <p>免费申请任意品类的样本数据包，评估标注质量与覆盖范围后再决定授权方案。</p>
         <div class="cta-actions">
-          <a href="homepage.html#contact" class="btn btn-primary">申请试用<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-          <a href="solutions_overview.html" class="btn btn-ghost">查看解决方案</a>
-        </div>
+          <a href="homepage.html#contact" class="btn btn-primary">申请试用<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>        </div>
       </div>
     </div>
   </div>
@@ -474,5 +539,17 @@
 
 <div id="footer-placeholder"></div>
 <script src="_shared.js"></script>
+<script>
+/* 数据集应用场景 · 手风琴展开（悬停展开，点击锁定，适配触屏） */
+(function(){
+  const items = [...document.querySelectorAll('.scene-acc .sa-item')];
+  if (!items.length) return;
+  const activate = it => { items.forEach(x => x.classList.toggle('is-active', x === it)); };
+  items.forEach(it => {
+    it.addEventListener('mouseenter', () => activate(it));
+    it.addEventListener('click', () => activate(it));
+  });
+})();
+</script>
 </body>
 </html>

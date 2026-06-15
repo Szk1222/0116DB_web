@@ -612,7 +612,9 @@
     const cd = document.getElementById('cursorDot');
     const cg = document.getElementById('cursorGlow');
     let tx=0, ty=0, dx=0, dy=0;
+    const root = document.documentElement;
     addEventListener('mousemove', e => {
+      if (root.classList.contains('cursor-out')) root.classList.remove('cursor-out');
       tx = e.clientX; ty = e.clientY;
       cd.style.left = tx + 'px'; cd.style.top = ty + 'px';
       cg.style.left = tx + 'px'; cg.style.top = ty + 'px';
@@ -620,6 +622,15 @@
     (function loop(){ dx += (tx - dx) * 0.18; dy += (ty - dy) * 0.18; c.style.left = dx + 'px'; c.style.top = dy + 'px'; requestAnimationFrame(loop); })();
     document.addEventListener('mouseover', e => { if (e.target.closest('a,button')) c.classList.add('is-link'); });
     document.addEventListener('mouseout',  e => { if (e.target.closest('a,button')) c.classList.remove('is-link'); });
+
+    /* 指针移出窗口/切走时隐藏光标，回到窗口再显示 —— 修复停滞在边缘的问题 */
+    const hideCursor = () => root.classList.add('cursor-out');
+    const showCursor = () => root.classList.remove('cursor-out');
+    root.addEventListener('mouseleave', hideCursor);   // 指针离开视口
+    root.addEventListener('mouseenter', showCursor);   // 指针返回视口
+    document.addEventListener('mouseout', e => { if (!e.relatedTarget) hideCursor(); }); // 兜底：移出到页面外
+    window.addEventListener('blur', hideCursor);        // 切换到其它窗口/应用
+    window.addEventListener('focus', showCursor);
   }
 
   function scrollProgress() {

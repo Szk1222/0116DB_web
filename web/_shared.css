@@ -99,6 +99,11 @@ body::after {
 }
 .cursor-glow { position: fixed; top: 0; left: 0; width: 360px; height: 360px; border-radius: 50%; pointer-events: none; z-index: 0; background: radial-gradient(circle, rgba(76,201,240,0.18), transparent 60%); transform: translate(-50%,-50%); filter: blur(20px); mix-blend-mode: screen; transition: opacity 300ms ease; }
 .cursor.is-link { width: 44px; height: 44px; }
+/* 指针移出窗口时隐藏自定义光标，避免停滞在边缘 */
+.cursor-dot { transition: opacity 200ms ease; }
+html.cursor-out .cursor,
+html.cursor-out .cursor-dot,
+html.cursor-out .cursor-glow { opacity: 0; }
 @media (hover: none) { .cursor, .cursor-dot, .cursor-glow { display: none; } body { cursor: auto; } }
 @media (hover: hover) { body, a, button { cursor: none; } }
 
