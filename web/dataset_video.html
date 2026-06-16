@@ -11,15 +11,15 @@
 /* Video viz: timeline */
 .vid-viz { padding: 22px; border: 1px solid var(--line); border-radius: var(--r-lg); background: linear-gradient(180deg, rgba(10,20,46,0.85), rgba(7,13,32,0.85)); box-shadow: var(--shadow-card); position: relative; }
 .vid-viz::before { content: ""; position: absolute; top: -1px; left: 32px; right: 32px; height: 2px; background: var(--grad-line); }
-.vid-frame { aspect-ratio: 16/9; border-radius: var(--r); background: linear-gradient(135deg, rgba(177,77,255,0.18), rgba(24,166,184,0.14)); position: relative; overflow: hidden; margin-bottom: 16px; }
+.vid-frame { aspect-ratio: 16/9; border-radius: var(--r); background: linear-gradient(135deg, rgba(76,201,240,0.18), rgba(24,166,184,0.14)); position: relative; overflow: hidden; margin-bottom: 16px; }
 .vid-frame::before { content: ""; position: absolute; inset: 0; background-image: repeating-linear-gradient(0deg, rgba(76,201,240,0.08) 0 2px, transparent 2px 4px); }
 .vid-frame::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--cyan-hi), transparent); box-shadow: 0 0 12px var(--cyan-hi); animation: vidScan 3.4s linear infinite; }
 @keyframes vidScan { 0%{top:0} 100%{top:100%} }
 .vid-bbox { position: absolute; border: 1.5px dashed var(--brand-hi); border-radius: 3px; box-shadow: 0 0 10px rgba(76,201,240,0.35); }
 .vid-bbox b { position: absolute; top: -16px; left: -1px; padding: 1px 6px; background: var(--brand-hi); color: #060d22; font-family: var(--font-mono); font-size: 9px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; border-radius: 1px; }
 .vid-bbox.b1 { left: 14%; top: 28%; width: 28%; height: 42%; animation: vidMove 6s ease-in-out infinite; }
-.vid-bbox.b2 { left: 56%; top: 38%; width: 24%; height: 34%; border-color: var(--violet-hi); animation: vidMove 7s ease-in-out infinite reverse; }
-.vid-bbox.b2 b { background: var(--violet-hi); color: #fff; }
+.vid-bbox.b2 { left: 56%; top: 38%; width: 24%; height: 34%; border-color: var(--brand-hi); animation: vidMove 7s ease-in-out infinite reverse; }
+.vid-bbox.b2 b { background: var(--brand-hi); color: #fff; }
 @keyframes vidMove { 50% { transform: translate(8%, 4%); } }
 .vid-play { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); width: 52px; height: 52px; border-radius: 50%; background: rgba(7,13,32,0.7); border: 1.5px solid rgba(76,201,240,0.5); display: grid; place-items: center; backdrop-filter: blur(8px); z-index: 4; }
 .vid-play svg { color: var(--brand-hi); margin-left: 4px; }
@@ -47,12 +47,12 @@
 .cat-card .thumb { aspect-ratio: 16/9; position: relative; overflow: hidden; }
 .cat-card .thumb::before { content: ""; position: absolute; inset: 0; background-image: repeating-linear-gradient(0deg, rgba(76,201,240,0.08) 0 2px, transparent 2px 4px); }
 .cat-card .thumb::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(5,8,19,0.85) 100%); }
-.cat-card .thumb.v1 { background: linear-gradient(135deg, rgba(76,201,240,0.18), rgba(177,77,255,0.14)); }
+.cat-card .thumb.v1 { background: linear-gradient(135deg, rgba(76,201,240,0.18), rgba(76,201,240,0.14)); }
 .cat-card .thumb.v2 { background: linear-gradient(135deg, rgba(68,224,138,0.18), rgba(24,166,184,0.14)); }
-.cat-card .thumb.v3 { background: linear-gradient(135deg, rgba(177,77,255,0.18), rgba(255,77,203,0.14)); }
+.cat-card .thumb.v3 { background: linear-gradient(135deg, rgba(76,201,240,0.18), rgba(255,77,203,0.14)); }
 .cat-card .thumb.v4 { background: linear-gradient(135deg, rgba(255,200,80,0.18), rgba(255,140,80,0.14)); }
 .cat-card .thumb.v5 { background: linear-gradient(135deg, rgba(24,166,184,0.18), rgba(76,201,240,0.14)); }
-.cat-card .thumb.v6 { background: linear-gradient(135deg, rgba(255,77,203,0.18), rgba(177,77,255,0.14)); }
+.cat-card .thumb.v6 { background: linear-gradient(135deg, rgba(255,77,203,0.18), rgba(76,201,240,0.14)); }
 .cat-card .lab { position: absolute; left: 14px; top: 14px; padding: 4px 9px; background: rgba(7,13,32,0.88); color: var(--brand-hi); font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; border-radius: 3px; border: 1px solid var(--line-strong); z-index: 3; }
 .cat-card .duration { position: absolute; right: 14px; bottom: 12px; padding: 3px 8px; background: rgba(7,13,32,0.85); color: var(--text-hi); font-family: var(--font-mono); font-size: 10px; border-radius: 3px; z-index: 3; }
 .cat-card .demo-box { position: absolute; z-index: 2; border: 1.4px dashed var(--brand-hi); box-shadow: 0 0 10px rgba(76,201,240,0.35); border-radius: 3px; }

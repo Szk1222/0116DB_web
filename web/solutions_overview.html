@@ -15,7 +15,7 @@
 .sol-card { position: relative; border: 1px solid var(--line); border-radius: var(--r-lg); background: linear-gradient(180deg,rgba(13,26,58,0.55),rgba(10,20,46,0.55)); overflow: hidden; transition: all 240ms ease; }
 .sol-card:hover { border-color: rgba(76,201,240,0.4); transform: translateY(-5px); box-shadow: 0 20px 50px rgba(4,105,207,0.2); }
 /* 占位图片匀*/
-.sol-img { aspect-ratio: 16/9; position: relative; overflow: hidden; background: linear-gradient(135deg, rgba(76,201,240,0.08), rgba(177,77,255,0.08)); }
+.sol-img { aspect-ratio: 16/9; position: relative; overflow: hidden; background: linear-gradient(135deg, rgba(76,201,240,0.08), rgba(76,201,240,0.08)); }
 .sol-img::before { content:""; position:absolute; inset:0; background-image:repeating-linear-gradient(45deg,rgba(76,201,240,0.08) 0 3px,transparent 3px 6px); }
 .sol-img .placeholder-label { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; color:var(--text-dim); font-family:var(--font-mono); font-size:11px; letter-spacing:0.14em; text-transform:uppercase; }
 .sol-img .placeholder-label svg { width:32px; height:32px; opacity:0.4; }
@@ -30,7 +30,7 @@
 .sol-link svg { transition: transform 200ms ease; }
 .sol-card:hover .sol-link svg { transform: translateX(4px); }
 /* 智能语音单独蓝紫渐变 */
-.sol-voice-card { background: linear-gradient(135deg, rgba(4,105,207,0.12), rgba(112,87,200,0.12)); border-color: rgba(76,201,240,0.2); }
+.sol-voice-card { background: linear-gradient(135deg, rgba(4,105,207,0.12), rgba(4,105,207,0.12)); border-color: rgba(76,201,240,0.2); }
 .sol-voice-card:hover { border-color: rgba(76,201,240,0.5); }
 @media(max-width:1100px){ .sol-grid{ grid-template-columns:1fr 1fr; } }
 @media(max-width:720px){ .sol-grid{ grid-template-columns:1fr; } }
@@ -42,7 +42,7 @@
   border: 1px solid var(--line-strong);
   border-radius: var(--r-lg);
   background:
-    linear-gradient(135deg, rgba(4,105,207,0.16), rgba(112,87,200,0.14) 60%, rgba(24,166,184,0.14));
+    linear-gradient(135deg, rgba(4,105,207,0.16), rgba(4,105,207,0.14) 60%, rgba(24,166,184,0.14));
   display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px;
   margin-bottom: 28px; overflow: hidden;
 }
@@ -96,7 +96,7 @@
   display: grid; place-items: center;
 }
 .pa-icon svg { width: 24px; height: 24px; }
-.pa-card.v2 .pa-icon { border-color: rgba(177,77,255,0.25); background: rgba(177,77,255,0.08); color: var(--violet-hi); }
+.pa-card.v2 .pa-icon { border-color: rgba(76,201,240,0.25); background: rgba(76,201,240,0.08); color: var(--violet-hi); }
 .pa-card.v3 .pa-icon { border-color: rgba(68,224,138,0.25); background: rgba(68,224,138,0.08); color: #44e08a; }
 .pa-card.v4 .pa-icon { border-color: rgba(255,200,80,0.25); background: rgba(255,200,80,0.08); color: #ffc850; }
 .pa-card.v5 .pa-icon { border-color: rgba(255,77,203,0.25); background: rgba(255,77,203,0.08); color: var(--magenta); }
@@ -311,7 +311,7 @@
       <div class="sol-section-head">
         <div>
           <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px;">
-            <span class="sol-section-badge" style="color:var(--violet-hi);border-color:rgba(177,77,255,0.3);background:rgba(177,77,255,0.06);">VOICE AI</span>
+            <span class="sol-section-badge" style="color:var(--violet-hi);border-color:rgba(76,201,240,0.3);background:rgba(76,201,240,0.06);">VOICE AI</span>
           </div>
           <h2>智能语音</h2>
           <p>面向开发者与企业的语音识别、合成及拓展 API，提供公有云与私有化两种部署模式</p>
@@ -333,11 +333,11 @@
         </a>
 
         <a class="sol-card sol-voice-card" href="voice_ai.html#tts">
-          <div class="sol-img" style="background:linear-gradient(135deg,rgba(112,87,200,0.12),rgba(177,77,255,0.06))">
+          <div class="sol-img" style="background:linear-gradient(135deg,rgba(4,105,207,0.12),rgba(76,201,240,0.06))">
             <div class="placeholder-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 18V5l12-2v13" stroke-linecap="round"/></svg><span>图片待补</span></div>
           </div>
           <div class="sol-body">
-            <div class="sol-tag-row"><span class="sol-tag" style="color:var(--violet-hi);border-color:rgba(177,77,255,0.3);background:rgba(177,77,255,0.06)">TTS</span><span class="sol-tag">语音合成</span><span class="sol-tag">API</span></div>
+            <div class="sol-tag-row"><span class="sol-tag" style="color:var(--violet-hi);border-color:rgba(76,201,240,0.3);background:rgba(76,201,240,0.06)">TTS</span><span class="sol-tag">语音合成</span><span class="sol-tag">API</span></div>
             <h3>TTS 语音合成</h3>
             <p>在线合成、离线合成与大模型声音复刻，毫秒级响应，支持 SSML 标记语言与情感风格控制</p>
             <div class="sol-foot"><span style="color:var(--text-dim);font-family:var(--font-mono);font-size:10px;">素材待补</span><span class="sol-link">了解详情 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></div>

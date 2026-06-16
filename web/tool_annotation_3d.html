@@ -17,6 +17,65 @@
 .info-card h4{font-family:var(--font-display);font-size:1rem;font-weight:600;margin:0 0 8px;}
 .info-card p{color:var(--text-mute);font-size:0.88rem;margin:0;line-height:1.7;}
 @media(max-width:720px){.info-grid{grid-template-columns:1fr;}}
+/* Hero */
+.page-hero{ position:relative; overflow:hidden; min-height:420px; background:#0a1530 url('images/annotation/3d/3D-hero.png') right center/cover no-repeat; }
+.page-hero::before{ content:""; position:absolute; inset:0; z-index:0; background:linear-gradient(90deg, rgba(5,8,19,0.94) 0%, rgba(5,8,19,0.72) 40%, rgba(5,8,19,0.3) 70%, rgba(5,8,19,0.08) 100%); pointer-events:none; }
+.page-hero > .container{ position:relative; z-index:1; }
+.htag{padding:5px 12px;border-radius:99px;border:1px solid rgba(68,224,138,0.2);background:rgba(68,224,138,0.08);color:#44e08a;font-family:var(--font-mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;}
+.placeholder-block{aspect-ratio:16/7;border:1px solid var(--line);border-radius:var(--r-lg);background:linear-gradient(135deg,rgba(68,224,138,0.08),rgba(68,224,138,0.08));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:var(--text-dim);font-family:var(--font-mono);font-size:12px;letter-spacing:0.14em;text-transform:uppercase;position:relative;overflow:hidden;}
+.placeholder-block::before{content:"";position:absolute;inset:0;background-image:repeating-linear-gradient(45deg,rgba(68,224,138,0.08) 0 4px,transparent 4px 8px);}
+.placeholder-block svg{width:40px;height:40px;opacity:0.35;position:relative;z-index:1;}
+.placeholder-block span{position:relative;z-index:1;}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:40px 0;}
+.info-card{padding:24px;border:1px solid var(--line);border-radius:var(--r-lg);background:linear-gradient(180deg,rgba(13,26,58,0.55),rgba(10,20,46,0.55));}
+.info-card h4{font-family:var(--font-display);font-size:1rem;font-weight:600;margin:0 0 8px;}
+.info-card p{color:var(--text-mute);font-size:0.88rem;margin:0;line-height:1.7;}
+@media(max-width:720px){.info-grid{grid-template-columns:1fr;}}
+
+/* 任务全周期管理 · 自动轮播 */
+.ec-task { display:grid; grid-template-columns:1.45fr 1fr; gap:36px; align-items:center; }
+.ec-task-frame { position:relative; border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; aspect-ratio:1380/800; background:linear-gradient(150deg,rgba(13,26,58,0.85),rgba(7,13,32,0.92)); box-shadow:0 24px 60px rgba(0,0,0,0.4); }
+.ec-task-slide { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity 700ms ease; }
+.ec-task-slide.is-active { opacity:1; }
+.ec-task-text { display:none; }
+.ec-task-text.is-active { display:block; animation:ecFade 500ms ease; }
+@keyframes ecFade { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:none;} }
+.ec-task-text .num { font-family:var(--font-tech); font-size:2.4rem; font-weight:700; color:var(--brand-hi); line-height:1; }
+.ec-task-text h4 { font-family:var(--font-display); font-size:1.5rem; font-weight:600; color:var(--text-hi); margin:12px 0 14px; }
+.ec-task-text p { color:var(--text-mute); font-size:0.95rem; line-height:1.85; margin:0; max-width:430px; }
+.ec-task-dots { display:flex; gap:10px; margin-top:30px; }
+.ec-task-dots button { width:28px; height:5px; border-radius:99px; border:0; background:rgba(143,214,255,0.22); cursor:pointer; transition:all 250ms ease; padding:0; }
+.ec-task-dots button.active { width:44px; background:var(--brand-hi); box-shadow:0 0 10px rgba(76,201,240,0.5); }
+@media(max-width:760px){ .ec-task{ grid-template-columns:1fr; gap:24px; } }
+/* 服务模式说明 · 公有云 VS 私有化 对比表 */
+.ec-vs-wrap { overflow-x:auto; }
+.ec-vs { display:grid; grid-template-columns:150px 1fr 1fr; min-width:720px; border:1px solid var(--line-strong); border-radius:var(--r-lg); overflow:hidden; background:linear-gradient(180deg,rgba(13,26,58,0.6),rgba(10,20,46,0.6)); }
+.ec-vs > div { padding:16px 20px; border-bottom:1px solid var(--line); border-right:1px solid var(--line); color:var(--text); font-size:0.9rem; line-height:1.72; }
+.ec-vs > div:nth-child(3n) { border-right:0; }
+.ec-vs > div:nth-last-child(-n+3) { border-bottom:0; }
+.ec-vs .vs-corner { background:rgba(76,201,240,0.04); }
+.ec-vs .vs-h { text-align:center; font-family:var(--font-display); font-size:1.15rem; font-weight:700; color:var(--text-hi); background:linear-gradient(120deg,rgba(4,105,207,0.24),rgba(24,166,184,0.18)); }
+.ec-vs .vs-k { color:var(--brand-hi); font-family:var(--font-display); font-weight:600; background:rgba(76,201,240,0.05); }
+.ec-vs .vs-link { cursor:pointer; font-weight:600; }
+.ec-vs .vs-link.blue { color:var(--brand-hi); }
+.ec-vs .vs-link.yellow { color:#ffcc00; }
+/* 优势特点 · 标签进度轮播 */
+.adv-tabs { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-bottom:6px; }
+.adv-tab { position:relative; padding:12px 22px; border:1px solid var(--line); border-radius:99px; background:rgba(13,26,58,0.5); color:var(--text-mute); font-family:var(--font-display); font-weight:600; font-size:0.92rem; cursor:pointer; overflow:hidden; transition:all 220ms ease; }
+.adv-tab:hover { color:var(--text-hi); }
+.adv-tab.active { color:var(--brand-hi); border-color:rgba(76,201,240,0.5); background:rgba(76,201,240,0.1); }
+.adv-tab .bar { position:absolute; left:0; bottom:0; height:3px; width:0; background:var(--brand-hi); box-shadow:0 0 8px rgba(76,201,240,0.6); }
+.adv-tab.active .bar { animation:advBar 5s linear forwards; }
+@keyframes advBar { from{width:0;} to{width:100%;} }
+.adv-sub { display:none; text-align:center; margin:20px 0 26px; }
+.adv-sub.is-active { display:block; animation:ecFade 500ms ease; }
+.adv-sub b { display:block; font-family:var(--font-display); font-size:1.25rem; color:var(--text-hi); margin-bottom:8px; }
+.adv-sub span { color:var(--text-mute); font-size:0.96rem; }
+.adv-stage { position:relative; max-width:980px; margin:0 auto; border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; aspect-ratio:16/7; background:linear-gradient(150deg,rgba(13,26,58,0.85),rgba(7,13,32,0.92)); box-shadow:0 24px 60px rgba(0,0,0,0.4); }
+.adv-slide { position:absolute; inset:0; z-index:1; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity 600ms ease; }
+.adv-slide.is-active { opacity:1; }
+.adv-stage .ph { position:absolute; inset:0; z-index:0; display:grid; place-items:center; color:var(--brand-hi); opacity:0.35; }
+.adv-stage .ph svg { width:54px; height:54px; }
 </style>
 </head>
 <body>
@@ -32,10 +91,9 @@
     </nav>
     <span class="eyebrow">Annotation · 3D 标注</span>
     <h1 class="display" style="font-size:clamp(2.2rem,4.8vw,4rem);margin:16px 0 20px;">
-      <span style="display:block;">3D 点云标注</span>
-      <span style="display:block;" class="glow-text">3D Point Cloud Annotation</span>
+      <span style="display:block;" class="glow-text">3D 点云标注</span>
     </h1>
-    <p class="lead">支持激光雷达点云的 3D 框选、实例分割与多帧联动标注，适配自动驾驶与机器人感知数据标注场景</p>
+    <p class="lead">标贝科技通过自主研发的3D标注工具，将激光测量采集的3D信息，绘建成高精度的3D模型；我们为您提供多种便捷易用的辅助工具及AI工具，致力于搭建高效高质量数据服务平台。</p>
     <div class="htag-row"><span class="htag">LiDAR</span><span class="htag">3D BBox</span><span class="htag">自动驾驶</span><span class="htag">多帧联动</span><span class="htag">实例分割</span></div>
     <div class="page-actions">
       <a href="homepage.html#contact" class="btn btn-primary">申请试用<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
@@ -43,49 +101,105 @@
     </div>
   </div>
 </section>
-<section class="section" style="padding-top:60px;">
+<!-- 任务全周期管理 -->
+<section class="section" style="padding-top:0">
   <div class="container">
-    <!-- 占位图片区 -->
-    <div class="placeholder-block" data-reveal>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-      <span>产品配图 · 素材待补</span>
+    <div class="section-head" data-reveal>
+      <span class="eyebrow">Administration</span>
+      <h2 class="display">任务<span class="glow-text">全周期管理</span></h2>
     </div>
-
-    <!-- 简介-->
-    <div style="max-width:860px;margin:48px auto 0;" data-reveal>
-      <div class="section-head" style="text-align:left;justify-items:start;margin-bottom:32px;">
-        <span class="eyebrow">Overview</span>
-        <h2 class="display" style="font-size:clamp(1.6rem,2.8vw,2.2rem);">产品介绍</h2>
+    <div class="ec-task" data-reveal>
+      <div class="ec-task-frame">
+        <img class="ec-task-slide is-active" data-i="0" src="images/annotation/3d/tag3D-01.png" alt="项目模版" loading="lazy">
+        <img class="ec-task-slide" data-i="1" src="images/annotation/3d/tag3D-02.png" alt="项目统计" loading="lazy">
+        <img class="ec-task-slide" data-i="2" src="images/annotation/3d/tag3D-03.png" alt="质检验收" loading="lazy">
       </div>
-      <p style="color:var(--text-mute);font-size:1rem;line-height:1.88;margin:0 0 24px;">
-        支持激光雷达点云的 3D 框选、实例分割与多帧联动标注，适配自动驾驶与机器人感知数据标注场景。标贝科技凭借多年行业积累，为本产品提供完整的数据支撑与技术服务，帮助客户快速构建高质量 AI 能力。</p>
-      <p style="color:var(--text-mute);font-size:1rem;line-height:1.88;margin:0;">
-        <em style="color:var(--text-dim);font-family:var(--font-mono);font-size:12px;font-style:normal;letter-spacing:0.1em;">详细产品介绍内容待补充，后续将添加具体功能说明、技术规格与使用案例等素材。</em>
-      </p>
-    </div>
-
-    <!-- 占位信息块 -->
-    <div class="info-grid" data-reveal>
-      <div class="info-card">
-        <h4>核心能力</h4>
-        <p>待补充：产品核心功能列表、技术指标与性能参数等详细信息</p>
-      </div>
-      <div class="info-card">
-        <h4>应用场景</h4>
-        <p>待补充：典型使用场景、行业案例与客户证言等内容</p>
-      </div>
-      <div class="info-card">
-        <h4>技术规格</h4>
-        <p>待补充：接口文档、输入输出格式、并发能力与 SLA 说明</p>
-      </div>
-      <div class="info-card">
-        <h4>定价与授权</h4>
-        <p>待补充：产品定价方案、授权模式与免费试用额度说明</p>
+      <div class="ec-task-meta">
+        <div class="ec-task-text is-active" data-i="0"><div class="num">01</div><h4>项目模版</h4><p>灵活配置质检参数、音频参数、任务模式、AI 算法辅助等能力，覆盖各种复杂项目场景。</p></div>
+        <div class="ec-task-text" data-i="1"><div class="num">02</div><h4>项目统计</h4><p>支持实时进度查看、多维度人员及任务统计，满足各种项目管理需求。</p></div>
+        <div class="ec-task-text" data-i="2"><div class="num">03</div><h4>质检验收</h4><p>算法辅助质检 + 人工多轮质检验收模型，极大提高工作效率，保证数据的质量与安全。</p></div>
+        <div class="ec-task-dots"><button class="active" data-d="0" aria-label="项目模版"></button><button data-d="1" aria-label="项目统计"></button><button data-d="2" aria-label="质检验收"></button></div>
       </div>
     </div>
-
   </div>
 </section>
+
+<!-- 优势特点 -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow">Advantage</span>
+      <h2 class="display">优势<span class="glow-text">特点</span></h2>
+    </div>
+    <div class="adv-show" data-reveal>
+      <div class="adv-tabs">
+        <button class="adv-tab active" data-a="0">4D 标注<span class="bar"></span></button>
+        <button class="adv-tab" data-a="1">语义分割<span class="bar"></span></button>
+        <button class="adv-tab" data-a="2">点云标注<span class="bar"></span></button>
+        <button class="adv-tab" data-a="3">点云连续帧<span class="bar"></span></button>
+        <button class="adv-tab" data-a="4">2&amp;3D 融合标注<span class="bar"></span></button>
+      </div>
+      <div class="adv-subs">
+        <div class="adv-sub is-active" data-a="0"><b>4D 标注</b><span>时序点云连续标注，精准还原物体在时间维度上的运动轨迹。</span></div>
+        <div class="adv-sub" data-a="1"><b>语义分割</b><span>点云逐点语义分割，精细区分道路、车辆、行人等场景要素。</span></div>
+        <div class="adv-sub" data-a="2"><b>点云标注</b><span>高精度 3D BBox 与多形态点云标注，适配自动驾驶感知训练。</span></div>
+        <div class="adv-sub" data-a="3"><b>点云连续帧</b><span>行进预测、插值预测、智能贴合等多种智能辅助工具。</span></div>
+        <div class="adv-sub" data-a="4"><b>2&amp;3D 融合标注</b><span>图像与点云多传感器融合标注，2D / 3D 联动提升标注精度。</span></div>
+      </div>
+      <div class="adv-stage">
+        <img class="adv-slide is-active" data-a="0" src="images/annotation/3d/youshi-0.png" alt="4D 标注" loading="lazy" onerror="this.style.display='none'">
+        <img class="adv-slide" data-a="1" src="images/annotation/3d/youshi-1.png" alt="语义分割" loading="lazy" onerror="this.style.display='none'">
+        <img class="adv-slide" data-a="2" src="images/annotation/3d/youshi-2.png" alt="点云标注" loading="lazy" onerror="this.style.display='none'">
+        <img class="adv-slide" data-a="3" src="images/annotation/3d/youshi-3.png" alt="点云连续帧" loading="lazy" onerror="this.style.display='none'">
+        <img class="adv-slide" data-a="4" src="images/annotation/3d/youshi-4.png" alt="2&amp;3D 融合标注" loading="lazy" onerror="this.style.display='none'">
+        <span class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l9 5v10l-9 5-9-5V7l9-5z"/><path d="M12 2v20M3 7l9 5 9-5"/></svg></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 服务模式说明 -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow">Service</span>
+      <h2 class="display">公有云 <span class="glow-text">VS 私有化</span></h2>
+      <p>标贝科技深入数据领域多年，通过自有的算法专家团队、数亿级的数据沉淀积累、完善的售前/后服务体系，致力于更好地为客户提供价值，赋能企业数智化改革。</p>
+    </div>
+    <div class="ec-vs-wrap" data-reveal>
+      <div class="ec-vs">
+        <div class="vs-corner"></div>
+        <div class="vs-h">公有云</div>
+        <div class="vs-h">私有化部署</div>
+
+        <div class="vs-k">客户群体</div>
+        <div>中小数据标注团队，数据可以外部流转的公司</div>
+        <div>客服、金融、政府等对数据安全隐私要求高的公司机构</div>
+
+        <div class="vs-k">安全性</div>
+        <div>平台客户统一采用公有云服务器</div>
+        <div>在客户的服务器上部署，数据保密性更高、更安全</div>
+
+        <div class="vs-k">便捷性</div>
+        <div>统一登录标贝工具平台，无需额外部署，运维由标贝负责</div>
+        <div>采用私有化部署，数据安全可靠性更高，运维由客户自己管理</div>
+
+        <div class="vs-k">对接方式</div>
+        <div>标贝数据工具平台公有云调用</div>
+        <div>支持主流 CPU 服务器私有部署</div>
+
+        <div class="vs-k">计费模式</div>
+        <div>按照账户数量和存储空间计费，具体请对接 <span class="vs-link blue" onclick="openMessageModal()">商务咨询 &gt;</span></div>
+        <div>按照部署服务的项目授权计费，具体请对接 <span class="vs-link yellow" onclick="openMessageModal()">商务咨询 &gt;</span></div>
+
+        <div class="vs-k">售后服务</div>
+        <div>客户通过在线咨询工具、统一企业微信社群、电话 400 898 2016 进行沟通及售后服务</div>
+        <div>专属 SVIP 售后专家对接（15652306519），完善的运维服务支撑，不超过 10 分钟（工作日）的响应处理</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="cta-section">
   <div class="container">
     <div class="cta-card" data-reveal>
@@ -103,5 +217,45 @@
 </section>
 <div id="footer-placeholder"></div>
 <script src="_shared.js"></script>
+<script>
+(function(){var items=[].slice.call(document.querySelectorAll(".logo-rows .sa-item"));})();
+document.querySelectorAll(".ec-scene-tab").forEach(function(t){t.addEventListener("click",function(){var i=t.getAttribute("data-ec-tab");document.querySelectorAll(".ec-scene-tab").forEach(function(x){x.classList.toggle("active",x===t);});document.querySelectorAll(".ec-scene-panel").forEach(function(p){p.classList.toggle("active",p.getAttribute("data-ec-panel")===i);});});});
+(function(){
+  var slides=[].slice.call(document.querySelectorAll('.ec-task-slide'));
+  var texts=[].slice.call(document.querySelectorAll('.ec-task-text'));
+  var dots=[].slice.call(document.querySelectorAll('.ec-task-dots button'));
+  if(!slides.length) return;
+  var n=slides.length, cur=0, timer;
+  function go(i){ cur=(i+n)%n;
+    slides.forEach(function(s,k){ s.classList.toggle('is-active',k===cur); });
+    texts.forEach(function(s,k){ s.classList.toggle('is-active',k===cur); });
+    dots.forEach(function(d,k){ d.classList.toggle('active',k===cur); });
+  }
+  function start(){ timer=setInterval(function(){ go(cur+1); },4000); }
+  function stop(){ clearInterval(timer); }
+  dots.forEach(function(d,k){ d.addEventListener('click',function(){ go(k); stop(); start(); }); });
+  var wrap=document.querySelector('.ec-task');
+  if(wrap){ wrap.addEventListener('mouseenter',stop); wrap.addEventListener('mouseleave',start); }
+  start();
+})();
+(function(){
+  var tabs=[].slice.call(document.querySelectorAll('.adv-tab'));
+  var subs=[].slice.call(document.querySelectorAll('.adv-sub'));
+  var slides=[].slice.call(document.querySelectorAll('.adv-slide'));
+  if(!tabs.length) return;
+  var n=tabs.length, cur=0, timer;
+  function go(i){ cur=(i+n)%n;
+    tabs.forEach(function(t,k){ t.classList.toggle('active',k===cur); });
+    subs.forEach(function(s,k){ s.classList.toggle('is-active',k===cur); });
+    slides.forEach(function(s,k){ s.classList.toggle('is-active',k===cur); });
+  }
+  function start(){ timer=setInterval(function(){ go(cur+1); },5000); }
+  function stop(){ clearInterval(timer); }
+  tabs.forEach(function(t,k){ t.addEventListener('click',function(){ go(k); stop(); start(); }); });
+  var wrap=document.querySelector('.adv-show');
+  if(wrap){ wrap.addEventListener('mouseenter',stop); wrap.addEventListener('mouseleave',start); }
+  start();
+})();
+</script>
 </body>
 </html>

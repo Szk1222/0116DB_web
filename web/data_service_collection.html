@@ -121,13 +121,16 @@
 .sa-link:hover svg { transform:translateX(4px); }
 
 /* ===== 平台工具 ===== */
-.dc-tool { position:relative; overflow:hidden; border:1px solid var(--line-strong); border-radius:var(--r-lg); padding:44px 48px; display:flex; align-items:center; justify-content:space-between; gap:32px; background:linear-gradient(120deg, rgba(4,105,207,0.22), rgba(112,87,200,0.18) 55%, rgba(24,166,184,0.18)); }
+.dc-tool { position:relative; overflow:hidden; border:1px solid var(--line-strong); border-radius:var(--r-lg); padding:44px 48px; display:flex; align-items:center; justify-content:space-between; gap:32px; background:linear-gradient(120deg, rgba(4,105,207,0.22), rgba(4,105,207,0.18) 55%, rgba(24,166,184,0.18)); }
 .dc-tool::after { content:""; position:absolute; right:-8%; top:-40%; width:420px; height:420px; border-radius:50%; background:radial-gradient(circle, rgba(76,201,240,0.3), transparent 60%); filter:blur(40px); pointer-events:none; }
 .dc-tool-text { position:relative; z-index:1; max-width:660px; }
 .dc-tool-text h3 { font-family:var(--font-display); font-size:1.5rem; font-weight:600; color:var(--text-hi); margin:10px 0 12px; }
 .dc-tool-text p { color:var(--text); font-size:0.95rem; line-height:1.8; margin:0 0 20px; }
 .dc-tool-icon { position:relative; z-index:1; flex:0 0 auto; width:96px; height:96px; border-radius:20px; border:1px solid var(--line-strong); background:rgba(7,13,32,0.4); display:grid; place-items:center; color:var(--brand-hi); }
 .dc-tool-icon svg { width:48px; height:48px; }
+.dc-tool-media { position:relative; z-index:1; flex:0 0 auto; width:min(460px, 44%); }
+.dc-tool-media img { width:100%; height:auto; display:block; filter:drop-shadow(0 18px 42px rgba(0,0,0,0.45)); }
+@media (max-width:900px){ .dc-tool-media { width:100%; max-width:460px; } }
 
 /* ===== 服务优势 ===== */
 .dc-adv-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
@@ -279,7 +282,10 @@
         <p>标贝科技自主研发的一款集语音、图像、视频采集于一体的数据采集工具，任务灵活，可实现多种复杂类型项目的采集、验收全栈式服务及解决方案。</p>
         <a href="tool_collection.html" class="btn btn-ghost">了解更多 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
       </div>
-      <div class="dc-tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><circle cx="17.5" cy="17.5" r="3.5"/></svg></div>
+      <div class="dc-tool-media">
+        <img src="images/collection/tool-easycoll.png" alt="标贝易采 App 界面" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='grid';">
+        <div class="dc-tool-icon" style="display:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><circle cx="17.5" cy="17.5" r="3.5"/></svg></div>
+      </div>
     </div>
   </div>
 </section>

@@ -11,18 +11,18 @@
 /* Image canvas viz */
 .img-viz { padding: 20px; border: 1px solid var(--line); border-radius: var(--r-lg); background: linear-gradient(180deg, rgba(10,20,46,0.85), rgba(7,13,32,0.85)); box-shadow: var(--shadow-card); position: relative; }
 .img-viz::before { content: ""; position: absolute; top: -1px; left: 32px; right: 32px; height: 2px; background: var(--grad-line); }
-.img-grid-mini { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding: 6px; border-radius: var(--r); background: linear-gradient(135deg, rgba(24,166,184,0.06), rgba(112,87,200,0.06)); position: relative; overflow: hidden; }
+.img-grid-mini { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding: 6px; border-radius: var(--r); background: linear-gradient(135deg, rgba(24,166,184,0.06), rgba(4,105,207,0.06)); position: relative; overflow: hidden; }
 .img-grid-mini::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--cyan-hi), transparent); box-shadow: 0 0 10px var(--cyan-hi); animation: imgScan 3.4s ease-in-out infinite; }
 @keyframes imgScan { 0%{ top:0; } 50%{ top: calc(100% - 2px); } 100%{ top:0; } }
 .img-cell { aspect-ratio: 4/3; position: relative; border-radius: 4px; overflow: hidden; }
 .img-cell::before { content: ""; position: absolute; inset: 0; background-size: 6px 6px; opacity: 0.6; }
-.img-cell.t1::before { background: linear-gradient(135deg, rgba(76,201,240,0.4), rgba(177,77,255,0.25)); background-image: repeating-linear-gradient(45deg, rgba(76,201,240,0.18) 0 3px, transparent 3px 6px), linear-gradient(135deg, rgba(76,201,240,0.4), rgba(177,77,255,0.25)); }
-.img-cell.t2::before { background: linear-gradient(135deg, rgba(177,77,255,0.4), rgba(24,166,184,0.25)); background-image: repeating-linear-gradient(45deg, rgba(177,77,255,0.18) 0 3px, transparent 3px 6px), linear-gradient(135deg, rgba(177,77,255,0.4), rgba(24,166,184,0.25)); }
+.img-cell.t1::before { background: linear-gradient(135deg, rgba(76,201,240,0.4), rgba(76,201,240,0.25)); background-image: repeating-linear-gradient(45deg, rgba(76,201,240,0.18) 0 3px, transparent 3px 6px), linear-gradient(135deg, rgba(76,201,240,0.4), rgba(76,201,240,0.25)); }
+.img-cell.t2::before { background: linear-gradient(135deg, rgba(76,201,240,0.4), rgba(24,166,184,0.25)); background-image: repeating-linear-gradient(45deg, rgba(76,201,240,0.18) 0 3px, transparent 3px 6px), linear-gradient(135deg, rgba(76,201,240,0.4), rgba(24,166,184,0.25)); }
 .img-cell.t3::before { background: linear-gradient(135deg, rgba(68,224,138,0.4), rgba(76,201,240,0.25)); background-image: repeating-linear-gradient(45deg, rgba(68,224,138,0.18) 0 3px, transparent 3px 6px), linear-gradient(135deg, rgba(68,224,138,0.4), rgba(76,201,240,0.25)); }
-.img-cell.t4::before { background: linear-gradient(135deg, rgba(255,150,200,0.4), rgba(177,77,255,0.25)); background-image: repeating-linear-gradient(45deg, rgba(255,77,203,0.18) 0 3px, transparent 3px 6px), linear-gradient(135deg, rgba(255,77,203,0.4), rgba(177,77,255,0.25)); }
+.img-cell.t4::before { background: linear-gradient(135deg, rgba(255,150,200,0.4), rgba(76,201,240,0.25)); background-image: repeating-linear-gradient(45deg, rgba(255,77,203,0.18) 0 3px, transparent 3px 6px), linear-gradient(135deg, rgba(255,77,203,0.4), rgba(76,201,240,0.25)); }
 .img-cell .lab { position: absolute; left: 4px; top: 4px; padding: 2px 6px; background: rgba(7,13,32,0.88); color: var(--brand-hi); font-family: var(--font-mono); font-size: 8px; letter-spacing: 0.06em; text-transform: uppercase; border-radius: 2px; border: 1px solid var(--line); z-index: 2; }
 .img-cell .box { position: absolute; inset: 12% 14% 14% 16%; border: 1.2px dashed var(--brand-hi); border-radius: 2px; box-shadow: 0 0 8px rgba(76,201,240,0.4); }
-.img-cell.t2 .box { border-color: var(--violet-hi); box-shadow: 0 0 8px rgba(177,77,255,0.4); }
+.img-cell.t2 .box { border-color: var(--brand-hi); box-shadow: 0 0 8px rgba(76,201,240,0.4); }
 .img-cell.t3 .box { border-color: #44e08a; box-shadow: 0 0 8px rgba(68,224,138,0.4); }
 .img-cell.t4 .box { border-color: var(--magenta); box-shadow: 0 0 8px rgba(255,77,203,0.4); }
 
@@ -43,11 +43,11 @@
 .cat-card .thumb.has-img .demo-box { display: none; }
 .cat-card .thumb::before { content: ""; position: absolute; inset: 0; background-image: repeating-linear-gradient(45deg, rgba(76,201,240,0.18) 0 4px, transparent 4px 8px); }
 .cat-card .thumb::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(5,8,19,0.0) 0%, rgba(5,8,19,0.7) 100%); }
-.cat-card .thumb.v2::before { background-image: repeating-linear-gradient(45deg, rgba(177,77,255,0.18) 0 4px, transparent 4px 8px); }
+.cat-card .thumb.v2::before { background-image: repeating-linear-gradient(45deg, rgba(76,201,240,0.18) 0 4px, transparent 4px 8px); }
 .cat-card .thumb.v3::before { background-image: repeating-linear-gradient(45deg, rgba(68,224,138,0.18) 0 4px, transparent 4px 8px); }
 .cat-card .thumb.v4::before { background-image: repeating-linear-gradient(45deg, rgba(255,77,203,0.18) 0 4px, transparent 4px 8px); }
 .cat-card .thumb.v5::before { background-image: repeating-linear-gradient(45deg, rgba(255,200,80,0.18) 0 4px, transparent 4px 8px); }
-.cat-card .thumb.v6::before { background-image: repeating-linear-gradient(45deg, rgba(76,201,240,0.18) 0 4px, transparent 4px 8px), linear-gradient(135deg, rgba(177,77,255,0.2), transparent); }
+.cat-card .thumb.v6::before { background-image: repeating-linear-gradient(45deg, rgba(76,201,240,0.18) 0 4px, transparent 4px 8px), linear-gradient(135deg, rgba(76,201,240,0.2), transparent); }
 .cat-card .lab { position: absolute; left: 14px; top: 14px; padding: 4px 9px; background: rgba(7,13,32,0.88); color: var(--brand-hi); font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; border-radius: 3px; border: 1px solid var(--line-strong); z-index: 2; }
 .cat-card .demo-box { position: absolute; z-index: 2; border: 1.4px dashed var(--brand-hi); box-shadow: 0 0 10px rgba(76,201,240,0.35); border-radius: 3px; }
 .cat-card .demo-box b { position: absolute; top: -16px; left: -1px; padding: 1px 6px; background: var(--brand-hi); color: #060d22; font-family: var(--font-mono); font-size: 8px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; border-radius: 1px; white-space: nowrap; }

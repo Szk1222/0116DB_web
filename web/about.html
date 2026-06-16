@@ -11,25 +11,25 @@
    ========================================================= */
 .slogan-hero {
   position: relative;
-  padding: 180px 0 130px;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 140px 0 100px;
   overflow: hidden;
   isolation: isolate;
 }
-/* 接口：替换背景图 —— 改 src 或拖拽即可 */
+/* 全屏背景图（DB-bg.png）*/
 .slogan-bg {
   position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover;
   z-index: -2;
-  border-radius: 0;
-  --slot-radius: 0;
+  filter: saturate(1.05) brightness(0.62);
 }
-.slogan-bg::part(frame),
-.slogan-bg::part(ring) { border-radius: 0 !important; }
-.slogan-bg::part(image) { filter: saturate(1.05) brightness(0.62); }
 .slogan-hero::before {
   content: ""; position: absolute; inset: 0; z-index: -1;
   background:
     radial-gradient(900px 600px at 25% 40%, rgba(4,105,207,0.55), transparent 60%),
-    radial-gradient(800px 600px at 80% 30%, rgba(177,77,255,0.35), transparent 60%),
+    radial-gradient(800px 600px at 80% 30%, rgba(18, 6, 234, 0.364), transparent 60%),
     linear-gradient(180deg, rgba(5,8,19,0.55) 0%, rgba(5,8,19,0.85) 60%, rgba(5,8,19,1) 100%);
 }
 .slogan-hero::after {
@@ -40,7 +40,7 @@
   background-size: 56px 56px;
   mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, #000 30%, transparent 90%);
 }
-.slogan-inner { max-width: 1180px; margin: 0 auto; padding: 0 32px; }
+.slogan-inner { width: 100%; max-width: 1180px; margin: 0 auto; padding: 0 32px; }
 .slogan-tag {
   display: inline-flex; align-items: center; gap: 12px;
   font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
@@ -111,7 +111,7 @@
   border-radius: 50%; border: 1px dashed rgba(76,201,240,0.25);
 }
 .viz-rings::before { width: 300px; height: 300px; animation: spin 30s linear infinite; }
-.viz-rings::after { width: 460px; height: 460px; animation: spin 60s linear infinite reverse; border-color: rgba(177,77,255,0.18); }
+.viz-rings::after { width: 460px; height: 460px; animation: spin 60s linear infinite reverse; border-color: rgba(76,201,240,0.18); }
 @keyframes spin { to { transform: translate(-50%,-50%) rotate(360deg); } }
 .viz-orbits {
   position: relative; height: 380px;
@@ -138,7 +138,7 @@
   color: var(--text-hi); white-space: nowrap;
 }
 .orbit-pill::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--brand-hi); box-shadow: 0 0 8px var(--brand-hi); }
-.orbit-pill.violet::before { background: var(--violet-hi); box-shadow: 0 0 8px var(--violet-hi); }
+.orbit-pill.violet::before { background: var(--brand-hi); box-shadow: 0 0 8px var(--violet-hi); }
 .orbit-pill.cyan::before   { background: var(--cyan-hi);   box-shadow: 0 0 8px var(--cyan-hi); }
 .orbit-pill.green::before  { background: #44e08a;          box-shadow: 0 0 8px #44e08a; }
 
@@ -174,7 +174,7 @@
 /* shared horizontal "spine" line behind the column heads */
 .timeline-grid::before {
   content: ""; position: absolute; left: 1.5%; right: 1.5%; top: 96px; height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(76,201,240,0.4), rgba(177,77,255,0.4), transparent);
+  background: linear-gradient(90deg, transparent, rgba(76,201,240,0.4), rgba(21, 26, 185, 0.4), transparent);
   z-index: 0;
 }
 
@@ -209,7 +209,7 @@
 .tl-col[data-phase="p1"] .tl-dot-big { background: #44e08a;        box-shadow: 0 0 16px #44e08a; }
 .tl-col[data-phase="p2"] .tl-dot-big { background: var(--brand-hi); box-shadow: 0 0 16px var(--brand-hi); }
 .tl-col[data-phase="p3"] .tl-dot-big { background: var(--cyan-hi);  box-shadow: 0 0 16px var(--cyan-hi); }
-.tl-col[data-phase="p4"] .tl-dot-big { background: var(--violet-hi);box-shadow: 0 0 16px var(--violet-hi); }
+.tl-col[data-phase="p4"] .tl-dot-big { background: var(--brand-hi);box-shadow: 0 0 16px var(--violet-hi); }
 .tl-col[data-phase="p5"] .tl-dot-big { background: var(--magenta);  box-shadow: 0 0 16px var(--magenta); }
 
 /* legacy centered spine — replaced by per-column left spine on .tl-events */
@@ -229,7 +229,7 @@
 }
 .tl-col[data-phase="p1"] .tl-events::before { background: linear-gradient(180deg, rgba(68,224,138,0.55), rgba(68,224,138,0.05)); }
 .tl-col[data-phase="p3"] .tl-events::before { background: linear-gradient(180deg, rgba(103,232,249,0.55), rgba(103,232,249,0.05)); }
-.tl-col[data-phase="p4"] .tl-events::before { background: linear-gradient(180deg, rgba(177,77,255,0.55), rgba(177,77,255,0.05)); }
+.tl-col[data-phase="p4"] .tl-events::before { background: linear-gradient(180deg, rgba(77, 142, 255, 0.55), rgba(77, 110, 255, 0.288)); }
 .tl-col[data-phase="p5"] .tl-events::before { background: linear-gradient(180deg, rgba(255,77,203,0.55), rgba(255,77,203,0.05)); }
 
 .tl-event {
@@ -250,7 +250,7 @@
 }
 .tl-col[data-phase="p1"] .tl-event::before { border-color: #44e08a;          box-shadow: 0 0 0 2px rgba(68,224,138,0.18),  0 0 8px rgba(68,224,138,0.4); }
 .tl-col[data-phase="p3"] .tl-event::before { border-color: var(--cyan-hi);   box-shadow: 0 0 0 2px rgba(103,232,249,0.18), 0 0 8px rgba(103,232,249,0.4); }
-.tl-col[data-phase="p4"] .tl-event::before { border-color: var(--violet-hi); box-shadow: 0 0 0 2px rgba(177,77,255,0.18), 0 0 8px rgba(177,77,255,0.4); }
+.tl-col[data-phase="p4"] .tl-event::before { border-color: var(--brand-hi); box-shadow: 0 0 0 2px rgba(107, 77, 255, 0.18), 0 0 8px rgba(92, 77, 255, 0.4); }
 .tl-col[data-phase="p5"] .tl-event::before { border-color: var(--magenta);   box-shadow: 0 0 0 2px rgba(255,77,203,0.18), 0 0 8px rgba(255,77,203,0.4); }
 
 .tl-event .tl-when {
@@ -312,7 +312,7 @@
   background:
     radial-gradient(ellipse 60% 80% at 32% 55%, rgba(76,201,240,0.18), transparent 60%),
     radial-gradient(ellipse 45% 60% at 78% 50%, rgba(103,232,249,0.10), transparent 60%),
-    radial-gradient(ellipse 70% 50% at 50% 100%, rgba(177,77,255,0.10), transparent 70%),
+    radial-gradient(ellipse 70% 50% at 50% 100%, rgba(77, 86, 255, 0.1), transparent 70%),
     linear-gradient(180deg, #050817 0%, #0a1230 60%, #050817 100%);
   overflow: hidden;
   isolation: isolate;
@@ -323,7 +323,7 @@
   background-image:
     radial-gradient(1px 1px at 12% 18%, rgba(143,214,255,0.55), transparent 60%),
     radial-gradient(1px 1px at 28% 72%, rgba(143,214,255,0.4),  transparent 60%),
-    radial-gradient(1px 1px at 55% 12%, rgba(177,77,255,0.5),   transparent 60%),
+    radial-gradient(1px 1px at 55% 12%, rgba(57, 71, 226, 0.491),   transparent 60%),
     radial-gradient(1px 1px at 73% 60%, rgba(103,232,249,0.5),  transparent 60%),
     radial-gradient(1px 1px at 88% 28%, rgba(143,214,255,0.5),  transparent 60%),
     radial-gradient(1.5px 1.5px at 42% 40%, rgba(255,255,255,0.45), transparent 60%);
@@ -360,10 +360,10 @@
   filter: url(#mapGlow);
 }
 /* China focal layers — brighter, gradient fill, stronger glow */
-.map-svg .country-deep.cn { fill: rgba(48,28,120,0.95); stroke: rgba(177,77,255,0.30); }
-.map-svg .country-mid.cn  { fill: rgba(70,46,170,0.85); stroke: rgba(177,77,255,0.40); }
+.map-svg .country-deep.cn { fill: rgba(48,28,120,0.95); stroke: rgba(15, 32, 185, 0.3); }
+.map-svg .country-mid.cn  { fill: rgba(70,46,170,0.85); stroke: rgba(28, 43, 209, 0.4); }
 .map-svg .country.cn      { fill: url(#cnFill); stroke: rgba(177,224,255,1); stroke-width: 1.6; filter: url(#mapGlowStrong); }
-.map-svg .country-shadow.cn { fill: rgba(177,77,255,0.25); }
+.map-svg .country-shadow.cn { fill: rgba(76,201,240,0.25); }
 /* context / overseas region styling — subtler */
 .map-svg .country-deep.ctx { fill: rgba(18,40,80,0.7); stroke: rgba(143,214,255,0.18); }
 .map-svg .country-mid.ctx  { fill: rgba(28,60,110,0.65); stroke: rgba(143,214,255,0.22); }
@@ -371,7 +371,7 @@
 .map-svg .country-shadow.ctx { fill: rgba(76,201,240,0.10); }
 
 .map-svg .route       { fill: none; stroke: rgba(76,201,240,0.6); stroke-width: 1; stroke-dasharray: 4 5; filter: drop-shadow(0 0 4px rgba(76,201,240,0.4)); }
-.map-svg .route.dim   { stroke: rgba(177,77,255,0.55); filter: drop-shadow(0 0 4px rgba(177,77,255,0.4)); }
+.map-svg .route.dim   { stroke: rgba(77, 101, 255, 0.55); filter: drop-shadow(0 0 4px rgba(77, 157, 255, 0.4)); }
 /* animated route dash flow */
 @keyframes route-flow { to { stroke-dashoffset: -180; } }
 .map-svg .route { animation: route-flow 8s linear infinite; }
@@ -502,7 +502,7 @@
   font-size: 11.5px; line-height: 1.45; letter-spacing: 0.02em;
 }
 
-/* partners · 四条 logo 图横向轮播（参考移动端，白色卡片 PNG 在深色区块上滚动） */
+/* partners · 四条 logo 图横向轮播 */
 .logo-rows { display: grid; gap: 14px; }
 .logo-row {
   position: relative; overflow: hidden; padding: 6px 0;
@@ -577,25 +577,14 @@
      1) SLOGAN HERO  ·  接口：替换 <image-slot> 的 src 即可换底图
      ========================================================= -->
 <section class="slogan-hero" data-screen-label="01 Slogan Hero">
-  <!--
-    底图接口：
-      · 简单替换：把下面 src="" 指向本地图片，例如 src="images/your-bg.jpg"
-      · 交互替换：开启编辑后，可直接把图片拖到该区域，自动持久化
-  -->
-  <image-slot
-    id="aboutSloganBg"
-    class="slogan-bg"
-    shape="rect"
-    fit="cover"
-    src=""
-    placeholder="在此拖入背景图  ·  Drop background image"
-  ></image-slot>
+  <!-- 全屏背景图：替换 images/DB-bg.png 即可换底图 -->
+  <img class="slogan-bg" src="images/DB-bg.png" alt="" />
 
   <div class="slogan-inner">
     <div class="slogan-tag">About DataBaker · 关于标贝</div>
     <h1 class="slogan-text">
       优质<em>数据生产力</em>，<br/>
-      让 AI 赋能数据世界。
+      让 AI 赋能数字世界。
     </h1>
     <p class="slogan-sub">
       标贝科技是一家技术驱动的专业 AI 数据服务商。依托自研 AI 数据平台与生产管线，
@@ -607,10 +596,6 @@
     </div>
   </div>
 
-  <div class="slogan-bg-hint">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5-5 5 5M12 5v12"/></svg>
-    Bg · drag or set src
-  </div>
 </section>
 
 <!-- =========================================================
@@ -902,7 +887,7 @@
                 <stop offset="100%" stop-color="rgba(76,201,240,0.18)"/>
               </linearGradient>
               <linearGradient id="cnFill" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%"   stop-color="rgba(177,77,255,0.55)"/>
+                <stop offset="0%"   stop-color="rgba(76,201,240,0.55)"/>
                 <stop offset="55%"  stop-color="rgba(76,201,240,0.45)"/>
                 <stop offset="100%" stop-color="rgba(103,232,249,0.40)"/>
               </linearGradient>
@@ -1085,7 +1070,7 @@
       <div class="cta-inner">
         <span class="eyebrow">CONTACT US · 获取专业服务</span>
         <h2>获取高质量数据服务</h2>
-        <p>无论是大模型训练数据、垂直场景数据集，还是 AI 数据平台与工具，标贝团队 7×24 为您响应。</p>
+        <p>无论是大模型训练数据、垂直场景数据集，还是 AI 数据平台与工具，标贝团队全力为您响应。</p>
         <div class="cta-actions">
           <a href="javascript:void(0)" class="btn btn-primary" id="ctaTrial">立即咨询 <span class="btn-arrow">→</span></a>
           <a href="tel:4001688833" class="btn btn-ghost">

@@ -263,14 +263,14 @@
               </div>
               <div class="footer-qr-row">
                 <div class="footer-qr-item">
-                  <div class="fqr-box">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3M17 17v3M14 17h.01M20 14v.01"/></svg>
+                  <div class="fqr-box has-img">
+                    <img src="images/weixin.png" alt="微信公众号二维码" loading="lazy" />
                   </div>
                   <span>微信公众号</span>
                 </div>
                 <div class="footer-qr-item">
-                  <div class="fqr-box">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                  <div class="fqr-box has-img">
+                    <img src="images/weixinkefu.png" alt="服务顾问二维码" loading="lazy" />
                   </div>
                   <span>服务顾问</span>
                 </div>
@@ -314,10 +314,9 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.45 2 2 0 0 1 3.59 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2z"/></svg>
         <span class="sb-label">客服</span>
         <div class="sb-qr-pop">
-          <div class="qr-img">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3M17 17v3M14 17h.01M20 14v.01"/></svg>
-          </div>
-          <p>扫码添加企业微信</p>
+          <h4 class="qr-title">标贝科技</h4>
+          <div class="qr-img"><img src="images/qv.png" alt="客服企微二维码" /></div>
+          <p>扫码加客服企微<br/>提供更多<span class="qr-hl">咨询服务</span></p>
         </div>
       </button>
       <button class="sidebar-btn" onclick="openTrialModal()" title="预约试用">
@@ -526,7 +525,7 @@
     });
 
     const api = window.DataBakerAPI;
-    /* 校验（照搬原官网顺序与文案） */
+    /* 校验 */
     const err = api ? api.validateLead(lead) : (firstInvalid ? '请完整填写必填项' : '');
     if (err || firstInvalid) {
       if (firstInvalid) firstInvalid.focus();
