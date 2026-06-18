@@ -43,9 +43,9 @@
     { href: 'solutions_overview.html',      name: '业务全览',     en: 'Overview' },
   ];
   const SOL_VOICE = [
-    { href: 'voice_ai.html#asr',  name: 'ASR 语音识别', en: 'Speech Recognition', badge: '' },
-    { href: 'voice_ai.html#tts',  name: 'TTS 语音合成', en: 'Text-to-Speech',     badge: '' },
-    { href: 'voice_ai.html#ext',  name: '语音拓展',     en: 'Voice Extension',    badge: '' },
+    { href: 'voice_ai.html',  name: 'ASR 语音识别', en: 'Speech Recognition', badge: '' },
+    { href: 'voice_ai.html',  name: 'TTS 语音合成', en: 'Text-to-Speech',     badge: '' },
+    { href: 'voice_ai.html',  name: '语音拓展',     en: 'Voice Extension',    badge: '' },
   ];
 
   /* ── 小工具 ─────────────────────────────────────── */
@@ -217,9 +217,9 @@
           <div class="footer-main">
             <div class="footer-col">
               <h4>智能语音</h4>
-              <a href="voice_ai.html#asr">ASR 语音识别</a>
-              <a href="voice_ai.html#tts">TTS 语音合成</a>
-              <a href="voice_ai.html#ext">语音拓展</a>
+              <a href="voice_ai.html">ASR 语音识别</a>
+              <a href="voice_ai.html">TTS 语音合成</a>
+              <a href="voice_ai.html">语音拓展</a>
             </div>
             <div class="footer-col">
               <h4>AI 数据服务</h4>

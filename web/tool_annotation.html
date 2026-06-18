@@ -67,7 +67,7 @@
 <body>
 <div id="nav-placeholder"></div>
 
-<section class="page-hero has-hero-img" style="--hero-img:url('images/annotation/annotation-hero.png')">
+<section class="page-hero has-hero-img" style="--hero-img:url('images/tool/annotation/annotation-hero.png')">
   <div class="container">
     <nav class="crumbs">
       <a href="homepage.html">首页</a>
@@ -257,12 +257,6 @@
   if (!catsEl || !sideEl || !detailEl) return;
   let ci = 0, si = 0;
 
-  function findBySlug(slug){
-    for (let c = 0; c < REQ.length; c++)
-      for (let s = 0; s < REQ[c].subs.length; s++)
-        if (REQ[c].subs[s].slug === slug) return [c, s];
-    return null;
-  }
   function renderCats(){
     catsEl.innerHTML = REQ.map((cat, i) =>
       `<button class="req-cat${i === ci ? ' active' : ''}" data-c="${i}">${cat.cat}</button>`).join('');
@@ -284,15 +278,12 @@
       </div>
       <div class="req-fig">${FIG}<img src="${d.img || 'images/tool/annotation/req/' + d.slug + '.png'}" alt="${d.title}" loading="lazy" onerror="this.style.display='none'"></div>`;
   }
-  function setHash(){ history.replaceState(null, '', '#' + REQ[ci].subs[si].slug); }
-  function selectCat(i){ ci = i; si = 0; renderCats(); renderSide(); renderDetail(); setHash(); }
-  function selectSub(i){ si = i; renderSide(); renderDetail(); setHash(); }
+  function selectCat(i){ ci = i; si = 0; renderCats(); renderSide(); renderDetail(); }
+  function selectSub(i){ si = i; renderSide(); renderDetail(); }
 
   catsEl.addEventListener('click', e => { const b = e.target.closest('.req-cat'); if (b) selectCat(+b.dataset.c); });
   sideEl.addEventListener('click', e => { const b = e.target.closest('.req-sub'); if (b) selectSub(+b.dataset.s); });
 
-  const pos = location.hash ? findBySlug(location.hash.slice(1)) : null;
-  if (pos) { ci = pos[0]; si = pos[1]; }
   renderCats(); renderSide(); renderDetail();
 })();
 

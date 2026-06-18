@@ -36,100 +36,6 @@
 @media(max-width:1100px){ .sol-grid{ grid-template-columns:1fr 1fr; } }
 @media(max-width:720px){ .sol-grid{ grid-template-columns:1fr; } }
 
-/* ── 产品优势（Product Advantages）─────────────────── */
-.adv-band {
-  position: relative;
-  padding: 36px 32px;
-  border: 1px solid var(--line-strong);
-  border-radius: var(--r-lg);
-  background:
-    linear-gradient(135deg, rgba(4,105,207,0.16), rgba(4,105,207,0.14) 60%, rgba(24,166,184,0.14));
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px;
-  margin-bottom: 28px; overflow: hidden;
-}
-.adv-band::before {
-  content:""; position:absolute; right:-80px; top:-80px;
-  width:280px; height:280px; border-radius:50%;
-  background: radial-gradient(circle, rgba(76,201,240,0.28), transparent 60%);
-  filter: blur(30px); pointer-events:none;
-}
-.adv-band .adv-stat-item { position:relative; }
-.adv-band .adv-num {
-  font-family: var(--font-display);
-  font-size: clamp(1.8rem, 2.6vw, 2.4rem); font-weight:700;
-  color: var(--text-hi); line-height: 1.05; letter-spacing:-0.02em;
-}
-.adv-band .adv-num .unit { font-size: 0.95rem; font-weight: 600; color: var(--brand-hi); margin-left: 4px; vertical-align: middle; }
-.adv-band .adv-stat-item p { margin: 6px 0 0; color: var(--text-mute); font-size: 0.86rem; }
-
-.pa-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
-}
-.pa-card {
-  position: relative;
-  padding: 26px 24px;
-  border: 1px solid var(--line);
-  border-radius: var(--r-lg);
-  background: linear-gradient(180deg, rgba(13,26,58,0.6), rgba(10,20,46,0.6));
-  display: flex; gap: 18px; align-items: flex-start;
-  transition: all 240ms ease; overflow: hidden;
-}
-.pa-card::before {
-  content:""; position:absolute; left:0; top:0; bottom:0; width:3px;
-  background: var(--grad-line);
-  transform: scaleY(0); transform-origin: top;
-  transition: transform 380ms ease;
-}
-.pa-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(76,201,240,0.4);
-  box-shadow: 0 18px 40px rgba(4,105,207,0.22);
-}
-.pa-card:hover::before { transform: scaleY(1); }
-
-.pa-icon {
-  flex: 0 0 auto;
-  width: 48px; height: 48px;
-  border-radius: 12px;
-  border: 1px solid var(--line-strong);
-  background: rgba(76,201,240,0.08);
-  color: var(--brand-hi);
-  display: grid; place-items: center;
-}
-.pa-icon svg { width: 24px; height: 24px; }
-.pa-card.v2 .pa-icon { border-color: rgba(76,201,240,0.25); background: rgba(76,201,240,0.08); color: var(--violet-hi); }
-.pa-card.v3 .pa-icon { border-color: rgba(68,224,138,0.25); background: rgba(68,224,138,0.08); color: #44e08a; }
-.pa-card.v4 .pa-icon { border-color: rgba(255,200,80,0.25); background: rgba(255,200,80,0.08); color: #ffc850; }
-.pa-card.v5 .pa-icon { border-color: rgba(255,77,203,0.25); background: rgba(255,77,203,0.08); color: var(--magenta); }
-
-.pa-text h4 {
-  font-family: var(--font-display);
-  font-size: 1.1rem; font-weight: 600;
-  margin: 0 0 8px; color: var(--text-hi);
-}
-.pa-text p {
-  color: var(--text-mute);
-  font-size: 0.88rem; line-height: 1.7; margin: 0;
-}
-.pa-text .pa-tags {
-  display: flex; gap: 6px; flex-wrap: wrap; margin-top: 12px;
-}
-.pa-text .pa-tags span {
-  padding: 2px 8px; border-radius: 99px;
-  font-family: var(--font-mono); font-size: 9px;
-  letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--text-mute);
-  border: 1px solid var(--line);
-}
-
-@media(max-width:1100px){
-  .adv-band{ grid-template-columns: repeat(2, 1fr); padding: 28px 22px; }
-  .pa-grid{ grid-template-columns: 1fr 1fr; }
-}
-@media(max-width:560px){
-  .adv-band{ grid-template-columns: 1fr 1fr; gap: 14px; padding: 22px 18px; }
-  .pa-grid{ grid-template-columns: 1fr; }
-}
 </style>
 </head>
 <body>
@@ -165,108 +71,138 @@
             <span class="sol-section-badge">AI DATA SERVICE</span>
           </div>
           <h2>AI 数据服务</h2>
-          <p>覆盖语音、视觉、文本与大模型的全品类数据产品与定制化数据服务</p>
+          <p>覆盖具身智能、自动驾驶、大模型、金融、医疗等行业场景与定制化数据服务</p>
         </div>
       </div>
 
-      <div id="data-products" class="sol-anchor" style="margin-bottom:28px;">
-        <p style="font-family:var(--font-mono);font-size:11px;color:var(--brand-hi);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:16px;">数据产品</p>
+      <div style="margin-bottom:28px;">
+        <p style="font-family:var(--font-mono);font-size:11px;color:var(--brand-hi);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:16px;">行业场景</p>
         <div class="sol-grid">
 
-          <a class="sol-card" href="solution_tts.html">
+          <a class="sol-card" href="solution_embodied.html">
             <div class="sol-img">
               <div class="placeholder-label">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 18V5l12-2v13M6 15a3 3 0 1 1 0 6 3 3 0 0 1 0-6z" stroke-linecap="round"/></svg>
-                <span>图片待补</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v4M12 18v4M4 12H2M22 12h-2M5 5l3 3M16 16l3 3M19 5l-3 3M8 16l-3 3"/><circle cx="12" cy="12" r="4"/></svg>
+                <span>EMBODIED</span>
               </div>
             </div>
             <div class="sol-body">
-              <div class="sol-tag-row"><span class="sol-tag accent">语音合成</span><span class="sol-tag">TTS</span><span class="sol-tag">数据产品</span></div>
-              <h3>语音合成数据产品</h3>
-              <p>高质量TTS 训练语料，覆盖多语种、多风格、多场景，支持端到端声学模型与神经TTS 系统训练</p>
+              <div class="sol-tag-row"><span class="sol-tag accent">具身人</span><span class="sol-tag">多模态</span><span class="sol-tag">动作数据</span></div>
+              <h3>具身人解决方案</h3>
+              <p>面向机器人感知、动作理解与任务执行，构建多模态采集、标注与评测数据闭环</p>
               <div class="sol-foot">
-                <span style="color:var(--text-dim);font-family:var(--font-mono);font-size:10px;">素材待补</span>
+                <span style="color:var(--text-dim);font-family:var(--font-mono);font-size:10px;">SCENARIO</span>
                 <span class="sol-link">了解详情 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
               </div>
             </div>
           </a>
 
-          <a class="sol-card" href="solution_asr.html">
+          <a class="sol-card" href="solution_auto.html">
             <div class="sol-img">
               <div class="placeholder-label">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3zm-7 9a7 7 0 0 0 14 0" stroke-linecap="round"/></svg>
-                <span>图片待补</span>
+                <span>AUTO</span>
               </div>
             </div>
             <div class="sol-body">
-              <div class="sol-tag-row"><span class="sol-tag accent">语音识别</span><span class="sol-tag">ASR</span><span class="sol-tag">数据产品</span></div>
-              <h3>语音识别数据产品</h3>
-              <p>多口音、多方言、多场景 ASR 语料，覆盖普通话、粤语、英语等 20+ 语种，附词级时间戳标注</p>
+              <div class="sol-tag-row"><span class="sol-tag accent">自动驾驶</span><span class="sol-tag">点云</span><span class="sol-tag">融合标注</span></div>
+              <h3>自动驾驶解决方案</h3>
+              <p>覆盖舱内舱外采集、2D/3D/4D 标注、连续帧追踪与多传感器融合数据服务</p>
               <div class="sol-foot">
-                <span style="color:var(--text-dim);font-family:var(--font-mono);font-size:10px;">素材待补</span>
+                <span style="color:var(--text-dim);font-family:var(--font-mono);font-size:10px;">SCENARIO</span>
                 <span class="sol-link">了解详情 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
               </div>
             </div>
           </a>
 
-          <a class="sol-card" href="solution_cv.html">
+          <a class="sol-card" href="solution_llm.html">
             <div class="sol-img">
               <div class="placeholder-label">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="12" r="2.5"/></svg>
-                <span>图片待补</span>
+                <span>LLM</span>
               </div>
             </div>
             <div class="sol-body">
-              <div class="sol-tag-row"><span class="sol-tag accent">计算机视觉</span><span class="sol-tag">CV</span><span class="sol-tag">数据产品</span></div>
-              <h3>计算机视觉数据产品</h3>
-              <p>人脸、行为、商品、医疗、遥感、自动驾驶等多场景图像数据集，精栀BBox / Mask / Keypoint</p>
+              <div class="sol-tag-row"><span class="sol-tag accent">大模型</span><span class="sol-tag">SFT</span><span class="sol-tag">评测</span></div>
+              <h3>大模型解决方案</h3>
+              <p>提供指令微调、偏好对齐、多模态图文数据、模型安全与评测数据建设</p>
               <div class="sol-foot">
-                <span style="color:var(--text-dim);font-family:var(--font-mono);font-size:10px;">素材待补</span>
+                <span style="color:var(--text-dim);font-family:var(--font-mono);font-size:10px;">SCENARIO</span>
                 <span class="sol-link">了解详情 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
               </div>
             </div>
           </a>
 
-          <a class="sol-card" href="solution_nlp.html">
+          <a class="sol-card" href="solution_finance.html">
             <div class="sol-img">
               <div class="placeholder-label">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6h16M4 10h16M4 14h10M4 18h6" stroke-linecap="round"/></svg>
-                <span>图片待补</span>
+                <span>FINANCE</span>
               </div>
             </div>
             <div class="sol-body">
-              <div class="sol-tag-row"><span class="sol-tag accent">自然语言处理</span><span class="sol-tag">NLP</span><span class="sol-tag">数据产品</span></div>
-              <h3>自然语言处理数据产品</h3>
-              <p>情感分析、实体识别、文本分类、机器翻译等 NLP 任务专用标注语料，支持多语言对齐格式</p>
+              <div class="sol-tag-row"><span class="sol-tag accent">金融</span><span class="sol-tag">OCR</span><span class="sol-tag">质检</span></div>
+              <h3>金融解决方案</h3>
+              <p>建设客服质检、单证识别、风控审核、舆情分析与合规评测数据</p>
               <div class="sol-foot">
-                <span style="color:var(--text-dim);font-family:var(--font-mono);font-size:10px;">素材待补</span>
+                <span style="color:var(--text-dim);font-family:var(--font-mono);font-size:10px;">SCENARIO</span>
                 <span class="sol-link">了解详情 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
               </div>
             </div>
           </a>
 
-          <a class="sol-card" href="solution_open.html">
+          <a class="sol-card" href="solution_medical.html">
             <div class="sol-img">
               <div class="placeholder-label">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke-linecap="round"/></svg>
-                <span>图片待补</span>
+                <span>MEDICAL</span>
               </div>
             </div>
             <div class="sol-body">
-              <div class="sol-tag-row"><span class="sol-tag accent">开放数据</span><span class="sol-tag">Open</span><span class="sol-tag">数据产品</span></div>
-              <h3>开放数据产品</h3>
-              <p>面向学术与研究场景的开放数据集，遵循CC 协议，可免费用于非商业训练与基准测试</p>
+              <div class="sol-tag-row"><span class="sol-tag accent">医疗</span><span class="sol-tag">影像</span><span class="sol-tag">问答</span></div>
+              <h3>医疗解决方案</h3>
+              <p>面向医学影像、临床文本、导诊问答与医疗语音场景提供专业数据服务</p>
               <div class="sol-foot">
-                <span style="color:var(--text-dim);font-family:var(--font-mono);font-size:10px;">素材待补</span>
+                <span style="color:var(--text-dim);font-family:var(--font-mono);font-size:10px;">SCENARIO</span>
                 <span class="sol-link">了解详情 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
               </div>
+            </div>
+          </a>
+
+          <a class="sol-card" href="solution_internet.html">
+            <div class="sol-img"><div class="placeholder-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 12h18M12 3v18"/><circle cx="12" cy="12" r="9"/></svg><span>INTERNET</span></div></div>
+            <div class="sol-body">
+              <div class="sol-tag-row"><span class="sol-tag accent">互联网</span><span class="sol-tag">商品理解</span><span class="sol-tag">推荐评测</span></div>
+              <h3>互联网解决方案</h3>
+              <p>服务内容平台、电商、本地生活与在线服务，提供图文理解、用户反馈和排序评测数据</p>
+              <div class="sol-foot"><span style="color:var(--text-dim);font-family:var(--font-mono);font-size:10px;">SCENARIO</span><span class="sol-link">了解详情 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></div>
+            </div>
+          </a>
+
+          <a class="sol-card" href="solution_terminal.html">
+            <div class="sol-img"><div class="placeholder-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M10 18h4"/></svg><span>TERMINAL</span></div></div>
+            <div class="sol-body">
+              <div class="sol-tag-row"><span class="sol-tag accent">智能终端</span><span class="sol-tag">语音视觉</span><span class="sol-tag">端侧评测</span></div>
+              <h3>智能终端解决方案</h3>
+              <p>面向智能硬件、家居设备、穿戴设备与车载终端，建设端侧交互数据和体验评测</p>
+              <div class="sol-foot"><span style="color:var(--text-dim);font-family:var(--font-mono);font-size:10px;">SCENARIO</span><span class="sol-link">了解详情 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></div>
+            </div>
+          </a>
+
+          <a class="sol-card" href="solution_review.html">
+            <div class="sol-img"><div class="placeholder-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l8 4v6c0 5-3.4 8.6-8 10-4.6-1.4-8-5-8-10V6l8-4z"/><path d="M9 12l2 2 4-5"/></svg><span>REVIEW</span></div></div>
+            <div class="sol-body">
+              <div class="sol-tag-row"><span class="sol-tag accent">内容审核</span><span class="sol-tag">安全合规</span><span class="sol-tag">多模态</span></div>
+              <h3>内容审核解决方案</h3>
+              <p>建设文本、图像、音视频、多模态内容安全数据，支撑审核策略评测和模型对齐</p>
+              <div class="sol-foot"><span style="color:var(--text-dim);font-family:var(--font-mono);font-size:10px;">SCENARIO</span><span class="sol-link">了解详情 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></div>
             </div>
           </a>
 
         </div>
       </div>
 
-      <div id="data-services" class="sol-anchor">
+      <div>
         <p style="font-family:var(--font-mono);font-size:11px;color:var(--brand-hi);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:16px;">数据服务</p>
         <div class="sol-grid">
           <a class="sol-card" href="data_service_collection.html">
@@ -307,7 +243,7 @@
     </div>
 
     <!-- 智能语音 -->
-    <div id="voice-ai" class="sol-section sol-anchor" data-reveal>
+    <div class="sol-section" data-reveal>
       <div class="sol-section-head">
         <div>
           <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px;">
@@ -320,7 +256,7 @@
       </div>
       <div class="sol-grid">
 
-        <a class="sol-card sol-voice-card" href="voice_ai.html#asr">
+        <a class="sol-card sol-voice-card" href="voice_ai.html">
           <div class="sol-img" style="background:linear-gradient(135deg,rgba(4,105,207,0.12),rgba(76,201,240,0.06))">
             <div class="placeholder-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3zm-7 9a7 7 0 0 0 14 0" stroke-linecap="round"/></svg><span>图片待补</span></div>
           </div>
@@ -332,7 +268,7 @@
           </div>
         </a>
 
-        <a class="sol-card sol-voice-card" href="voice_ai.html#tts">
+        <a class="sol-card sol-voice-card" href="voice_ai.html">
           <div class="sol-img" style="background:linear-gradient(135deg,rgba(4,105,207,0.12),rgba(76,201,240,0.06))">
             <div class="placeholder-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 18V5l12-2v13" stroke-linecap="round"/></svg><span>图片待补</span></div>
           </div>
@@ -344,7 +280,7 @@
           </div>
         </a>
 
-        <a class="sol-card sol-voice-card" href="voice_ai.html#ext">
+        <a class="sol-card sol-voice-card" href="voice_ai.html">
           <div class="sol-img" style="background:linear-gradient(135deg,rgba(24,166,184,0.12),rgba(76,201,240,0.06))">
             <div class="placeholder-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 10l3-6 4 8 3-4 4 8" stroke-linecap="round"/></svg><span>图片待补</span></div>
           </div>
@@ -359,129 +295,7 @@
       </div>
     </div>
 
-    <!-- 产品优势 -->
-    <div class="sol-section" data-reveal style="margin-bottom:0;">
-      <div class="sol-section-head">
-        <div>
-          <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px;">
-            <span class="sol-section-badge" style="color:#44e08a;border-color:rgba(68,224,138,0.3);background:rgba(68,224,138,0.06);">PRODUCT ADVANTAGES</span>
-          </div>
-          <h2>产品优势</h2>
-          <p>10 年深耕 AI 数据与语音赛道，自研全栈工具链，已服务 1000+ 头部企业与科研机构</p>
-        </div>
-      </div>
-
-      <!-- 数据条 -->
-      <div class="adv-band">
-        <div class="adv-stat-item">
-          <div class="adv-num">10<span class="unit">年+</span></div>
-          <p>AI 数据与语音技术积累</p>
-        </div>
-        <div class="adv-stat-item">
-          <div class="adv-num">1000<span class="unit">+</span></div>
-          <p>头部企业与科研机构客户</p>
-        </div>
-        <div class="adv-stat-item">
-          <div class="adv-num">50<span class="unit">+</span></div>
-          <p>支持语种与地区方言</p>
-        </div>
-        <div class="adv-stat-item">
-          <div class="adv-num">99.9<span class="unit">%</span></div>
-          <p>多轮质检后数据准确率</p>
-        </div>
-      </div>
-
-      <!-- 优势卡 -->
-      <div class="pa-grid">
-
-        <div class="pa-card v1">
-          <div class="pa-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-            </svg>
-          </div>
-          <div class="pa-text">
-            <h4>全品类数据资产</h4>
-            <p>覆盖语音、视觉、点云、文本与大模型语料，10 亿+ 多模态样本沉淀，支持从样本试制到百万级商用训练。</p>
-            <div class="pa-tags"><span>SPEECH</span><span>CV</span><span>NLP</span><span>3D</span><span>LLM</span></div>
-          </div>
-        </div>
-
-        <div class="pa-card v2">
-          <div class="pa-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"/>
-              <path d="M9 12l2 2 4-4"/>
-            </svg>
-          </div>
-          <div class="pa-text">
-            <h4>高精度交付</h4>
-            <p>AI 预标注 + 多轮人工质检 + 抽检复核三道闸口，平均交付准确率 99.9%，满足商用级 AI 模型训练标准。</p>
-            <div class="pa-tags"><span>QA</span><span>AI ASSIST</span><span>99.9% Acc.</span></div>
-          </div>
-        </div>
-
-        <div class="pa-card v3">
-          <div class="pa-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="11" width="18" height="11" rx="2"/>
-              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-            </svg>
-          </div>
-          <div class="pa-text">
-            <h4>安全合规体系</h4>
-            <p>ISO 27001 / 27701 双认证，符合 GDPR 与国内数据合规法规，支持端到端加密、私有化部署、全流程留痕。</p>
-            <div class="pa-tags"><span>ISO 27001</span><span>27701</span><span>GDPR</span></div>
-          </div>
-        </div>
-
-        <div class="pa-card v4">
-          <div class="pa-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"/>
-              <path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/>
-            </svg>
-          </div>
-          <div class="pa-text">
-            <h4>全球资源 · 多语种</h4>
-            <p>覆盖 50+ 主流语种与地区方言，自有海外采集团队与录音棚，200 万+ 全球众包资源池，赋能企业出海。</p>
-            <div class="pa-tags"><span>GLOBAL</span><span>50+ LANG</span><span>200W+ POOL</span></div>
-          </div>
-        </div>
-
-        <div class="pa-card v5">
-          <div class="pa-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="3" width="7" height="7" rx="1"/>
-              <rect x="14" y="3" width="7" height="7" rx="1"/>
-              <rect x="3" y="14" width="7" height="7" rx="1"/>
-              <rect x="14" y="14" width="7" height="7" rx="1"/>
-            </svg>
-          </div>
-          <div class="pa-text">
-            <h4>自研全栈工具链</h4>
-            <p>标贝易采、3D / 2D 标注平台、ASR / TTS 切音转写工具与开放平台，端到端打通采集—标注—模型迭代。</p>
-            <div class="pa-tags"><span>EASY COLL</span><span>3D / 2D</span><span>SaaS</span></div>
-          </div>
-        </div>
-
-        <div class="pa-card v1">
-          <div class="pa-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M20 21v-2a4 4 0 0 0-3-3.87M4 21v-2a4 4 0 0 1 3-3.87"/>
-              <circle cx="12" cy="7" r="4"/>
-              <path d="M22 11l-3 3-3-3M16 14V8"/>
-            </svg>
-          </div>
-          <div class="pa-text">
-            <h4>专属项目化交付</h4>
-            <p>专属项目经理 + 行业算法专家组队对接，里程碑式迭代交付，支持紧急排期与扩量，缩短产品上线周期。</p>
-            <div class="pa-tags"><span>DEDICATED PM</span><span>AGILE</span><span>FAST DELIVER</span></div>
-          </div>
-        </div>
-
-      </div>
-    </div>
+    <div data-shared-product-advantages></div>
 
   </div>
 </section>

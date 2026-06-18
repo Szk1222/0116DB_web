@@ -37,23 +37,148 @@
     { href: 'tool_openplatform.html', name: '开发者工具', en: 'Dev Tools' },
   ];
 
-  const SOL_DATA_PRODUCT = [
-    { href: 'solution_tts.html',  name: '语音合成',      en: 'TTS' },
-    { href: 'solution_asr.html',  name: '语音识别',      en: 'ASR' },
-    { href: 'solution_cv.html',   name: '计算机视觉',    en: 'CV' },
-    { href: 'solution_nlp.html',  name: '自然语言处理',  en: 'NLP' },
-    { href: 'solution_open.html', name: '开放数据',      en: 'Open Data' },
+  const SOL_INDUSTRY_SCENES = [
+    { href: 'solution_embodied.html', name: '具身人',   en: 'Embodied AI' },
+    { href: 'solution_auto.html',     name: '自动驾驶', en: 'Autonomous Driving' },
+    { href: 'solution_llm.html',      name: '大模型',   en: 'Large Model' },
+    { href: 'solution_finance.html',  name: '金融',     en: 'Finance' },
+    { href: 'solution_medical.html',  name: '医疗',     en: 'Medical' },
+    { href: 'solution_internet.html', name: '互联网',   en: 'Internet' },
+    { href: 'solution_terminal.html', name: '智能终端', en: 'Smart Device' },
+    { href: 'solution_review.html',   name: '内容审核', en: 'Content Review' },
   ];
   const SOL_DATA_SERVICE = [
     { href: 'data_service_collection.html', name: '数据采集服务', en: 'Collection' },
     { href: 'data_service_annotation.html', name: '数据标注服务', en: 'Annotation' },
-    { href: 'datasets_overview.html',       name: '成品数据集',   en: 'Datasets' },
   ];
   const SOL_VOICE = [
-    { href: 'voice_ai.html#asr',  name: 'ASR 语音识别', en: 'Speech Recognition', badge: '' },
-    { href: 'voice_ai.html#tts',  name: 'TTS 语音合成', en: 'Text-to-Speech',     badge: '' },
-    { href: 'voice_ai.html#ext',  name: '语音拓展产品', en: 'Voice Extension',    badge: '' },
+    { href: 'voice_ai.html', name: 'ASR 语音识别', en: 'Speech Recognition', badge: '' },
+    { href: 'voice_ai.html', name: 'TTS 语音合成', en: 'Text-to-Speech',     badge: '' },
+    { href: 'voice_ai.html', name: '语音拓展产品', en: 'Voice Extension',    badge: '' },
   ];
+
+  const INDUSTRY_SCENES = {
+    embodied: {
+      title: '具身人解决方案', en: 'Embodied AI', image: 'images/scenes/embodied.jpg',
+      summary: '面向人形机器人、服务机器人与具身智能训练，构建多模态感知、动作理解、任务执行与人机交互数据闭环。',
+      meta: ['多模态采集', '动作指令标注', '机器人评测'],
+      services: [
+        ['动作与任务采集', '采集操作轨迹、环境状态、指令语义与反馈结果，沉淀可复用的任务数据。', 'images/scenes/embodied.jpg'],
+        ['多模态标注', '同步标注视频、语音、文本、点云与传感器数据，支持动作识别和策略学习。', 'images/datasets/video.jpg'],
+        ['评测数据构建', '围绕导航、抓取、避障、问答等任务搭建标准化评测集。', 'images/datasets/llm.jpg']
+      ],
+      advantages: ['跨模态同步采集与质检', '任务级标签体系可扩展', '支持复杂环境与长链路任务', '交付格式适配训练与评测'],
+      cases: [
+        ['服务机器人室内交互数据', '覆盖家庭、商超、展厅等环境的人机对话、路径规划与任务执行数据。', 'images/scenes/home.jpg', ['导航', '语音交互', '任务执行']],
+        ['人形机器人操作任务数据', '围绕抓取、搬运、整理等动作构建视频与指令对齐样本。', 'images/scenes/embodied.jpg', ['动作理解', '视觉标注', '策略训练']]
+      ]
+    },
+    auto: {
+      title: '自动驾驶解决方案', en: 'Autonomous Driving', image: 'images/scenes/auto.jpg',
+      summary: '面向智能座舱、辅助驾驶和自动驾驶研发，提供舱内舱外采集、2D/3D/4D 标注、场景切片与多传感器融合数据服务。',
+      meta: ['舱内舱外', '多传感器融合', '点云/视频标注'],
+      services: [
+        ['道路场景采集', '覆盖城市道路、高速、泊车、夜间、雨雾等关键场景数据采集。', 'images/scenes/auto.jpg'],
+        ['2D/3D/4D 标注', '提供图像框、车道线、语义分割、点云框、连续帧追踪等标注。', 'images/datasets/cat-auto.jpg'],
+        ['驾驶行为识别', '构建分心、疲劳、危险动作与座舱交互相关数据。', 'images/scenes/service.jpg']
+      ],
+      advantages: ['多源传感器时间对齐', '连续帧 ID 一致性管理', '自动预标注提升效率', '场景库按研发需求切片'],
+      cases: [
+        ['自动驾驶多传感器融合标注', '对摄像头、激光雷达与毫米波雷达数据进行联合标注，支撑感知模型迭代。', 'images/scenes/auto.jpg', ['点云', '2D/3D 融合', '连续帧']],
+        ['驾驶员危险行为识别', '构建舱内视频数据，标注疲劳、分心、接打电话等危险行为。', 'images/datasets/cat-auto.jpg', ['座舱智能', '行为识别', '质检']]
+      ]
+    },
+    llm: {
+      title: '大模型解决方案', en: 'Large Model', image: 'images/scenes/llm.jpg',
+      summary: '面向通用大模型、多模态大模型与垂直模型训练，提供指令数据、偏好数据、评测数据与安全对齐数据。',
+      meta: ['SFT/RLHF', '多模态评测', '安全对齐'],
+      services: [
+        ['指令微调数据', '构建多轮对话、任务指令、工具调用与领域知识问答样本。', 'images/scenes/llm.jpg'],
+        ['偏好与评测数据', '提供回复排序、事实性评估、安全性评估与专家打分流程。', 'images/datasets/llm.jpg'],
+        ['多模态图文数据', '围绕图片、视频与文本构造描述、问答、推理与检索样本。', 'images/datasets/image.jpg']
+      ],
+      advantages: ['专家审核机制可配置', '标注规范版本化管理', '支持多轮一致性校验', '数据闭环适配训练评测'],
+      cases: [
+        ['企业知识问答数据建设', '将行业文档转化为高质量问答、摘要与多轮追问数据。', 'images/scenes/llm.jpg', ['SFT', '知识库', '评测']],
+        ['多模态理解评测集', '围绕图文理解、细粒度识别和复杂推理构建评测数据。', 'images/datasets/llm.jpg', ['VQA', 'Caption', '多模态']]
+      ]
+    },
+    finance: {
+      title: '金融解决方案', en: 'Finance', image: 'images/scenes/finance.jpg',
+      summary: '面向银行、保险、证券与金融科技场景，建设客服质检、风控审核、单证识别、舆情分析与合规评测数据。',
+      meta: ['合规安全', '单证识别', '客服质检'],
+      services: [
+        ['金融语音与文本处理', '对客服通话、工单、合同文本进行转写、分类、实体与意图标注。', 'images/scenes/finance.jpg'],
+        ['票据单证识别', '构建银行卡、票据、合同、表单等 OCR 与版面理解数据。', 'images/datasets/cat-ocr.jpg'],
+        ['风控与合规评测', '建设异常交易、投诉舆情、营销合规与模型安全评测集。', 'images/datasets/text.jpg']
+      ],
+      advantages: ['隐私脱敏与权限管控', '金融字段体系可定制', '多轮质检保障一致性', '支持私有化流程交付'],
+      cases: [
+        ['智能客服质检数据', '对通话内容进行转写、情绪、意图和合规点标注。', 'images/scenes/finance.jpg', ['ASR', '质检', '情绪']],
+        ['金融票据 OCR 数据', '构建票据检测、字段转写与版面结构数据集。', 'images/datasets/cat-ocr.jpg', ['OCR', '字段抽取', '版面']]
+      ]
+    },
+    medical: {
+      title: '医疗解决方案', en: 'Medical', image: 'images/scenes/medical.jpg',
+      summary: '面向医学影像、临床文本、导诊问答与医疗语音场景，提供专业标注、结构化处理与模型评测数据服务。',
+      meta: ['医学影像', '临床文本', '专业审核'],
+      services: [
+        ['医学影像标注', '支持病灶框选、分割、关键点与多模态影像标注。', 'images/scenes/medical.jpg'],
+        ['临床文本结构化', '处理病历、检查报告、问诊记录中的实体、关系与摘要任务。', 'images/datasets/cat-medical.jpg'],
+        ['医疗问答评测', '构建医学问答、导诊分诊与安全回答评测集。', 'images/datasets/text.jpg']
+      ],
+      advantages: ['医学专家参与复核', '标签体系贴合科室场景', '支持敏感信息脱敏', '质量抽检链路清晰'],
+      cases: [
+        ['医学影像分割数据', '围绕特定病灶区域进行像素级分割与复核。', 'images/datasets/cat-medical.jpg', ['影像', 'Mask', '复核']],
+        ['智能导诊问答数据', '构建症状描述、分诊建议与安全边界样本。', 'images/scenes/medical.jpg', ['问答', '分诊', '安全']]
+      ]
+    },
+    internet: {
+      title: '互联网解决方案', en: 'Internet', image: 'images/datasets/cat-retail.jpg',
+      summary: '面向内容平台、电商、本地生活和在线服务场景，提供搜索推荐、商品理解、用户反馈和内容理解数据。',
+      meta: ['商品理解', '推荐搜索', '用户反馈'],
+      services: [
+        ['商品与内容理解', '标注商品属性、图文描述、类目体系和内容标签。', 'images/datasets/cat-retail.jpg'],
+        ['用户反馈分析', '对评论、客服工单、社区内容进行意图、情绪与主题归因。', 'images/scenes/service.jpg'],
+        ['搜索推荐评测', '构建相关性、排序偏好与召回质量评测数据。', 'images/datasets/text.jpg']
+      ],
+      advantages: ['标签层级灵活扩展', '适配高并发批量交付', '支持图文多模态处理', '指标反馈驱动迭代'],
+      cases: [
+        ['电商商品属性标注', '对商品图文进行类目、属性、风格与适用场景标注。', 'images/datasets/cat-retail.jpg', ['商品', '属性', '图文']],
+        ['社区评论情绪分析', '为评论治理和推荐策略构建主题与情绪数据。', 'images/scenes/service.jpg', ['评论', '情绪', '主题']]
+      ]
+    },
+    terminal: {
+      title: '智能终端解决方案', en: 'Smart Device', image: 'images/scenes/home.jpg',
+      summary: '面向智能硬件、家居设备、穿戴设备与车载终端，建设语音交互、视觉感知、端侧评测和多模态指令数据。',
+      meta: ['端侧交互', '语音视觉', '低延迟评测'],
+      services: [
+        ['唤醒与语音交互', '采集多环境、多口音、多距离语音，支持唤醒、识别和意图理解。', 'images/scenes/home.jpg'],
+        ['端侧视觉数据', '构建家庭、办公、户外等真实环境下的视觉识别数据。', 'images/datasets/image.jpg'],
+        ['设备体验评测', '围绕响应速度、误唤醒、识别准确率和用户体验搭建评测样本。', 'images/scenes/service.jpg']
+      ],
+      advantages: ['覆盖真实设备环境', '支持噪声与远场采集', '多语种多口音可扩展', '交付格式适配端侧模型'],
+      cases: [
+        ['智能家居语音数据', '采集客厅、卧室、厨房等环境下的唤醒与控制指令。', 'images/scenes/home.jpg', ['远场', '指令', '噪声']],
+        ['穿戴设备交互评测', '构建短语音、动作和场景化响应评测数据。', 'images/datasets/asr.jpg', ['穿戴', '短音频', '评测']]
+      ]
+    },
+    review: {
+      title: '内容审核解决方案', en: 'Content Review', image: 'images/scenes/service.jpg',
+      summary: '面向平台治理与安全合规场景，提供文本、图像、音视频与多模态内容审核数据、策略评测和模型对齐服务。',
+      meta: ['安全合规', '多模态审核', '策略评测'],
+      services: [
+        ['违规内容标注', '建设涉政、暴恐、低俗、广告、辱骂等多维审核标签数据。', 'images/scenes/service.jpg'],
+        ['音视频审核数据', '对音频、视频、直播切片进行风险识别、时间戳与证据标注。', 'images/datasets/video.jpg'],
+        ['审核策略评测', '构建误杀、漏放、边界样本和模型对抗评测集。', 'images/datasets/text.jpg']
+      ],
+      advantages: ['风险标签体系可配置', '边界样本沉淀能力强', '支持多轮安全复核', '评测结果可回流模型'],
+      cases: [
+        ['社区内容安全数据', '对图文帖、评论和短视频进行风险分类和证据标注。', 'images/scenes/service.jpg', ['图文', '短视频', '安全']],
+        ['模型安全对齐评测', '构建敏感问题、拒答边界与合规回答评测样本。', 'images/scenes/llm.jpg', ['安全', '对齐', '评测']]
+      ]
+    }
+  };
 
   /* ── 小工具 ─────────────────────────────────────── */
   const IC = `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg>`;
@@ -82,7 +207,7 @@
   /* 二级标题箭头 */
   const MST_ARROW = `<svg class="mst-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>`;
 
-  /* 二级标题：传入 href 时渲染为指向该栏总览的链接 */
+  /* 二级标题：传入 href 时渲染为链接，否则只作为固定栏目标题 */
   function sectionTitle(name, href) {
     return href
       ? `<a class="mega-section-title" href="${href}">${name}${MST_ARROW}</a>`
@@ -135,17 +260,15 @@
     </div>`;
 
     /* 解决方案 mega */
-    const solMega = `<div class="nav-mega" style="min-width:520px;">
+    const solMega = `<div class="nav-mega" style="min-width:380px;">
       <div class="mega-col" style="min-width:148px;">
-        ${sectionTitle('数据产品', 'solutions_overview.html#data-products')}
-        ${SOL_DATA_PRODUCT.map(it => `<a href="${it.href}">${IC}<span>${it.name}</span></a>`).join('')}
+        ${sectionTitle('行业场景')}
+        ${SOL_INDUSTRY_SCENES.map(it => `<a href="${it.href}">${IC}<span>${it.name}</span></a>`).join('')}
       </div>
-      <div class="mega-col" style="min-width:148px;">
-        ${sectionTitle('数据服务', 'solutions_overview.html#data-services')}
+      <div class="mega-col" style="min-width:176px;">
+        ${sectionTitle('数据服务')}
         ${SOL_DATA_SERVICE.map(it => `<a href="${it.href}">${IC}<span>${it.name}</span></a>`).join('')}
-      </div>
-      <div class="mega-col" style="min-width:160px;">
-        ${sectionTitle('智能语音', 'solutions_overview.html#voice-ai')}
+        ${sectionTitle('智能语音', 'voice_ai.html')}
         ${SOL_VOICE.map(it => `<a href="${it.href}">${IC}<span>${it.name}</span>${it.badge ? badge(it.badge) : ''}</a>`).join('')}
       </div>
     </div>`;
@@ -179,10 +302,10 @@
             </div>
 
             <div class="nav-item">
-              <a class="nav-link ${isActive('solutions') ? 'active' : ''}" href="solutions_overview.html">
+              <button class="nav-link ${isActive('solutions') ? 'active' : ''}" type="button" aria-haspopup="true">
                 解决方案
                 <svg class="nav-caret" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 4l3 3 3-3"/></svg>
-              </a>
+              </button>
               ${solMega}
             </div>
 
@@ -215,14 +338,14 @@
           <div class="footer-main">
             <div class="footer-col">
               <h4>智能语音</h4>
-              <a href="voice_ai.html#asr">ASR 语音识别</a>
-              <a href="voice_ai.html#tts">TTS 语音合成</a>
-              <a href="voice_ai.html#ext">语音拓展</a>
+              <a href="voice_ai.html">ASR 语音识别</a>
+              <a href="voice_ai.html">TTS 语音合成</a>
+              <a href="voice_ai.html">语音拓展</a>
             </div>
             <div class="footer-col">
               <h4>AI 数据服务</h4>
-              <div class="fc-group-head">数据产品</div>
-              ${SOL_DATA_PRODUCT.map(s => `<a href="${s.href}">${s.name}</a>`).join('')}
+              <div class="fc-group-head">行业场景</div>
+              ${SOL_INDUSTRY_SCENES.slice(0, 5).map(s => `<a href="${s.href}">${s.name}</a>`).join('')}
               <div class="fc-group-head">数据服务</div>
               <a href="data_service_collection.html">数据采集服务</a>
               <a href="data_service_annotation.html">数据标注服务</a>
@@ -230,17 +353,16 @@
             </div>
             <div class="footer-col">
               <h4>场景解决方案</h4>
-              ${SOL_DATA_PRODUCT.map(s => `<a href="${s.href}">${s.name}解决方案</a>`).join('')}
-              <a href="solutions_overview.html">解决方案总览</a>
+              ${SOL_INDUSTRY_SCENES.map(s => `<a href="${s.href}">${s.name}解决方案</a>`).join('')}
             </div>
             <div class="footer-col">
               <h4>关于我们</h4>
               <a href="about.html">公司介绍</a>
               <a href="about.html">荣誉资质</a>
-              <a href="homepage.html#news">最新动态</a>
-              <a href="about.html#contact">联系我们</a>
-              <a href="#">数据供应商加盟</a>
-              <a href="#">技术产品销售渠道</a>
+              <a href="homepage.html">最新动态</a>
+              <a href="about.html">联系我们</a>
+              <a href="https://distribute.ebiaoge.com/sp/formreport/distribute/TY0D2TKKVP/4748489893055628723" target="_blank" rel="noopener">数据供应商加盟</a>
+              <a href="https://distribute.ebiaoge.com/sp/formreport/distribute/ty0d2tkkvp/1476002722365784915" target="_blank" rel="noopener">技术产品销售渠道</a>
             </div>
             <div class="footer-info-col">
               <div class="fi-name">标贝科技有限公司</div>
@@ -283,9 +405,9 @@
           </div>
           <div class="footer-bottom">
             <div class="fb-links">
-              <a href="#">标贝科技服务声明</a>
+              <a href="javascript:void(0)">标贝科技服务声明</a>
               <a href="https://www.data-baker.com/m/#/about/personRightFile " target="_blank" rel="noopener noreferrer">个人信息保护政策</a>
-              <a href="#">意见反馈</a>
+              <a href="javascript:void(0)">意见反馈</a>
               <a href="https://beian.miit.gov.cn/#/Integrated/index" target="_blank" rel="noopener noreferrer">鲁ICP备2023038621号</a>
             </div>
             <span>© 2025 DataBaker Technology · All rights reserved.</span>
@@ -648,6 +770,20 @@
     sync(); addEventListener('scroll', sync, { passive: true });
   }
 
+  function scrollTargetButtons() {
+    document.querySelectorAll('[data-scroll-target]').forEach(el => {
+      if (el.dataset.scrollInit) return;
+      el.dataset.scrollInit = '1';
+      el.addEventListener('click', e => {
+        const id = el.getAttribute('data-scroll-target');
+        const target = id && document.getElementById(id);
+        if (!target) return;
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  }
+
   function reveal() {
     const io = new IntersectionObserver(es => es.forEach(e => {
       if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); }
@@ -655,21 +791,83 @@
     document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
   }
 
-  function scrollToHashTarget() {
-    if (!location.hash) return;
-    const target = document.getElementById(decodeURIComponent(location.hash.slice(1)));
-    if (!target) return;
-    const align = () => {
-      const root = document.documentElement;
-      const prev = root.style.scrollBehavior;
-      const margin = parseFloat(getComputedStyle(target).scrollMarginTop) || 96;
-      root.style.scrollBehavior = 'auto';
-      scrollTo(0, Math.max(0, target.getBoundingClientRect().top + scrollY - margin));
-      root.style.scrollBehavior = prev;
-    };
-    requestAnimationFrame(align);
-    setTimeout(align, 120);
-    setTimeout(align, 360);
+  function renderSharedProductAdvantages() {
+    document.querySelectorAll('[data-shared-product-advantages]').forEach(el => {
+      el.innerHTML = `
+        <div class="sol-section shared-product-advantages" data-reveal style="margin-bottom:0;">
+          <div class="sol-section-head">
+            <div>
+              <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px;">
+                <span class="sol-section-badge" style="color:#44e08a;border-color:rgba(68,224,138,0.3);background:rgba(68,224,138,0.06);">PRODUCT ADVANTAGES</span>
+              </div>
+              <h2>产品优势</h2>
+              <p>10 年深耕 AI 数据与语音赛道，自研全栈工具链，已服务 1000+ 头部企业与科研机构</p>
+            </div>
+          </div>
+          <div class="adv-band">
+            <div class="adv-stat-item"><div class="adv-num">10<span class="unit">年+</span></div><p>AI 数据与语音技术积累</p></div>
+            <div class="adv-stat-item"><div class="adv-num">1000<span class="unit">+</span></div><p>头部企业与科研机构客户</p></div>
+            <div class="adv-stat-item"><div class="adv-num">50<span class="unit">+</span></div><p>支持语种与地区方言</p></div>
+            <div class="adv-stat-item"><div class="adv-num">99.9<span class="unit">%</span></div><p>多轮质检后数据准确率</p></div>
+          </div>
+          <div class="pa-grid">
+            ${[
+              ['v1','M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5','全品类数据资产','覆盖语音、视觉、点云、文本与大模型语料，10 亿+ 多模态样本沉淀，支持从样本试制到百万级商用训练。',['SPEECH','CV','NLP','3D','LLM']],
+              ['v2','M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM9 12l2 2 4-4','高精度交付','AI 预标注 + 多轮人工质检 + 抽检复核三道闸口，平均交付准确率 99.9%，满足商用级 AI 模型训练标准。',['QA','AI ASSIST','99.9% Acc.']],
+              ['v3','M3 11h18v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-9zM7 11V7a5 5 0 0 1 10 0v4','安全合规体系','ISO 27001 / 27701 双认证，符合 GDPR 与国内数据合规法规，支持端到端加密、私有化部署、全流程留痕。',['ISO 27001','27701','GDPR']],
+              ['v4','M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20','全球资源 · 多语种','覆盖 50+ 主流语种与地区方言，自有海外采集团队与录音棚，200 万+ 全球众包资源池，赋能企业出海。',['GLOBAL','50+ LANG','200W+ POOL']],
+              ['v5','M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z','自研全栈工具链','标贝易采、3D / 2D 标注平台、ASR / TTS 切音转写工具与开放平台，端到端打通采集—标注—模型迭代。',['EASY COLL','3D / 2D','SaaS']],
+              ['v1','M20 21v-2a4 4 0 0 0-3-3.87M4 21v-2a4 4 0 0 1 3-3.87M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM22 11l-3 3-3-3M16 14V8','专属项目化交付','专属项目经理 + 行业算法专家组队对接，里程碑式迭代交付，支持紧急排期与扩量，缩短产品上线周期。',['DEDICATED PM','AGILE','FAST DELIVER']]
+            ].map(card => `
+              <div class="pa-card ${card[0]}">
+                <div class="pa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="${card[1]}"/></svg></div>
+                <div class="pa-text"><h4>${card[2]}</h4><p>${card[3]}</p><div class="pa-tags">${card[4].map(t => `<span>${t}</span>`).join('')}</div></div>
+              </div>`).join('')}
+          </div>
+        </div>`;
+    });
+  }
+
+  function renderIndustryScenarioPage() {
+    const page = document.getElementById('industryPage');
+    if (!page) return;
+    const key = page.getAttribute('data-scene');
+    const scene = INDUSTRY_SCENES[key];
+    if (!scene) return;
+    const heroImg = page.getAttribute('data-hero-img') || `images/solution/${key}/${key}-hero.png`;
+    document.title = `${scene.title} · 标贝科技`;
+    page.innerHTML = `
+      <section class="page-hero has-hero-img" style="--hero-img:url('${heroImg}')">
+        <div class="container industry-hero-main">
+            <nav class="crumbs">
+              <a href="homepage.html">首页</a><span class="sep">/</span><span>解决方案</span><span class="sep">/</span><span class="cur">${scene.title}</span>
+            </nav>
+            <span class="eyebrow">Industry Scenario · ${scene.en}</span>
+            <h1 class="display" style="font-size:clamp(2.2rem,4.8vw,4rem);margin:16px 0 20px;">${scene.title}</h1>
+            <p class="industry-hero-summary">${scene.summary}</p>
+            <div class="industry-meta">${scene.meta.map(m => `<span>${m}</span>`).join('')}</div>
+            <a href="javascript:void(0)" onclick="openTrialModal()" class="btn btn-primary">预约试用<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </div>
+      </section>
+      <section class="section" style="padding-top:70px;">
+        <div class="container industry-body">
+          <div class="block-head"><h3>定制服务类型</h3><p>根据场景目标组合采集、标注、清洗、评测与交付流程，服务类型可按项目继续扩展。</p></div>
+          <div class="service-panel">
+            <div class="adv-show">
+              <div class="adv-tabs">${scene.services.map((item, i) => `<button class="adv-tab${i === 0 ? ' active' : ''}" data-a="${i}">${item[0]}<span class="bar"></span></button>`).join('')}</div>
+              ${scene.services.map((item, i) => `<div class="adv-sub${i === 0 ? ' is-active' : ''}" data-a="${i}"><b>${item[0]}</b><span>${item[1]}</span></div>`).join('')}
+              <div class="adv-stage">
+                <span class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 9h18M8 21h8M12 18v3"/></svg></span>
+                ${scene.services.map((item, i) => `<img class="adv-slide${i === 0 ? ' is-active' : ''}" data-a="${i}" src="${item[2]}" alt="${item[0]}" loading="lazy" onerror="this.hidden=true">`).join('')}
+              </div>
+            </div>
+          </div>
+          <div class="block-head"><h3>优势特点</h3><p>围绕数据质量、效率、安全与交付一致性建立项目保障机制。</p></div>
+          <div class="advantage-grid">${scene.advantages.map(a => `<div class="advantage-card"><strong>${a}</strong><p>结合场景 SOP、自动化工具与多轮质检，将需求拆解为可管理、可追踪、可复用的数据资产。</p></div>`).join('')}</div>
+          <div class="block-head"><h3>成功案例</h3><p>案例采用左右交叉的 S 型叙事，便于后续替换为真实项目图片和客户成果。</p></div>
+          <div class="case-list">${scene.cases.map((c, i) => `<div class="case-row"><div class="case-img"><img src="${c[2]}" alt="${c[0]}" loading="lazy" onerror="this.hidden=true"></div><div class="case-text"><div class="num">CASE ${String(i + 1).padStart(2, '0')}</div><h4>${c[0]}</h4><p>${c[1]}</p><div class="case-tags">${c[3].map(t => `<span>${t}</span>`).join('')}</div></div></div>`).join('')}</div>
+        </div>
+      </section>`;
   }
 
   /* 应用场景手风琴：悬停展开，点击锁定（适配触屏）。任何含 .scene-acc 的页面自动生效 */
@@ -716,14 +914,15 @@
     renderHeader();
     renderFooter();
     renderSidebar();
+    renderSharedProductAdvantages();
+    renderIndustryScenarioPage();
     cursor();
     scrollProgress();
     headerScroll();
+    scrollTargetButtons();
     reveal();
     sceneAccordion();
     advSlider();
-    scrollToHashTarget();
-    window.addEventListener('hashchange', scrollToHashTarget);
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();

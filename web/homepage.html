@@ -647,10 +647,10 @@ h2.display, h1.display {
    Floating Dock (section nav)
    ========================================================= */
 .dock { position: fixed; right: 24px; top: 50%; transform: translateY(-50%); z-index: 30; display: flex; flex-direction: column; gap: 14px; }
-.dock a { position: relative; width: 8px; height: 8px; border-radius: 50%; background: rgba(143,214,255,0.2); transition: all 220ms ease; }
-.dock a.active { background: var(--brand-hi); box-shadow: 0 0 14px var(--brand-hi); transform: scale(1.4); }
-.dock a::after { content: attr(data-label); position: absolute; right: 22px; top: 50%; transform: translateY(-50%); padding: 4px 10px; border-radius: 4px; background: rgba(7,13,32,0.95); border: 1px solid var(--line); color: var(--text); font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 200ms ease; }
-.dock a:hover::after { opacity: 1; }
+.dock button { position: relative; width: 8px; height: 8px; border: 0; padding: 0; border-radius: 50%; background: rgba(143,214,255,0.2); cursor: pointer; transition: all 220ms ease; }
+.dock button.active { background: var(--brand-hi); box-shadow: 0 0 14px var(--brand-hi); transform: scale(1.4); }
+.dock button::after { content: attr(data-label); position: absolute; right: 22px; top: 50%; transform: translateY(-50%); padding: 4px 10px; border-radius: 4px; background: rgba(7,13,32,0.95); border: 1px solid var(--line); color: var(--text); font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 200ms ease; }
+.dock button:hover::after { opacity: 1; }
 
 /* =========================================================
    Reveal on scroll
@@ -685,13 +685,13 @@ h2.display, h1.display {
 
 <!-- 右侧悬浮指示器 -->
 <nav class="dock" aria-label="区块导航">
-  <a href="#hero"      class="active" data-label="01 HOME"></a>
-  <a href="#services"             data-label="02 SERVICES"></a>
-  <a href="#pipeline"             data-label="03 PIPELINE"></a>
-  <a href="#voice"                data-label="04 VOICE AI"></a>
-  <a href="#datasets"             data-label="05 DATASETS"></a>
-  <a href="#news"                 data-label="06 NEWS"></a>
-  <a href="#contact"              data-label="07 CONTACT"></a>
+  <button type="button" class="active" data-label="01 HOME" data-scroll-target="hero" aria-label="HOME"></button>
+  <button type="button" data-label="02 SERVICES" data-scroll-target="services" aria-label="SERVICES"></button>
+  <button type="button" data-label="03 PIPELINE" data-scroll-target="pipeline" aria-label="PIPELINE"></button>
+  <button type="button" data-label="04 VOICE AI" data-scroll-target="voice" aria-label="VOICE AI"></button>
+  <button type="button" data-label="05 DATASETS" data-scroll-target="datasets" aria-label="DATASETS"></button>
+  <button type="button" data-label="06 NEWS" data-scroll-target="news" aria-label="NEWS"></button>
+  <button type="button" data-label="07 CONTACT" data-scroll-target="contact" aria-label="CONTACT"></button>
 </nav>
 
 <!-- HEADER (由 _shared.js 渲染) -->
@@ -737,7 +737,7 @@ h2.display, h1.display {
           预约试用
           <svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
-        <a href="#services" class="btn btn-ghost" data-magnetic>
+        <a href="javascript:void(0)" data-scroll-target="services" class="btn btn-ghost" data-magnetic>
           查看服务
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg>
         </a>
@@ -880,7 +880,7 @@ h2.display, h1.display {
             <div><h4>智能合规交付</h4><p>采集授权、隐私脱敏、过程留痕与质量抽检共同构成可验收的数据链路。</p></div>
           </div>
         </div>
-        <a class="flow-arrow" href="#">了解采集服务 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        <a class="flow-arrow" href="data_service_collection.html">了解采集服务 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
       </div>
 
       <div class="flow-viz" data-tilt>
@@ -984,7 +984,7 @@ h2.display, h1.display {
             <div><h4>高效质检闭环</h4><p>任务规范、试标校准、批量生产、抽检返修和验收报告构成完整交付。</p></div>
           </div>
         </div>
-        <a class="flow-arrow" href="#">了解标注服务 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        <a class="flow-arrow" href="data_service_annotation.html">了解标注服务 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
       </div>
     </div>
   </div>
@@ -1012,7 +1012,7 @@ h2.display, h1.display {
             <div><h4>评测与知识增强</h4><p>构建评测基准与行业知识库，结构化抽取与事实核验，持续度量模型能力边界。</p></div>
           </div>
         </div>
-        <a class="flow-arrow" href="#">了解大模型数据服务 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        <a class="flow-arrow" href="solution_llm.html">了解大模型数据服务 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
       </div>
 
       <div class="flow-viz" data-tilt>
@@ -1250,37 +1250,37 @@ h2.display, h1.display {
     </div>
     <div class="news-grid" data-reveal>
 
-      <a class="news-card" href="#">
+      <a class="news-card" href="javascript:void(0)">
         <h3>标贝科技携全栈图像视觉数据解决方案亮相2026中国图像图形大会</h3>
         <p>5月30日，2026中国图像图形大会CCIG 2026在广州盛大开幕。本届大会以“图绘湾区，象启新元”为主题，汇聚了全国顶尖高校、科研院所及行业企业的4000余名产学研精英。标贝科技携最新图像视觉数据解决方案亮相会议，与行业同仁共探计算机视觉技术的产学研融合创新之路。</p>
         <div class="news-foot"><span class="news-date">发布时间：2026-06-02</span><span class="news-more">查看详情 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></div>
       </a>
 
-      <a class="news-card" href="#">
+      <a class="news-card" href="javascript:void(0)">
         <h3>标贝科技高字准率小语种数据集 破局小语种语音交互壁垒</h3>
         <p>随着中国智能硬件、新能源汽车、消费电子及互联网服务加速全球化，多语种自然交互的本地化能力已成为产品出海的核心竞争力。标贝科技依托全球化数据采集网络与工业化生产管线，推出日语、韩语、俄语三大语音数据集，总规模达3万小时，覆盖近30万余个男女音色，文本字准率抽检98%以上，有效补齐热门小语种数据短板。</p>
         <div class="news-foot"><span class="news-date">发布时间：2026-05-28</span><span class="news-more">查看详情 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></div>
       </a>
 
-      <a class="news-card" href="#">
+      <a class="news-card" href="javascript:void(0)">
         <h3>标贝科技高质量图像数据集，让AI“看”得更准、更深</h3>
         <p>面对计算机视觉领域日益复杂的应用需求，标贝科技依托深厚的数据服务积淀，匠心打造了一系列覆盖智慧教育、商业零售、文旅创意等主流场景的大规模专业化图像数据集。旨在为OCR识别、图像增强、目标检测与分割等前沿算法提供高标准、精细化的训练支撑，全面加速AI视觉技术的商业化落地进程。</p>
         <div class="news-foot"><span class="news-date">发布时间：2026-05-20</span><span class="news-more">查看详情 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></div>
       </a>
 
-      <a class="news-card" href="#">
+      <a class="news-card" href="javascript:void(0)">
         <h3>标贝科技亮相第12届上海国际人形机器人与供应链生态展览会</h3>
         <p>近日，第12届上海国际人形机器人与供应链生态展览会在上海国家会展中心圆满落幕。标贝科技携具身智能数据解决方案亮相展会，集中展示在多模态数据采集、高精度标注、高质量数据集建设等领域的核心技术实力，与产业链同仁共探具身智能技术创新与商业化落地路径。</p>
         <div class="news-foot"><span class="news-date">发布时间：2026-05-12</span><span class="news-more">查看详情 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></div>
       </a>
 
-      <a class="news-card" href="#">
+      <a class="news-card" href="javascript:void(0)">
         <h3>从舞台到赛道：高质量数据驱动具身智能机器人“跨越式进化”</h3>
         <p>2026年马年春晚舞台上，人形机器人方阵姿态流畅的惊艳表现仍令人记忆犹新；时隔两个月，北京亦庄机器人半马赛事再传捷报，冠军机器人以50分26秒的成绩完赛，大幅超越人类男子半马世界纪录，再次刷新大众对机器人运动灵活性、耐力与自主性的认知上限。</p>
         <div class="news-foot"><span class="news-date">发布时间：2026-04-24</span><span class="news-more">查看详情 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></div>
       </a>
 
-      <a class="news-card" href="#">
+      <a class="news-card" href="javascript:void(0)">
         <h3>标贝科技入选《2026中国数据标注领域最具商业合作价值企业》</h3>
         <p>近日，数据猿联合上海大数据联盟发布《2026中国数据标注领域最具商业合作价值企业盘点》。标贝科技凭借在AI数据服务领域的技术实力和全模态数据解决方案，成功入选榜单。</p>
         <div class="news-foot"><span class="news-date">发布时间：2026-04-21</span><span class="news-more">查看详情 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></div>
@@ -1288,7 +1288,7 @@ h2.display, h1.display {
 
     </div>
     <div style="text-align:center;margin-top:40px;" data-reveal>
-      <a href="#" class="btn btn-ghost">更多新闻资讯 <svg class="btn-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      <a href="javascript:void(0)" class="btn btn-ghost">更多新闻资讯 <svg class="btn-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
     </div>
   </div>
 </section>
@@ -1365,17 +1365,12 @@ h2.display, h1.display {
 (function() {
   const sections = ['hero','services','pipeline','voice','datasets','contact']
     .map(id => document.getElementById(id)).filter(Boolean);
-  const dockLinks = document.querySelectorAll('.dock a');
-  const navLinks = document.querySelectorAll('.nav-link');
+  const dockLinks = document.querySelectorAll('.dock button');
   function onScroll() {
     const mid = window.scrollY + window.innerHeight * 0.4;
     let active = 0;
     sections.forEach((s, i) => { if (s.offsetTop <= mid) active = i; });
     dockLinks.forEach((a, i) => a.classList.toggle('active', i === active));
-    navLinks.forEach((a) => {
-      const tgt = a.getAttribute('href').slice(1);
-      a.classList.toggle('active', tgt === sections[active]?.id);
-    });
   }
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
