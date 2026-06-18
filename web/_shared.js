@@ -23,18 +23,18 @@
     { href: 'tool_collection.html', name: '标贝易采', en: 'EasyColl' },
   ];
   const TOOLS_OPENPLATFORM = [
-    { href: 'tool_openplatform.html', name: '开放平台', en: 'Open Platform' },
+    { href: 'tool_openplatform.html', name: '开发者工具', en: 'Open Platform' },
   ];
   const TOOLS_READER = [
     { href: 'tool_reader.html', name: '标贝悦读', en: 'YueReader' },
   ];
 
-  /* 工具平台：纵向四个工具 */
+  /* 工具平台：纵向四个工具（各自独立页面） */
   const TOOLS_PLATFORMS = [
-    { href: 'tools_overview.html',   name: '标注平台', en: 'Annotation' },
-    { href: 'tool_collection.html',  name: '采集平台', en: 'Collection' },
-    { href: 'tool_reader.html',      name: '标贝悦读', en: 'YueReader' },
-    { href: 'tool_openplatform.html',name: '开放平台', en: 'Open Platform' },
+    { href: 'tool_annotation.html',   name: '标注平台', en: 'Annotation' },
+    { href: 'tool_collection.html',   name: '采集平台', en: 'Collection' },
+    { href: 'tool_reader.html',       name: '标贝悦读', en: 'YueReader' },
+    { href: 'tool_openplatform.html', name: '开发者工具', en: 'Dev Tools' },
   ];
 
   const SOL_DATA_PRODUCT = [
@@ -48,12 +48,11 @@
     { href: 'data_service_collection.html', name: '数据采集服务', en: 'Collection' },
     { href: 'data_service_annotation.html', name: '数据标注服务', en: 'Annotation' },
     { href: 'datasets_overview.html',       name: '成品数据集',   en: 'Datasets' },
-    { href: 'solutions_overview.html',      name: '业务全览',     en: 'Overview' },
   ];
   const SOL_VOICE = [
     { href: 'voice_ai.html#asr',  name: 'ASR 语音识别', en: 'Speech Recognition', badge: '' },
     { href: 'voice_ai.html#tts',  name: 'TTS 语音合成', en: 'Text-to-Speech',     badge: '' },
-    { href: 'voice_ai.html#ext',  name: '语音拓展',     en: 'Voice Extension',    badge: '' },
+    { href: 'voice_ai.html#ext',  name: '语音拓展产品', en: 'Voice Extension',    badge: '' },
   ];
 
   /* ── 小工具 ─────────────────────────────────────── */
@@ -108,7 +107,7 @@
   function isActive(group) {
     if (group === 'home')      return cur === '' || cur === 'homepage.html' || cur === 'index.html';
     if (group === 'datasets')  return cur.startsWith('dataset_') || cur === 'datasets_overview.html';
-    if (group === 'tools')     return cur.startsWith('tool_') || cur === 'tools_overview.html';
+    if (group === 'tools')     return cur.startsWith('tool_');
     if (group === 'solutions') return cur.startsWith('solution_') || cur === 'solutions_overview.html'
                                    || cur === 'voice_ai.html'
                                    || cur.startsWith('data_service_');
@@ -121,11 +120,11 @@
     const el = document.getElementById('nav-placeholder');
     if (!el) return;
 
-    /* 数据集 mega */
-    const datasetsMega = `<div class="nav-mega" style="min-width:420px;">
-      ${megaCol('语音数据', '', [DATASETS[0], DATASETS[1]], 'datasets_overview.html')}
-      ${megaCol('视觉数据', '', [DATASETS[2], DATASETS[3]], 'datasets_overview.html')}
-      ${megaCol('文本 & 大模型', '', [DATASETS[4], DATASETS[5]], 'datasets_overview.html')}
+    /* 数据集 mega：六个数据集直接作为二级标题纵向排列 */
+    const datasetsMega = `<div class="nav-mega" style="min-width:220px;">
+      <div class="mega-col mega-col-vertical" style="min-width:200px;border-right:0;padding-right:16px;">
+        ${DATASETS.map(it => sectionTitle(it.name, it.href)).join('')}
+      </div>
     </div>`;
 
     /* 工具平台 mega：纵向四个二级标题（与其它栏目二级标题样式一致，无三级） */
@@ -138,15 +137,15 @@
     /* 解决方案 mega */
     const solMega = `<div class="nav-mega" style="min-width:520px;">
       <div class="mega-col" style="min-width:148px;">
-        ${sectionTitle('数据产品', 'solutions_overview.html')}
+        ${sectionTitle('数据产品', 'solutions_overview.html#data-products')}
         ${SOL_DATA_PRODUCT.map(it => `<a href="${it.href}">${IC}<span>${it.name}</span></a>`).join('')}
       </div>
       <div class="mega-col" style="min-width:148px;">
-        ${sectionTitle('数据服务', 'solutions_overview.html')}
+        ${sectionTitle('数据服务', 'solutions_overview.html#data-services')}
         ${SOL_DATA_SERVICE.map(it => `<a href="${it.href}">${IC}<span>${it.name}</span></a>`).join('')}
       </div>
       <div class="mega-col" style="min-width:160px;">
-        ${sectionTitle('智能语音', 'voice_ai.html')}
+        ${sectionTitle('智能语音', 'solutions_overview.html#voice-ai')}
         ${SOL_VOICE.map(it => `<a href="${it.href}">${IC}<span>${it.name}</span>${it.badge ? badge(it.badge) : ''}</a>`).join('')}
       </div>
     </div>`;
@@ -172,10 +171,10 @@
             </div>
 
             <div class="nav-item">
-              <a class="nav-link ${isActive('tools') ? 'active' : ''}" href="tools_overview.html">
+              <button class="nav-link ${isActive('tools') ? 'active' : ''}" type="button" aria-haspopup="true">
                 工具平台
                 <svg class="nav-caret" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 4l3 3 3-3"/></svg>
-              </a>
+              </button>
               ${toolsMega}
             </div>
 
@@ -227,7 +226,7 @@
               <div class="fc-group-head">数据服务</div>
               <a href="data_service_collection.html">数据采集服务</a>
               <a href="data_service_annotation.html">数据标注服务</a>
-              <a href="tools_overview.html">工具平台</a>
+              <a href="tool_annotation.html">工具平台</a>
             </div>
             <div class="footer-col">
               <h4>场景解决方案</h4>
@@ -656,6 +655,63 @@
     document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
   }
 
+  function scrollToHashTarget() {
+    if (!location.hash) return;
+    const target = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+    if (!target) return;
+    const align = () => {
+      const root = document.documentElement;
+      const prev = root.style.scrollBehavior;
+      const margin = parseFloat(getComputedStyle(target).scrollMarginTop) || 96;
+      root.style.scrollBehavior = 'auto';
+      scrollTo(0, Math.max(0, target.getBoundingClientRect().top + scrollY - margin));
+      root.style.scrollBehavior = prev;
+    };
+    requestAnimationFrame(align);
+    setTimeout(align, 120);
+    setTimeout(align, 360);
+  }
+
+  /* 应用场景手风琴：悬停展开，点击锁定（适配触屏）。任何含 .scene-acc 的页面自动生效 */
+  function sceneAccordion() {
+    document.querySelectorAll('.scene-acc').forEach(acc => {
+      if (acc.dataset.accInit) return;           // 防止重复绑定
+      acc.dataset.accInit = '1';
+      const items = [...acc.querySelectorAll('.sa-item')];
+      if (!items.length) return;
+      const activate = it => items.forEach(x => x.classList.toggle('is-active', x === it));
+      items.forEach(it => {
+        it.addEventListener('mouseenter', () => activate(it));
+        it.addEventListener('click', () => activate(it));
+      });
+    });
+  }
+
+  /* 标签进度轮播：点击切换 + 5s 自动播放 + 悬停暂停。含 .adv-show 的页面自动生效 */
+  function advSlider() {
+    document.querySelectorAll('.adv-show').forEach(show => {
+      if (show.dataset.advInit) return;            // 防止重复绑定
+      show.dataset.advInit = '1';
+      const tabs   = [...show.querySelectorAll('.adv-tab')];
+      const subs   = [...show.querySelectorAll('.adv-sub')];
+      const slides = [...show.querySelectorAll('.adv-slide')];
+      if (!tabs.length) return;
+      const n = tabs.length; let cur = 0, timer;
+      const go = i => {
+        cur = (i + n) % n;
+        tabs.forEach((t, k) => t.classList.toggle('active', k === cur));
+        subs.forEach((s, k) => s.classList.toggle('is-active', k === cur));
+        slides.forEach((s, k) => s.classList.toggle('is-active', k === cur));
+      };
+      const start = () => { timer = setInterval(() => go(cur + 1), 5000); };
+      const stop  = () => clearInterval(timer);
+      tabs.forEach((t, k) => t.addEventListener('click', () => { go(k); stop(); start(); }));
+      show.addEventListener('mouseenter', stop);
+      show.addEventListener('mouseleave', start);
+      start();
+    });
+  }
+
   function init() {
     renderHeader();
     renderFooter();
@@ -664,6 +720,10 @@
     scrollProgress();
     headerScroll();
     reveal();
+    sceneAccordion();
+    advSlider();
+    scrollToHashTarget();
+    window.addEventListener('hashchange', scrollToHashTarget);
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();

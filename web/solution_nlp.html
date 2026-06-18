@@ -17,89 +17,114 @@
 .info-card h4{font-family:var(--font-display);font-size:1rem;font-weight:600;margin:0 0 8px;}
 .info-card p{color:var(--text-mute);font-size:0.88rem;margin:0;line-height:1.7;}
 @media(max-width:720px){.info-grid{grid-template-columns:1fr;}}
+
+/* ===== 数据产品 · 自然语言处理 ===== */
+.dp-banner { position:relative; overflow:hidden; border-radius:var(--r-lg); padding:46px 44px; border:1px solid var(--line-strong); background:linear-gradient(120deg, rgba(4,105,207,0.38), rgba(24,166,184,0.22) 58%, rgba(13,26,58,0.6)); }
+.dp-banner::after { content:""; position:absolute; right:-6%; top:-40%; width:380px; height:380px; border-radius:50%; background:radial-gradient(circle, rgba(76,201,240,0.3), transparent 60%); filter:blur(40px); }
+.dp-banner h1 { position:relative; font-family:var(--font-display); font-size:clamp(1.8rem,3.4vw,2.5rem); color:var(--text-hi); margin:0 0 12px; }
+.dp-banner p { position:relative; color:var(--text); font-size:0.98rem; line-height:1.8; max-width:680px; margin:0 0 24px; }
+.dp-search { position:relative; display:flex; max-width:560px; background:#fff; border-radius:99px; overflow:hidden; box-shadow:0 12px 30px rgba(0,0,0,0.25); }
+.dp-search input { flex:1; border:0; outline:0; padding:14px 22px; font-size:0.95rem; font-family:var(--font-cn); color:#222; background:transparent; }
+.dp-search button { width:56px; border:0; background:var(--grad-cta); color:#fff; display:grid; place-items:center; cursor:pointer; }
+.dp-search button svg { width:20px; height:20px; }
+.dp-tabs { display:flex; margin-top:24px; border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; background:rgba(13,26,58,0.5); }
+.dp-tab { flex:1; display:flex; flex-direction:column; align-items:center; gap:8px; padding:18px 10px; color:var(--text-mute); border-right:1px solid var(--line); text-decoration:none; transition:all 200ms ease; font-family:var(--font-display); font-weight:600; font-size:0.95rem; }
+.dp-tab:last-child { border-right:0; }
+.dp-tab:hover { color:var(--text-hi); background:rgba(76,201,240,0.06); }
+.dp-tab.active { color:var(--brand-hi); background:rgba(76,201,240,0.12); box-shadow:inset 0 -3px 0 var(--brand-hi); }
+.dp-tab .ic { width:38px; height:38px; border-radius:10px; background:rgba(76,201,240,0.12); display:grid; place-items:center; color:var(--brand-hi); }
+.dp-tab .ic svg { width:20px; height:20px; }
+.dp-filters { margin-top:24px; border:1px solid var(--line); border-radius:var(--r-lg); background:linear-gradient(180deg,rgba(13,26,58,0.5),rgba(10,20,46,0.5)); padding:4px 22px; }
+.dp-filter { display:flex; align-items:flex-start; gap:14px; padding:13px 0; border-bottom:1px solid var(--line); }
+.dp-filter:last-child { border-bottom:0; }
+.dp-filter > span { flex:0 0 auto; color:var(--text-mute); font-size:0.9rem; padding-top:6px; min-width:78px; }
+.dp-filter ul { display:flex; flex-wrap:wrap; gap:8px; margin:0; padding:0; list-style:none; }
+.dp-filter li { padding:5px 14px; border-radius:8px; color:var(--text); font-size:0.88rem; cursor:pointer; transition:all 160ms ease; }
+.dp-filter li:hover { color:var(--brand-hi); }
+.dp-filter li.active { background:var(--brand); color:#fff; }
+.dp-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:18px; margin-top:28px; }
+.dp-card { border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; background:linear-gradient(180deg,rgba(13,26,58,0.55),rgba(10,20,46,0.55)); transition:all 240ms ease; cursor:pointer; }
+.dp-card[hidden]{ display:none; }
+.dp-card:hover { transform:translateY(-4px); border-color:rgba(76,201,240,0.45); box-shadow:0 18px 40px rgba(4,105,207,0.25); }
+.dp-card-img { position:relative; aspect-ratio:1/1; overflow:hidden; background:linear-gradient(150deg,rgba(255,220,180,0.25),rgba(76,201,240,0.15)); }
+.dp-card-img img { position:absolute; inset:0; z-index:1; width:100%; height:100%; object-fit:cover; }
+.dp-card-img .ph { position:absolute; inset:0; z-index:0; display:grid; place-items:center; color:var(--brand-hi); opacity:0.5; }
+.dp-card-img .ph svg { width:40px; height:40px; }
+.dp-card-body { position:relative; padding:14px 16px; }
+.dp-card-body h4 { font-family:var(--font-display); font-size:1rem; font-weight:600; color:var(--brand-hi); margin:0 0 6px; }
+.dp-card-body p { color:var(--text-mute); font-size:0.8rem; line-height:1.55; margin:0; padding-right:22px; }
+.dp-card-body .arr { position:absolute; right:14px; bottom:14px; width:18px; height:18px; color:var(--text-dim); transition:transform 200ms ease; }
+.dp-card:hover .dp-card-body .arr { transform:translateX(3px); color:var(--brand-hi); }
+.dp-empty { grid-column:1/-1; text-align:center; padding:50px; color:var(--text-mute); }
+.dp-pager { display:flex; justify-content:center; align-items:center; gap:8px; margin-top:32px; }
+.dp-pager button { min-width:34px; height:34px; padding:0 8px; border:1px solid var(--line); border-radius:8px; background:rgba(13,26,58,0.5); color:var(--text-mute); cursor:pointer; font-family:var(--font-mono); transition:all 160ms ease; }
+.dp-pager button:hover:not(:disabled) { color:var(--brand-hi); border-color:rgba(76,201,240,0.5); }
+.dp-pager button.active { background:var(--brand); color:#fff; border-color:var(--brand); }
+.dp-pager button:disabled { opacity:0.4; cursor:not-allowed; }
+@media(max-width:1100px){ .dp-grid{ grid-template-columns:repeat(3,1fr); } }
+@media(max-width:680px){ .dp-grid{ grid-template-columns:repeat(2,1fr); } .dp-tab span{ font-size:0.8rem; } }
+
 </style>
 </head>
 <body>
 <div id="nav-placeholder"></div>
-<section class="page-hero">
+<!-- 数据产品 · 自然语言处理 -->
+<section class="section" style="padding-top:104px;">
   <div class="container">
-    <nav class="crumbs">
-      <a href="homepage.html">首页</a>
-      <span class="sep">/</span>
-      <a href="solutions_overview.html">解决方案总览</a>
-      <span class="sep">/</span>
-      <span class="cur">自然语言处理数据产品</span>
-    </nav>
-    <span class="eyebrow">NLP Data · 自然语言处理</span>
-    <h1 class="display" style="font-size:clamp(2.2rem,4.8vw,4rem);margin:16px 0 20px;">
-      <span style="display:block;">自然语言处理数据产品</span>
-      <span style="display:block;" class="glow-text">NLP Dataset</span>
-    </h1>
-    <p class="lead">情感分析、实体识别、文本分类、机器翻译等 NLP 任务专用标注语料，支持多语言对齐格式与知识图谱标注</p>
-    <div class="htag-row"><span class="htag">NLP</span><span class="htag">情感</span><span class="htag">实体</span><span class="htag">分类</span><span class="htag">翻译</span><span class="htag">知识图谱</span></div>
-    <div class="page-actions">
-      <a href="homepage.html#contact" class="btn btn-primary">申请试用<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-      <a href="solutions_overview.html" class="btn btn-ghost">返回总览</a>
+    <div class="dp-banner" data-reveal>
+      <h1>数据产品</h1>
+      <p>标贝科技拥有语音、文字和图像相关的行业定制自有数据库，可用于商业化系统和产品，数据丰富多样，满足不同客户需求。</p>
+      <div class="dp-search"><input id="dpSearch" type="text" placeholder="请输入搜索内容"><button aria-label="搜索"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></button></div>
     </div>
+    <div class="dp-tabs" data-reveal><a class="dp-tab" href="solution_tts.html"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></span><span>语音合成</span></a><a class="dp-tab" href="solution_asr.html"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"/><path d="M19 10a7 7 0 0 1-14 0M12 19v3"/></svg></span><span>语音识别</span></a><a class="dp-tab" href="solution_cv.html"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="12" r="2.5"/><path d="M3 17l5-5 4 4 3-3 6 6"/></svg></span><span>计算机视觉</span></a><a class="dp-tab active" href="solution_nlp.html"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/></svg></span><span>自然语言处理</span></a><a class="dp-tab" href="solution_open.html"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg></span><span>开放数据</span></a></div>
+    <div class="dp-filters" data-reveal><div class="dp-filter" data-group="lang"><span>录音语种：</span><ul><li class="active" data-v="全部">全部</li><li class="" data-v="中文">中文</li></ul></div>
+    <div class="dp-grid" id="dpGrid" data-reveal><a class="dp-card" data-lang="中文" data-type="女声" data-lib="语音库" data-name="中文女声1" href="javascript:void(0)" onclick="openMessageModal()"><div class="dp-card-img"><img src="images/voices/cn-female-1.jpg" alt="中文女声1" loading="lazy" onerror="this.style.display='none'"><span class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"/><path d="M19 10a7 7 0 0 1-14 0M12 19v3M8 22h8"/></svg></span></div><div class="dp-card-body"><h4>中文女声1</h4><p>标准女声，音字标注+韵律标注</p><svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div></a><a class="dp-card" data-lang="中文" data-type="女声" data-lib="语音库" data-name="中文女声2" href="javascript:void(0)" onclick="openMessageModal()"><div class="dp-card-img"><img src="images/voices/cn-female-2.jpg" alt="中文女声2" loading="lazy" onerror="this.style.display='none'"><span class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"/><path d="M19 10a7 7 0 0 1-14 0M12 19v3M8 22h8"/></svg></span></div><div class="dp-card-body"><h4>中文女声2</h4><p>成熟女声，音字标注+韵律标注</p><svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div></a><a class="dp-card" data-lang="中文" data-type="女声" data-lib="语音库" data-name="中文女声3" href="javascript:void(0)" onclick="openMessageModal()"><div class="dp-card-img"><img src="images/voices/cn-female-3.jpg" alt="中文女声3" loading="lazy" onerror="this.style.display='none'"><span class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"/><path d="M19 10a7 7 0 0 1-14 0M12 19v3M8 22h8"/></svg></span></div><div class="dp-card-body"><h4>中文女声3</h4><p>亲切知性，音字标注+韵律标注</p><svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div></a><a class="dp-card" data-lang="中文" data-type="女声" data-lib="语音库" data-name="中文女声4" href="javascript:void(0)" onclick="openMessageModal()"><div class="dp-card-img"><img src="images/voices/cn-female-4.jpg" alt="中文女声4" loading="lazy" onerror="this.style.display='none'"><span class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"/><path d="M19 10a7 7 0 0 1-14 0M12 19v3M8 22h8"/></svg></span></div><div class="dp-card-body"><h4>中文女声4</h4><p>甜美女声，音字标注+韵律标注</p><svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div></a><a class="dp-card" data-lang="中文" data-type="女声" data-lib="语音库" data-name="中文女声5" href="javascript:void(0)" onclick="openMessageModal()"><div class="dp-card-img"><img src="images/voices/cn-female-5.jpg" alt="中文女声5" loading="lazy" onerror="this.style.display='none'"><span class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"/><path d="M19 10a7 7 0 0 1-14 0M12 19v3M8 22h8"/></svg></span></div><div class="dp-card-body"><h4>中文女声5</h4><p>知性女声，音字标注+韵律标注</p><svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div></a><a class="dp-card" data-lang="中文" data-type="女声" data-lib="语音库" data-name="中文女声6" href="javascript:void(0)" onclick="openMessageModal()"><div class="dp-card-img"><img src="images/voices/cn-female-6.jpg" alt="中文女声6" loading="lazy" onerror="this.style.display='none'"><span class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"/><path d="M19 10a7 7 0 0 1-14 0M12 19v3M8 22h8"/></svg></span></div><div class="dp-card-body"><h4>中文女声6</h4><p>知性女声，音字标注+韵律标注</p><svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div></a><a class="dp-card" data-lang="中文" data-type="女声" data-lib="语音库" data-name="中文女声7" href="javascript:void(0)" onclick="openMessageModal()"><div class="dp-card-img"><img src="images/voices/cn-female-7.jpg" alt="中文女声7" loading="lazy" onerror="this.style.display='none'"><span class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"/><path d="M19 10a7 7 0 0 1-14 0M12 19v3M8 22h8"/></svg></span></div><div class="dp-card-body"><h4>中文女声7</h4><p>萝莉女声，音字标注+韵律标注</p><svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div></a><a class="dp-card" data-lang="中文" data-type="女声" data-lib="语音库" data-name="中文女声8" href="javascript:void(0)" onclick="openMessageModal()"><div class="dp-card-img"><img src="images/voices/cn-female-8.jpg" alt="中文女声8" loading="lazy" onerror="this.style.display='none'"><span class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"/><path d="M19 10a7 7 0 0 1-14 0M12 19v3M8 22h8"/></svg></span></div><div class="dp-card-body"><h4>中文女声8</h4><p>妩媚女声，音字标注+韵律标注</p><svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div></a><a class="dp-card" data-lang="中文" data-type="女声" data-lib="语音库" data-name="中文女声9" href="javascript:void(0)" onclick="openMessageModal()"><div class="dp-card-img"><img src="images/voices/cn-female-9.jpg" alt="中文女声9" loading="lazy" onerror="this.style.display='none'"><span class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"/><path d="M19 10a7 7 0 0 1-14 0M12 19v3M8 22h8"/></svg></span></div><div class="dp-card-body"><h4>中文女声9</h4><p>新闻女声，音字标注+韵律标注</p><svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div></a><a class="dp-card" data-lang="中文" data-type="女声" data-lib="语音库" data-name="中文女声10" href="javascript:void(0)" onclick="openMessageModal()"><div class="dp-card-img"><img src="images/voices/cn-female-10.jpg" alt="中文女声10" loading="lazy" onerror="this.style.display='none'"><span class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"/><path d="M19 10a7 7 0 0 1-14 0M12 19v3M8 22h8"/></svg></span></div><div class="dp-card-body"><h4>中文女声10</h4><p>故事女声，音字标注+韵律标注</p><svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div></a><a class="dp-card" data-lang="中文" data-type="女声" data-lib="语音库" data-name="中文女声11" href="javascript:void(0)" onclick="openMessageModal()"><div class="dp-card-img"><img src="images/voices/cn-female-11.jpg" alt="中文女声11" loading="lazy" onerror="this.style.display='none'"><span class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"/><path d="M19 10a7 7 0 0 1-14 0M12 19v3M8 22h8"/></svg></span></div>
+    <div class="dp-pager" id="dpPager"></div>
   </div>
 </section>
-<section class="section" style="padding-top:60px;">
-  <div class="container">
-    <!-- 占位图片区 -->
-    <div class="placeholder-block" data-reveal>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-      <span>产品配图 · 素材待补</span>
-    </div>
 
-    <!-- 简介-->
-    <div style="max-width:860px;margin:48px auto 0;" data-reveal>
-      <div class="section-head" style="text-align:left;justify-items:start;margin-bottom:32px;">
-        <span class="eyebrow">Overview</span>
-        <h2 class="display" style="font-size:clamp(1.6rem,2.8vw,2.2rem);">产品介绍</h2>
-      </div>
-      <p style="color:var(--text-mute);font-size:1rem;line-height:1.88;margin:0 0 24px;">
-        情感分析、实体识别、文本分类、机器翻译等 NLP 任务专用标注语料，支持多语言对齐格式与知识图谱标注。标贝科技凭借多年行业积累，为本产品提供完整的数据支撑与技术服务，帮助客户快速构建高质量 AI 能力。</p>
-      <p style="color:var(--text-mute);font-size:1rem;line-height:1.88;margin:0;">
-        <em style="color:var(--text-dim);font-family:var(--font-mono);font-size:12px;font-style:normal;letter-spacing:0.1em;">详细产品介绍内容待补充，后续将添加具体功能说明、技术规格与使用案例等素材。</em>
-      </p>
-    </div>
-
-    <!-- 占位信息块 -->
-    <div class="info-grid" data-reveal>
-      <div class="info-card">
-        <h4>核心能力</h4>
-        <p>待补充：产品核心功能列表、技术指标与性能参数等详细信息</p>
-      </div>
-      <div class="info-card">
-        <h4>应用场景</h4>
-        <p>待补充：典型使用场景、行业案例与客户证言等内容</p>
-      </div>
-      <div class="info-card">
-        <h4>技术规格</h4>
-        <p>待补充：接口文档、输入输出格式、并发能力与 SLA 说明</p>
-      </div>
-      <div class="info-card">
-        <h4>定价与授权</h4>
-        <p>待补充：产品定价方案、授权模式与免费试用额度说明</p>
-      </div>
-    </div>
-
-  </div>
-</section>
-<section class="cta-section">
-  <div class="container">
-    <div class="cta-card" data-reveal>
-      <div class="cta-inner">
-        <span class="eyebrow">Next Step</span>
-        <h2>获取自然语言处理数据产品试用方案</h2>
-        <p>填写需求表单，我们将在 1 个工作日内回复并提供免费样本或演示账号</p>
-        <div class="cta-actions">
-          <a href="homepage.html#contact" class="btn btn-primary">立即申请<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>        </div>
-      </div>
-    </div>
-  </div>
-</section>
 <div id="footer-placeholder"></div>
 <script src="_shared.js"></script>
+<script>
+(function(){
+  var grid=document.getElementById('dpGrid'); if(!grid) return;
+  var cards=[].slice.call(grid.querySelectorAll('.dp-card'));
+  var pager=document.getElementById('dpPager');
+  var search=document.getElementById('dpSearch');
+  var PER=10, page=1;
+  var state={lang:'全部',type:'全部',lib:'全部',q:''};
+  var empty=document.createElement('div'); empty.className='dp-empty'; empty.textContent='暂无符合条件的数据产品'; empty.hidden=true; grid.appendChild(empty);
+  function match(c){
+    if(state.lang!=='全部' && c.getAttribute('data-lang')!==state.lang) return false;
+    if(state.type!=='全部' && c.getAttribute('data-type')!==state.type) return false;
+    if(state.lib!=='全部' && c.getAttribute('data-lib')!==state.lib) return false;
+    if(state.q && c.getAttribute('data-name').indexOf(state.q)<0) return false;
+    return true;
+  }
+  function render(){
+    var list=cards.filter(match);
+    var pages=Math.max(1,Math.ceil(list.length/PER));
+    if(page>pages) page=pages;
+    cards.forEach(function(c){ c.hidden=true; });
+    list.slice((page-1)*PER, page*PER).forEach(function(c){ c.hidden=false; });
+    empty.hidden=list.length>0;
+    // pager
+    pager.innerHTML='';
+    function btn(label,p,opts){ var b=document.createElement('button'); b.textContent=label; if(opts&&opts.active)b.classList.add('active'); if(opts&&opts.disabled)b.disabled=true; b.addEventListener('click',function(){ page=p; render(); window.scrollTo({top:grid.offsetTop-90,behavior:'smooth'}); }); pager.appendChild(b); }
+    btn('‹',page-1,{disabled:page<=1});
+    for(var i=1;i<=pages;i++) btn(String(i),i,{active:i===page});
+    btn('›',page+1,{disabled:page>=pages});
+  }
+  document.querySelectorAll('.dp-filter').forEach(function(f){
+    var g=f.getAttribute('data-group');
+    f.querySelectorAll('li').forEach(function(li){ li.addEventListener('click',function(){
+      f.querySelectorAll('li').forEach(function(x){x.classList.toggle('active',x===li);});
+      state[g]=li.getAttribute('data-v'); page=1; render();
+    });});
+  });
+  if(search) search.addEventListener('input',function(){ state.q=search.value.trim(); page=1; render(); });
+  render();
+})();
+</script>
 </body>
 </html>

@@ -17,9 +17,7 @@
 .info-card h4{font-family:var(--font-display);font-size:1rem;font-weight:600;margin:0 0 8px;}
 .info-card p{color:var(--text-mute);font-size:0.88rem;margin:0;line-height:1.7;}
 @media(max-width:720px){.info-grid{grid-template-columns:1fr;}}
-.page-hero{ position:relative; overflow:hidden; min-height:420px; background:#0a1530 url('images/yuedu/yuedu-hero.png') right center/cover no-repeat; }
-.page-hero::before{ content:""; position:absolute; inset:0; z-index:0; background:linear-gradient(90deg, rgba(5,8,19,0.94) 0%, rgba(5,8,19,0.72) 40%, rgba(5,8,19,0.3) 70%, rgba(5,8,19,0.08) 100%); pointer-events:none; }
-.page-hero > .container{ position:relative; z-index:1; }
+/* Hero 背景图样式已迁移至 _shared.css（.has-hero-img），图片由 section 的 --hero-img 指定 */
 .htag{padding:5px 12px;border-radius:99px;border:1px solid rgba(68,224,138,0.2);background:rgba(68,224,138,0.08);color:#44e08a;font-family:var(--font-mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;}
 .placeholder-block{aspect-ratio:16/7;border:1px solid var(--line);border-radius:var(--r-lg);background:linear-gradient(135deg,rgba(68,224,138,0.08),rgba(68,224,138,0.08));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:var(--text-dim);font-family:var(--font-mono);font-size:12px;letter-spacing:0.14em;text-transform:uppercase;position:relative;overflow:hidden;}
 .placeholder-block::before{content:"";position:absolute;inset:0;background-image:repeating-linear-gradient(45deg,rgba(68,224,138,0.08) 0 4px,transparent 4px 8px);}
@@ -30,16 +28,49 @@
 .info-card h4{font-family:var(--font-display);font-size:1rem;font-weight:600;margin:0 0 8px;}
 .info-card p{color:var(--text-mute);font-size:0.88rem;margin:0;line-height:1.7;}
 @media(max-width:720px){.info-grid{grid-template-columns:1fr;}}
+
+/* 核心功能 · 两张大卡 */
+.feat2{ display:grid; grid-template-columns:1fr 1fr; gap:22px; }
+.feat-card{ position:relative; overflow:hidden; padding:30px 30px 28px; border:1px solid var(--line); border-radius:var(--r-lg); background:linear-gradient(135deg,rgba(255,200,80,0.07),rgba(13,26,58,0.6)); transition:all 240ms ease; }
+.feat-card:hover{ transform:translateY(-5px); border-color:rgba(255,200,80,0.45); box-shadow:0 22px 50px rgba(255,200,80,0.14); }
+.feat-card .fc-icon{ width:46px; height:46px; border-radius:12px; display:grid; place-items:center; color:#ffc850; background:rgba(255,200,80,0.12); border:1px solid rgba(255,200,80,0.25); margin-bottom:16px; }
+.feat-card .fc-icon svg{ width:24px; height:24px; }
+.feat-card h3{ font-family:var(--font-display); font-size:1.3rem; font-weight:600; color:var(--text-hi); margin:0 0 10px; }
+.feat-card p{ color:var(--text-mute); font-size:0.92rem; line-height:1.8; margin:0 0 18px; }
+@media(max-width:720px){ .feat2{ grid-template-columns:1fr; } }
+
+/* 发音人角色 */
+.spk-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:18px; }
+.spk-card{ display:flex; gap:14px; align-items:center; padding:16px; border:1px solid var(--line); border-radius:var(--r-lg); background:linear-gradient(180deg,rgba(13,26,58,0.55),rgba(10,20,46,0.55)); transition:all 220ms ease; }
+.spk-card:hover{ transform:translateY(-3px); border-color:rgba(255,200,80,0.4); }
+.spk-ava{ position:relative; flex:0 0 auto; width:54px; height:54px; border-radius:50%; overflow:hidden; background:rgba(255,200,80,0.14); border:1px solid rgba(255,200,80,0.25); display:grid; place-items:center; color:#ffc850; }
+.spk-ava img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+.spk-ava svg{ width:26px; height:26px; }
+.spk-meta h4{ font-family:var(--font-display); font-size:1rem; font-weight:600; color:var(--text-hi); margin:0 0 4px; }
+.spk-meta p{ color:var(--text-mute); font-size:0.8rem; line-height:1.55; margin:0; }
+@media(max-width:900px){ .spk-grid{ grid-template-columns:repeat(2,1fr); } }
+@media(max-width:480px){ .spk-grid{ grid-template-columns:1fr; } }
+
+/* 声音转换流程 */
+.vc-flow{ display:grid; grid-template-columns:1fr auto 1fr; gap:24px; align-items:center; max-width:880px; margin:0 auto; }
+.vc-node{ position:relative; padding:28px 24px; border:1px solid var(--line); border-radius:var(--r-lg); background:linear-gradient(180deg,rgba(13,26,58,0.6),rgba(10,20,46,0.6)); text-align:center; }
+.vc-node .vc-ic{ width:56px; height:56px; margin:0 auto 14px; border-radius:14px; display:grid; place-items:center; color:#ffc850; background:rgba(255,200,80,0.12); border:1px solid rgba(255,200,80,0.25); }
+.vc-node .vc-ic svg{ width:28px; height:28px; }
+.vc-node h4{ font-family:var(--font-display); font-size:1.1rem; font-weight:600; color:var(--text-hi); margin:0 0 6px; }
+.vc-node p{ color:var(--text-mute); font-size:0.84rem; line-height:1.6; margin:0; }
+.vc-arrow{ color:#ffc850; display:grid; place-items:center; }
+.vc-arrow svg{ width:40px; height:40px; }
+@media(max-width:720px){ .vc-flow{ grid-template-columns:1fr; } .vc-arrow{ transform:rotate(90deg); } }
 </style>
 </head>
 <body>
 <div id="nav-placeholder"></div>
-<section class="page-hero">
+<section class="page-hero has-hero-img" style="--hero-img:url('images/tool/DByuedu/yuedu/yuedu-hero.png')">
   <div class="container">
     <nav class="crumbs">
       <a href="homepage.html">首页</a>
       <span class="sep">/</span>
-      <a href="tools_overview.html">工具平台总览</a>
+      <a href="tool_annotation.html">工具平台</a>
       <span class="sep">/</span>
       <span class="cur">标贝悦读</span>
     </nav>
@@ -47,55 +78,190 @@
     <h1 class="display" style="font-size:clamp(2.2rem,4.8vw,4rem);margin:16px 0 20px;">
       <span style="display:block;" class="glow-text">标贝悦读</span>
     </h1>
-    <p class="lead">集朗读文本分发、在线录制、即时打分与数据回收于一体的教育语音采集平台，适配 K12 与职业培训</p>
-    <div class="htag-row"><span class="htag">朗读</span><span class="htag">评测</span><span class="htag">教育</span><span class="htag">采集</span><span class="htag">K12</span></div>
+    <p class="lead">在线 AI 配音与文字转语音平台，支持多语种、多音色合成与声音转换，一键生成自然流畅的专业配音</p>
+    <div class="htag-row"><span class="htag">TTS</span><span class="htag">AI 配音</span><span class="htag">多音色</span><span class="htag">声音转换</span><span class="htag">在线合成</span></div>
     <div class="page-actions">
-      <a href="homepage.html#contact" class="btn btn-primary">申请试用<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-      <a href="tools_overview.html" class="btn btn-ghost">返回总览</a>
+      <a href="javascript:void(0)" onclick="openTrialModal()" class="btn btn-primary">预约试用<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      <a href="tool_annotation.html" class="btn btn-ghost">返回总览</a>
     </div>
   </div>
 </section>
+<!-- 核心功能：AI配音合成 / 声音转换 -->
 <section class="section" style="padding-top:60px;">
   <div class="container">
-    <!-- 占位图片区 -->
-    <div class="placeholder-block" data-reveal>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-      <span>产品配图 · 素材待补</span>
-    </div>
-
-    <!-- 简介-->
-    <div style="max-width:860px;margin:48px auto 0;" data-reveal>
-      <div class="section-head" style="text-align:left;justify-items:start;margin-bottom:32px;">
-        <span class="eyebrow">Overview</span>
-        <h2 class="display" style="font-size:clamp(1.6rem,2.8vw,2.2rem);">产品介绍</h2>
+    <div class="feat2" data-reveal>
+      <div class="feat-card">
+        <div class="fc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
+        <h3>AI 配音合成</h3>
+        <p>输入文字即可一键生成自然流畅的语音，支持多语种、多音色与情感、语速、停顿等精细调节，满足新闻、教育、广告、短视频等多场景配音需求。</p>
+        <a href="javascript:void(0)" onclick="openTrialModal()" class="btn btn-primary btn-sm">立即体验<svg class="btn-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
       </div>
-      <p style="color:var(--text-mute);font-size:1rem;line-height:1.88;margin:0 0 24px;">
-        集朗读文本分发、在线录制、即时打分与数据回收于一体的教育语音采集平台，适配 K12 与职业培训。标贝科技凭借多年行业积累，为本产品提供完整的数据支撑与技术服务，帮助客户快速构建高质量 AI 能力。</p>
-      <p style="color:var(--text-mute);font-size:1rem;line-height:1.88;margin:0;">
-        <em style="color:var(--text-dim);font-family:var(--font-mono);font-size:12px;font-style:normal;letter-spacing:0.1em;">详细产品介绍内容待补充，后续将添加具体功能说明、技术规格与使用案例等素材。</em>
-      </p>
-    </div>
-
-    <!-- 占位信息块 -->
-    <div class="info-grid" data-reveal>
-      <div class="info-card">
-        <h4>核心能力</h4>
-        <p>待补充：产品核心功能列表、技术指标与性能参数等详细信息</p>
-      </div>
-      <div class="info-card">
-        <h4>应用场景</h4>
-        <p>待补充：典型使用场景、行业案例与客户证言等内容</p>
-      </div>
-      <div class="info-card">
-        <h4>技术规格</h4>
-        <p>待补充：接口文档、输入输出格式、并发能力与 SLA 说明</p>
-      </div>
-      <div class="info-card">
-        <h4>定价与授权</h4>
-        <p>待补充：产品定价方案、授权模式与免费试用额度说明</p>
+      <div class="feat-card">
+        <div class="fc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 0 1 8-8 8 8 0 0 1 8 8"/><path d="M2 12h3M19 12h3M8 12v4M16 12v4M12 10v8"/></svg></div>
+        <h3>声音转换</h3>
+        <p>上传一段真人录音，即可将其转换为目标音色，保留语气与节奏，快速复刻专属声音，应用于个性化配音与虚拟人语音。</p>
+        <a href="javascript:void(0)" onclick="openTrialModal()" class="btn btn-primary btn-sm">立即体验<svg class="btn-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
       </div>
     </div>
+  </div>
+</section>
 
+<!-- 发音人角色 -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow">Voices</span>
+      <h2 class="display">丰富的<span class="glow-text">发音人角色</span>，适应各种场景</h2>
+      <p>覆盖少儿、青年、成熟、知性等多种音色风格，满足不同内容调性的配音需求。</p>
+    </div>
+    <div class="spk-grid" data-reveal>
+      <div class="spk-card"><span class="spk-ava"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg><img src="images/tool/DByuedu/yuedu/spk-1.png" alt="" loading="lazy" onerror="this.style.display='none'"></span><div class="spk-meta"><h4>以宁</h4><p>知性女声 · 新闻播报</p></div></div>
+      <div class="spk-card"><span class="spk-ava"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg><img src="images/tool/DByuedu/yuedu/spk-2.png" alt="" loading="lazy" onerror="this.style.display='none'"></span><div class="spk-meta"><h4>以辰</h4><p>沉稳男声 · 专题解说</p></div></div>
+      <div class="spk-card"><span class="spk-ava"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg><img src="images/tool/DByuedu/yuedu/spk-3.png" alt="" loading="lazy" onerror="this.style.display='none'"></span><div class="spk-meta"><h4>以萌</h4><p>少儿童声 · 绘本点读</p></div></div>
+      <div class="spk-card"><span class="spk-ava"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg><img src="images/tool/DByuedu/yuedu/spk-4.png" alt="" loading="lazy" onerror="this.style.display='none'"></span><div class="spk-meta"><h4>以柔</h4><p>温柔女声 · 情感电台</p></div></div>
+      <div class="spk-card"><span class="spk-ava"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg><img src="images/tool/DByuedu/yuedu/spk-5.png" alt="" loading="lazy" onerror="this.style.display='none'"></span><div class="spk-meta"><h4>以然</h4><p>阳光男声 · 短视频配音</p></div></div>
+      <div class="spk-card"><span class="spk-ava"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg><img src="images/tool/DByuedu/yuedu/spk-6.png" alt="" loading="lazy" onerror="this.style.display='none'"></span><div class="spk-meta"><h4>以欣</h4><p>甜美女声 · 广告营销</p></div></div>
+      <div class="spk-card"><span class="spk-ava"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg><img src="images/tool/DByuedu/yuedu/spk-7.png" alt="" loading="lazy" onerror="this.style.display='none'"></span><div class="spk-meta"><h4>以白</h4><p>磁性男声 · 有声小说</p></div></div>
+      <div class="spk-card"><span class="spk-ava"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg><img src="images/tool/DByuedu/yuedu/spk-8.png" alt="" loading="lazy" onerror="this.style.display='none'"></span><div class="spk-meta"><h4>以诺</h4><p>活力童声 · 趣味科普</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 功能 · 标签轮播 -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow">Features</span>
+      <h2 class="display">简单易用的交互，<span class="glow-text">完善齐全</span>的功能</h2>
+    </div>
+    <div class="adv-show" data-reveal>
+      <div class="adv-tabs">
+        <button class="adv-tab active" data-a="0">文章管理<span class="bar"></span></button>
+        <button class="adv-tab" data-a="1">多音字校正<span class="bar"></span></button>
+        <button class="adv-tab" data-a="2">数字读法<span class="bar"></span></button>
+        <button class="adv-tab" data-a="3">多人配音<span class="bar"></span></button>
+        <button class="adv-tab" data-a="4">局部变速<span class="bar"></span></button>
+        <button class="adv-tab" data-a="5">背景音乐<span class="bar"></span></button>
+      </div>
+      <div class="adv-subs">
+        <div class="adv-sub is-active" data-a="0"><b>文章管理</b><span>支持多篇文稿在线编辑、分章节管理与一键合成，长文配音高效有序。</span></div>
+        <div class="adv-sub" data-a="1"><b>多音字校正</b><span>智能识别多音字并提供读音选择，逐字精修，确保发音准确无误。</span></div>
+        <div class="adv-sub" data-a="2"><b>数字读法</b><span>金额、日期、电话、序号等数字按场景自动选择读法，告别歧义。</span></div>
+        <div class="adv-sub" data-a="3"><b>多人配音</b><span>一段文稿可分配多个发音人，模拟对话与角色扮演，丰富听感层次。</span></div>
+        <div class="adv-sub" data-a="4"><b>局部变速</b><span>对任意片段单独调节语速、停顿与重音，细腻还原真人朗读节奏。</span></div>
+        <div class="adv-sub" data-a="5"><b>背景音乐</b><span>内置多风格背景音乐与音效，一键混音，成片即可直接发布使用。</span></div>
+      </div>
+      <div class="adv-stage">
+        <img class="adv-slide is-active" data-a="0" src="images/tool/DByuedu/yuedu/func-1.png" alt="文章管理" loading="lazy" onerror="this.style.display='none'">
+        <img class="adv-slide" data-a="1" src="images/tool/DByuedu/yuedu/func-2.png" alt="多音字校正" loading="lazy" onerror="this.style.display='none'">
+        <img class="adv-slide" data-a="2" src="images/tool/DByuedu/yuedu/func-3.png" alt="数字读法" loading="lazy" onerror="this.style.display='none'">
+        <img class="adv-slide" data-a="3" src="images/tool/DByuedu/yuedu/func-4.png" alt="多人配音" loading="lazy" onerror="this.style.display='none'">
+        <img class="adv-slide" data-a="4" src="images/tool/DByuedu/yuedu/func-5.png" alt="局部变速" loading="lazy" onerror="this.style.display='none'">
+        <img class="adv-slide" data-a="5" src="images/tool/DByuedu/yuedu/func-6.png" alt="背景音乐" loading="lazy" onerror="this.style.display='none'">
+        <span class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 9h18M8 21h8M12 18v3"/></svg></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 声音转换 流程 -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow">Voice Conversion</span>
+      <h2 class="display">声音<span class="glow-text">转换</span></h2>
+      <p>你可以将自己的声音转换为别的声音 —— 保留语气与节奏，快速复刻专属音色。</p>
+    </div>
+    <div class="vc-flow" data-reveal>
+      <div class="vc-node">
+        <div class="vc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 1 3 3v6a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></div>
+        <h4>用户原声</h4>
+        <p>上传或录制一段真人语音作为转换源</p>
+      </div>
+      <div class="vc-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16M14 6l6 6-6 6"/></svg></div>
+      <div class="vc-node">
+        <div class="vc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg></div>
+        <h4>目标音色</h4>
+        <p>转换引擎输出指定音色的全新语音</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 应用案例 · 手风琴 -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow">Use Cases</span>
+      <h2 class="display">应用<span class="glow-text">案例</span></h2>
+    </div>
+    <div class="scene-acc" data-reveal>
+      <div class="sa-item is-active" style="--accent:#ffc850;--img:url('images/tool/DByuedu/yuedu/case-1.jpg');">
+        <span class="sa-ph"></span><span class="sa-bg"></span><span class="sa-grad"></span>
+        <div class="sa-content">
+          <div class="sa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 10l4.553-2.276A1 1 0 0 1 21 8.618v6.764a1 1 0 0 1-1.447.894L15 14M4 8h7a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-6a2 2 0 0 1 2-2z"/></svg></div>
+          <h4 class="sa-title">短视频配音</h4>
+          <div class="sa-detail">
+            <span class="sa-tag">SHORT VIDEO</span>
+            <div class="sa-cap">核心能力</div>
+            <p>为美食、剧情、带货等短视频快速生成解说配音，多音色随心切换，提升内容产出效率。</p>
+            <a class="sa-link" href="javascript:void(0)" onclick="openMessageModal()">咨询详情<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          </div>
+        </div>
+      </div>
+      <div class="sa-item" style="--accent:#4cc9f0;--img:url('images/tool/DByuedu/yuedu/case-2.jpg');">
+        <span class="sa-ph"></span><span class="sa-bg"></span><span class="sa-grad"></span>
+        <div class="sa-content">
+          <div class="sa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22V4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v18M8 6h8M8 10h8M8 14h5"/></svg></div>
+          <h4 class="sa-title">资讯播报</h4>
+          <div class="sa-detail">
+            <span class="sa-tag">NEWS</span>
+            <div class="sa-cap">核心能力</div>
+            <p>新闻、公告、通知自动转语音播报，吐字清晰、节奏自然，支持长文批量合成。</p>
+            <a class="sa-link" href="javascript:void(0)" onclick="openMessageModal()">咨询详情<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          </div>
+        </div>
+      </div>
+      <div class="sa-item" style="--accent:#b14dff;--img:url('images/tool/DByuedu/yuedu/case-3.jpg');">
+        <span class="sa-ph"></span><span class="sa-bg"></span><span class="sa-grad"></span>
+        <div class="sa-content">
+          <div class="sa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
+          <h4 class="sa-title">有声小说</h4>
+          <div class="sa-detail">
+            <span class="sa-tag">AUDIO BOOK</span>
+            <div class="sa-cap">核心能力</div>
+            <p>多角色多音色演绎小说与剧本，配合背景音乐与音效，低成本量产有声读物。</p>
+            <a class="sa-link" href="javascript:void(0)" onclick="openMessageModal()">咨询详情<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          </div>
+        </div>
+      </div>
+      <div class="sa-item" style="--accent:#44e08a;--img:url('images/tool/DByuedu/yuedu/case-4.jpg');">
+        <span class="sa-ph"></span><span class="sa-bg"></span><span class="sa-grad"></span>
+        <div class="sa-content">
+          <div class="sa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.3h6c0-1 .4-1.8 1-2.3A7 7 0 0 0 12 2z"/></svg></div>
+          <h4 class="sa-title">知识科普</h4>
+          <div class="sa-detail">
+            <span class="sa-tag">EDU</span>
+            <div class="sa-cap">核心能力</div>
+            <p>课件、知识讲解与培训内容一键转语音，稳定输出标准发音，助力在线教育。</p>
+            <a class="sa-link" href="javascript:void(0)" onclick="openMessageModal()">咨询详情<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          </div>
+        </div>
+      </div>
+      <div class="sa-item" style="--accent:#ff4dcb;--img:url('images/tool/DByuedu/yuedu/case-5.jpg');">
+        <span class="sa-ph"></span><span class="sa-bg"></span><span class="sa-grad"></span>
+        <div class="sa-content">
+          <div class="sa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div>
+          <h4 class="sa-title">情感电台</h4>
+          <div class="sa-detail">
+            <span class="sa-tag">RADIO</span>
+            <div class="sa-cap">核心能力</div>
+            <p>温柔音色搭配舒缓节奏，打造情感电台、睡前故事与陪伴类音频内容。</p>
+            <a class="sa-link" href="javascript:void(0)" onclick="openMessageModal()">咨询详情<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 <section class="cta-section">
@@ -106,8 +272,8 @@
         <h2>获取标贝悦读试用方案</h2>
         <p>填写需求表单，我们将在 1 个工作日内回复并提供免费样本或演示账号</p>
         <div class="cta-actions">
-          <a href="homepage.html#contact" class="btn btn-primary">立即申请<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-          <a href="tools_overview.html" class="btn btn-ghost">返回总览</a>
+          <a href="javascript:void(0)" onclick="openTrialModal()" class="btn btn-primary">预约试用<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          <a href="tool_annotation.html" class="btn btn-ghost">返回总览</a>
         </div>
       </div>
     </div>

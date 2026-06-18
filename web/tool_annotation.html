@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>标注平台 · 标贝科技</title>
+<link rel="stylesheet" href="_shared.css" />
+<style>
+.htag-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px;}
+.htag{padding:5px 12px;border-radius:99px;border:1px solid rgba(76,201,240,0.2);background:rgba(76,201,240,0.08);color:var(--brand-hi);font-family:var(--font-mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;}
+
+/* ===== 多样化需求 · 两级切换 ===== */
+.req-cats{ display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-bottom:28px; }
+.req-cat{ padding:11px 22px; border:1px solid var(--line); border-radius:99px; background:rgba(13,26,58,0.5); color:var(--text-mute); font-family:var(--font-display); font-weight:600; font-size:0.94rem; cursor:pointer; transition:all 200ms ease; }
+.req-cat:hover{ color:var(--text-hi); }
+.req-cat.active{ color:#fff; border-color:transparent; background:linear-gradient(120deg,var(--brand),var(--cyan-hi)); box-shadow:0 8px 24px rgba(4,105,207,0.35); }
+.req-body{ display:grid; grid-template-columns:180px minmax(0,1fr); border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; background:linear-gradient(180deg,rgba(13,26,58,0.5),rgba(10,20,46,0.5)); }
+.req-side{ display:flex; flex-direction:column; gap:4px; padding:14px; border-right:1px solid var(--line); background:rgba(7,13,32,0.3); }
+.req-sub{ display:flex; align-items:center; gap:8px; text-align:left; padding:11px 12px; border:1px solid transparent; border-radius:10px; background:transparent; color:var(--text-mute); font-family:var(--font-display); font-weight:600; font-size:0.86rem; cursor:pointer; transition:all 180ms ease; }
+.req-sub::before{ content:""; width:6px; height:6px; border-radius:50%; background:currentColor; opacity:.45; flex:0 0 auto; }
+.req-sub:hover{ color:var(--text-hi); background:rgba(76,201,240,0.06); }
+.req-sub.active{ color:var(--brand-hi); border-color:rgba(76,201,240,0.4); background:rgba(76,201,240,0.1); }
+.req-detail{ padding:28px; display:grid; grid-template-columns:260px minmax(0,1fr); gap:24px; align-items:start; animation:advFade 400ms ease; }
+.req-dt-head{ max-width:260px; }
+.req-dt-head h3{ font-family:var(--font-display); font-size:1.42rem; font-weight:600; color:var(--text-hi); margin:0 0 10px; }
+.req-dt-head .intro{ color:var(--text-mute); font-size:0.95rem; line-height:1.85; margin:0 0 22px; }
+.req-cap-title,.req-scene-title{ font-family:var(--font-mono); font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--brand-hi); margin:0 0 12px; }
+.req-caps{ list-style:none; padding:0; margin:0 0 24px; display:grid; gap:10px; }
+.req-caps li{ position:relative; padding-left:22px; color:var(--text); font-size:0.9rem; line-height:1.7; }
+.req-caps li::before{ content:""; position:absolute; left:2px; top:9px; width:7px; height:7px; border-radius:2px; background:var(--brand-hi); box-shadow:0 0 8px var(--brand-hi); }
+.req-scenes{ display:flex; flex-wrap:wrap; gap:8px; }
+.req-scene{ padding:5px 12px; border:1px solid var(--line-strong); border-radius:99px; background:rgba(76,201,240,0.05); color:var(--text); font-family:var(--font-mono); font-size:11px; letter-spacing:0.04em; }
+.req-fig{ position:relative; width:100%; border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; aspect-ratio:16/9; background:linear-gradient(150deg,rgba(13,26,58,0.85),rgba(7,13,32,0.92)); }
+.req-fig img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:1; }
+.req-fig .ph{ position:absolute; inset:0; z-index:0; display:grid; place-items:center; color:var(--brand-hi); opacity:0.32; }
+.req-fig .ph svg{ width:54px; height:54px; }
+@media(max-width:1024px){ .req-detail{ grid-template-columns:1fr; } .req-dt-head{ max-width:none; } }
+@media(max-width:900px){
+  .req-body{ grid-template-columns:1fr; }
+  .req-side{ flex-direction:row; overflow-x:auto; border-right:0; border-bottom:1px solid var(--line); }
+  .req-sub{ white-space:nowrap; }
+}
+
+/* ===== 标注流程 · 插图 ===== */
+.proc-fig{ position:relative; border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; background:linear-gradient(150deg,rgba(13,26,58,0.6),rgba(10,20,46,0.6)); }
+.proc-fig img{ display:block; width:100%; height:auto; position:relative; z-index:1; }
+.proc-fig .ph{ position:absolute; inset:0; z-index:0; display:grid; place-items:center; color:var(--brand-hi); opacity:0.32; aspect-ratio:16/5; }
+.proc-fig .ph svg{ width:54px; height:54px; }
+
+/* ===== 任务全周期管理（沿用 ec-task）===== */
+.ec-task { display:grid; grid-template-columns:1.45fr 1fr; gap:36px; align-items:center; }
+.ec-task-frame { position:relative; border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; aspect-ratio:1380/800; background:linear-gradient(150deg,rgba(13,26,58,0.85),rgba(7,13,32,0.92)); box-shadow:0 24px 60px rgba(0,0,0,0.4); }
+.ec-task-slide { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity 700ms ease; }
+.ec-task-slide.is-active { opacity:1; }
+.ec-task-text { display:none; }
+.ec-task-text.is-active { display:block; animation:ecFade 500ms ease; }
+@keyframes ecFade { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:none;} }
+.ec-task-text .num { font-family:var(--font-tech); font-size:2.4rem; font-weight:700; color:var(--brand-hi); line-height:1; }
+.ec-task-text h4 { font-family:var(--font-display); font-size:1.5rem; font-weight:600; color:var(--text-hi); margin:12px 0 14px; }
+.ec-task-text p { color:var(--text-mute); font-size:0.95rem; line-height:1.85; margin:0; max-width:430px; }
+.ec-task-dots { display:flex; gap:10px; margin-top:30px; }
+.ec-task-dots button { width:28px; height:5px; border-radius:99px; border:0; background:rgba(143,214,255,0.22); cursor:pointer; transition:all 250ms ease; padding:0; }
+.ec-task-dots button.active { width:44px; background:var(--brand-hi); box-shadow:0 0 10px rgba(76,201,240,0.5); }
+@media(max-width:760px){ .ec-task{ grid-template-columns:1fr; gap:24px; } }
+</style>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+
+<section class="page-hero has-hero-img" style="--hero-img:url('images/annotation/annotation-hero.png')">
+  <div class="container">
+    <nav class="crumbs">
+      <a href="homepage.html">首页</a>
+      <span class="sep">/</span>
+      <span class="cur">标注平台</span>
+    </nav>
+    <span class="eyebrow">Annotation Platform · 标注平台</span>
+    <h1 class="display" style="font-size:clamp(2.2rem,4.8vw,4rem);margin:16px 0 20px;">
+      <span style="display:block;">全模态数据</span>
+      <span style="display:block;" class="glow-text">智能标注平台</span>
+    </h1>
+    <p class="lead">覆盖点云、语音、图像、视频、文本与多模态大模型的一站式标注工作台，AI 预标注 + 多轮质检 + 全周期项目管理，让大规模数据生产又快又准。</p>
+    <div class="htag-row"><span class="htag">点云</span><span class="htag">语音</span><span class="htag">图像</span><span class="htag">视频</span><span class="htag">文本</span><span class="htag">多模态</span></div>
+    <div class="page-actions">
+      <a href="javascript:void(0)" onclick="openTrialModal()" class="btn btn-primary">预约试用<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      <a href="solutions_overview.html" class="btn btn-ghost">查看解决方案</a>
+    </div>
+  </div>
+</section>
+
+<!-- 多样化需求 -->
+<section class="section" style="padding-top:60px;">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow">Requirements</span>
+      <h2 class="display">多样化<span class="glow-text">需求</span></h2>
+      <p>一个平台覆盖六大类标注任务，按数据类型选择，站内即可浏览每种能力的细分类型与应用场景。</p>
+    </div>
+    <div data-reveal>
+      <div class="req-cats" id="req-cats"></div>
+      <div class="req-body">
+        <div class="req-side" id="req-side"></div>
+        <div class="req-detail" id="req-detail"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 标注流程 -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow">Workflow</span>
+      <h2 class="display">标注<span class="glow-text">流程</span></h2>
+      <p>标准化六步作业流程，全线上流转、可追溯，兼顾效率与质量。</p>
+    </div>
+    <div class="proc-fig" data-reveal>
+      <img src="images/tool/annotation/liuchengtu.png" alt="标注流程图：需求确认 → 数据准备 → AI 预标注 → 人工标注 → 多轮质检 → 交付验收" loading="lazy" onerror="this.style.display='none'">
+      <span class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 9h18M8 21h8M12 18v3"/></svg></span>
+    </div>
+  </div>
+</section>
+
+<!-- 任务全周期管理 -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow">Administration</span>
+      <h2 class="display">任务<span class="glow-text">全周期管理</span></h2>
+    </div>
+    <div class="ec-task" data-reveal>
+      <div class="ec-task-frame">
+        <img class="ec-task-slide is-active" data-i="0" src="images/annotation/2d/tag2D-01.png" alt="项目模版" loading="lazy">
+        <img class="ec-task-slide" data-i="1" src="images/annotation/2d/tag2D-02.png" alt="项目统计" loading="lazy">
+        <img class="ec-task-slide" data-i="2" src="images/annotation/2d/tag2D-03.png" alt="质检验收" loading="lazy">
+      </div>
+      <div class="ec-task-meta">
+        <div class="ec-task-text is-active" data-i="0"><div class="num">01</div><h4>项目模版</h4><p>灵活配置质检参数、任务模式、AI 算法辅助等能力，覆盖各种复杂项目场景。</p></div>
+        <div class="ec-task-text" data-i="1"><div class="num">02</div><h4>项目统计</h4><p>支持实时进度查看、多维度人员及任务统计，满足各种项目管理需求。</p></div>
+        <div class="ec-task-text" data-i="2"><div class="num">03</div><h4>质检验收</h4><p>算法辅助质检 + 人工多轮质检验收模型，极大提高工作效率，保证数据的质量与安全。</p></div>
+        <div class="ec-task-dots"><button class="active" data-d="0" aria-label="项目模版"></button><button data-d="1" aria-label="项目统计"></button><button data-d="2" aria-label="质检验收"></button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 公有云 VS 私有化 -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow">Service</span>
+      <h2 class="display">公有云 <span class="glow-text">VS 私有化部署</span></h2>
+      <p>标贝科技深入数据领域多年，通过自有的算法专家团队、数亿级的数据沉淀积累、完善的售前/后服务体系，致力于更好地为客户提供价值，赋能企业数智化改革。</p>
+    </div>
+    <div class="ec-vs-wrap" data-reveal>
+      <div class="ec-vs">
+        <div class="vs-corner"></div>
+        <div class="vs-h">公有云</div>
+        <div class="vs-h">私有化部署</div>
+
+        <div class="vs-k">客户群体</div>
+        <div>中小数据标注团队，数据可以外部流转的公司</div>
+        <div>客服、金融、政府等对数据安全隐私要求高的公司机构</div>
+
+        <div class="vs-k">安全性</div>
+        <div>平台客户统一采用公有云服务器</div>
+        <div>在客户的服务器上部署，数据保密性更高、更安全</div>
+
+        <div class="vs-k">便捷性</div>
+        <div>统一登录标贝工具平台，无需额外部署，运维由标贝负责</div>
+        <div>采用私有化部署，数据安全可靠性更高，运维由客户自己管理</div>
+
+        <div class="vs-k">对接方式</div>
+        <div>标贝数据工具平台公有云调用</div>
+        <div>支持主流 CPU 服务器私有部署</div>
+
+        <div class="vs-k">计费模式</div>
+        <div>按照账户数量和存储空间计费，具体请对接 <span class="vs-link blue" onclick="openMessageModal()">商务咨询 &gt;</span></div>
+        <div>按照部署服务的项目授权计费，具体请对接 <span class="vs-link yellow" onclick="openMessageModal()">商务咨询 &gt;</span></div>
+
+        <div class="vs-k">售后服务</div>
+        <div>客户通过在线咨询工具、统一企业微信社群、电话 400 898 2016 进行沟通及售后服务</div>
+        <div>专属 SVIP 售后专家对接，完善的运维服务支撑，不超过 10 分钟（工作日）的响应处理</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-card" data-reveal>
+      <div class="cta-inner">
+        <span class="eyebrow">Next Step</span>
+        <h2>获取标注平台试用方案</h2>
+        <p>填写需求表单，我们将在 1 个工作日内回复并提供免费样本或演示账号</p>
+        <div class="cta-actions">
+          <a href="javascript:void(0)" onclick="openTrialModal()" class="btn btn-primary">预约试用<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          <a href="solutions_overview.html" class="btn btn-ghost">查看解决方案</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="_shared.js"></script>
+<script>
+/* ===== 多样化需求 · 两级切换 + Hash 路由 ===== */
+(function(){
+  const FIG = `<span class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 9h18M8 21h8M12 18v3"/></svg></span>`;
+  const REQ = [
+    { cat:'点云标注', slug:'pointcloud', subs:[
+      { slug:'pointcloud-4d', name:'4D 标注', title:'4D 标注', intro:'时序点云连续标注，精准还原物体在时间维度上的运动轨迹，为时序感知模型提供高质量训练数据。', points:['连续帧时序对齐与轨迹追踪','行进预测 / 插值预测智能辅助','物体 ID 跨帧保持一致'], scenes:['自动驾驶','机器人','车路协同'] },
+      { slug:'pointcloud-seg', name:'语义分割', title:'点云语义分割', intro:'点云逐点语义分割，精细区分道路、车辆、行人、绿植等场景要素。', points:['AI 语义分割模型 + 人工补点','逐点类别精细划分','支持大规模场景批量处理'], scenes:['高精地图','场景理解','可行驶区域'] },
+      { slug:'pointcloud-box', name:'点云标注', title:'3D 点云框标注', intro:'高精度 3D BBox 与多形态点云标注，适配自动驾驶与机器人感知训练。', points:['3D 立体框 / 多边形多形态标注','尺寸朝向自动估计','属性字段自定义导出'], scenes:['目标检测','障碍物识别','测距'] },
+      { slug:'pointcloud-frames', name:'点云连续帧', title:'点云连续帧标注', intro:'多帧联动标注，后台算法实时预估目标移动差值，大幅降低重复劳动。', points:['连续帧智能贴合','跨帧目标自动跟随','关键帧 + 插值补全'], scenes:['轨迹预测','行为分析'] },
+      { slug:'pointcloud-fusion', name:'2&3D 融合标注', title:'2&3D 融合标注', intro:'图像与点云多传感器融合标注，2D / 3D 联动提升标注精度与一致性。', points:['相机 - 雷达联合标定','2D / 3D 框联动同步','多传感器时间对齐'], scenes:['多传感器融合','BEV 感知'] },
+    ]},
+    { cat:'语音标注', slug:'speech', subs:[
+      { slug:'speech-tts', name:'语音合成标注', title:'语音合成（TTS）标注', intro:'面向 TTS 任务的文本录制与韵律标注，支持情感标签、停顿节奏与多发音人管理。', points:['韵律 / 停顿 / 重音标注','情感标签与风格分类','多发音人统一管理'], scenes:['语音合成','有声内容','虚拟人'] },
+      { slug:'speech-asr', name:'语音识别标注', title:'语音识别（ASR）标注', intro:'转写、实体、情绪、说话人分离等 ASR 数据标注，内置多轮质检与绩效追踪。', points:['字级转写与时间戳对齐','命名实体与情绪标注','内置质检流程'], scenes:['智能客服','车载','输入法'] },
+      { slug:'speech-spk', name:'说话人分离', title:'说话人分离', intro:'多说话人音频的分段与归属标注，支持重叠语音与远场场景。', points:['说话人分段与聚类','重叠语音切分','远场降噪样本支持'], scenes:['会议转写','呼叫中心','访谈'] },
+      { slug:'speech-emotion', name:'情感标注', title:'语音情感标注', intro:'对语音片段的情绪类别与强度进行标注，支撑情感语音与质检模型。', points:['多维情绪类别标注','情绪强度分级','场景化标签体系'], scenes:['情感电台','客服质检','陪伴助手'] },
+    ]},
+    { cat:'图像标注', slug:'image', subs:[
+      { slug:'image-det', name:'目标检测', title:'目标检测', intro:'AI 算法模型搭配人工调整，实现多场景、多对象的快速物体检测标注。', points:['BBox / 旋转框标注','AI 预标注加速','批量模板复用'], scenes:['安防','零售','工业质检'] },
+      { slug:'image-keypoint', name:'关键点标注', title:'关键点标注', intro:'用点组、单点等工具完成关键点 / 关键部位标注，支持单点附加属性导出。', points:['人体 / 人脸 / 物体关键点','点组顺序可调','单点属性扩展'], scenes:['姿态估计','手势识别','美颜'] },
+      { slug:'image-seg', name:'语义分割', title:'图像语义分割', intro:'智能 AI 语义分割模型搭配人工补点，实现快速高效的物体语义分割。', points:['Mask / Polygon 标注','AI 分割 + 人工精修','像素级类别划分'], scenes:['医疗影像','遥感','自动驾驶'] },
+      { slug:'image-cls', name:'图片分类', title:'图片分类', intro:'通过 tag 标记对图片或连续帧进行类型分类与数据清洗。', points:['单标签 / 多标签分类','数据清洗与去重','层级标签体系'], scenes:['内容审核','数据治理'] },
+      { slug:'image-ocr', name:'OCR 转写', title:'OCR 转写', intro:'图片中字符的 OCR 识别与转写，适用于车牌、文档、票据等场景。', points:['文本检测 + 转写','版面结构还原','多语种支持'], scenes:['票据识别','证件','文档数字化'] },
+      { slug:'image-frames', name:'连续帧标注', title:'图像连续帧标注', intro:'支持智能化连续帧标注，后台算法实时预估目标物体移动差值。', points:['跨帧目标跟随','关键帧插值','ID 一致性保持'], scenes:['视频结构化','行为分析'] },
+    ]},
+    { cat:'视频标注', slug:'video', subs:[
+      { slug:'video-action', name:'行为识别', title:'视频行为识别标注', intro:'（占位文案）对视频中人物 / 物体的行为动作进行时序区间标注。', points:['行为时序区间切分','多人多目标标注','动作类别体系'], scenes:['安防监控','体育分析','智能零售'] },
+      { slug:'video-track', name:'目标跟踪', title:'视频目标跟踪标注', intro:'（占位文案）跨帧跟踪目标并保持唯一 ID，输出运动轨迹。', points:['跨帧 ID 保持','轨迹平滑','遮挡恢复'], scenes:['自动驾驶','无人机','监控'] },
+      { slug:'video-seg', name:'视频分割', title:'视频分割标注', intro:'（占位文案）逐帧 / 关键帧像素级分割，支持前景背景与实例分割。', points:['关键帧分割 + 插值','实例级 Mask','时序一致性'], scenes:['影视后期','虚拟背景'] },
+      { slug:'video-event', name:'时序事件', title:'时序事件标注', intro:'（占位文案）标注视频中的关键事件起止点与类别。', points:['事件起止点标注','多事件并行','事件关系标注'], scenes:['内容理解','直播审核'] },
+    ]},
+    { cat:'文本标注', slug:'text', subs:[
+      { slug:'text-ner', name:'命名实体 NER', title:'命名实体识别标注', intro:'（占位文案）对文本中的人名、地名、机构、时间等实体进行标注。', points:['多类别实体标注','嵌套实体支持','实体属性扩展'], scenes:['知识图谱','信息抽取'] },
+      { slug:'text-senti', name:'情感分类', title:'文本情感分类标注', intro:'（占位文案）对句子 / 篇章的情感极性与维度进行标注。', points:['极性 / 多维情感','方面级情感','强度分级'], scenes:['舆情','电商评论'] },
+      { slug:'text-relation', name:'关系抽取', title:'关系抽取标注', intro:'（占位文案）标注实体之间的语义关系三元组。', points:['实体对关系标注','三元组导出','关系类型体系'], scenes:['知识图谱','智能问答'] },
+      { slug:'text-cls', name:'文本分类', title:'文本分类标注', intro:'（占位文案）对文本进行单标签 / 多标签主题分类。', points:['层级标签分类','多标签支持','数据清洗'], scenes:['内容审核','工单路由'] },
+      { slug:'text-mt', name:'机器翻译', title:'机器翻译语料标注', intro:'（占位文案）双语对齐与译文质量评估标注。', points:['双语句对齐','译后编辑','质量打分'], scenes:['多语种','跨境'] },
+    ]},
+    { cat:'多模态大模型标注', slug:'llm', subs:[
+      { slug:'llm-qa', name:'图文问答 VQA', title:'多模态图文问答标注', intro:'（占位文案）围绕图像 / 视频构造问答对，支撑多模态大模型训练与评测。', points:['图文问答对构造','答案依据框选','难度分级'], scenes:['多模态大模型','VQA 评测'] },
+      { slug:'llm-sft', name:'指令微调 SFT', title:'指令微调（SFT）标注', intro:'（占位文案）构造高质量指令 - 回复样本，提升模型指令遵循能力。', points:['指令 - 回复对编写','多轮对话构造','规范一致性审核'], scenes:['对话助手','Agent'] },
+      { slug:'llm-rlhf', name:'偏好对齐 RLHF', title:'偏好对齐（RLHF）标注', intro:'（占位文案）对多个回复进行人类偏好排序，用于奖励模型训练。', points:['回复优劣排序','多维度打分','一致性校验'], scenes:['对齐训练','安全治理'] },
+      { slug:'llm-caption', name:'图文对', title:'图文对 / Caption 标注', intro:'（占位文案）为图像 / 视频撰写高质量描述文本，构建图文对语料。', points:['细粒度图像描述','多语言 Caption','属性 / 关系描述'], scenes:['预训练','检索'] },
+    ]},
+  ];
+
+  const catsEl = document.getElementById('req-cats');
+  const sideEl = document.getElementById('req-side');
+  const detailEl = document.getElementById('req-detail');
+  if (!catsEl || !sideEl || !detailEl) return;
+  let ci = 0, si = 0;
+
+  function findBySlug(slug){
+    for (let c = 0; c < REQ.length; c++)
+      for (let s = 0; s < REQ[c].subs.length; s++)
+        if (REQ[c].subs[s].slug === slug) return [c, s];
+    return null;
+  }
+  function renderCats(){
+    catsEl.innerHTML = REQ.map((cat, i) =>
+      `<button class="req-cat${i === ci ? ' active' : ''}" data-c="${i}">${cat.cat}</button>`).join('');
+  }
+  function renderSide(){
+    sideEl.innerHTML = REQ[ci].subs.map((sub, i) =>
+      `<button class="req-sub${i === si ? ' active' : ''}" data-s="${i}">${sub.name}</button>`).join('');
+  }
+  function renderDetail(){
+    const d = REQ[ci].subs[si];
+    detailEl.innerHTML =
+      `<div class="req-dt-head">
+        <h3>${d.title}</h3>
+        <p class="intro">${d.intro}</p>
+        <div class="req-cap-title">核心能力</div>
+        <ul class="req-caps">${d.points.map(p => `<li>${p}</li>`).join('')}</ul>
+        <div class="req-scene-title">应用场景</div>
+        <div class="req-scenes">${d.scenes.map(s => `<span class="req-scene">${s}</span>`).join('')}</div>
+      </div>
+      <div class="req-fig">${FIG}<img src="${d.img || 'images/tool/annotation/req/' + d.slug + '.png'}" alt="${d.title}" loading="lazy" onerror="this.style.display='none'"></div>`;
+  }
+  function setHash(){ history.replaceState(null, '', '#' + REQ[ci].subs[si].slug); }
+  function selectCat(i){ ci = i; si = 0; renderCats(); renderSide(); renderDetail(); setHash(); }
+  function selectSub(i){ si = i; renderSide(); renderDetail(); setHash(); }
+
+  catsEl.addEventListener('click', e => { const b = e.target.closest('.req-cat'); if (b) selectCat(+b.dataset.c); });
+  sideEl.addEventListener('click', e => { const b = e.target.closest('.req-sub'); if (b) selectSub(+b.dataset.s); });
+
+  const pos = location.hash ? findBySlug(location.hash.slice(1)) : null;
+  if (pos) { ci = pos[0]; si = pos[1]; }
+  renderCats(); renderSide(); renderDetail();
+})();
+
+/* ===== 任务全周期管理 · 轮播 ===== */
+(function(){
+  const slides = [...document.querySelectorAll('.ec-task-slide')];
+  const texts  = [...document.querySelectorAll('.ec-task-text')];
+  const dots   = [...document.querySelectorAll('.ec-task-dots button')];
+  if (!dots.length) return;
+  const n = dots.length; let cur = 0, timer;
+  const go = i => { cur = (i + n) % n;
+    slides.forEach((s, k) => s.classList.toggle('is-active', k === cur));
+    texts.forEach((s, k) => s.classList.toggle('is-active', k === cur));
+    dots.forEach((d, k) => d.classList.toggle('active', k === cur));
+  };
+  const start = () => { timer = setInterval(() => go(cur + 1), 4000); };
+  const stop  = () => clearInterval(timer);
+  dots.forEach((d, k) => d.addEventListener('click', () => { go(k); stop(); start(); }));
+  const wrap = document.querySelector('.ec-task');
+  if (wrap) { wrap.addEventListener('mouseenter', stop); wrap.addEventListener('mouseleave', start); }
+  start();
+})();
+</script>
+</body>
+</html>

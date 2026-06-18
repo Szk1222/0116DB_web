@@ -17,89 +17,133 @@
 .info-card h4{font-family:var(--font-display);font-size:1rem;font-weight:600;margin:0 0 8px;}
 .info-card p{color:var(--text-mute);font-size:0.88rem;margin:0;line-height:1.7;}
 @media(max-width:720px){.info-grid{grid-template-columns:1fr;}}
+
+/* ===== 数据产品 · 通用 banner / tabs ===== */
+.dp-banner { position:relative; overflow:hidden; border-radius:var(--r-lg); padding:46px 44px; border:1px solid var(--line-strong); background:linear-gradient(120deg, rgba(4,105,207,0.38), rgba(24,166,184,0.22) 58%, rgba(13,26,58,0.6)); }
+.dp-banner::after { content:""; position:absolute; right:-6%; top:-40%; width:380px; height:380px; border-radius:50%; background:radial-gradient(circle, rgba(76,201,240,0.3), transparent 60%); filter:blur(40px); }
+.dp-banner h1 { position:relative; font-family:var(--font-display); font-size:clamp(1.8rem,3.4vw,2.5rem); color:var(--text-hi); margin:0 0 12px; }
+.dp-banner p { position:relative; color:var(--text); font-size:0.98rem; line-height:1.8; max-width:680px; margin:0; }
+.dp-tabs { display:flex; margin-top:24px; border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; background:rgba(13,26,58,0.5); }
+.dp-tab { flex:1; display:flex; flex-direction:column; align-items:center; gap:8px; padding:18px 10px; color:var(--text-mute); border-right:1px solid var(--line); text-decoration:none; transition:all 200ms ease; font-family:var(--font-display); font-weight:600; font-size:0.95rem; }
+.dp-tab:last-child { border-right:0; }
+.dp-tab:hover { color:var(--text-hi); background:rgba(76,201,240,0.06); }
+.dp-tab.active { color:var(--brand-hi); background:rgba(76,201,240,0.12); box-shadow:inset 0 -3px 0 var(--brand-hi); }
+.dp-tab .ic { width:38px; height:38px; border-radius:10px; background:rgba(76,201,240,0.12); display:grid; place-items:center; color:var(--brand-hi); }
+.dp-tab .ic svg { width:20px; height:20px; }
+@media(max-width:680px){ .dp-tab span{ font-size:0.8rem; } }
+
+/* ===== 开放数据 详情 ===== */
+.open-toggle { display:flex; justify-content:center; gap:0; margin:28px auto 0; width:max-content; border:1px solid var(--line-strong); border-radius:99px; overflow:hidden; background:rgba(13,26,58,0.6); }
+.open-toggle button { padding:11px 40px; border:0; background:transparent; color:var(--text-mute); font-family:var(--font-display); font-weight:600; font-size:0.98rem; cursor:pointer; transition:all 200ms ease; }
+.open-toggle button.active { background:var(--grad-cta); color:#fff; }
+.open-wrap { margin-top:30px; border:1px solid var(--line); border-radius:var(--r-lg); background:linear-gradient(180deg,rgba(10,20,46,0.45),rgba(7,13,32,0.45)); padding:40px 44px; }
+.open-pane[hidden]{ display:none; }
+.open-wrap h2 { font-family:var(--font-display); font-size:1.6rem; color:var(--text-hi); text-align:center; margin:0 0 12px; }
+.open-sub { display:flex; gap:24px; justify-content:center; flex-wrap:wrap; color:var(--text-mute); font-size:0.85rem; margin-bottom:26px; }
+.open-intro p { color:var(--text); font-size:0.95rem; line-height:1.95; margin:0 0 14px; text-indent:2em; }
+.open-apps { display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin:30px 0 36px; }
+.open-app { text-align:center; padding:24px 12px; border:1px solid var(--line); border-radius:var(--r-lg); background:linear-gradient(180deg,rgba(13,26,58,0.5),rgba(10,20,46,0.5)); transition:all 220ms ease; }
+.open-app:hover { transform:translateY(-4px); border-color:rgba(76,201,240,0.4); }
+.open-app .ic { width:52px; height:52px; margin:0 auto 12px; border-radius:14px; background:rgba(76,201,240,0.1); border:1px solid var(--line-strong); color:var(--brand-hi); display:grid; place-items:center; }
+.open-app .ic svg { width:26px; height:26px; }
+.open-app p { color:var(--text); font-size:0.92rem; margin:0; font-weight:600; }
+.open-spec-title { font-family:var(--font-display); font-size:1.2rem; color:var(--text-hi); margin:0 0 16px; display:flex; align-items:center; gap:10px; }
+.open-spec-title::before { content:""; width:4px; height:18px; border-radius:2px; background:var(--brand-hi); }
+.open-wrap h4 { font-family:var(--font-display); font-size:1.15rem; color:var(--text-hi); margin:26px 0 14px; display:flex; align-items:center; gap:10px; }
+.open-wrap h4::before { content:""; width:4px; height:17px; border-radius:2px; background:var(--brand-hi); }
+.open-step { color:var(--text); font-size:0.93rem; line-height:1.85; margin:0 0 10px; padding-left:1.4em; text-indent:-1.4em; }
+.open-step:last-child { margin-bottom:0; }
+.open-spec { border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; }
+.open-row { display:grid; grid-template-columns:130px 1fr; border-bottom:1px solid var(--line); }
+.open-row:last-child { border-bottom:0; }
+.open-row .k { padding:14px 18px; background:rgba(76,201,240,0.05); color:var(--brand-hi); font-weight:600; font-size:0.9rem; border-right:1px solid var(--line); }
+.open-row .v { padding:14px 18px; color:var(--text); font-size:0.9rem; line-height:1.7; }
+.open-copy { margin-top:24px; color:var(--text-mute); font-size:0.88rem; text-align:center; }
+.open-btns { display:flex; justify-content:center; gap:16px; flex-wrap:wrap; margin-top:24px; }
+@media(max-width:760px){ .open-apps{ grid-template-columns:1fr 1fr; } .open-wrap{ padding:26px 22px; } .open-row{ grid-template-columns:96px 1fr; } }
+
 </style>
 </head>
 <body>
 <div id="nav-placeholder"></div>
-<section class="page-hero">
+<!-- 数据产品 · 开放数据 -->
+<section class="section" style="padding-top:104px;">
   <div class="container">
-    <nav class="crumbs">
-      <a href="homepage.html">首页</a>
-      <span class="sep">/</span>
-      <a href="solutions_overview.html">解决方案总览</a>
-      <span class="sep">/</span>
-      <span class="cur">开放数据产</span>
-    </nav>
-    <span class="eyebrow">Open Data · 开放数</span>
-    <h1 class="display" style="font-size:clamp(2.2rem,4.8vw,4rem);margin:16px 0 20px;">
-      <span style="display:block;">开放数据产</span>
-      <span style="display:block;" class="glow-text">Open Dataset</span>
-    </h1>
-    <p class="lead">面向学术与研究场景的开放数据集，遵循CC 协议，可免费用于非商业训练与基准测试，定期更新扩充</p>
-    <div class="htag-row"><span class="htag">开放数</span><span class="htag">CC协议</span><span class="htag">学术</span><span class="htag">基准测试</span><span class="htag">免费</span></div>
-    <div class="page-actions">
-      <a href="homepage.html#contact" class="btn btn-primary">申请试用<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-      <a href="solutions_overview.html" class="btn btn-ghost">返回总览</a>
+    <div class="dp-banner" data-reveal>
+      <h1>数据产品</h1>
+      <p>标贝科技拥有语音、文字和图像相关的行业定制自有数据库，可用于商业化系统和产品，数据丰富多样，满足不同客户需求。</p>
     </div>
-  </div>
-</section>
-<section class="section" style="padding-top:60px;">
-  <div class="container">
-    <!-- 占位图片区 -->
-    <div class="placeholder-block" data-reveal>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-      <span>产品配图 · 素材待补</span>
+    <div class="dp-tabs" data-reveal><a class="dp-tab" href="solution_tts.html"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></span><span>语音合成</span></a><a class="dp-tab" href="solution_asr.html"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"/><path d="M19 10a7 7 0 0 1-14 0M12 19v3"/></svg></span><span>语音识别</span></a><a class="dp-tab" href="solution_cv.html"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="12" r="2.5"/><path d="M3 17l5-5 4 4 3-3 6 6"/></svg></span><span>计算机视觉</span></a><a class="dp-tab" href="solution_nlp.html"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/></svg></span><span>自然语言处理</span></a><a class="dp-tab active" href="solution_open.html"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg></span><span>开放数据</span></a></div>
+
+    <div class="open-toggle" data-reveal>
+      <button class="active" data-pane="0">TTS 语音库</button>
+      <button data-pane="1">TTS TN 库</button>
     </div>
 
-    <!-- 简介-->
-    <div style="max-width:860px;margin:48px auto 0;" data-reveal>
-      <div class="section-head" style="text-align:left;justify-items:start;margin-bottom:32px;">
-        <span class="eyebrow">Overview</span>
-        <h2 class="display" style="font-size:clamp(1.6rem,2.8vw,2.2rem);">产品介绍</h2>
-      </div>
-      <p style="color:var(--text-mute);font-size:1rem;line-height:1.88;margin:0 0 24px;">
-        面向学术与研究场景的开放数据集，遵循CC 协议，可免费用于非商业训练与基准测试，定期更新扩充。标贝科技凭借多年行业积累，为本产品提供完整的数据支撑与技术服务，帮助客户快速构建高质量 AI 能力。</p>
-      <p style="color:var(--text-mute);font-size:1rem;line-height:1.88;margin:0;">
-        <em style="color:var(--text-dim);font-family:var(--font-mono);font-size:12px;font-style:normal;letter-spacing:0.1em;">详细产品介绍内容待补充，后续将添加具体功能说明、技术规格与使用案例等素材。</em>
-      </p>
-    </div>
-
-    <!-- 占位信息块 -->
-    <div class="info-grid" data-reveal>
-      <div class="info-card">
-        <h4>核心能力</h4>
-        <p>待补充：产品核心功能列表、技术指标与性能参数等详细信息</p>
-      </div>
-      <div class="info-card">
-        <h4>应用场景</h4>
-        <p>待补充：典型使用场景、行业案例与客户证言等内容</p>
-      </div>
-      <div class="info-card">
-        <h4>技术规格</h4>
-        <p>待补充：接口文档、输入输出格式、并发能力与 SLA 说明</p>
-      </div>
-      <div class="info-card">
-        <h4>定价与授权</h4>
-        <p>待补充：产品定价方案、授权模式与免费试用额度说明</p>
+    <div class="open-pane" data-pane="0" data-reveal>
+      <div class="open-wrap">
+        <h2>中文标准女声音库（10000 句）</h2>
+        <div class="open-sub"><span>本次开放的数据仅支持非商业用途</span><span>问题反馈：pre-sale@data-baker.com</span></div>
+        <div class="open-intro"><p>语音合成是通过机械的、电子的方法产生人造语音的技术。TTS 技术（又称文语转换技术）隶属于语音合成，它是将计算机自己产生的、或外部输入的文字信息转变为可以听得懂的、流利的口语输出的技术。</p><p>TTS 语音合成技术是实现人机语音通信的关键技术之一。使电脑具有类似于人一样的说话能力，是当今时代信息产业的重要竞争市场。和语音识别 ASR 相比，语音合成的技术相对来说要成熟一些，是应用范围较广的技术。</p><p>随着人工智能产业的飞速发展，语音合成系统也得到了更加广泛的应用。除了语音合成初期的清晰度、可懂度以外，人们对语音合成的自然度、节奏感以及音质的要求也越来越高，而语音库的质量也是决定语音合成效果的关键因素。</p><p>【中文标准女声音库】采集对象的音色风格知性阳光、亲切自然，专业标准普通话女声，听感乐观积极。录制环境为专业录音室和录音软件，录音环境和设备自始至终保持不变，录音环境的信噪比不低于 35dB；单声道录音，用 48KHz 16 比特采样频率、pcm wav 格式。录音语料涵盖各类新闻、小说、科技、娱乐、对话等领域，语料设计综合语料样本量，力求在有限的语料数据量内，对音节音子、类型、音调、音连以及韵律等尽可能全面地覆盖。根据合成语音标注标准对音库进行文本音字校对、韵律层级标注、语音文件边界切分标注。</p></div>
+        <div class="open-apps"><div class="open-app"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.5-1.5 3-3.5 3-6a4 4 0 0 0-8 0 4 4 0 0 0-8 0c0 2.5 1.5 4.5 3 6M12 8v13M9 21h6"/></svg></span><p>科研</p></div><div class="open-app"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-3l-2-6H5l-2 6v3z"/><circle cx="7.5" cy="17" r="1.5"/><circle cx="16.5" cy="17" r="1.5"/></svg></span><p>生活出行</p></div><div class="open-app"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"/></svg></span><p>智能科技</p></div><div class="open-app"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></svg></span><p>教育、娱乐等</p></div></div>
+        <div class="open-spec-title">技术参数</div>
+        <div class="open-spec"><div class="open-row"><div class="k">数据内容</div><div class="v">中文标准女声语音库数据</div></div><div class="open-row"><div class="k">录音语料</div><div class="v">综合语料样本量；对音节音子的数量、类型、音调、音连以及韵律等进行覆盖。</div></div><div class="open-row"><div class="k">有效时长</div><div class="v">约 12 小时</div></div><div class="open-row"><div class="k">平均字数</div><div class="v">16 字</div></div><div class="open-row"><div class="k">语言类型</div><div class="v">标准普通话</div></div><div class="open-row"><div class="k">发 音 人</div><div class="v">女；20-30 岁；声音积极知性</div></div><div class="open-row"><div class="k">录音环境</div><div class="v">声音采集环境为专业录音棚环境：1）录音棚符合专业音库录制标准；2）录音环境和设备自始至终保持不变；3）录音环境的信噪比不低于 35dB。</div></div><div class="open-row"><div class="k">录制工具</div><div class="v">专业录音设备及录音软件</div></div><div class="open-row"><div class="k">采样格式</div><div class="v">无压缩 pcm wav 格式，采样率为 48KHz、16bit</div></div><div class="open-row"><div class="k">标注内容</div><div class="v">音字校对、韵律标注、中文声韵母边界切分</div></div><div class="open-row"><div class="k">标注格式</div><div class="v">文本标注为 .txt 格式文档；音节音素边界切分文件为 .interval 格式</div></div><div class="open-row"><div class="k">质量标准</div><div class="v">1. 语音文件为 48k 16bit wav 格式，音色、音量、语速一致，无漂零无截幅；2. 标注文件字准率不低于 99.8%；3. 音素边界错误大于 10ms 的比例小于 1%，音节边界准确率大于 98%。</div></div><div class="open-row"><div class="k">存储方式</div><div class="v">FTP 存储</div></div><div class="open-row"><div class="k">文件格式</div><div class="v">音频文件：wav　文本标注文件：TXT　边界标注文件：INTERVAL</div></div></div>
+        <div class="open-copy">版权所属者：标贝科技有限公司</div>
+        <div class="open-btns">
+          <a class="btn btn-primary" href="javascript:void(0)" onclick="openMessageModal()">立即合作</a>
+          <a class="btn btn-ghost" href="https://online-of-baklong.oss-cn-huhehaote.aliyuncs.com/story_resource/bb29c162c9ab4b94aeb5349e50cd8928.pdf?Expires=1781685731&OSSAccessKeyId=LTAI3GkKBSJFDJsp&Signature=LpR49E5%2FA1NTpfFsfVN%2B6EaqoOk%3D" target="_blank" rel="noopener">产品说明书</a>
+          <a class="btn btn-primary" href="javascript:void(0)" onclick="openMessageModal()">数据下载</a>
+        </div>
       </div>
     </div>
 
-  </div>
-</section>
-<section class="cta-section">
-  <div class="container">
-    <div class="cta-card" data-reveal>
-      <div class="cta-inner">
-        <span class="eyebrow">Next Step</span>
-        <h2>获取开放数据产品试用方</h2>
-        <p>填写需求表单，我们将在 1 个工作日内回复并提供免费样本或演示账号</p>
-        <div class="cta-actions">
-          <a href="homepage.html#contact" class="btn btn-primary">立即申请<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>        </div>
+    <div class="open-pane" data-pane="1" hidden>
+      <div class="open-wrap">
+        <h2>开放中文 TN 数据集</h2>
+        <div class="open-sub"><span>本次开放数据仅支持非商业用途</span><span>问题反馈：pre-sale@data-baker.com</span></div>
+        <div class="open-intro">
+          <h4>一、数据集介绍</h4>
+          <p>文本归一化（Text Normalization, TN）是语音合成（Text-To-Speech, TTS）系统中很重要的一个环节，对于语音合成的语义理解至关重要。TN 是将一个非标准化词（Non-Standard Words, NSW）转化为朗读形式词（Spoken-Form Words, SFW）以消除歧义的过程，主要功能是将文本中的数字、符号、缩写等转换成语言文字。技术实现上一般是将 TN 拆分成标注器（tagger）和转换器（convertor）两部分，整体构成一个 pipeline。其中，tagger 的主要作用是识别 NSW 的边界以及类型，而 convertor 则是基于 tagger 的结果进一步将 NSW 转换为 SFW。</p>
+          <p>目前绝大部分的 TN 实现都以 NSW 为粒度，tagger 和 convertor 则对应设计 / 构建成针对 NSW 的规则库 / 模型 / 处理函数集合等。由于 NSW 具有复杂的内部组合模式和外部搭配方式，整体上会加大 tagger 和 convertor 的设计 / 构建难度，进而影响 TN 模块的最终效果。</p>
+          <p>针对这一问题，我们考虑将 TN 的处理单元由 NSW 转为 sub-NSW。sub-NSW 是对 NSW 的进一步拆分，拆分逻辑是将连续数字、连续英文、符号等形式的字串作为一个 sub-NSW，对应的 NSW 则会变成 sub-NSW 序列。使用 sub-NSW 作为 TN 模块的处理单元具有以下好处：① tagger 不再需要识别 sub-NSW 的边界信息；②得益于 sub-NSW 的模式简化，tagger 的设计 / 构建将会更容易，性能预期也会更好；③同样 sub-NSW 的模式简化也会使 convertor 的设计 / 构建更简单，维护成本降低。</p>
+          <p>基于这一想法，我们针对中文构建了“NSW-&gt;sub-NSW”对齐规则库、sub-NSW 拆分工具以及 sub-NSW 标签集，并在此基础上开源了一个 30000 句规模的 TN 数据集。</p>
+        </div>
+        <h4>二、数据来源及处理步骤</h4>
+        <div>
+          <p class="open-step">1. 数据获取：爬取原始语料池；</p>
+          <p class="open-step">2. 候选句提取：进行断句、长度过滤（20 字 ≤ 长度 ≤ 100 字）、TN 片段检查（句子中需包含数字 / 字母和汉字 [0x4e00~0x9fa5]）、去重等处理；</p>
+          <p class="open-step">3. 待标注数据集提取：随机从上述候选句集合提取 30000 句样本进行预打标；</p>
+          <p class="open-step">4. 数据预打标：利用中文 TTS 引擎、对齐规则库等对 NSW 片段进行拆分和预打标；</p>
+          <p class="open-step">5. 数据标注：标注员对边界错误、类型错误等问题进行校对，对其中较为困难的样本进行特殊标记，后期专门做二次校对和质检。</p>
+        </div>
+        <h4>三、标签集合</h4>
+        <p class="open-step" style="padding-left:0;text-indent:0;">1、sub-NSW 类型标签集合，点击下载《PDF 完整版》查看。</p>
+        <div class="open-apps">
+          <div class="open-app"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.5-1.5 3-3.5 3-6a4 4 0 0 0-8 0 4 4 0 0 0-8 0c0 2.5 1.5 4.5 3 6M12 8v13M9 21h6"/></svg></span><p>科研</p></div>
+          <div class="open-app"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-3l-2-6H5l-2 6v3z"/><circle cx="7.5" cy="17" r="1.5"/><circle cx="16.5" cy="17" r="1.5"/></svg></span><p>生活出行</p></div>
+          <div class="open-app"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"/></svg></span><p>智能科技</p></div>
+          <div class="open-app"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></svg></span><p>教育、娱乐等</p></div>
+        </div>
+        <div class="open-btns">
+          <a class="btn btn-primary" href="javascript:void(0)" onclick="openMessageModal()">立即合作</a>
+          <a class="btn btn-ghost" href="https://online-of-baklong.oss-cn-huhehaote.aliyuncs.com/open-data/%E4%B8%AD%E6%96%87TN%E6%95%B0%E6%8D%AE%E9%9B%86%E8%AF%B4%E6%98%8E-%E6%A0%87%E8%B4%9D%E7%A7%91%E6%8A%80.pdf?OSSAccessKeyId=LTAI3GkKBSJFDJsp&Expires=1949556148&Signature=R8c6M5PoTuZeYO%2Bsd5LT1uttV2M%3D" target="_blank" rel="noopener">PDF 完整版</a>
+          <a class="btn btn-primary" href="javascript:void(0)" onclick="openMessageModal()">数据下载</a>
+        </div>
       </div>
     </div>
   </div>
 </section>
+
 <div id="footer-placeholder"></div>
 <script src="_shared.js"></script>
+<script>
+document.querySelectorAll('.open-toggle button').forEach(function(b){
+  b.addEventListener('click',function(){
+    var i=b.getAttribute('data-pane');
+    document.querySelectorAll('.open-toggle button').forEach(function(x){ x.classList.toggle('active',x===b); });
+    document.querySelectorAll('.open-pane').forEach(function(p){ p.hidden = p.getAttribute('data-pane')!==i; });
+  });
+});
+</script>
 </body>
 </html>

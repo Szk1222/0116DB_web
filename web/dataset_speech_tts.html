@@ -83,7 +83,7 @@
   <div class="container">
     <div class="hero-grid">
       <div data-reveal>
-        <nav class="crumbs" aria-label="面包局>
+        <nav class="crumbs" aria-label="面包屑">
           <a href="homepage.html">首页</a>
           <span class="sep">/</span>
           <span>数据</span>
@@ -111,8 +111,8 @@
           </span>
         </div>
         <div class="page-actions">
-          <a href="homepage.html#contact" class="btn btn-primary">
-            申请试用
+          <a href="javascript:void(0)" onclick="openTrialModal()" class="btn btn-primary">
+            预约试用
             <svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
           <a href="#voices" class="btn btn-ghost">试听样本</a>
@@ -127,9 +127,10 @@
         </div>
         <div class="tts-prompt">
           <span class="cap">Text Input</span>
-          欢迎来到标贝科技 · 用一段干净的声音，承载你的产品、        </div>
+          欢迎来到标贝科技 · 用一段干净的声音，承载你的产品、
+        </div>
         <div class="spectrum">
-          <span style="height:32%;animation-delay:.0s"></span><span style="height:55%;animation-delay:.06s"></span><span style="height:78%;animation-delay:.12s"></span><span style="height:96%;animation-delay:.18s"></span><span style="height:65%;animation-delay:.24s"></span><span style="height:88%;animation-delay:.30s"></span><span style="height:50%;animation-delay:.36s"></span><span style="height:72%;animation-delay:.42s"></span><span style="height:90%;animation-delay:.48s"></span><span style="height:60%;animation-delay:.54s"></span><span style="height:84%;animation-delay:.60s"></span><span style="height:46%;animation-delay:.66s"></span><span style="height:70%;animation-delay:.72s"></span><span style="height:54%;animation-delay:.78s"></span><span style="height:92%;animation-delay:.84s"></span><span style="height:66%;animation-delay:.90s"></span><span style="height:78%;animation-delay:.96s"></span><span style="height:50%;animation-delay:1.02s"></span><span style="height:82%;animation-delay:1.08s"></span><span style="height:60%;animation-delay:1.14s"></span><span style="height:46%;animation-delay:1.20s"></span><span style="height:74%;animation-delay:1.26s"></span><span style="height:90%;animation-delay:1.32s"></span><span style="height:58%;animation-delay:1.38s"></span>
+          <span style="height:32%;animation-delay:.0s"></span><span style="height:55%;animation-delay:.06s"></span><span style="height:78%;animation-delay:.12s"></span><span style="height:96%;animation-delay:.18s"></span><span style="height:65%;animation-delay:.24s"></span><span style="height:88%;animation-delay:.30s"></span><span style="height:50%;animation-delay:.36s"></span><span style="height:72%;animation-delay:.42s"></span><span style="height:90%;animation-delay:.48s"></span><span style="height:60%;animation-delay:.54s"></span><span style="height:84%;animation-delay:.60s"></span><span style="height:46%;animation-delay:.66s"></span><span style="height:70%;animation-delay:.72s"></span><span style="height:54%;animation-delay:.78s"></span><span style="height:92%;animation-delay:.84s"></span><span style="height:66%;animation-delay:.90s"></span><span style="height:78%;animation-delay:.96s"></span><span style="height:50%;animation-delay:1.02s"></span><span style="height:82%;animation-delay:1.08s"></span><span style="height:60%;animation-delay:1.14s"></span><span style="height:46%;animation-delay:1.20s"></span><span style="height:74%;animation-delay:1.26s"></span>< span style="height:90%;animation-delay:1.32s"></ span >< span style="height:58%;animation_DELAY:1.38S"></ span >
         </div>
         <div class="tts-meta">
           <div><b>48 kHz</b><span>采样</span></div>
@@ -290,8 +291,8 @@
         <h2>获取 TTS 数据集试</h2>
         <p>试听完整音色样本、试用脚本与商用授权方案——把高质量声音接入你的产品</p>
         <div class="cta-actions">
-          <a href="homepage.html#contact" class="btn btn-primary">
-            申请试用
+          <a href="javascript:void(0)" onclick="openTrialModal()" class="btn btn-primary">
+            预约试用
             <svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>        </div>
       </div>
@@ -301,6 +302,15 @@
 
 <div id="footer-placeholder"></div>
 <script src="_shared.js"></script>
+<script>
+document.querySelectorAll('.tts-scene-tab').forEach(function(t){
+  t.addEventListener('click',function(){
+    var i=t.getAttribute('data-t');
+    document.querySelectorAll('.tts-scene-tab').forEach(function(x){ x.classList.toggle('active',x===t); });
+    document.querySelectorAll('.tts-scene-panel').forEach(function(p){ p.classList.toggle('active',p.getAttribute('data-p')===i); });
+  });
+});
+</script>
 </body>
 </html>
 

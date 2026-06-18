@@ -17,6 +17,35 @@
 .info-card h4{font-family:var(--font-display);font-size:1rem;font-weight:600;margin:0 0 8px;}
 .info-card p{color:var(--text-mute);font-size:0.88rem;margin:0;line-height:1.7;}
 @media(max-width:720px){.info-grid{grid-template-columns:1fr;}}
+
+/* ===== 开放平台 · 中部 ===== */
+.op-grid4 { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
+.op-grid3 { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+.op-card { padding:30px 26px; border:1px solid var(--line); border-radius:var(--r-lg); background:linear-gradient(180deg,rgba(13,26,58,0.55),rgba(10,20,46,0.55)); transition:all 240ms ease; }
+.op-card:hover { transform:translateY(-4px); border-color:rgba(76,201,240,0.4); box-shadow:0 18px 40px rgba(4,105,207,0.2); }
+.op-card .icb { width:48px; height:48px; border-radius:12px; border:1px solid var(--line-strong); background:rgba(76,201,240,0.08); color:var(--brand-hi); display:grid; place-items:center; margin-bottom:16px; }
+.op-card .icb svg { width:24px; height:24px; }
+.op-card h4 { font-family:var(--font-display); font-size:1.12rem; font-weight:600; color:var(--text-hi); margin:0 0 10px; }
+.op-card p { color:var(--text-mute); font-size:0.88rem; line-height:1.75; margin:0; }
+.op-try { display:inline-flex; align-items:center; gap:6px; margin-top:16px; color:var(--brand-hi); font-family:var(--font-display); font-weight:600; font-size:0.86rem; text-decoration:none; }
+.op-try svg { width:14px; height:14px; transition:transform .2s ease; }
+.op-card:hover .op-try svg { transform:translateX(4px); }
+.op-scene-img { position:relative; border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; background:linear-gradient(150deg,rgba(13,26,58,0.85),rgba(7,13,32,0.92)); min-height:120px; }
+.op-scene-img img { display:block; width:100%; height:auto; position:relative; z-index:1; }   /* 按原始比例满宽显示，不裁切不变形 */
+.op-scene-img .ph { position:absolute; inset:0; z-index:0; display:grid; place-items:center; color:var(--brand-hi); opacity:0.35; }
+.op-scene-img .ph svg { width:54px; height:54px; }
+.op-guide { display:flex; align-items:stretch; gap:14px; flex-wrap:wrap; justify-content:center; }
+.op-step { flex:1; min-width:180px; padding:30px 22px; border:1px solid var(--line); border-radius:var(--r-lg); background:linear-gradient(180deg,rgba(13,26,58,0.55),rgba(10,20,46,0.55)); text-align:center; transition:all 240ms ease; }
+.op-step:hover { transform:translateY(-4px); border-color:rgba(76,201,240,0.4); }
+.op-step .n { width:44px; height:44px; margin:0 auto 14px; border-radius:50%; border:1.5px solid var(--brand-hi); display:grid; place-items:center; color:var(--brand-hi); font-family:var(--font-tech); font-weight:700; box-shadow:0 0 16px rgba(76,201,240,0.4); }
+.op-step h4 { font-family:var(--font-display); font-size:1.05rem; font-weight:600; color:var(--text-hi); margin:0; }
+.op-arrow { display:flex; align-items:center; color:var(--brand-hi); opacity:0.55; }
+.op-arrow svg { width:24px; height:24px; }
+.op-guide-link { text-align:center; margin-bottom:26px; }
+.op-guide-link a { display:inline-flex; align-items:center; gap:6px; color:var(--brand-hi); font-family:var(--font-display); font-weight:600; font-size:0.92rem; text-decoration:none; }
+@media(max-width:1100px){ .op-grid4{ grid-template-columns:1fr 1fr; } .op-grid3{ grid-template-columns:1fr 1fr; } }
+@media(max-width:680px){ .op-grid4,.op-grid3{ grid-template-columns:1fr; } .op-arrow{ transform:rotate(90deg); } .op-step{ min-width:0; } }
+
 </style>
 </head>
 <body>
@@ -26,66 +55,81 @@
     <nav class="crumbs">
       <a href="homepage.html">首页</a>
       <span class="sep">/</span>
-      <a href="tools_overview.html">工具平台总览</a>
+      <a href="tool_annotation.html">工具平台</a>
       <span class="sep">/</span>
-      <span class="cur">开放平</span>
+      <span class="cur">开放平台</span>
     </nav>
-    <span class="eyebrow">Developer · 开放平</span>
+    <span class="eyebrow">Open Platform · 开放平台</span>
     <h1 class="display" style="font-size:clamp(2.2rem,4.8vw,4rem);margin:16px 0 20px;">
-      <span style="display:block;">开放平</span>
-      <span style="display:block;" class="glow-text">Open Platform</span>
+      <span style="display:block;">标贝智能语音<span class="glow-text">开放平台</span></span>
     </h1>
-    <p class="lead">REST API 提供数据集查询、样本检索与标注任务管理接口，支持OAuth 2.0 鉴权与多语言 SDK 接入</p>
-    <div class="htag-row"><span class="htag">REST API</span><span class="htag">OAuth</span><span class="htag">SDK</span><span class="htag">数据</span><span class="htag">标注</span></div>
+    <p class="lead">自上线以来，成为 10000+ 企业 &amp; 个人开发者的首选 AI 平台 —— 优质 AI 语音开放能力 · 新人即享千元礼包 · 海量数据沉淀积累。</p>
+    <div class="htag-row"><span class="htag">ASR</span><span class="htag">TTS</span><span class="htag">声音复刻</span><span class="htag">声纹识别</span><span class="htag">定制音库</span></div>
     <div class="page-actions">
-      <a href="homepage.html#contact" class="btn btn-primary">申请试用<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-      <a href="tools_overview.html" class="btn btn-ghost">返回总览</a>
+      <a href="https://ai.data-baker.com/" target="_blank" rel="noopener" class="btn btn-primary">立即免费试用<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      <a href="tool_annotation.html" class="btn btn-ghost">返回总览</a>
     </div>
   </div>
 </section>
+<!-- 我们的优势 -->
 <section class="section" style="padding-top:60px;">
   <div class="container">
-    <!-- 占位图片区 -->
-    <div class="placeholder-block" data-reveal>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-      <span>产品配图 · 素材待补</span>
+    <div class="section-head" data-reveal>
+      <span class="eyebrow">Our Strengths</span>
+      <h2 class="display">我们的<span class="glow-text">优势</span></h2>
     </div>
-
-    <!-- 简介-->
-    <div style="max-width:860px;margin:48px auto 0;" data-reveal>
-      <div class="section-head" style="text-align:left;justify-items:start;margin-bottom:32px;">
-        <span class="eyebrow">Overview</span>
-        <h2 class="display" style="font-size:clamp(1.6rem,2.8vw,2.2rem);">产品介绍</h2>
-      </div>
-      <p style="color:var(--text-mute);font-size:1rem;line-height:1.88;margin:0 0 24px;">
-        REST API 提供数据集查询、样本检索与标注任务管理接口，支持OAuth 2.0 鉴权与多语言 SDK 接入。标贝科技凭借多年行业积累，为本产品提供完整的数据支撑与技术服务，帮助客户快速构建高质量 AI 能力。</p>
-      <p style="color:var(--text-mute);font-size:1rem;line-height:1.88;margin:0;">
-        <em style="color:var(--text-dim);font-family:var(--font-mono);font-size:12px;font-style:normal;letter-spacing:0.1em;">详细产品介绍内容待补充，后续将添加具体功能说明、技术规格与使用案例等素材。</em>
-      </p>
-    </div>
-
-    <!-- 占位信息块 -->
-    <div class="info-grid" data-reveal>
-      <div class="info-card">
-        <h4>核心能力</h4>
-        <p>待补充：产品核心功能列表、技术指标与性能参数等详细信息</p>
-      </div>
-      <div class="info-card">
-        <h4>应用场景</h4>
-        <p>待补充：典型使用场景、行业案例与客户证言等内容</p>
-      </div>
-      <div class="info-card">
-        <h4>技术规格</h4>
-        <p>待补充：接口文档、输入输出格式、并发能力与 SLA 说明</p>
-      </div>
-      <div class="info-card">
-        <h4>定价与授权</h4>
-        <p>待补充：产品定价方案、授权模式与免费试用额度说明</p>
-      </div>
-    </div>
-
+    <div class="op-grid4" data-reveal><div class="op-card"><div class="icb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div><h4>高识别准确率</h4><p>基于先进的深度学习算法，安静环境下近场语音识别，中文普通话字准确率超过 97%。</p></div><div class="op-card"><div class="icb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 7V2M15 7V2M7 7h10v4a5 5 0 0 1-10 0z"/><path d="M12 16v6"/></svg></div><h4>便捷接入</h4><p>基于 B/S 架构的管理平台，开发者可按需创建多个应用，独立可视化的数据统计，方便实时、精确地监测服务调用情况。</p></div><div class="op-card"><div class="icb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h2M6 7v10M10 4v16M14 8v8M18 6v12M22 12h-2"/></svg></div><h4>TTS 3.0 合成技术</h4><p>全新的非自回归声学模型，情感表达更准确，输出音质更稳定、清晰、顺畅，极大提升合成声音的真实质感。</p></div><div class="op-card"><div class="icb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10a7 7 0 0 1-14 0M12 19v3M8 22h8"/></svg></div><h4>全音库开放</h4><p>近 60 个音色，声音真实饱满、富有表现力，涵盖老人、儿童、青年男女音，支持中文、英文、中英混合、方言和多语种发音。</p></div></div>
   </div>
 </section>
+
+<!-- 持续丰富的 AI 能力 -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow">Ability</span>
+      <h2 class="display">持续丰富的 <span class="glow-text">AI 能力</span></h2>
+    </div>
+    <div class="op-grid3" data-reveal><div class="op-card"><div class="icb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M7 9h6M7 13h10M7 17h7"/></svg></div><h4>语音识别 ASR</h4><p>对用户的语音输入进行转写识别，可根据预期自动断句和添加标点，让机器听懂人类的语言。</p><a class="op-try" href="https://ai.data-baker.com/#/index" target="_blank" rel="noopener">免费试用 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div><div class="op-card"><div class="icb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h2M6 7v10M10 4v16M14 8v8M18 6v12M22 12h-2"/></svg></div><h4>语音合成 TTS</h4><p>将文字转换为自然饱满的声音。引入 Transformer 机制与 GAN 深度学习技术，优化有声读物场景，现已推出近 200 个音色。</p><a class="op-try" href="https://ai.data-baker.com/#/index" target="_blank" rel="noopener">免费试用 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div><div class="op-card"><div class="icb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h3"/></svg></div><h4>声音复刻</h4><p>个性化声音定制，使用少量用户声音即可在短时间内快速打造个人定制音色，有效降低声音定制成本。</p><a class="op-try" href="https://ai.data-baker.com/#/index" target="_blank" rel="noopener">免费试用 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div><div class="op-card"><div class="icb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16V4M3 8l4-4 4 4M17 8v12M21 16l-4 4-4-4"/></svg></div><h4>声音转换</h4><p>基于深度学习与迁移学习技术，精准将原说话人声音转换为目标说话人，同时保留原说话人的风格特色。</p><a class="op-try" href="https://ai.data-baker.com/#/index" target="_blank" rel="noopener">免费试用 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div><div class="op-card"><div class="icb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6v12M8 3v18M12 6v12M16 4v16M20 8v8"/></svg></div><h4>声纹识别</h4><p>标贝自研声纹算法引擎，实现声纹注册与声纹 1:1、1:N 对比验证，对说话人声波特征进行提取辨识，高准确率、低延迟。</p><a class="op-try" href="https://ai.data-baker.com/#/index" target="_blank" rel="noopener">免费试用 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div><div class="op-card"><div class="icb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div><h4>定制音库</h4><p>根据企业客户需求量身定制个性化声音，专业数据采集团队与语音合成技术团队，提供一站式声音定制服务。</p><a class="op-try" href="https://ai.data-baker.com/#/index" target="_blank" rel="noopener">免费试用 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div></div>
+  </div>
+</section>
+
+<!-- 垂直化场景 -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow">Scenarios</span>
+      <h2 class="display">持续赋能更多的<span class="glow-text">垂直化场景</span></h2>
+    </div>
+    <div class="op-scene-img" data-reveal>
+      <img src="images/tool/dev/openplatform/scenes.png" alt="垂直化场景" loading="lazy" onerror="this.style.display='none'">
+      <span class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></span>
+    </div>
+  </div>
+</section>
+
+<!-- 新手引导 -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow">Quick Start</span>
+      <h2 class="display">新手<span class="glow-text">引导</span></h2>
+      <p>只需 4 步开启使用</p>
+    </div>
+    <div class="op-guide-link" data-reveal>
+      <a href="https://ai.data-baker.com/" target="_blank" rel="noopener">查看新手指引 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </div>
+    <div class="op-guide" data-reveal>
+      <div class="op-step"><div class="n">1</div><h4>创建应用</h4></div>
+      <div class="op-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+      <div class="op-step"><div class="n">2</div><h4>选择服务</h4></div>
+      <div class="op-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+      <div class="op-step"><div class="n">3</div><h4>获取 Key &amp; Secret</h4></div>
+      <div class="op-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+      <div class="op-step"><div class="n">4</div><h4>试运调用</h4></div>
+    </div>
+  </div>
+</section>
+
 <section class="cta-section">
   <div class="container">
     <div class="cta-card" data-reveal>
@@ -94,8 +138,8 @@
         <h2>获取开放平台试用方</h2>
         <p>填写需求表单，我们将在 1 个工作日内回复并提供免费样本或演示账号</p>
         <div class="cta-actions">
-          <a href="homepage.html#contact" class="btn btn-primary">立即申请<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-          <a href="tools_overview.html" class="btn btn-ghost">返回总览</a>
+          <a href="javascript:void(0)" onclick="openTrialModal()" class="btn btn-primary">预约试用<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          <a href="tool_docs.html" class="btn btn-ghost">开发文档</a>
         </div>
       </div>
     </div>

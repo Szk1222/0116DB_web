@@ -114,6 +114,7 @@ html.cursor-out .cursor-glow { opacity: 0; }
 .container { width: min(1280px, calc(100% - 40px)); margin-inline: auto; }
 .section { position: relative; padding: 110px 0; }
 .section-tight { padding: 80px 0; }
+.sol-anchor { scroll-margin-top: 96px; }
 
 .eyebrow {
   display: inline-flex; align-items: center; gap: 10px;
@@ -333,6 +334,11 @@ a.mega-section-title:hover .mst-arrow { opacity: 1; transform: translateX(0); }
   content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px;
   background: var(--grad-line);
 }
+/* Hero 背景图变体（便于插图）：
+   用法 <section class="page-hero has-hero-img" style="--hero-img:url('images/.../xxx.png')"> */
+.page-hero.has-hero-img { min-height: 680px; padding-top: 220px; background: #0a1530 var(--hero-img) right center/cover no-repeat; }
+.page-hero.has-hero-img::before { z-index: 0; background: linear-gradient(90deg, rgba(5,8,19,0.94) 0%, rgba(5,8,19,0.72) 40%, rgba(5,8,19,0.3) 70%, rgba(5,8,19,0.08) 100%); pointer-events: none; }
+.page-hero.has-hero-img > .container { position: relative; z-index: 1; }
 .crumbs { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 22px; color: var(--text-mute); font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; }
 .crumbs a { color: var(--text-mute); transition: color 180ms ease; }
 .crumbs a:hover { color: var(--brand-hi); }
@@ -818,6 +824,84 @@ a.mega-section-title:hover .mst-arrow { opacity: 1; transform: translateX(0); }
 [data-reveal].is-visible { opacity: 1; transform: none; }
 
 /* =========================================================
+   应用场景 · 横向展开手风琴（折叠窄条 / 展开宽卡）
+   通用组件：任意页面引入 .scene-acc 结构即可，行为由 _shared.js 自动绑定
+   ========================================================= */
+.scene-acc { display:flex; gap:12px; height:430px; }
+.sa-item {
+  position:relative; flex:1 1 0; min-width:0; overflow:hidden;
+  border:1px solid var(--line); border-radius:18px; cursor:pointer;
+  transition: flex-grow .55s cubic-bezier(.4,0,.2,1), border-color .35s ease, box-shadow .35s ease;
+}
+.sa-item.is-active { flex-grow:7; border-color:transparent; box-shadow:0 0 0 1px var(--accent) inset, 0 26px 60px rgba(0,0,0,0.45); }
+.sa-ph, .sa-bg, .sa-grad { position:absolute; inset:0; }
+.sa-ph  { background:var(--accent); opacity:0.20; }                 /* 占位主题色，配图缺失时显示 */
+.sa-bg  { background-image:var(--img); background-size:cover; background-position:center; transition:transform .7s ease; }
+.sa-item.is-active .sa-bg { transform:scale(1.05); }
+.sa-grad { background:linear-gradient(180deg, rgba(7,13,32,0.12) 0%, rgba(7,13,32,0.5) 52%, rgba(7,13,32,0.92) 100%); }
+.sa-content { position:absolute; inset:0; z-index:2; display:flex; flex-direction:column; justify-content:flex-end; padding:22px 20px; }
+.sa-icon {
+  width:42px; height:42px; border-radius:10px; margin-bottom:auto;
+  border:1px solid rgba(255,255,255,0.2); background:rgba(7,13,32,0.42);
+  -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px);
+  display:grid; place-items:center; color:#fff;
+}
+.sa-icon svg { width:22px; height:22px; }
+.sa-title { font-family:var(--font-display); font-weight:600; color:#fff; font-size:1.12rem; margin:0; white-space:nowrap; }
+.sa-item:not(.is-active) .sa-title { writing-mode:vertical-rl; text-orientation:mixed; letter-spacing:0.08em; align-self:center; }
+.sa-detail { max-height:0; opacity:0; overflow:hidden; transition:opacity .45s ease, max-height .55s ease; }
+.sa-item.is-active .sa-detail { max-height:280px; opacity:1; margin-top:14px; }
+.sa-tag { display:inline-block; font-family:var(--font-mono); font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:#fff; padding:3px 9px; border:1px solid rgba(255,255,255,0.3); border-radius:99px; background:rgba(255,255,255,0.08); }
+.sa-cap { margin-top:14px; font-family:var(--font-mono); font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent); filter:brightness(1.25); }
+.sa-detail p { color:rgba(255,255,255,0.85); font-size:0.9rem; line-height:1.7; margin:8px 0 0; max-width:440px; }
+.sa-link { display:inline-flex; align-items:center; gap:6px; margin-top:16px; color:#fff; font-family:var(--font-display); font-weight:600; font-size:0.9rem; text-decoration:none; }
+.sa-link svg { width:16px; height:16px; transition:transform .2s ease; }
+.sa-link:hover svg { transform:translateX(4px); }
+@media(max-width:900px){
+  .scene-acc { flex-direction:column; height:auto; }
+  .sa-item { flex:none; height:120px; }
+  .sa-item.is-active { flex:none; height:300px; }
+  .sa-item:not(.is-active) .sa-title { writing-mode:horizontal-tb; align-self:flex-start; }
+}
+
+/* =========================================================
+   标签进度轮播 Slide（功能 / 优势特点）
+   通用组件：页面引入 .adv-show 结构即可，行为由 _shared.js 自动绑定
+   ========================================================= */
+.adv-tabs { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-bottom:6px; }
+.adv-tab { position:relative; padding:12px 22px; border:1px solid var(--line); border-radius:99px; background:rgba(13,26,58,0.5); color:var(--text-mute); font-family:var(--font-display); font-weight:600; font-size:0.92rem; cursor:pointer; overflow:hidden; transition:all 220ms ease; }
+.adv-tab:hover { color:var(--text-hi); }
+.adv-tab.active { color:var(--brand-hi); border-color:rgba(76,201,240,0.5); background:rgba(76,201,240,0.1); }
+.adv-tab .bar { position:absolute; left:0; bottom:0; height:3px; width:0; background:var(--brand-hi); box-shadow:0 0 8px rgba(76,201,240,0.6); }
+.adv-tab.active .bar { animation:advBar 5s linear forwards; }
+@keyframes advBar { from{width:0;} to{width:100%;} }
+.adv-sub { display:none; text-align:center; margin:20px 0 26px; }
+.adv-sub.is-active { display:block; animation:advFade 500ms ease; }
+.adv-sub b { display:block; font-family:var(--font-display); font-size:1.25rem; color:var(--text-hi); margin-bottom:8px; }
+.adv-sub span { color:var(--text-mute); font-size:0.96rem; }
+.adv-stage { position:relative; max-width:980px; margin:0 auto; border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; aspect-ratio:16/7; background:linear-gradient(150deg,rgba(13,26,58,0.85),rgba(7,13,32,0.92)); box-shadow:0 24px 60px rgba(0,0,0,0.4); }
+.adv-slide { position:absolute; inset:0; z-index:1; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity 600ms ease; }
+.adv-slide.is-active { opacity:1; }
+.adv-stage .ph { position:absolute; inset:0; z-index:0; display:grid; place-items:center; color:var(--brand-hi); opacity:0.35; }
+.adv-stage .ph svg { width:54px; height:54px; }
+@keyframes advFade { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:none;} }
+
+/* =========================================================
+   服务模式说明 · 公有云 VS 私有化 对比表（通用组件）
+   ========================================================= */
+.ec-vs-wrap { overflow-x:auto; }
+.ec-vs { display:grid; grid-template-columns:150px 1fr 1fr; min-width:720px; border:1px solid var(--line-strong); border-radius:var(--r-lg); overflow:hidden; background:linear-gradient(180deg,rgba(13,26,58,0.6),rgba(10,20,46,0.6)); }
+.ec-vs > div { padding:16px 20px; border-bottom:1px solid var(--line); border-right:1px solid var(--line); color:var(--text); font-size:0.9rem; line-height:1.72; }
+.ec-vs > div:nth-child(3n) { border-right:0; }
+.ec-vs > div:nth-last-child(-n+3) { border-bottom:0; }
+.ec-vs .vs-corner { background:rgba(76,201,240,0.04); }
+.ec-vs .vs-h { text-align:center; font-family:var(--font-display); font-size:1.15rem; font-weight:700; color:var(--text-hi); background:linear-gradient(120deg,rgba(4,105,207,0.24),rgba(24,166,184,0.18)); }
+.ec-vs .vs-k { color:var(--brand-hi); font-family:var(--font-display); font-weight:600; background:rgba(76,201,240,0.05); }
+.ec-vs .vs-link { cursor:pointer; font-weight:600; }
+.ec-vs .vs-link.blue { color:var(--brand-hi); }
+.ec-vs .vs-link.yellow { color:#ffcc00; }
+
+/* =========================================================
    Responsive
    ========================================================= */
 @media (max-width: 1100px) {
@@ -827,4 +911,5 @@ a.mega-section-title:hover .mst-arrow { opacity: 1; transform: translateX(0); }
   .cta-card { padding: 50px 24px; }
   .footer-grid { grid-template-columns: 1fr; gap: 32px; }
   .page-hero { padding: 120px 0 60px; }
+  .page-hero.has-hero-img { padding-top: 150px; min-height: 520px; }
 }

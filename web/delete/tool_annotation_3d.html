@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>2D 图像标注 · 标贝科技</title>
+<title>3D 点云标注 · 标贝科技</title>
 <link rel="stylesheet" href="_shared.css" />
 <style>
 .htag-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px;}
@@ -18,9 +18,7 @@
 .info-card p{color:var(--text-mute);font-size:0.88rem;margin:0;line-height:1.7;}
 @media(max-width:720px){.info-grid{grid-template-columns:1fr;}}
 /* Hero */
-.page-hero{ position:relative; overflow:hidden; min-height:420px; background:#0a1530 url('images/annotation/2d/2D-hero.png') right center/cover no-repeat; }
-.page-hero::before{ content:""; position:absolute; inset:0; z-index:0; background:linear-gradient(90deg, rgba(5,8,19,0.94) 0%, rgba(5,8,19,0.72) 40%, rgba(5,8,19,0.3) 70%, rgba(5,8,19,0.08) 100%); pointer-events:none; }
-.page-hero > .container{ position:relative; z-index:1; }
+/* Hero 背景图样式已迁移至 _shared.css（.has-hero-img），图片由 section 的 --hero-img 指定 */
 .htag{padding:5px 12px;border-radius:99px;border:1px solid rgba(68,224,138,0.2);background:rgba(68,224,138,0.08);color:#44e08a;font-family:var(--font-mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;}
 .placeholder-block{aspect-ratio:16/7;border:1px solid var(--line);border-radius:var(--r-lg);background:linear-gradient(135deg,rgba(68,224,138,0.08),rgba(68,224,138,0.08));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:var(--text-dim);font-family:var(--font-mono);font-size:12px;letter-spacing:0.14em;text-transform:uppercase;position:relative;overflow:hidden;}
 .placeholder-block::before{content:"";position:absolute;inset:0;background-image:repeating-linear-gradient(45deg,rgba(68,224,138,0.08) 0 4px,transparent 4px 8px);}
@@ -48,56 +46,30 @@
 .ec-task-dots button.active { width:44px; background:var(--brand-hi); box-shadow:0 0 10px rgba(76,201,240,0.5); }
 @media(max-width:760px){ .ec-task{ grid-template-columns:1fr; gap:24px; } }
 /* 服务模式说明 · 公有云 VS 私有化 对比表 */
-.ec-vs-wrap { overflow-x:auto; }
-.ec-vs { display:grid; grid-template-columns:150px 1fr 1fr; min-width:720px; border:1px solid var(--line-strong); border-radius:var(--r-lg); overflow:hidden; background:linear-gradient(180deg,rgba(13,26,58,0.6),rgba(10,20,46,0.6)); }
-.ec-vs > div { padding:16px 20px; border-bottom:1px solid var(--line); border-right:1px solid var(--line); color:var(--text); font-size:0.9rem; line-height:1.72; }
-.ec-vs > div:nth-child(3n) { border-right:0; }
-.ec-vs > div:nth-last-child(-n+3) { border-bottom:0; }
-.ec-vs .vs-corner { background:rgba(76,201,240,0.04); }
-.ec-vs .vs-h { text-align:center; font-family:var(--font-display); font-size:1.15rem; font-weight:700; color:var(--text-hi); background:linear-gradient(120deg,rgba(4,105,207,0.24),rgba(24,166,184,0.18)); }
-.ec-vs .vs-k { color:var(--brand-hi); font-family:var(--font-display); font-weight:600; background:rgba(76,201,240,0.05); }
-.ec-vs .vs-link { cursor:pointer; font-weight:600; }
-.ec-vs .vs-link.blue { color:var(--brand-hi); }
-.ec-vs .vs-link.yellow { color:#ffcc00; }
-/* 优势特点 · 标签进度轮播 */
-.adv-tabs { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-bottom:6px; }
-.adv-tab { position:relative; padding:12px 22px; border:1px solid var(--line); border-radius:99px; background:rgba(13,26,58,0.5); color:var(--text-mute); font-family:var(--font-display); font-weight:600; font-size:0.92rem; cursor:pointer; overflow:hidden; transition:all 220ms ease; }
-.adv-tab:hover { color:var(--text-hi); }
-.adv-tab.active { color:var(--brand-hi); border-color:rgba(76,201,240,0.5); background:rgba(76,201,240,0.1); }
-.adv-tab .bar { position:absolute; left:0; bottom:0; height:3px; width:0; background:var(--brand-hi); box-shadow:0 0 8px rgba(76,201,240,0.6); }
-.adv-tab.active .bar { animation:advBar 5s linear forwards; }
-@keyframes advBar { from{width:0;} to{width:100%;} }
-.adv-sub { display:none; text-align:center; margin:20px 0 26px; }
-.adv-sub.is-active { display:block; animation:ecFade 500ms ease; }
-.adv-sub b { display:block; font-family:var(--font-display); font-size:1.25rem; color:var(--text-hi); margin-bottom:8px; }
-.adv-sub span { color:var(--text-mute); font-size:0.96rem; }
-.adv-stage { position:relative; max-width:980px; margin:0 auto; border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; aspect-ratio:16/7; background:linear-gradient(150deg,rgba(13,26,58,0.85),rgba(7,13,32,0.92)); box-shadow:0 24px 60px rgba(0,0,0,0.4); }
-.adv-slide { position:absolute; inset:0; z-index:1; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity 600ms ease; }
-.adv-slide.is-active { opacity:1; }
-.adv-stage .ph { position:absolute; inset:0; z-index:0; display:grid; place-items:center; color:var(--brand-hi); opacity:0.35; }
-.adv-stage .ph svg { width:54px; height:54px; }
+/* 公有云 VS 私有化 对比表样式已迁移至 _shared.css（.ec-vs） */
+/* 优势特点 · 标签进度轮播样式已迁移至 _shared.css（.adv-show / .adv-tab / .adv-slide） */
 </style>
 </head>
 <body>
 <div id="nav-placeholder"></div>
-<section class="page-hero">
+<section class="page-hero has-hero-img" style="--hero-img:url('images/annotation/3d/3D-hero.png')">
   <div class="container">
     <nav class="crumbs">
       <a href="homepage.html">首页</a>
       <span class="sep">/</span>
-      <a href="tools_overview.html">工具平台总览</a>
+      <a href="tool_annotation.html">工具平台</a>
       <span class="sep">/</span>
-      <span class="cur">2D 图像标注</span>
+      <span class="cur">3D 点云标注</span>
     </nav>
-    <span class="eyebrow">Annotation · 2D 标注</span>
+    <span class="eyebrow">Annotation · 3D 标注</span>
     <h1 class="display" style="font-size:clamp(2.2rem,4.8vw,4rem);margin:16px 0 20px;">
-      <span style="display:block;" class="glow-text">2D 图像标注</span>
+      <span style="display:block;" class="glow-text">3D 点云标注</span>
     </h1>
-    <p class="lead">通过点线框工具 实现图形图像文件到结构化文本文件的快速处理。</p>
-    <div class="htag-row"><span class="htag">LiDAR</span><span class="htag">2D BBox</span><span class="htag">自动驾驶</span><span class="htag">mask</span><span class="htag">polygon</span></div>
+    <p class="lead">标贝科技通过自主研发的3D标注工具，将激光测量采集的3D信息，绘建成高精度的3D模型；我们为您提供多种便捷易用的辅助工具及AI工具，致力于搭建高效高质量数据服务平台。</p>
+    <div class="htag-row"><span class="htag">LiDAR</span><span class="htag">3D BBox</span><span class="htag">自动驾驶</span><span class="htag">多帧联动</span><span class="htag">实例分割</span></div>
     <div class="page-actions">
-      <a href="homepage.html#contact" class="btn btn-primary">申请试用<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-      <a href="tools_overview.html" class="btn btn-ghost">返回总览</a>
+      <a href="javascript:void(0)" onclick="openTrialModal()" class="btn btn-primary">预约试用<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      <a href="tool_annotation.html" class="btn btn-ghost">返回总览</a>
     </div>
   </div>
 </section>
@@ -110,9 +82,9 @@
     </div>
     <div class="ec-task" data-reveal>
       <div class="ec-task-frame">
-        <img class="ec-task-slide is-active" data-i="0" src="images/annotation/2d/tag2D-01.png" alt="项目模版" loading="lazy">
-        <img class="ec-task-slide" data-i="1" src="images/annotation/2d/tag2D-02.png" alt="项目统计" loading="lazy">
-        <img class="ec-task-slide" data-i="2" src="images/annotation/2d/tag2D-03.png" alt="质检验收" loading="lazy">
+        <img class="ec-task-slide is-active" data-i="0" src="images/annotation/3d/tag3D-01.png" alt="项目模版" loading="lazy">
+        <img class="ec-task-slide" data-i="1" src="images/annotation/3d/tag3D-02.png" alt="项目统计" loading="lazy">
+        <img class="ec-task-slide" data-i="2" src="images/annotation/3d/tag3D-03.png" alt="质检验收" loading="lazy">
       </div>
       <div class="ec-task-meta">
         <div class="ec-task-text is-active" data-i="0"><div class="num">01</div><h4>项目模版</h4><p>灵活配置质检参数、音频参数、任务模式、AI 算法辅助等能力，覆盖各种复杂项目场景。</p></div>
@@ -133,34 +105,25 @@
     </div>
     <div class="adv-show" data-reveal>
       <div class="adv-tabs">
-        <button class="adv-tab active" data-a="0">目标检测<span class="bar"></span></button>
-        <button class="adv-tab" data-a="1">连续帧标注<span class="bar"></span></button>
-        <button class="adv-tab" data-a="2">关键点标注<span class="bar"></span></button>
-        <button class="adv-tab" data-a="3">语义分割<span class="bar"></span></button>
-        <button class="adv-tab" data-a="4">图片分类<span class="bar"></span></button>
-        <button class="adv-tab" data-a="5">OCR转写<span class="bar"></span></button>
-        <button class="adv-tab" data-a="6">点顺序显示与调节<span class="bar"></span></button>
-        <button class="adv-tab" data-a="7">标注参考框<span class="bar"></span></button>
+        <button class="adv-tab active" data-a="0">4D 标注<span class="bar"></span></button>
+        <button class="adv-tab" data-a="1">语义分割<span class="bar"></span></button>
+        <button class="adv-tab" data-a="2">点云标注<span class="bar"></span></button>
+        <button class="adv-tab" data-a="3">点云连续帧<span class="bar"></span></button>
+        <button class="adv-tab" data-a="4">2&amp;3D 融合标注<span class="bar"></span></button>
       </div>
       <div class="adv-subs">
-        <div class="adv-sub is-active" data-a="0"><b>目标检测</b><span>AI算法模型搭配人工手动调整，实现多场景、多对象的快速物体检测</span></div>
-        <div class="adv-sub" data-a="1"><b>连续帧标注</b><span>支持智能化的连续帧标注 后台算法实时预估目标物体移动差值</span></div>
-        <div class="adv-sub" data-a="2"><b>关键点标注</b><span>用点组、单点等标注工具完成关键点关键部位的标注工作，且支持给单点添加额外属性并导出</span></div>
-        <div class="adv-sub" data-a="3"><b>语义分割</b><span>智能AI语义分割模型搭配人工补点，实现快速高效的物体语义分割标注</span></div>
-        <div class="adv-sub" data-a="4"><b>图片分类</b><span>支持通过tag标记对图片或连续帧进行类型分类或数据清洗</span></div>
-        <div class="adv-sub" data-a="5"><b>OCR转写</b><span>支持图片中字符的OCR识别和转写，适用于车牌、文档等场景的标注需求</span></div>
-        <div class="adv-sub" data-a="6"><b>点顺序显示与调节</b><span>支持标注点的顺序显示和调整，并支持一键调节所有点顺序，满足不同算法对点顺序的要求</span></div>
-        <div class="adv-sub" data-a="7"><b>标注参考框</b><span>支持在标注界面显示算法预估的参考框，辅助标注人员进行调整和修改</span></div>
+        <div class="adv-sub is-active" data-a="0"><b>4D 标注</b><span>时序点云连续标注，精准还原物体在时间维度上的运动轨迹。</span></div>
+        <div class="adv-sub" data-a="1"><b>语义分割</b><span>点云逐点语义分割，精细区分道路、车辆、行人等场景要素。</span></div>
+        <div class="adv-sub" data-a="2"><b>点云标注</b><span>高精度 3D BBox 与多形态点云标注，适配自动驾驶感知训练。</span></div>
+        <div class="adv-sub" data-a="3"><b>点云连续帧</b><span>行进预测、插值预测、智能贴合等多种智能辅助工具。</span></div>
+        <div class="adv-sub" data-a="4"><b>2&amp;3D 融合标注</b><span>图像与点云多传感器融合标注，2D / 3D 联动提升标注精度。</span></div>
       </div>
       <div class="adv-stage">
-        <img class="adv-slide is-active" data-a="0" src="images/annotation/2d/youshi-0.png" alt="目标检测" loading="lazy" onerror="this.style.display='none'">
-        <video class="adv-slide is-active" data-a="1" src="images/annotation/2d/youshi-1.mp4" autoplay="autoplay" loop="loop" muted="muted" class="swiper-wrapper-video"></video>
-        <img class="adv-slide" data-a="2" src="images/annotation/2d/youshi-2.png" alt="关键点标注" loading="lazy" onerror="this.style.display='none'">
-        <img class="adv-slide" data-a="3" src="images/annotation/2d/youshi-3.png" alt="语义分割" loading="lazy" onerror="this.style.display='none'">
-        <img class="adv-slide" data-a="4" src="images/annotation/2d/youshi-4.png" alt="图片分类" loading="lazy" onerror="this.style.display='none'">
-        <img class="adv-slide" data-a="5" src="images/annotation/2d/youshi-5.png" alt="OCR转写" loading="lazy" onerror="this.style.display='none'">
-        <img class="adv-slide" data-a="6" src="images/annotation/2d/youshi-6.png" alt="点顺序显示与调节" loading="lazy" onerror="this.style.display='none'">
-        <img class="adv-slide" data-a="7" src="images/annotation/2d/youshi-7.png" alt="标注参考框" loading="lazy" onerror="this.style.display='none'">
+        <img class="adv-slide is-active" data-a="0" src="images/annotation/3d/youshi-0.png" alt="4D 标注" loading="lazy" onerror="this.style.display='none'">
+        <img class="adv-slide" data-a="1" src="images/annotation/3d/youshi-1.png" alt="语义分割" loading="lazy" onerror="this.style.display='none'">
+        <img class="adv-slide" data-a="2" src="images/annotation/3d/youshi-2.png" alt="点云标注" loading="lazy" onerror="this.style.display='none'">
+        <img class="adv-slide" data-a="3" src="images/annotation/3d/youshi-3.png" alt="点云连续帧" loading="lazy" onerror="this.style.display='none'">
+        <img class="adv-slide" data-a="4" src="images/annotation/3d/youshi-4.png" alt="2&amp;3D 融合标注" loading="lazy" onerror="this.style.display='none'">
         <span class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l9 5v10l-9 5-9-5V7l9-5z"/><path d="M12 2v20M3 7l9 5 9-5"/></svg></span>
       </div>
     </div>
@@ -209,24 +172,22 @@
   </div>
 </section>
 
-</section>
 <section class="cta-section">
   <div class="container">
     <div class="cta-card" data-reveal>
       <div class="cta-inner">
         <span class="eyebrow">Next Step</span>
-        <h2>获取2D 图像标注试用方案</h2>
+        <h2>获取3D 点云标注试用方案</h2>
         <p>填写需求表单，我们将在 1 个工作日内回复并提供免费样本或演示账号</p>
         <div class="cta-actions">
-          <a href="homepage.html#contact" class="btn btn-primary">立即申请<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-          <a href="tools_overview.html" class="btn btn-ghost">返回总览</a>
+          <a href="javascript:void(0)" onclick="openTrialModal()" class="btn btn-primary">预约试用<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          <a href="tool_annotation.html" class="btn btn-ghost">返回总览</a>
         </div>
       </div>
     </div>
   </div>
 </section>
 <div id="footer-placeholder"></div>
-
 <script src="_shared.js"></script>
 <script>
 (function(){var items=[].slice.call(document.querySelectorAll(".logo-rows .sa-item"));})();
@@ -249,24 +210,7 @@ document.querySelectorAll(".ec-scene-tab").forEach(function(t){t.addEventListene
   if(wrap){ wrap.addEventListener('mouseenter',stop); wrap.addEventListener('mouseleave',start); }
   start();
 })();
-(function(){
-  var tabs=[].slice.call(document.querySelectorAll('.adv-tab'));
-  var subs=[].slice.call(document.querySelectorAll('.adv-sub'));
-  var slides=[].slice.call(document.querySelectorAll('.adv-slide'));
-  if(!tabs.length) return;
-  var n=tabs.length, cur=0, timer;
-  function go(i){ cur=(i+n)%n;
-    tabs.forEach(function(t,k){ t.classList.toggle('active',k===cur); });
-    subs.forEach(function(s,k){ s.classList.toggle('is-active',k===cur); });
-    slides.forEach(function(s,k){ s.classList.toggle('is-active',k===cur); });
-  }
-  function start(){ timer=setInterval(function(){ go(cur+1); },5000); }
-  function stop(){ clearInterval(timer); }
-  tabs.forEach(function(t,k){ t.addEventListener('click',function(){ go(k); stop(); start(); }); });
-  var wrap=document.querySelector('.adv-show');
-  if(wrap){ wrap.addEventListener('mouseenter',stop); wrap.addEventListener('mouseleave',start); }
-  start();
-})();
+/* 优势特点轮播逻辑已迁移至 _shared.js（advSlider），自动绑定 .adv-show */
 </script>
 </body>
 </html>

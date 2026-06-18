@@ -19,9 +19,7 @@
 .btn-app svg{width:18px;height:18px;}
 .kw-line{margin-top:18px;color:var(--text-dim);font-family:var(--font-mono);font-size:11px;letter-spacing:0.06em;}
 /* Hero · 横向铺满 ecai 横幅 */
-.page-hero{ position:relative; overflow:hidden; min-height:420px; background:#0a1530 url('images/collection/ecai/ecai.png') right center/cover no-repeat; }
-.page-hero::before{ content:""; position:absolute; inset:0; z-index:0; background:linear-gradient(90deg, rgba(5,8,19,0.94) 0%, rgba(5,8,19,0.72) 40%, rgba(5,8,19,0.3) 70%, rgba(5,8,19,0.08) 100%); pointer-events:none; }
-.page-hero > .container{ position:relative; z-index:1; }
+/* Hero 背景图样式已迁移至 _shared.css（.has-hero-img），图片由 section 的 --hero-img 指定 */
 .htag{padding:5px 12px;border-radius:99px;border:1px solid rgba(68,224,138,0.2);background:rgba(68,224,138,0.08);color:#44e08a;font-family:var(--font-mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;}
 .placeholder-block{aspect-ratio:16/7;border:1px solid var(--line);border-radius:var(--r-lg);background:linear-gradient(135deg,rgba(68,224,138,0.08),rgba(68,224,138,0.08));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:var(--text-dim);font-family:var(--font-mono);font-size:12px;letter-spacing:0.14em;text-transform:uppercase;position:relative;overflow:hidden;}
 .placeholder-block::before{content:"";position:absolute;inset:0;background-image:repeating-linear-gradient(45deg,rgba(68,224,138,0.08) 0 4px,transparent 4px 8px);}
@@ -125,12 +123,12 @@
 </head>
 <body>
 <div id="nav-placeholder"></div>
-<section class="page-hero">
+<section class="page-hero has-hero-img" style="--hero-img:url('images/collection/ecai/ecai.png')">
   <div class="container">
     <nav class="crumbs">
       <a href="homepage.html">首页</a>
       <span class="sep">/</span>
-      <a href="tools_overview.html">工具平台总览</a>
+      <a href="tool_annotation.html">工具平台</a>
       <span class="sep">/</span>
       <span class="cur">标贝易采</span>
     </nav>
@@ -141,7 +139,7 @@
     <p class="lead">面向个人与企业的多模态数据采集SaaS 平台，支持语音录制、图片上传与视频拍摄任务发布与回收</p>
     <div class="htag-row"><span class="htag">SaaS</span><span class="htag">多模</span><span class="htag">任务分发</span><span class="htag">语音</span><span class="htag">图像</span><span class="htag">视频</span></div>
     <div class="page-actions">
-      <a href="javascript:void(0)" onclick="openTrialModal()" class="btn btn-primary">申请试用<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      <a href="javascript:void(0)" onclick="openTrialModal()" class="btn btn-primary">预约试用<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
       <span class="app-dl">
         <a href="javascript:void(0)" class="btn btn-ghost btn-app"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 12.04c-.03-2.9 2.37-4.3 2.48-4.36-1.35-1.98-3.46-2.25-4.21-2.28-1.79-.18-3.5 1.05-4.41 1.05-.91 0-2.31-1.03-3.81-1-1.96.03-3.77 1.14-4.78 2.9-2.04 3.54-.52 8.78 1.46 11.65.97 1.4 2.13 2.97 3.65 2.91 1.46-.06 2.01-.94 3.78-.94 1.76 0 2.26.94 3.81.91 1.57-.03 2.57-1.43 3.53-2.84 1.11-1.63 1.57-3.21 1.59-3.29-.03-.02-3.05-1.17-3.08-4.66zM14.2 4.38c.81-.98 1.35-2.34 1.2-3.7-1.16.05-2.57.78-3.41 1.75-.75.86-1.41 2.25-1.23 3.57 1.29.1 2.62-.66 3.44-1.62z"/></svg>App Store</a>
         <div class="app-qr"><img src="images/collection/ecai/app-ios.png" alt="iOS 下载二维码" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='grid';"><div class="ph" style="display:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3M17 17v3M14 17h.01M20 14v.01"/></svg></div><b>iOS · 扫码下载</b></div>
@@ -151,7 +149,7 @@
         <div class="app-qr"><img src="images/collection/ecai/app-android.png" alt="Android 下载二维码" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='grid';"><div class="ph" style="display:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3M17 17v3M14 17h.01M20 14v.01"/></svg></div><b>Android · 扫码下载</b></div>
       </span>
       <a href="https://distribute.ebiaoge.com/sp/formreport/distribute/TY0D2TKKVP/4748489893055628723" target="_blank" rel="noopener" class="btn btn-ghost">数据供应商入驻 <span class="btn-arrow">→</span></a>
-      <a href="tools_overview.html" class="btn btn-ghost">返回总览</a>
+      <a href="tool_annotation.html" class="btn btn-ghost">返回总览</a>
     </div>
     <div class="kw-line">关键词：数据采集 · 标贝易采 · 标贝采集</div>
   </div>
@@ -245,8 +243,8 @@
         <h2>获取标贝易采试用方案</h2>
         <p>填写需求表单，我们将在 1 个工作日内回复并提供免费样本或演示账号</p>
         <div class="cta-actions">
-          <a href="homepage.html#contact" class="btn btn-primary">立即申请<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-          <a href="tools_overview.html" class="btn btn-ghost">返回总览</a>
+          <a href="javascript:void(0)" onclick="openTrialModal()" class="btn btn-primary">预约试用<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          <a href="tool_annotation.html" class="btn btn-ghost">返回总览</a>
         </div>
       </div>
     </div>
