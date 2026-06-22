@@ -33,17 +33,39 @@
 
 /* ===== 标贝易采 · 中部 ===== */
 .ec-head-en { font-family:var(--font-mono); font-size:11px; letter-spacing:0.3em; color:var(--text-dim); text-transform:uppercase; margin-top:6px; }
-/* 效果展示 */
-.ec-effect-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
-.ec-effect-card { position:relative; border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; background:linear-gradient(180deg,rgba(13,26,58,0.55),rgba(10,20,46,0.55)); transition:all 240ms ease; }
-.ec-effect-card:hover { transform:translateY(-4px); border-color:rgba(68,224,138,0.4); box-shadow:0 18px 40px rgba(24,166,184,0.2); }
-.ec-effect-media { position:relative; aspect-ratio:4/3; background:linear-gradient(150deg,rgba(13,26,58,0.85),rgba(7,13,32,0.92)); display:grid; place-items:center; overflow:hidden; }
-.ec-effect-media img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0; }
-.ec-effect-media .ph { color:var(--brand-hi); opacity:0.4; }
-.ec-effect-media .ph svg { width:46px; height:46px; }
-.ec-effect-play { position:absolute; z-index:2; left:50%; top:50%; transform:translate(-50%,-50%); width:54px; height:54px; border-radius:50%; background:rgba(7,13,32,0.55); -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px); border:1px solid rgba(255,255,255,0.3); display:grid; place-items:center; color:#fff; transition:transform 220ms ease; }
-.ec-effect-card:hover .ec-effect-play { transform:translate(-50%,-50%) scale(1.1); }
-.ec-effect-card h4 { font-family:var(--font-display); font-size:1.05rem; font-weight:600; color:var(--text-hi); margin:0; padding:16px 20px; }
+/* 采集流程展示 */
+.ec-flow-panel { position:relative; border:1px solid var(--line-strong); border-radius:var(--r-lg); background:linear-gradient(180deg,rgba(7,13,32,0.78),rgba(10,20,46,0.72)); overflow:hidden; box-shadow:var(--shadow-card); }
+.ec-flow-panel::before { content:""; position:absolute; left:32px; right:32px; top:0; height:2px; background:var(--grad-line); }
+.ec-flow-panel::after { content:""; position:absolute; inset:0; background:radial-gradient(720px 320px at 50% 0%,rgba(76,201,240,0.16),transparent 72%); pointer-events:none; }
+.ec-flow-top { position:relative; z-index:1; padding:30px 34px 18px; display:flex; align-items:end; justify-content:space-between; gap:24px; border-bottom:1px solid var(--line); }
+.ec-flow-top h3 { font-family:var(--font-display); font-size:clamp(1.5rem,2.6vw,2.2rem); font-weight:600; margin:0; color:var(--text-hi); }
+.ec-flow-top h3 span { color:var(--brand-hi); }
+.ec-flow-top p { max-width:560px; color:var(--text-mute); font-size:0.92rem; line-height:1.75; margin:8px 0 0; }
+.ec-flow-tags { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:8px; }
+.ec-flow-tags span { padding:5px 10px; border:1px solid var(--line); border-radius:99px; background:rgba(76,201,240,0.06); color:var(--brand-hi); font-family:var(--font-mono); font-size:10px; letter-spacing:0.1em; text-transform:uppercase; }
+.ec-flow-visual { position:relative; z-index:1; margin:0; padding:24px 28px 18px; }
+.ec-flow-imgbox { position:relative; aspect-ratio:16/7.4; border:1px solid rgba(76,201,240,0.22); border-radius:14px; background:linear-gradient(135deg,rgba(4,105,207,0.12),rgba(7,13,32,0.86)); overflow:hidden; display:grid; place-items:center; }
+.ec-flow-imgbox img { position:absolute; inset:0; width:100%; height:100%; object-fit:contain; z-index:2; background:rgba(5,8,19,0.2); }
+.ec-flow-imgbox img.is-missing { display:none; }
+.ec-flow-placeholder { position:relative; z-index:1; display:grid; justify-items:center; gap:12px; color:var(--text-dim); font-family:var(--font-mono); font-size:12px; letter-spacing:0.14em; text-transform:uppercase; text-align:center; padding:24px; }
+.ec-flow-placeholder svg { width:52px; height:52px; color:var(--brand-hi); opacity:0.46; }
+.ec-flow-caption { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px; margin-top:14px; color:var(--text-mute); font-size:0.86rem; }
+.ec-flow-caption code { color:var(--brand-hi); font-family:var(--font-mono); font-size:11px; }
+.ec-flow-steps { position:relative; z-index:1; display:grid; grid-template-columns:repeat(6,1fr); gap:10px; padding:0 28px 24px; }
+.ec-flow-step { position:relative; padding:14px 12px; border:1px solid var(--line); border-radius:var(--r); background:rgba(13,26,58,0.5); min-height:92px; }
+.ec-flow-step::after { content:""; position:absolute; top:26px; right:-11px; width:12px; height:1px; background:var(--brand-hi); opacity:0.55; }
+.ec-flow-step:last-child::after { display:none; }
+.ec-flow-step b { display:block; color:var(--brand-hi); font-family:var(--font-mono); font-size:10px; letter-spacing:0.12em; margin-bottom:8px; }
+.ec-flow-step strong { display:block; color:var(--text-hi); font-family:var(--font-display); font-size:0.95rem; margin-bottom:4px; }
+.ec-flow-step span { display:block; color:var(--text-mute); font-size:0.78rem; line-height:1.55; }
+.ec-flow-core { position:relative; z-index:1; display:grid; grid-template-columns:repeat(4,1fr); gap:14px; padding:24px 28px; border-top:1px solid var(--line); background:rgba(76,201,240,0.025); }
+.ec-flow-core-card { display:flex; gap:14px; align-items:flex-start; padding:18px; border:1px solid var(--line); border-radius:var(--r); background:rgba(7,13,32,0.48); }
+.ec-flow-core-card .icb { flex:0 0 auto; width:42px; height:42px; border-radius:10px; margin:0; }
+.ec-flow-core-card h4 { font-family:var(--font-display); font-size:1rem; font-weight:600; margin:0 0 5px; color:var(--text-hi); }
+.ec-flow-core-card p { color:var(--text-mute); font-size:0.82rem; line-height:1.62; margin:0; }
+.ec-flow-assurance { position:relative; z-index:1; display:grid; grid-template-columns:repeat(4,1fr); gap:10px; padding:0 28px 28px; margin-top:8px; }
+.ec-flow-assurance span { display:flex; align-items:center; justify-content:center; min-height:46px; border:1px solid var(--line); border-radius:var(--r); background:rgba(13,26,58,0.46); color:var(--text); font-family:var(--font-display); font-size:0.9rem; }
+.ec-flow-assurance b { color:var(--brand-hi); margin-right:6px; }
 /* 任务全周期管理 · 自动轮播 */
 .ec-task { display:grid; grid-template-columns:1.45fr 1fr; gap:36px; align-items:center; }
 .ec-task-frame { position:relative; border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; aspect-ratio:1380/800; background:linear-gradient(150deg,rgba(13,26,58,0.85),rgba(7,13,32,0.92)); box-shadow:0 24px 60px rgba(0,0,0,0.4); }
@@ -109,11 +131,17 @@
 .ec-rec-card:hover h4 svg { transform:translateX(4px); }
 .ec-rec-body p { color:var(--text-mute); font-size:0.85rem; line-height:1.7; margin:0; }
 @media(max-width:1100px){
-  .ec-effect-grid,.ec-admin-grid,.ec-feat-grid { grid-template-columns:1fr 1fr; }
+  .ec-flow-top { display:grid; align-items:start; }
+  .ec-flow-tags { justify-content:flex-start; }
+  .ec-flow-steps { grid-template-columns:repeat(3,1fr); }
+  .ec-flow-step::after { display:none; }
+  .ec-flow-core,.ec-flow-assurance,.ec-admin-grid,.ec-feat-grid { grid-template-columns:1fr 1fr; }
   .ec-rec-grid { grid-template-columns:1fr 1fr; }
 }
 @media(max-width:760px){
-  .ec-effect-grid,.ec-admin-grid,.ec-feat-grid,.ec-rec-grid { grid-template-columns:1fr; }
+  .ec-flow-top,.ec-flow-visual { padding-left:18px; padding-right:18px; }
+  .ec-flow-imgbox { aspect-ratio:4/3; }
+  .ec-flow-steps,.ec-flow-core,.ec-flow-assurance,.ec-admin-grid,.ec-feat-grid,.ec-rec-grid { grid-template-columns:1fr; padding-left:18px; padding-right:18px; }
   .ec-scene { grid-template-columns:1fr; }
   .ec-scene-tabs { flex-direction:row; overflow-x:auto; border-right:0; border-bottom:1px solid var(--line); }
   .ec-scene-tab { border-bottom:0; white-space:nowrap; }
@@ -154,14 +182,43 @@
     <div class="kw-line">关键词：数据采集 · 标贝易采 · 标贝采集</div>
   </div>
 </section>
-<!-- 效果展示 -->
+<!-- 采集流程展示：替换 images/collection/ecai/ecai-flow.png 即可更新主流程图 -->
 <section class="section" style="padding-top:60px;">
   <div class="container">
     <div class="section-head" data-reveal>
-      <span class="eyebrow">Effect</span>
-      <h2 class="display">效果<span class="glow-text">展示</span></h2>
+      <span class="eyebrow">Workflow</span>
+      <h2 class="display">采集<span class="glow-text">流程展示</span></h2>
+      <p>从需求确认、任务配置、采集执行到质检交付，展示标贝易采在数据采集项目中的端到端协作路径。</p>
     </div>
-    <div class="ec-effect-grid" data-reveal><div class="ec-effect-card"><div class="ec-effect-media"><img src="images/collection/ecai/ecai-audio.png" alt="语音采集" loading="lazy" onerror="this.style.display='none'"><span class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10a7 7 0 0 1-14 0M12 19v3M8 22h8"/></svg></span><span class="ec-effect-play"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M8 5v14l11-7z"/></svg></span></div><h4>语音采集</h4></div><div class="ec-effect-card"><div class="ec-effect-media"><img src="images/collection/ecai/ecai-image.png" alt="图像采集" loading="lazy" onerror="this.style.display='none'"><span class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="12" r="2.5"/><path d="M3 17l5-5 4 4 3-3 6 6"/></svg></span><span class="ec-effect-play"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M8 5v14l11-7z"/></svg></span></div><h4>图像采集</h4></div><div class="ec-effect-card"><div class="ec-effect-media"><img src="images/collection/ecai/ecai-video.png" alt="视频采集" loading="lazy" onerror="this.style.display='none'"><span class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="M16 10l6-3v10l-6-3z"/></svg></span><span class="ec-effect-play"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M8 5v14l11-7z"/></svg></span></div><h4>视频采集</h4></div></div>
+    <div class="ec-flow-panel" data-reveal>
+      <div class="ec-flow-top">
+        <div>
+          <h3>一站式<span>数据采集</span>服务流程</h3>
+        </div>
+        <div class="ec-flow-tags">
+          <span>Requirement</span>
+          <span>Collection</span>
+          <span>QA</span>
+          <span>Delivery</span>
+        </div>
+      </div>
+
+      <figure class="ec-flow-visual">
+        <div class="ec-flow-imgbox">
+          <img src="images/collection/ecai/ecai-flow.png" alt="标贝易采数据采集流程图" loading="lazy" onerror="this.classList.add('is-missing')" />
+          <div class="ec-flow-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3M7 9h10M7 13h6"/></svg>
+            <span>FLOW IMAGE SLOT</span>
+          </div>
+        </div>
+
+      <div class="ec-flow-assurance">
+        <span><b>安全合规</b> 数据加密流转</span>
+        <span><b>进度可视</b> 项目实时监控</span>
+        <span><b>质量保障</b> 多轮质检验收</span>
+        <span><b>持续优化</b> 问题回流迭代</span>
+      </div>
+    </div>
   </div>
 </section>
 

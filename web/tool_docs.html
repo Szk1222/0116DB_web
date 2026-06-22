@@ -45,6 +45,24 @@
 .doc-body ul ul { margin:10px 0 0; }
 .doc-body strong { color:var(--text-hi); font-weight:600; }
 .doc-body code { font-family:var(--font-mono); background:rgba(76,201,240,0.1); color:var(--brand-hi); padding:1px 6px; border-radius:4px; font-size:0.86em; }
+.doc-lead { color:var(--text-mute); font-size:1rem; line-height:1.9; margin-bottom:24px; }
+.doc-callout { margin:22px 0; padding:16px 18px; border:1px solid rgba(76,201,240,0.28); border-left:3px solid var(--brand-hi); border-radius:10px; background:rgba(76,201,240,0.07); color:var(--text); line-height:1.8; }
+.doc-callout strong { color:var(--brand-hi); }
+.doc-table { width:100%; border-collapse:collapse; margin:18px 0 26px; overflow:hidden; border:1px solid var(--line); border-radius:10px; display:table; }
+.doc-table th,.doc-table td { padding:13px 15px; border-bottom:1px solid var(--line); color:var(--text-mute); line-height:1.7; vertical-align:top; }
+.doc-table th { color:var(--text-hi); background:rgba(76,201,240,0.08); font-family:var(--font-display); font-weight:600; text-align:left; white-space:nowrap; }
+.doc-table tr:last-child th,.doc-table tr:last-child td { border-bottom:0; }
+.doc-flow { display:grid; gap:10px; margin:18px 0 26px; }
+.doc-flow-step { display:grid; grid-template-columns:38px 1fr; gap:12px; align-items:start; padding:14px; border:1px solid var(--line); border-radius:10px; background:rgba(13,26,58,0.38); }
+.doc-flow-step b { display:grid; place-items:center; width:30px; height:30px; border-radius:8px; background:rgba(76,201,240,0.12); color:var(--brand-hi); font-family:var(--font-mono); font-size:12px; }
+.doc-flow-step span { color:var(--text); line-height:1.8; }
+.doc-sample { margin:14px 0 24px; padding:16px 18px; border:1px solid var(--line); border-radius:10px; background:#050813; color:var(--brand-hi); font-family:var(--font-mono); font-size:0.86rem; line-height:1.9; white-space:pre-line; }
+.doc-code { white-space:pre; overflow-x:auto; color:#b8f5d0; }
+.doc-scroll { width:100%; overflow-x:auto; margin:18px 0 26px; }
+.doc-scroll .doc-table { min-width:720px; margin:0; }
+.doc-img { display:block; width:100%; margin:16px 0 28px; border:1px solid var(--line); border-radius:12px; background:rgba(13,26,58,0.45); box-shadow:0 18px 50px rgba(0,0,0,0.22); }
+.doc-img-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; margin:16px 0 28px; }
+.doc-note { color:#ffbc66; border-color:rgba(255,188,102,0.32); border-left-color:#ffbc66; background:rgba(255,188,102,0.08); }
 .doc-todo { text-align:center; padding:64px 20px; }
 .doc-todo svg { width:46px; height:46px; color:var(--brand-hi); opacity:0.5; margin-bottom:16px; }
 .doc-todo h3 { font-family:var(--font-display); color:var(--text-hi); margin:0 0 10px; font-size:1.2rem; }
@@ -57,7 +75,7 @@
 .docs-toc a.active { color:var(--brand-hi); border-left-color:var(--brand-hi); }
 
 @media(max-width:1100px){ .docs{ grid-template-columns:220px 1fr; } .docs-toc{ display:none; } }
-@media(max-width:760px){ .docs{ grid-template-columns:1fr; } .docs-nav{ position:static; max-height:none; } .docs-main{ padding:24px 22px; } }
+@media(max-width:760px){ .docs{ grid-template-columns:1fr; } .docs-nav{ position:static; max-height:none; } .docs-main{ padding:24px 22px; } .doc-img-grid{ grid-template-columns:1fr; } }
 
 </style>
 </head>
@@ -76,20 +94,15 @@
     <h1 class="display" style="font-size:clamp(2.2rem,4.8vw,4rem);margin:16px 0 20px;">
       <span style="display:block;" class="glow-text">开发文档</span>
     </h1>
-    <p class="lead">完整 API Reference、快速上手指南、最佳实践与代码示例，覆盖Python / Java / JS / iOS / Android</p>
     <div class="htag-row"><span class="htag">Docs</span><span class="htag">API Reference</span><span class="htag">SDK</span><span class="htag">代码示例</span><span class="htag">多语言</span></div>
-    <div class="page-actions">
-      <a href="javascript:void(0)" onclick="openTrialModal()" class="btn btn-primary">预约试用<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-      <a href="tool_annotation.html" class="btn btn-ghost">返回总览</a>
     </div>
-  </div>
 </section>
 <!-- 开发者文档 -->
-<section class="section" style="padding-top:48px;">
+<section class="section" style="padding-top:24px;">
   <div class="container">
     <div class="docs">
       <aside class="docs-nav" data-reveal>
-<div class="dn-item"><div class="dn-row active" data-doc="intro" data-title="产品简介"><span>产品简介</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="基本概念"><span>基本概念</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="平台新手指引"><span>平台新手指引</span></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>计价模式</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="开放平台计价"><span>开放平台计价</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="定价服务计价"><span>定价服务计价</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="获取访问令牌"><span>获取访问令牌</span></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>语音合成</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="接口说明"><span>接口说明</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="发音人列表"><span>发音人列表</span></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>短文本合成</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="RESTful API"><span>RESTful API</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="Websocket API"><span>Websocket API</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="Android SDK"><span>Android SDK</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="iOS SDK"><span>iOS SDK</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="C++(linux) SDK"><span>C++(linux) SDK</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>长文本合成</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="RESTful API"><span>RESTful API</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="Websocket API"><span>Websocket API</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>离线合成</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="模型文件说明"><span>模型文件说明</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="Android SDK(普通版)"><span>Android SDK(普通版)</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="iOS SDK(普通版)"><span>iOS SDK(普通版)</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="Android SDK(精品版)"><span>Android SDK(精品版)</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="iOS SDK(精品版)"><span>iOS SDK(精品版)</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="xml 标签"><span>xml 标签</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="SSML 标签"><span>SSML 标签</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="语音合成时间戳功能"><span>语音合成时间戳功能</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>语音识别</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="音频格式说明"><span>音频格式说明</span></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>一句话识别</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="Restful API"><span>Restful API</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="Websocket API"><span>Websocket API</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="Android SDK"><span>Android SDK</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="iOS SDK"><span>iOS SDK</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>实时长语音识别</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="Websocket API"><span>Websocket API</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="Android SDK"><span>Android SDK</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="iOS SDK"><span>iOS SDK</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>录音文件识别</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="Restful API"><span>Restful API</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>自学习</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="热词"><span>热词</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="个性化模型"><span>个性化模型</span></div></div></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>声音复刻</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-toggle="1"><span>定制模型</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="平台上传复刻音频"><span>平台上传复刻音频</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="RESTful API"><span>RESTful API</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="Android SDK"><span>Android SDK</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="iOS SDK"><span>iOS SDK</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>定制声音合成</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="短文本合成 RESTful API"><span>短文本合成 RESTful API</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="长文本合成 Websocket API"><span>长文本合成 Websocket API</span></div></div></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>声音转换</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="发音人列表"><span>发音人列表</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="Websocket API"><span>Websocket API</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="Android SDK"><span>Android SDK</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="iOS SDK"><span>iOS SDK</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>离线声音转换</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="发音人列表"><span>发音人列表</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="Android SDK"><span>Android SDK</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="iOS SDK"><span>iOS SDK</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>声纹识别</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="RESTful API"><span>RESTful API</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>声音理解</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="RESTful API"><span>RESTful API</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>协议规则</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="标贝开放平台服务协议"><span>标贝开放平台服务协议</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="标贝开放平台通用规则"><span>标贝开放平台通用规则</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="法律声明及隐私政策"><span>法律声明及隐私政策</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="服务等级协议 SLA"><span>服务等级协议 SLA</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>常见问题</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="语音合成常见问题"><span>语音合成常见问题</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="语音识别常见问题"><span>语音识别常见问题</span></div></div></div></div>
+<div class="dn-item"><div class="dn-row active" data-doc="intro" data-title="产品简介"><span>产品简介</span></div></div><div class="dn-item"><div class="dn-row" data-doc="basic" data-title="基本概念"><span>基本概念</span></div></div><div class="dn-item"><div class="dn-row" data-doc="guide" data-title="平台新手指引"><span>平台新手指引</span></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>计价模式</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="open-pricing" data-title="开放平台计价"><span>开放平台计价</span></div></div><div class="dn-item"><div class="dn-row" data-doc="custom-pricing" data-title="定价服务计价"><span>定价服务计价</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-doc="access-token" data-title="获取访问令牌"><span>获取访问令牌</span></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>语音合成</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="接口说明"><span>接口说明</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="发音人列表"><span>发音人列表</span></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>短文本合成</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="RESTful API"><span>RESTful API</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="Websocket API"><span>Websocket API</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="Android SDK"><span>Android SDK</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="iOS SDK"><span>iOS SDK</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="C++(linux) SDK"><span>C++(linux) SDK</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>长文本合成</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="RESTful API"><span>RESTful API</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="Websocket API"><span>Websocket API</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>离线合成</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="模型文件说明"><span>模型文件说明</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="Android SDK(普通版)"><span>Android SDK(普通版)</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="iOS SDK(普通版)"><span>iOS SDK(普通版)</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="Android SDK(精品版)"><span>Android SDK(精品版)</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="iOS SDK(精品版)"><span>iOS SDK(精品版)</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="xml 标签"><span>xml 标签</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="SSML 标签"><span>SSML 标签</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="语音合成时间戳功能"><span>语音合成时间戳功能</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>语音识别</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="音频格式说明"><span>音频格式说明</span></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>一句话识别</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="Restful API"><span>Restful API</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="Websocket API"><span>Websocket API</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="Android SDK"><span>Android SDK</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="iOS SDK"><span>iOS SDK</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>实时长语音识别</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="Websocket API"><span>Websocket API</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="Android SDK"><span>Android SDK</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="iOS SDK"><span>iOS SDK</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>录音文件识别</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="Restful API"><span>Restful API</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>自学习</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="热词"><span>热词</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="个性化模型"><span>个性化模型</span></div></div></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>声音复刻</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-toggle="1"><span>定制模型</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="平台上传复刻音频"><span>平台上传复刻音频</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="RESTful API"><span>RESTful API</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="Android SDK"><span>Android SDK</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="iOS SDK"><span>iOS SDK</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>定制声音合成</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="短文本合成 RESTful API"><span>短文本合成 RESTful API</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="长文本合成 Websocket API"><span>长文本合成 Websocket API</span></div></div></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>声音转换</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="发音人列表"><span>发音人列表</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="Websocket API"><span>Websocket API</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="Android SDK"><span>Android SDK</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="iOS SDK"><span>iOS SDK</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>离线声音转换</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="发音人列表"><span>发音人列表</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="Android SDK"><span>Android SDK</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="iOS SDK"><span>iOS SDK</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>声纹识别</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="RESTful API"><span>RESTful API</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>声音理解</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="RESTful API"><span>RESTful API</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>协议规则</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="标贝开放平台服务协议"><span>标贝开放平台服务协议</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="标贝开放平台通用规则"><span>标贝开放平台通用规则</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="法律声明及隐私政策"><span>法律声明及隐私政策</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="服务等级协议 SLA"><span>服务等级协议 SLA</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>常见问题</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="语音合成常见问题"><span>语音合成常见问题</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="语音识别常见问题"><span>语音识别常见问题</span></div></div></div></div>
       </aside>
       <div class="docs-main" data-reveal>
         <article class="doc-panel doc-body" data-doc="intro">
@@ -133,6 +146,354 @@
 <h2 id="d-vpr">声纹识别</h2>
 <p>提供自研的声纹识别基本算法与声纹管理功能，仅通过声音就可以识别说话人身份，采集成本更低。通过标贝自主研发的强大的声纹算法引擎，实现声纹注册和声纹 1:1、1:N 对比验证服务，对说话人的声波特征进行提取和验证辨识，高准确率、低延迟。</p>
         </article>
+        <article class="doc-panel doc-body" data-doc="basic" hidden>
+<h1>基本概念</h1>
+<p class="doc-lead">本章节整理调用语音服务前最常遇到的基础参数。建议在接入 ASR / TTS / 声音复刻等能力前，先确认音频采样率、采样位数、编码格式、声道和访问令牌策略，避免出现识别失败、合成效果异常或凭证泄露等问题。</p>
+
+<div class="doc-callout"><strong>接入前检查：</strong>音频数据的真实格式必须与接口参数一致。采样率、编码、声道任一项不匹配，都可能导致识别准确率下降、合成失败或返回不可用结果。</div>
+
+<h2 id="basic-sample-rate">音频采样率（sample rate）</h2>
+<p>音频采样率是录音设备在一秒钟内对声音信号的采样次数，单位通常为 Hz。采样频率越高，声音还原越细腻，但传输和存储成本也会更高。</p>
+<ul>
+<li>语音合成服务常用 <code>16000Hz</code> 和 <code>8000Hz</code> 两种采样率；其中 <code>8000Hz</code> 多用于电话客服等窄带语音场景。</li>
+<li>语音识别服务同样需要在调用时声明采样率，音频数据与参数必须保持一致。</li>
+<li>如果原始音频高于 <code>16000Hz</code>，可先降采样到 <code>16000Hz</code> 后再发送；如果原始音频为 <code>8000Hz</code>，不要强行升采样，应选择 <code>8000Hz</code> 模型或对应参数。</li>
+</ul>
+<table class="doc-table">
+<tr><th>采样率</th><th>典型场景</th><th>接入建议</th></tr>
+<tr><td><code>8000Hz</code></td><td>电话、呼叫中心、客服录音</td><td>按窄带模型或接口参数传入，不建议升采样伪装成 16k。</td></tr>
+<tr><td><code>16000Hz</code></td><td>App 语音、会议、车载、智能硬件</td><td>通用推荐值，兼顾识别效果与传输成本。</td></tr>
+</table>
+
+<h2 id="basic-sample-size">音频采样位数（sample size）</h2>
+<p>采样位数也称位深，用来描述每个采样点的幅度量化精度。位数越高，能够表达的声音动态范围越大。语音识别中常用 <code>16bit</code> 小端序音频，每次采样以 2 字节保存。</p>
+<ul>
+<li><strong>8bit</strong>：每个采样点记录 256 个量化级别。</li>
+<li><strong>16bit</strong>：每个采样点记录 65536 个量化级别，是语音接口中更常见的输入规格。</li>
+</ul>
+
+<h2 id="basic-format">语音编码（format）</h2>
+<p>语音编码描述音频数据的存储与传输方式。它与文件后缀并不完全等同，例如 <code>wav</code> 文件头会声明音频数据的编码格式，内部数据可能是 PCM，也可能是其他编码。</p>
+<table class="doc-table">
+<tr><th>概念</th><th>说明</th></tr>
+<tr><td>文件格式</td><td>如 <code>wav</code>、<code>mp3</code>、<code>m4a</code>，更偏向文件容器或封装形式。</td></tr>
+<tr><td>音频编码</td><td>如 <code>PCM</code>、<code>OPUS</code>，决定音频样本的压缩与表达方式。</td></tr>
+<tr><td>接口参数</td><td>调用前应确认服务支持的编码，并让参数与真实数据一致。</td></tr>
+</table>
+
+<h2 id="basic-channel">声道（channel）</h2>
+<p>声道是录音时在不同空间位置采集到的独立音频信号数量。常见音频可分为单声道（mono）和双声道（stereo）。除录音文件识别等特定能力外，实时识别和一句话识别通常建议使用单声道音频。</p>
+<ul>
+<li><strong>单声道 mono</strong>：一个音频通道，适合多数语音识别与合成服务。</li>
+<li><strong>双声道 stereo</strong>：两个音频通道，如需接入仅支持单声道的接口，应先转换为 mono。</li>
+</ul>
+
+<h2 id="basic-result">识别结果</h2>
+<p>不同接口返回识别结果的时机不同，接入时要按业务体验选择非流式或流式能力。</p>
+<div class="doc-flow">
+  <div class="doc-flow-step"><b>01</b><span><strong>非流式 API</strong>：音频发送完成后，一次性返回最终识别结果，适合短音频、录音文件和离线处理场景。</span></div>
+  <div class="doc-flow-step"><b>02</b><span><strong>流式 API</strong>：识别过程中持续返回中间结果，可实现“边说边出字”的连续上屏体验。</span></div>
+  <div class="doc-flow-step"><b>03</b><span><strong>最终结果</strong>：服务会在中间结果基础上持续修正，最后输出更稳定的整句文本。</span></div>
+</div>
+<p>例如一段语音最终识别为“你好标贝科技”，流式中间结果可能依次返回：</p>
+<pre class="doc-sample">你
+你好
+你好标贝
+你好标贝科技</pre>
+
+<h2 id="basic-token">访问令牌</h2>
+<p>访问令牌是访问语音服务的临时凭证，通常通过 <code>client_id</code> 与 <code>client_secret</code> 换取，并带有有效期控制。业务侧应避免在客户端直接暴露密钥。</p>
+<ul>
+<li>默认有效期可按平台规则配置，常见场景为 24 小时有效。</li>
+<li>移动端或浏览器端应用建议从业务服务端获取令牌，再下发给客户端调用。</li>
+<li>不要把 <code>client_secret</code> 写入 App 包、前端代码或公开仓库。</li>
+</ul>
+<div class="doc-callout"><strong>推荐链路：</strong>业务服务端保存密钥并换取访问令牌，客户端只拿到短期有效 token。这样即使客户端包体或页面代码被查看，也不会泄露长期密钥。</div>
+        </article>
+        <article class="doc-panel doc-body" data-doc="guide" hidden>
+<h1>平台新手指引</h1>
+<p class="doc-lead">本章节面向首次使用标贝开放平台的开发者，说明从登录、创建应用、选择服务、获取 Key&Secret、试用调用，到实名认证、购买、用量查询、预警和开票的完整操作路径。</p>
+
+<h2 id="guide-intro">简介</h2>
+<table class="doc-table">
+<tr><th>产品名称</th><td>标贝开放平台</td></tr>
+<tr><th>产品简介</th><td>语音生态服务型 SaaS 平台，通过整合标贝 AI 技术能力与数据沉淀，面向企业及个人开发者提供自主化、数智化、体验友好的平台服务，并输出语音识别、语音合成等技术能力。</td></tr>
+<tr><th>产品地址</th><td><a href="https://ai.data-baker.com/#/index" target="_blank" rel="noopener">https://ai.data-baker.com/#/index</a></td></tr>
+<tr><th>当前版本</th><td>V5.3.0</td></tr>
+</table>
+
+<h2 id="guide-hierarchy">层级关系</h2>
+<p>开放平台按照商户、应用、服务和套餐等层级组织资源。不同应用之间数据隔离，应用 A 的套餐仅限应用 A 内使用，不会与其他应用共享。</p>
+<img class="doc-img" src="https://databaker-gw-static.oss-accelerate.aliyuncs.com/assets/images/specs/guide2.png" alt="开放平台层级关系示意图" loading="lazy" onerror="this.hidden=true">
+
+<h2 id="guide-login">登录</h2>
+<p>进入产品地址后，可使用短信、密码或微信方式登录。首次登录后建议先确认账号主体信息与认证状态，再创建应用。</p>
+<img class="doc-img" src="https://databaker-gw-static.oss-accelerate.aliyuncs.com/assets/images/specs/guide3.png" alt="开放平台登录方式示意图" loading="lazy" onerror="this.hidden=true">
+
+<h2 id="guide-create-app">创建新应用</h2>
+<p>登录后进入【首页概览】，开发者可以创建多个应用。应用可覆盖一句话识别、长语音识别、录音文件识别、短文本合成、离线合成、长文本合成等服务，并可根据需求进行用量、音色、并发等接入试用。</p>
+<ul>
+<li>未认证商户只能创建 1 个应用以供试用。</li>
+<li>企业认证商户最多创建 13 个应用。</li>
+<li>个人认证商户最多创建 5 个应用。</li>
+</ul>
+<div class="doc-callout"><strong>应用隔离：</strong>每个应用都是独立的，服务量不共享，调用数据也单独统计，便于开发者按产品、业务线或环境核算调用成本。</div>
+<img class="doc-img" src="https://databaker-gw-static.oss-accelerate.aliyuncs.com/assets/images/specs/guide4.png" alt="创建新应用页面示意图" loading="lazy" onerror="this.hidden=true">
+
+<h2 id="guide-service">选择服务</h2>
+<p>进入【已创建的应用】后，在左侧选择需要调用的 AI 技术服务，右侧会展示对应服务页面概览，可用于查询用量、管理套餐、购买服务量、自主获取授权和配置预警。</p>
+<img class="doc-img" src="https://databaker-gw-static.oss-accelerate.aliyuncs.com/assets/images/specs/guide5.png" alt="选择服务页面示意图" loading="lazy" onerror="this.hidden=true">
+
+<h2 id="guide-key-secret">获取 Key&Secret</h2>
+<p>在服务的【授权管理】中获取对应参数，并用于服务端开发配置。随后通过 Key 与 Secret 换取访问令牌 token，再使用 token 调用具体语音能力。</p>
+<div class="doc-flow">
+  <div class="doc-flow-step"><b>01</b><span>进入指定应用，选择需要接入的服务。</span></div>
+  <div class="doc-flow-step"><b>02</b><span>打开服务 / 授权管理，复制或查看 Key 与 Secret。</span></div>
+  <div class="doc-flow-step"><b>03</b><span>在业务服务端换取访问令牌，并把短期 token 下发给调用端。</span></div>
+</div>
+<img class="doc-img" src="https://databaker-gw-static.oss-accelerate.aliyuncs.com/assets/images/specs/guide6.png" alt="获取 Key 和 Secret 页面示意图" loading="lazy" onerror="this.hidden=true">
+
+<h2 id="guide-trial">试用调用</h2>
+<p>针对新注册开发者，平台会每天赠送一定服务量及并发供测试，大部分服务不设期限。语音合成服务会永久赠送 3 位发音人，首次购买用量套餐时还会额外赠送发音人。</p>
+<div class="doc-callout doc-note"><strong>注意：</strong>试用量仅支持测试。如果完成套餐购买，将清空剩余试用量，后续不再赠送。</div>
+<div class="doc-scroll">
+<table class="doc-table">
+<tr><th>服务名称</th><th>赠送规则</th><th>赠送量</th><th>并发</th><th>有效期</th></tr>
+<tr><td>一句话识别</td><td>每天赠送</td><td>500 次</td><td>2 路</td><td>持续试用</td></tr>
+<tr><td>长语音识别</td><td>每天赠送</td><td>15 分钟</td><td>2 路</td><td>持续试用</td></tr>
+<tr><td>录音文件识别</td><td>每天赠送</td><td>15 分钟</td><td>2 路</td><td>持续试用</td></tr>
+<tr><td>短文本合成</td><td>每天赠送</td><td>500 次</td><td>2 路</td><td>持续试用</td></tr>
+<tr><td>离线合成（普通版）</td><td>一次性赠送</td><td>10 个</td><td>/</td><td>60 天</td></tr>
+<tr><td>离线合成（精品版）</td><td>一次性赠送</td><td>10 个</td><td>/</td><td>60 天</td></tr>
+<tr><td>长文本合成</td><td>每天赠送</td><td>500 字</td><td>2 路</td><td>持续试用</td></tr>
+<tr><td>声音复刻</td><td>暂不支持赠送</td><td>/</td><td>/</td><td>/</td></tr>
+<tr><td>声音转换</td><td>每天赠送</td><td>15 分钟</td><td>2 路</td><td>持续试用</td></tr>
+<tr><td>声纹识别</td><td>公测免费</td><td>公测免费</td><td>10 路</td><td>持续试用</td></tr>
+<tr><td>离线声音转换</td><td>一次性赠送</td><td>10 个</td><td>/</td><td>60 天</td></tr>
+<tr><td>声音理解</td><td>公测免费</td><td>公测免费</td><td>2 路</td><td>持续试用</td></tr>
+<tr><td>语音评测</td><td>公测免费</td><td>公测免费</td><td>2 路</td><td>持续试用</td></tr>
+</table>
+</div>
+
+<h2 id="guide-verify">实名认证</h2>
+<p>为确保账号唯一归属，需要进行实名认证登记。一个账号只能选择一种身份进行认证：个人或企业。</p>
+<ul>
+<li>单个个人认证（身份证号）主体最多绑定 3 个商户。</li>
+<li>单个企业认证（营业执照号）主体最多绑定 5 个商户。</li>
+<li><strong>企业账号请勿做个人认证</strong>，以免影响发票、合同等事项。</li>
+</ul>
+<div class="doc-img-grid">
+  <img class="doc-img" src="https://databaker-gw-static.oss-accelerate.aliyuncs.com/assets/images/specs/guide8_1.png" alt="实名认证入口示意图" loading="lazy" onerror="this.hidden=true">
+  <img class="doc-img" src="https://databaker-gw-static.oss-accelerate.aliyuncs.com/assets/images/specs/guide8_2.png" alt="实名认证信息填写示意图" loading="lazy" onerror="this.hidden=true">
+</div>
+
+<h2 id="guide-buy">购买</h2>
+<p>在应用 / 服务下点击购买服务量，会跳转到服务量购买页面。选择套餐和数量后点击【结算】，可选择支付宝或微信支付。</p>
+<div class="doc-callout doc-note"><strong>提醒：</strong>提交订单前请务必关注购买须知，确认服务类型、套餐数量、有效期和适用应用。</div>
+<div class="doc-img-grid">
+  <img class="doc-img" src="https://databaker-gw-static.oss-accelerate.aliyuncs.com/assets/images/specs/guide9_1.png" alt="购买服务量入口示意图" loading="lazy" onerror="this.hidden=true">
+  <img class="doc-img" src="https://databaker-gw-static.oss-accelerate.aliyuncs.com/assets/images/specs/guide9_2.png" alt="选择套餐示意图" loading="lazy" onerror="this.hidden=true">
+</div>
+<img class="doc-img" src="https://databaker-gw-static.oss-accelerate.aliyuncs.com/assets/images/specs/guide9_3.png" alt="结算支付示意图" loading="lazy" onerror="this.hidden=true">
+
+<h2 id="guide-usage">查询用量</h2>
+<p>标贝开放平台在每个对应服务页进行数据实时统计。开发者可以在服务页面概览中查询用量、管理套餐、购买服务量、自主获取授权，实现更精细的服务运营。</p>
+<img class="doc-img" src="https://databaker-gw-static.oss-accelerate.aliyuncs.com/assets/images/specs/guide10.png" alt="查询服务用量示意图" loading="lazy" onerror="this.hidden=true">
+
+<h2 id="guide-alert">预警</h2>
+<p>平台支持在服务右下角开启预警管理，可设置有效期天数、剩余可用量达总量百分比、并发量达到总并发百分比等条件，帮助团队在使用过程中提前处理风险。</p>
+<div class="doc-img-grid">
+  <img class="doc-img" src="https://databaker-gw-static.oss-accelerate.aliyuncs.com/assets/images/specs/guide11_1.png" alt="预警管理入口示意图" loading="lazy" onerror="this.hidden=true">
+  <img class="doc-img" src="https://databaker-gw-static.oss-accelerate.aliyuncs.com/assets/images/specs/guide11_2.png" alt="预警规则配置示意图" loading="lazy" onerror="this.hidden=true">
+</div>
+
+<h2 id="guide-invoice">开票</h2>
+<ol>
+<li><p>请自购买之日起 30 天内尽快申请发票开具。</p></li>
+<li><p>目前平台暂不支持线上开票。如需发票，请联系专属销售或致电 <code>400 898 2016</code>（工作时间：09:30-21:00，周一至周五），由商户运营为您服务。</p></li>
+</ol>
+        </article>
+        <article class="doc-panel doc-body" data-doc="open-pricing" hidden>
+<h1>开放平台计价</h1>
+<p class="doc-lead">本章节汇总开放平台常用语音服务的计费口径、试用版赠送规则、并发线路增额、合成音色购买以及语音合成字符计算规则，便于开发者在接入前完成成本预估和套餐规划。</p>
+
+<h2 id="open-pricing-billing">计费构成</h2>
+<div class="doc-scroll">
+<table class="doc-table">
+<tr><th>服务</th><th>计费方式</th><th>补充说明</th></tr>
+<tr><td>一句话识别</td><td>按照调用次数计费</td><td>按次数计费的，返回失败的调用不计入次数，单次 60 秒内。</td></tr>
+<tr><td>长语音识别</td><td>按照处理语音时长计费</td><td>按时长计费的，累加每次调用的语音时长（按秒向下取整，如本次发送的语音长度为 30.8 秒，则记为 30 秒）。</td></tr>
+<tr><td>录音文件识别</td><td>按照录音时长计费</td><td>按时长计费的，累加每次调用的语音时长（按秒向下取整，如本次发送的语音长度为 30.8 秒，则记为 30 秒），单次长段音频 5 小时以内。双声道文件根据通道数和时长计费，即声道数 × 音频时长。</td></tr>
+<tr><td>短文本合成</td><td>按照调用次数计费</td><td>按照语音合成的调用次数计费，每调用成功一次消耗一次。接口调用传入的字符数限制为：1 次请求最多传入 300 个汉字，按照每 100 个汉字计费 1 次，依此类推。UTF-8 编码下，1 个汉字、英文字母、全半角标点符号均算 1 个有效字符。</td></tr>
+<tr><td>离线合成（普通）</td><td>按照使用个数计费</td><td>按照可安装个数进行计费。</td></tr>
+<tr><td>离线合成（精品版）</td><td>按照使用个数计费</td><td>按照可安装个数进行计费。</td></tr>
+<tr><td>长文本合成</td><td>按照合成字数计费</td><td>按照合成字数进行计费。</td></tr>
+<tr><td>声音复刻</td><td>模型：按照训练个数计费<br>合成：按照使用量计费</td><td>模型个数与合成用量为两个独立的授权，购买复刻模型的同时还需购买合成用量。合成支持两类授权：方式 ① 按照合成次数计费，字符限制同短文本（最多 300 汉字，每 100 字计费 1 次）；方式 ② 按照并发（每年/每路）计费，无次数限制。</td></tr>
+<tr><td>声音转换</td><td>按照处理语音时长计费</td><td>按时长计费，累加每次调用的语音时长（按秒向下取整，如 30.8 秒记为 30 秒）。</td></tr>
+<tr><td>声纹识别</td><td>按照调用次数计费</td><td>返回失败不计入次数，针对比对验证次数计费，1:N 识别比对按照接口返回次数计算。</td></tr>
+<tr><td>离线声音转换</td><td>按照使用个数计费</td><td>按照可安装个数进行计费。</td></tr>
+<tr><td>声音理解</td><td>按照调用次数计费</td><td>返回失败不计入次数，单次 5-60 秒。</td></tr>
+<tr><td>语音评测</td><td>按照调用次数计费</td><td>返回失败不计入次数，单次 3-60 秒。</td></tr>
+</table>
+</div>
+
+<h2 id="open-pricing-trial">试用版-规则变更说明</h2>
+<p>自 2021 年 3 月 8 日起，开放平台免费试用版规则调整为如下内容：</p>
+<div class="doc-scroll">
+<table class="doc-table">
+<tr><th>服务名称</th><th>赠送规则</th><th>赠送量</th><th>并发</th><th>有效期</th></tr>
+<tr><td>一句话识别</td><td>每天赠送</td><td>500 次</td><td>2 路</td><td>持续试用</td></tr>
+<tr><td>长语音识别</td><td>每天赠送</td><td>15 分钟</td><td>2 路</td><td>持续试用</td></tr>
+<tr><td>录音文件识别</td><td>每天赠送</td><td>15 分钟</td><td>2 路</td><td>持续试用</td></tr>
+<tr><td>短文本合成</td><td>每天赠送</td><td>500 次</td><td>2 路</td><td>持续试用</td></tr>
+<tr><td>离线合成（普通版）</td><td>一次性赠送</td><td>10 个</td><td>/</td><td>60 天</td></tr>
+<tr><td>离线合成（精品版）</td><td>一次性赠送</td><td>10 个</td><td>/</td><td>60 天</td></tr>
+<tr><td>长文本合成</td><td>每天赠送</td><td>500 字</td><td>2 路</td><td>持续试用</td></tr>
+<tr><td>声音复刻</td><td>暂不支持赠送</td><td>/</td><td>/</td><td>/</td></tr>
+<tr><td>声音转换</td><td>每天赠送</td><td>15 分钟</td><td>2 路</td><td>持续试用</td></tr>
+<tr><td>声纹识别</td><td>公测免费</td><td>公测免费</td><td>10 路</td><td>持续试用</td></tr>
+<tr><td>离线声音转换</td><td>一次性赠送</td><td>10 个</td><td>/</td><td>60 天</td></tr>
+<tr><td>声音理解</td><td>公测免费</td><td>公测免费</td><td>2 路</td><td>持续试用</td></tr>
+</table>
+</div>
+<div class="doc-callout doc-note"><strong>注意：</strong>试用量仅支持测试，如完成套餐购买（商用）则清空剩余试用量并后续不再赠送。</div>
+
+<h2 id="open-pricing-concurrency">并发线路增额资费</h2>
+<div class="doc-scroll">
+<table class="doc-table">
+<tr><th>商品规格</th><th>收费说明</th><th>补充说明</th></tr>
+<tr><td>超额并发路数线路资费</td><td>超出采购额定线路，需要额外增加线路需求</td><td>并发数计算：同一个账号同时在处理的请求数。一般语音请求处理会延续一段时间。例如，新建一个语音合成请求并持续发送数据，并发为 1；同时又新建第二个请求，则并发为 2。</td></tr>
+</table>
+</div>
+<div class="doc-callout doc-note"><strong>授权说明：</strong>并发和用量为两个单独授权，购买并发前请确保有足够用量。</div>
+
+<h2 id="open-pricing-voice">合成音色购买资费</h2>
+<div class="doc-scroll">
+<table class="doc-table">
+<tr><th>商品规格</th><th>收费说明</th><th>补充说明</th></tr>
+<tr><td>单个音色/年</td><td>除去平台基础赠送的音色，其他音色需要单独购买</td><td>支持平台内自主购买，单个音色在 1.5～2.5 万之间，可前往服务音色体验区和发音人列表选择。短文本合成和长文本合成购买的音色可以共用。</td></tr>
+</table>
+</div>
+<div class="doc-callout doc-note"><strong>购买说明：</strong>购买音色和用量为两个单独授权，购买前请确保有足够用量。开放平台地址：<a href="https://ai.data-baker.com/#/index" target="_blank" rel="noopener">https://ai.data-baker.com/#/index</a></div>
+
+<h2 id="open-pricing-characters">语音合成服务字符计算规则</h2>
+<div class="doc-scroll">
+<table class="doc-table">
+<tr><th>字符类型</th><th>举例</th><th>字符数</th></tr>
+<tr><td>汉字</td><td>好</td><td>1</td></tr>
+<tr><td>数字</td><td>1</td><td>1</td></tr>
+<tr><td>英文字母</td><td>A</td><td>1</td></tr>
+<tr><td>全/半角标点符号</td><td>,</td><td>1</td></tr>
+<tr><td>日语字符</td><td>は</td><td>1</td></tr>
+<tr><td>韩语字母</td><td>안</td><td>1</td></tr>
+<tr><td>西语字母（包括西班牙西语和墨西哥西语）</td><td>A</td><td>1</td></tr>
+<tr><td>葡语字母</td><td>A</td><td>1</td></tr>
+<tr><td>维语字母</td><td>ىى</td><td>1</td></tr>
+<tr><td>xml/ssml 标签</td><td><code>&lt;speak&gt;&lt;/speak&gt;</code></td><td>0</td></tr>
+</table>
+</div>
+        </article>
+        <article class="doc-panel doc-body" data-doc="custom-pricing" hidden>
+<h1>定价服务计价</h1>
+<p class="doc-lead">本章节整理定价服务的计费构成、免费试用授权规则、正式商用版授权和并发线路增额资费。适用于需要定制语音识别、语音合成、声音转换或音色定制服务的项目在接入前进行成本口径确认。</p>
+
+<h2 id="custom-pricing-billing">计费构成</h2>
+<div class="doc-scroll">
+<table class="doc-table">
+<tr><th>服务</th><th>计费方式</th><th>起订量</th><th>用量区间</th><th>补充说明</th></tr>
+<tr><td>长语音识别</td><td>按照处理语音时长计费</td><td rowspan="3">按服务实际授权</td><td rowspan="3">识别服务</td><td rowspan="3">语音识别的计费分为两种：按照时长计费（计费单位小时）与按照调用次数计费（单次 60 秒以内）。</td></tr>
+<tr><td>一句话语音识别</td><td>按照调用次数计费</td></tr>
+<tr><td>录音文件识别</td><td>按照录音时长计费</td></tr>
+<tr><td>短文本合成服务</td><td>按照调用次数计费</td><td>按服务实际授权</td><td>100 字符为 1 次计费调用</td><td>语音合成的计费调用次数按照每次请求传入的字符数作为统计依据。UTF-8 编码下，1 个汉字、英文字母、全半角标点符号均算 1 个有效字符；100 个字符内（含 100 个）记为 1 次计费调用，每超过 100 个字符增加 1 次计费调用，且 1 次请求最多传入 300 个字符。例如 102 个字符记为 2 次计费调用，201 个字符记为 3 次计费调用。</td></tr>
+<tr><td rowspan="4">长文本语音合成服务</td><td rowspan="4">按照合成字数计费</td><td rowspan="4">100 万字起</td><td>100 万字以内</td><td>Lv1 服务包</td></tr>
+<tr><td>100-500 万字</td><td>Lv2 服务包</td></tr>
+<tr><td>500-2000 万字</td><td>Lv3 服务包</td></tr>
+<tr><td>2000 万字以上</td><td>Lv4 服务包</td></tr>
+<tr><td>语音合成音色定制服务</td><td>按照定制音色数量收费</td><td>按需求评估</td><td>定制化服务</td><td>具体资费根据实际产生费用决定。特定需求请联系业务人员，音色定制服务邮箱：<code>marketing@data-baker.com</code>。</td></tr>
+</table>
+</div>
+
+<h2 id="custom-pricing-trial">试用版-测试授权规则变更说明</h2>
+<p>自 2020 年 10 月 1 日起，免费试用版规则调整为如下内容：</p>
+<h4>语音识别服务</h4>
+<ul>
+<li>一句话识别、实时语音识别每自然日内支持 2 个并发调用，每自然日用量不超 500 次，免费试用期限为 1 个月。</li>
+<li>录音文件识别每自然日识别时长不超过 2 小时，免费试用期限为 1 个月。</li>
+</ul>
+<h4>语音合成服务</h4>
+<ul>
+<li>语音合成每自然日内支持 2 个并发调用，每自然日用量不超 2000 次，免费试用期限为 1 个月。</li>
+<li>长文本语音合成每自然日内支持 2 个并发调用，每自然日自然用量 50000 字符，试用期限为 2 周。</li>
+</ul>
+<h4>声音转换服务</h4>
+<ul>
+<li>声音转换每自然日内支持 2 个并发调用，每自然日用量不超 200 次，免费试用期限为 1 个月。</li>
+</ul>
+<div class="doc-callout doc-note"><strong>试用说明：</strong>测试授权仅用于接入验证和效果测试，正式商用前需按实际业务规模开通对应授权。</div>
+
+<h2 id="custom-pricing-commercial">正式商用版-永久授权</h2>
+<ul>
+<li>商用版按每自然日使用量计费，无免费额度，不使用则不产生费用。北京时间每日 24 时，系统将自动对当日用量进行全量计算并计费，计费及服务调用量记录可联系技术服务人员查询。</li>
+<li>开通商用版后，不可再次降配为试用版。商用版降配试用版后，可用并发数将置为 0，服务将无法继续使用。</li>
+</ul>
+<h4>计费规则</h4>
+<ul>
+<li>按时长计费的，累加每次调用的语音时长（按秒向下取整。如本次发送的语音长度为 30.8 秒，则记为 30 秒）。</li>
+<li>按次数计费的，返回失败的调用不计入次数。</li>
+<li>计费总额按照当日 24 时前总用量进行全量计费。</li>
+<li>语音合成的计费调用次数按照每次请求传入的字符数作为统计依据：100 个字符内（含 100 个）记为 1 次计费调用；每超过 100 个字符增加 1 次计费调用，且 1 次请求最多传入 300 个字符。102 个字符记为 2 次计费调用，201 个字符记为 3 次计费调用，依此类推。</li>
+</ul>
+
+<h2 id="custom-pricing-concurrency">并发线路增额资费</h2>
+<div class="doc-scroll">
+<table class="doc-table">
+<tr><th>商品规格</th><th>收费说明</th><th>补充说明</th></tr>
+<tr><td>超额并发路数线路资费</td><td>超出采购额定线路，需要额外增加线路需求</td><td>并发数指同一个账号同时在处理的请求数。一般语音请求的处理都会延续一段时间。例如，新建一个语音合成请求并持续发送语音数据给服务端，此时并发数为 1；在该请求处理的同时，又新建了一个请求发送语音数据，服务端同时处理该账号的 2 个请求，并发数就变为 2。</td></tr>
+</table>
+</div>
+        </article>
+        <article class="doc-panel doc-body" data-doc="access-token" hidden>
+<h1>获取访问令牌</h1>
+<p class="doc-lead">调用语音服务前需要先使用应用服务中的 <code>client_id</code> 与 <code>client_secret</code> 换取访问令牌 <code>access_token</code>。后续请求携带该令牌即可完成服务鉴权。</p>
+
+<h2 id="access-token-account">获得授权账号</h2>
+<p>通过 <a href="https://ai.data-baker.com/" target="_blank" rel="noopener">标贝开放平台</a> / 应用 / 服务获取 <code>client_id</code> 与 <code>client_secret</code>。建议由服务端保存密钥，避免在客户端、前端代码或公开仓库中暴露。</p>
+<img class="doc-img" src="https://databaker-gw-static.oss-accelerate.aliyuncs.com/assets/images/specs/getToken.png" alt="获取 client_id 与 client_secret 页面示意图" loading="lazy" onerror="this.hidden=true">
+
+<h2 id="access-token-request">获取访问令牌</h2>
+<p>调用授权服务地址并传入 <code>client_id</code>、<code>client_secret</code> 后，可获得访问令牌。之后调用语音服务时传入 <code>access_token</code> 即可完成鉴权。</p>
+<div class="doc-callout"><strong>授权服务地址：</strong><code>https://openapi.data-baker.com/oauth/2.0/token</code></div>
+<div class="doc-scroll">
+<table class="doc-table">
+<tr><th>参数</th><th>是否必填</th><th>说明</th></tr>
+<tr><td><code>grant_type</code></td><td>必填</td><td>固定值 <code>client_credentials</code></td></tr>
+<tr><td><code>client_id</code></td><td>必填</td><td>在开放平台应用服务中获取</td></tr>
+<tr><td><code>client_secret</code></td><td>必填</td><td>在开放平台应用服务中获取，请勿暴露到客户端</td></tr>
+</table>
+</div>
+<p>请求示例，示例中的密钥与账号 ID 需要替换为实际值：</p>
+<pre class="doc-sample doc-code">https://openapi.data-baker.com/oauth/2.0/token?grant_type=client_credentials&amp;client_secret=YTgwZTJiZWEtOGQ3Ni00**********yOWQ5YzNm&amp;client_id=43478949-293e********133ff2c301c8</pre>
+<p>响应示例：</p>
+<pre class="doc-sample doc-code">HTTP/2 200
+server: Tengine
+date: Fri, 29 Mar 2019 02:15:14 GMT
+content-type: application/json;charset=UTF-8
+
+{
+  "access_token": "eyJhbGcikpXVCJ9.eyJhdWQiOlsiKiJdLCJzY29wZSI6WyJhc3IiXSwiZXhwIjoxNjA2OTcyMjk26IjM5MGViMTA1LTIx*****My04MTA4L4YmE4OCJ9.b0dUHsjSbO7HLErRUO0XNFUDRw",
+  "token_type": "bearer",
+  "expires_in": 34514,
+  "scope": "tts"
+}</pre>
+
+<h2 id="access-token-refresh">访问令牌刷新策略</h2>
+<div class="doc-flow">
+  <div class="doc-flow-step"><b>01</b><span>每次通过 <code>client_id</code> 与 <code>client_secret</code> 申请都会得到新的 <code>access_token</code>。调用频率过高时系统可能提示错误，因此不建议频繁申请令牌。</span></div>
+  <div class="doc-flow-step"><b>02</b><span>在有效期内可以重复使用已申请的 <code>access_token</code>，由业务服务端缓存并统一下发给调用方更稳妥。</span></div>
+  <div class="doc-flow-step"><b>03</b><span><code>access_token</code> 过期时间为 24 小时，从申请成功开始计时，过期后失效。当语音服务提示令牌过期时，可再次调用授权服务地址获取新令牌。</span></div>
+</div>
+<div class="doc-callout doc-note"><strong>安全提醒：</strong><code>client_secret</code> 属于长期敏感凭证，建议只保存在业务服务端。前端、移动端或第三方集成方只应拿到短期可控的访问令牌。</div>
+        </article>
         <article class="doc-panel" data-doc="todo" hidden>
           <div class="doc-todo">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h6"/></svg>
@@ -154,7 +515,7 @@
     <div class="cta-card" data-reveal>
       <div class="cta-inner">
         <span class="eyebrow">Next Step</span>
-        <h2>获取开发文档试用方</h2>
+        <h2>获取开发文档试用方案</h2>
         <p>填写需求表单，我们将在 1 个工作日内回复并提供免费样本或演示账号</p>
         <div class="cta-actions">
           <a href="javascript:void(0)" onclick="openTrialModal()" class="btn btn-primary">预约试用<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>

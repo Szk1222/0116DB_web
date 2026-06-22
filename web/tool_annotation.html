@@ -9,7 +9,7 @@
 .htag-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px;}
 .htag{padding:5px 12px;border-radius:99px;border:1px solid rgba(76,201,240,0.2);background:rgba(76,201,240,0.08);color:var(--brand-hi);font-family:var(--font-mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;}
 
-/* ===== 多样化需求 · 两级切换 ===== */
+/* ===== 多样化需求 · 三级切换 ===== */
 .req-cats{ display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-bottom:28px; }
 .req-cat{ padding:11px 22px; border:1px solid var(--line); border-radius:99px; background:rgba(13,26,58,0.5); color:var(--text-mute); font-family:var(--font-display); font-weight:600; font-size:0.94rem; cursor:pointer; transition:all 200ms ease; }
 .req-cat:hover{ color:var(--text-hi); }
@@ -29,7 +29,9 @@
 .req-caps li{ position:relative; padding-left:22px; color:var(--text); font-size:0.9rem; line-height:1.7; }
 .req-caps li::before{ content:""; position:absolute; left:2px; top:9px; width:7px; height:7px; border-radius:2px; background:var(--brand-hi); box-shadow:0 0 8px var(--brand-hi); }
 .req-scenes{ display:flex; flex-wrap:wrap; gap:8px; }
-.req-scene{ padding:5px 12px; border:1px solid var(--line-strong); border-radius:99px; background:rgba(76,201,240,0.05); color:var(--text); font-family:var(--font-mono); font-size:11px; letter-spacing:0.04em; }
+.req-scene{ padding:5px 12px; border:1px solid var(--line-strong); border-radius:99px; background:rgba(76,201,240,0.05); color:var(--text); font-family:var(--font-mono); font-size:11px; letter-spacing:0.04em; cursor:pointer; transition:all 180ms ease; }
+.req-scene:hover{ border-color:rgba(76,201,240,0.42); color:var(--text-hi); background:rgba(76,201,240,0.1); }
+.req-scene.active{ border-color:rgba(68,224,138,0.46); color:#44e08a; background:rgba(68,224,138,0.1); box-shadow:0 0 14px rgba(68,224,138,0.12); }
 .req-fig{ position:relative; width:100%; border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; aspect-ratio:16/9; background:linear-gradient(150deg,rgba(13,26,58,0.85),rgba(7,13,32,0.92)); }
 .req-fig img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:1; }
 .req-fig .ph{ position:absolute; inset:0; z-index:0; display:grid; place-items:center; color:var(--brand-hi); opacity:0.32; }
@@ -62,6 +64,21 @@
 .ec-task-dots button { width:28px; height:5px; border-radius:99px; border:0; background:rgba(143,214,255,0.22); cursor:pointer; transition:all 250ms ease; padding:0; }
 .ec-task-dots button.active { width:44px; background:var(--brand-hi); box-shadow:0 0 10px rgba(76,201,240,0.5); }
 @media(max-width:760px){ .ec-task{ grid-template-columns:1fr; gap:24px; } }
+
+/* ===== 多级别权限管理 ===== */
+.security-layout{ display:grid; grid-template-columns:0.8fr 1.2fr; gap:30px; align-items:stretch; }
+.security-copy{ display:flex; flex-direction:column; justify-content:center; gap:18px; padding:28px; border:1px solid var(--line); border-radius:var(--r-lg); background:linear-gradient(180deg,rgba(13,26,58,0.46),rgba(7,13,32,0.62)); box-shadow:var(--shadow-card); }
+.security-copy h3{ font-family:var(--font-display); font-size:1.45rem; font-weight:600; color:var(--text-hi); margin:0; }
+.security-copy p{ color:var(--text-mute); font-size:0.96rem; line-height:1.86; margin:0; }
+.security-list{ list-style:none; padding:0; margin:6px 0 0; display:grid; gap:12px; }
+.security-list li{ position:relative; padding:12px 14px 12px 38px; border:1px solid rgba(143,214,255,0.12); border-radius:10px; background:rgba(76,201,240,0.045); color:var(--text); font-size:0.92rem; line-height:1.55; }
+.security-list li::before{ content:""; position:absolute; left:16px; top:19px; width:8px; height:8px; border-radius:2px; background:var(--brand-hi); box-shadow:0 0 12px rgba(76,201,240,0.8); transform:rotate(45deg); }
+.security-fig{ position:relative; display:grid; place-items:center; min-height:420px; padding:20px; border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; background:radial-gradient(circle at 50% 0%,rgba(76,201,240,0.14),transparent 50%),linear-gradient(150deg,rgba(13,26,58,0.56),rgba(7,13,32,0.82)); box-shadow:0 24px 60px rgba(0,0,0,0.4); }
+.security-fig::before{ content:""; position:absolute; inset:14px; border:1px dashed rgba(76,201,240,0.12); border-radius:12px; pointer-events:none; }
+.security-fig img{ position:relative; z-index:1; width:100%; max-height:680px; object-fit:contain; filter:drop-shadow(0 20px 36px rgba(0,0,0,0.35)); }
+.security-fig .ph{ position:absolute; inset:0; z-index:0; display:grid; place-items:center; color:var(--brand-hi); opacity:0.28; }
+.security-fig .ph svg{ width:54px; height:54px; }
+@media(max-width:980px){ .security-layout{ grid-template-columns:1fr; } .security-copy{ padding:24px; } .security-fig{ min-height:auto; padding:14px; } }
 </style>
 </head>
 <body>
@@ -83,7 +100,7 @@
     <div class="htag-row"><span class="htag">点云</span><span class="htag">语音</span><span class="htag">图像</span><span class="htag">视频</span><span class="htag">文本</span><span class="htag">多模态</span></div>
     <div class="page-actions">
       <a href="javascript:void(0)" onclick="openTrialModal()" class="btn btn-primary">预约试用<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-      <a href="solutions_overview.html" class="btn btn-ghost">查看解决方案</a>
+      <a href="" class="btn btn-ghost">进入平台</a>
     </div>
   </div>
 </section>
@@ -94,7 +111,7 @@
     <div class="section-head" data-reveal>
       <span class="eyebrow">Requirements</span>
       <h2 class="display">多样化<span class="glow-text">需求</span></h2>
-      <p>一个平台覆盖六大类标注任务，按数据类型选择，站内即可浏览每种能力的细分类型与应用场景。</p>
+      <p>平台覆盖多类标注任务，按数据类型选择，站内即可浏览每种能力的细分类型与应用场景。</p>
     </div>
     <div data-reveal>
       <div class="req-cats" id="req-cats"></div>
@@ -112,7 +129,7 @@
     <div class="section-head" data-reveal>
       <span class="eyebrow">Workflow</span>
       <h2 class="display">标注<span class="glow-text">流程</span></h2>
-      <p>标准化六步作业流程，全线上流转、可追溯，兼顾效率与质量。</p>
+      <p>标准化作业流程，全线上流转、可追溯，兼顾效率与质量。</p>
     </div>
     <div class="proc-fig" data-reveal>
       <img src="images/tool/annotation/liuchengtu.png" alt="标注流程图：需求确认 → 数据准备 → AI 预标注 → 人工标注 → 多轮质检 → 交付验收" loading="lazy" onerror="this.style.display='none'">
@@ -139,6 +156,32 @@
         <div class="ec-task-text" data-i="1"><div class="num">02</div><h4>项目统计</h4><p>支持实时进度查看、多维度人员及任务统计，满足各种项目管理需求。</p></div>
         <div class="ec-task-text" data-i="2"><div class="num">03</div><h4>质检验收</h4><p>算法辅助质检 + 人工多轮质检验收模型，极大提高工作效率，保证数据的质量与安全。</p></div>
         <div class="ec-task-dots"><button class="active" data-d="0" aria-label="项目模版"></button><button data-d="1" aria-label="项目统计"></button><button data-d="2" aria-label="质检验收"></button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 多级别权限管理 -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow">Security</span>
+      <h2 class="display">多角色、多级别权限管理<span class="glow-text" style="display:block;margin-top:8px;">严守安全底线</span></h2>
+      <p>平台内置模板水印、日志审计、登录验证、API 授权管理等安全能力，支持按组织、项目、任务、角色精细化授权，保障数据生产全链路可控、可查、可追溯。</p>
+    </div>
+    <div class="security-layout" data-reveal>
+      <div class="security-copy">
+        <h3>从组织到任务的权限闭环</h3>
+        <p>围绕管理平台、机构平台、团队平台建立分级授权体系，将人员身份、任务领取、数据标注、质检验收与结果导出纳入统一管控。</p>
+        <ul class="security-list">
+          <li>角色权限分层：超级管理员、机构管理员、团队成员各司其职</li>
+          <li>操作全程留痕：日志审计、登录验证、任务流转记录可追踪</li>
+          <li>数据安全管控：模板水印、API 授权、私有化部署灵活适配</li>
+        </ul>
+      </div>
+      <div class="security-fig">
+        <img src="images/tool/annotation/security-permission.png" alt="多角色、多级别权限管理与数据安全能力架构图" loading="lazy" onerror="this.style.display='none'">
+        <span class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.2-2.8 8-7 10-4.2-2-7-5.8-7-10V6l7-3z"/><path d="M9 12l2 2 4-5"/></svg></span>
       </div>
     </div>
   </div>
@@ -195,7 +238,6 @@
         <p>填写需求表单，我们将在 1 个工作日内回复并提供免费样本或演示账号</p>
         <div class="cta-actions">
           <a href="javascript:void(0)" onclick="openTrialModal()" class="btn btn-primary">预约试用<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-          <a href="solutions_overview.html" class="btn btn-ghost">查看解决方案</a>
         </div>
       </div>
     </div>
@@ -205,9 +247,10 @@
 <div id="footer-placeholder"></div>
 <script src="_shared.js"></script>
 <script>
-/* ===== 多样化需求 · 两级切换 + Hash 路由 ===== */
+/* ===== 多样化需求 · 三级切换 + 图片接口 ===== */
 (function(){
   const FIG = `<span class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 9h18M8 21h8M12 18v3"/></svg></span>`;
+  const imgBase = 'images/tool/annotation/req/';
   const REQ = [
     { cat:'点云标注', slug:'pointcloud', subs:[
       { slug:'pointcloud-4d', name:'4D 标注', title:'4D 标注', intro:'时序点云连续标注，精准还原物体在时间维度上的运动轨迹，为时序感知模型提供高质量训练数据。', points:['连续帧时序对齐与轨迹追踪','行进预测 / 插值预测智能辅助','物体 ID 跨帧保持一致'], scenes:['自动驾驶','机器人','车路协同'] },
@@ -255,7 +298,19 @@
   const sideEl = document.getElementById('req-side');
   const detailEl = document.getElementById('req-detail');
   if (!catsEl || !sideEl || !detailEl) return;
-  let ci = 0, si = 0;
+  let ci = 0, si = 0, ti = 0;
+
+  function pad(n){ return String(n + 1).padStart(2, '0'); }
+  function sceneList(d){
+    return d.scenes.map((scene, i) => {
+      if (typeof scene === 'string') {
+        const sceneImg = d.sceneImgs && d.sceneImgs[scene];
+        return { name: scene, img: sceneImg || `${imgBase}${d.slug}-scene-${pad(i)}.png` };
+      }
+      return Object.assign({ img: `${imgBase}${d.slug}-scene-${pad(i)}.png` }, scene);
+    });
+  }
+  function defaultImg(d){ return d.img || `${imgBase}${d.slug}.png`; }
 
   function renderCats(){
     catsEl.innerHTML = REQ.map((cat, i) =>
@@ -267,6 +322,12 @@
   }
   function renderDetail(){
     const d = REQ[ci].subs[si];
+    const scenes = sceneList(d);
+    const activeScene = scenes[ti] || scenes[0] || { name: d.title, img: defaultImg(d) };
+    const fallback = defaultImg(d);
+    const onImgError = activeScene.img === fallback
+      ? `this.style.display='none'`
+      : `this.onerror=function(){this.style.display='none'};this.src='${fallback}'`;
     detailEl.innerHTML =
       `<div class="req-dt-head">
         <h3>${d.title}</h3>
@@ -274,15 +335,17 @@
         <div class="req-cap-title">核心能力</div>
         <ul class="req-caps">${d.points.map(p => `<li>${p}</li>`).join('')}</ul>
         <div class="req-scene-title">应用场景</div>
-        <div class="req-scenes">${d.scenes.map(s => `<span class="req-scene">${s}</span>`).join('')}</div>
+        <div class="req-scenes">${scenes.map((s, i) => `<button class="req-scene${i === ti ? ' active' : ''}" data-t="${i}" type="button">${s.name}</button>`).join('')}</div>
       </div>
-      <div class="req-fig">${FIG}<img src="${d.img || 'images/tool/annotation/req/' + d.slug + '.png'}" alt="${d.title}" loading="lazy" onerror="this.style.display='none'"></div>`;
+      <div class="req-fig">${FIG}<img src="${activeScene.img}" alt="${d.title} · ${activeScene.name}" loading="lazy" onerror="${onImgError}"></div>`;
   }
-  function selectCat(i){ ci = i; si = 0; renderCats(); renderSide(); renderDetail(); }
-  function selectSub(i){ si = i; renderSide(); renderDetail(); }
+  function selectCat(i){ ci = i; si = 0; ti = 0; renderCats(); renderSide(); renderDetail(); }
+  function selectSub(i){ si = i; ti = 0; renderSide(); renderDetail(); }
+  function selectScene(i){ ti = i; renderDetail(); }
 
   catsEl.addEventListener('click', e => { const b = e.target.closest('.req-cat'); if (b) selectCat(+b.dataset.c); });
   sideEl.addEventListener('click', e => { const b = e.target.closest('.req-sub'); if (b) selectSub(+b.dataset.s); });
+  detailEl.addEventListener('click', e => { const b = e.target.closest('.req-scene'); if (b) selectScene(+b.dataset.t); });
 
   renderCats(); renderSide(); renderDetail();
 })();

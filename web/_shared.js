@@ -4,6 +4,8 @@
 (function () {
 
   /* ── 数据源 ─────────────────────────────────────── */
+  const BRAND_LOGO = 'images/logo.png';
+
   const DATASETS = [
     { href: 'dataset_speech_asr.html',  name: '语音识别数据集', en: 'ASR Dataset',   icon: 'M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3zm-7 9a7 7 0 0 0 14 0M12 19v3' },
     { href: 'dataset_speech_tts.html',  name: '语音合成数据集', en: 'TTS Dataset',   icon: 'M9 18V5l12-2v13M6 15a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm12-2a3 3 0 1 1 0 6 3 3 0 0 1 0-6z' },
@@ -260,12 +262,12 @@
     </div>`;
 
     /* 解决方案 mega */
-    const solMega = `<div class="nav-mega" style="min-width:380px;">
-      <div class="mega-col" style="min-width:148px;">
+    const solMega = `<div class="nav-mega" style="min-width:350px;">
+      <div class="mega-col" style="min-width:165px;">
         ${sectionTitle('行业场景')}
         ${SOL_INDUSTRY_SCENES.map(it => `<a href="${it.href}">${IC}<span>${it.name}</span></a>`).join('')}
       </div>
-      <div class="mega-col" style="min-width:176px;">
+      <div class="mega-col" style="min-width:145px;">
         ${sectionTitle('数据服务')}
         ${SOL_DATA_SERVICE.map(it => `<a href="${it.href}">${IC}<span>${it.name}</span></a>`).join('')}
         ${sectionTitle('智能语音', 'voice_ai.html')}
@@ -277,7 +279,7 @@
       <header class="header" id="header">
         <div class="header-inner">
           <a href="homepage.html" class="logo" aria-label="标贝科技首页">
-            <img class="logo-img" src="images/logo.png" alt="标贝科技 DataBaker Technology" />
+            <img class="logo-img" src="${BRAND_LOGO}" alt="标贝科技 DataBaker Technology" />
           </a>
 
           <nav class="nav" aria-label="主导航">
@@ -456,9 +458,7 @@
       <div class="modal-box">
         <div class="modal-left">
           <div class="modal-logo">
-            <div class="modal-bars"><span></span><span></span><span></span><span></span><span></span><span></span></div>
-            <h3>标贝科技</h3>
-            <small>DataBaker Technology</small>
+            <img class="modal-logo-img" src="${BRAND_LOGO}" alt="标贝科技 DataBaker Technology" />
           </div>
           <div class="modal-tel">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.45 2 2 0 0 1 3.59 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2z"/></svg>
@@ -870,6 +870,125 @@
       </section>`;
   }
 
+  function renderDatasetQualityStandard() {
+    document.querySelectorAll('[data-dataset-quality-standard]').forEach(el => {
+      if (el.dataset.dqsInit) return;
+      el.dataset.dqsInit = '1';
+
+      const cfg = window.DATASET_QUALITY_STANDARD || {};
+      const h = value => String(value == null ? '' : value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+      const pairRows = rows => (rows || []).map(row => `
+        <li><b>${h(row[0])}</b><span>${h(row[1])}</span></li>
+      `).join('');
+      const metricRows = rows => (rows || []).map(row => `
+        <div class="dqs-metric-row"><b>${h(row[0])}</b><span>${h(row[1])}</span></div>
+      `).join('');
+
+      const data = {
+        eyebrow: '02 · Delivery & QA',
+        title: '数据交付与质量标准',
+        intro: '每批数据均按训练可用标准交付，覆盖数据文件、标注结果、元数据、质检记录与授权说明，便于算法团队直接进入训练、评测和迭代流程。',
+        stats: [
+          ['4 类', '音频、标注、元数据与质检文档同步交付'],
+          ['6 步', '初标、复核、抽检、校验、回流、交付闭环'],
+          ['3 集', '支持训练集、验证集、测试集比例切分'],
+          ['可定制', '格式、字段、标签深度和授权范围按项目约定']
+        ],
+        deliveryItems: [
+          ['文件格式', 'WAV / PCM / FLAC 音频，JSON / CSV / TextGrid / SRT 标注文件'],
+          ['采样规格', '支持 16kHz / 48kHz、单声道 / 双声道 / 多通道阵列统一处理'],
+          ['数据切分', '可按句、按轮次、按固定时长或 VAD 结果切分'],
+          ['命名规则', '统一文件 ID、批次号、说话人 ID、场景标签与授权编码']
+        ],
+        annotationItems: [
+          ['基础标注', '转写文本、时间戳、说话人 ID、场景标签'],
+          ['扩展标签', '口音、噪声、情绪、意图、热词与行业术语'],
+          ['元数据', '采集设备、环境、地域、年龄段、授权范围等字段']
+        ],
+        qaSteps: [
+          ['初标', '完成基础转写、标签与时间戳'],
+          ['复核', '校验漏字、错字、断句和标签一致性'],
+          ['抽检', '按批次抽样检查并记录问题'],
+          ['格式校验', '检查命名、字段、时长、采样率'],
+          ['问题回流', '低质样本重新标注或剔除'],
+          ['最终交付', '输出数据包、说明文档和质检报告']
+        ],
+        metrics: [
+          ['准确性', '核心标注指标按项目验收标准抽检，复杂场景单独约定阈值'],
+          ['完整性', '文件 ID、标签字段、授权字段和元数据字段完整可追溯'],
+          ['一致性', '多人标注规范一致性、字段枚举一致性与批次格式一致性校验'],
+          ['可用性', '剔除空白、损坏、严重不可辨识或不符合授权范围的样本']
+        ],
+        packageItems: ['数据文件包', '标注文件', '元数据表', '字段说明文档', '训练/验证/测试集切分', '质检报告', '授权与合规说明'],
+        ...cfg
+      };
+
+      el.innerHTML = `
+        <div class="dqs-module" data-reveal>
+          <div class="dqs-hero">
+            <div class="dqs-copy">
+              <span class="eyebrow">${h(data.eyebrow)}</span>
+              <h3>${h(data.title)}</h3>
+              <p>${h(data.intro)}</p>
+            </div>
+            <div class="dqs-summary">
+              ${(data.stats || []).map(item => `
+                <div class="dqs-stat"><b>${h(item[0])}</b><span>${h(item[1])}</span></div>
+              `).join('')}
+            </div>
+          </div>
+
+          <div class="dqs-grid">
+            <div class="dqs-panel">
+              <h4>交付内容</h4>
+              <ul class="dqs-list">${pairRows(data.deliveryItems)}</ul>
+            </div>
+            <div class="dqs-panel">
+              <h4>标注维度</h4>
+              <ul class="dqs-list">${pairRows(data.annotationItems)}</ul>
+            </div>
+            <div class="dqs-panel">
+              <h4>可定制项</h4>
+              <ul class="dqs-list">${pairRows(data.customItems || [
+                ['字段深度', '按模型训练、评测或业务分析需求扩展字段'],
+                ['数据比例', '按语种、性别、年龄、地域、场景与噪声条件配比'],
+                ['授权方式', '支持样本试用、子集授权与项目化定制授权']
+              ])}</ul>
+            </div>
+          </div>
+
+          <div class="dqs-flow">
+            <h4>质检流程</h4>
+            <div class="dqs-steps">
+              ${(data.qaSteps || []).map((step, i) => `
+                <div class="dqs-step">
+                  <span class="num">STEP ${String(i + 1).padStart(2, '0')}</span>
+                  <b>${h(step[0])}</b>
+                  <span>${h(step[1])}</span>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          <div class="dqs-bottom">
+            <div class="dqs-metrics">
+              <h4>验收指标</h4>
+              ${metricRows(data.metrics)}
+            </div>
+            <div class="dqs-package">
+              <h4>交付包清单</h4>
+              <ul>${(data.packageItems || []).map(item => `<li>${h(item)}</li>`).join('')}</ul>
+            </div>
+          </div>
+        </div>`;
+    });
+  }
+
   /* 应用场景手风琴：悬停展开，点击锁定（适配触屏）。任何含 .scene-acc 的页面自动生效 */
   function sceneAccordion() {
     document.querySelectorAll('.scene-acc').forEach(acc => {
@@ -916,6 +1035,7 @@
     renderSidebar();
     renderSharedProductAdvantages();
     renderIndustryScenarioPage();
+    renderDatasetQualityStandard();
     cursor();
     scrollProgress();
     headerScroll();
