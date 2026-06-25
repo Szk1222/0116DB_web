@@ -989,6 +989,129 @@
     });
   }
 
+  function renderSharedDatasetUseCases() {
+    document.querySelectorAll('[data-shared-dataset-use-cases]').forEach(el => {
+      if (el.dataset.dsUseCasesInit) return;
+      el.dataset.dsUseCasesInit = '1';
+      el.innerHTML = `
+        <section class="section section-tight dataset-use-cases" style="padding-top:0;">
+          <div class="container">
+            <div class="section-head" data-reveal>
+              <span class="eyebrow">Use Cases</span>
+              <h2 class="display">数据集<span class="glow-text">应用场景</span></h2>
+              <p>从语音交互到大模型训练，覆盖 8 大行业核心场景，支持算法预研到产品商用的全链路 AI 数据需求。</p>
+            </div>
+            <div class="scene-acc" data-reveal>
+              <div class="sa-item is-active" style="--accent:#4cc9f0;--img:url('images/scenes/embodied.jpg');">
+                <span class="sa-ph"></span><span class="sa-bg"></span><span class="sa-grad"></span>
+                <div class="sa-content">
+                  <div class="sa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="8" width="14" height="10" rx="2"/><path d="M12 8V4M9 4h6"/><circle cx="9.5" cy="13" r="1"/><circle cx="14.5" cy="13" r="1"/><path d="M3 13v2M21 13v2"/></svg></div>
+                  <h4 class="sa-title">具身智能</h4>
+                  <div class="sa-detail">
+                    <span class="sa-tag">ROBOT · VLA · MULTIMODAL</span>
+                    <div class="sa-cap">核心能力</div>
+                    <p>面向机器人与具身智能体的多模态数据，覆盖视觉、语音、动作轨迹与操作示教，支撑感知—决策—控制闭环训练。</p>
+                    <a class="sa-link" href="javascript:void(0)" onclick="openMessageModal()">获取方案<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                  </div>
+                </div>
+              </div>
+              <div class="sa-item" style="--accent:#b14dff;--img:url('images/scenes/service.jpg');">
+                <span class="sa-ph"></span><span class="sa-bg"></span><span class="sa-grad"></span>
+                <div class="sa-content">
+                  <div class="sa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/></svg></div>
+                  <h4 class="sa-title">智能客服</h4>
+                  <div class="sa-detail">
+                    <span class="sa-tag">DIALOG · QA</span>
+                    <div class="sa-cap">核心能力</div>
+                    <p>外呼质检、坐席辅助、意图理解，提供高质量对话与语音语料。</p>
+                    <a class="sa-link" href="javascript:void(0)" onclick="openMessageModal()">获取方案<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                  </div>
+                </div>
+              </div>
+              <div class="sa-item" style="--accent:#44e08a;--img:url('images/scenes/auto.jpg');">
+                <span class="sa-ph"></span><span class="sa-bg"></span><span class="sa-grad"></span>
+                <div class="sa-content">
+                  <div class="sa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-3l-2-6H5l-2 6v3z"/><circle cx="7.5" cy="17" r="1.5"/><circle cx="16.5" cy="17" r="1.5"/></svg></div>
+                  <h4 class="sa-title">车载 / 智能驾驶</h4>
+                  <div class="sa-detail">
+                    <span class="sa-tag">3D · LIDAR · BEV</span>
+                    <div class="sa-cap">核心能力</div>
+                    <p>3D 点云、4D BEV、车道线、舱内行为多模态数据，加速自动驾驶研发。</p>
+                    <a class="sa-link" href="javascript:void(0)" onclick="openMessageModal()">获取方案<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                  </div>
+                </div>
+              </div>
+              <div class="sa-item" style="--accent:#ffc850;--img:url('images/scenes/home.jpg');">
+                <span class="sa-ph"></span><span class="sa-bg"></span><span class="sa-grad"></span>
+                <div class="sa-content">
+                  <div class="sa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l9-9 9 9M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></div>
+                  <h4 class="sa-title">智能家居 / IoT</h4>
+                  <div class="sa-detail">
+                    <span class="sa-tag">FAR-FIELD · IOT</span>
+                    <div class="sa-cap">核心能力</div>
+                    <p>远场唤醒、近场指令、声源定位等小型设备 AI 训练数据。</p>
+                    <a class="sa-link" href="javascript:void(0)" onclick="openMessageModal()">获取方案<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                  </div>
+                </div>
+              </div>
+              <div class="sa-item" style="--accent:#ff4dcb;--img:url('images/scenes/finance.jpg');">
+                <span class="sa-ph"></span><span class="sa-bg"></span><span class="sa-grad"></span>
+                <div class="sa-content">
+                  <div class="sa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6M12 22v-6M2 12h6M22 12h-6"/><circle cx="12" cy="12" r="3"/></svg></div>
+                  <h4 class="sa-title">金融科技</h4>
+                  <div class="sa-detail">
+                    <span class="sa-tag">OCR · COMPLIANCE</span>
+                    <div class="sa-cap">核心能力</div>
+                    <p>金融术语语音、证件文档 OCR、风控文本，满足金融合规要求。</p>
+                    <a class="sa-link" href="javascript:void(0)" onclick="openMessageModal()">获取方案<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                  </div>
+                </div>
+              </div>
+              <div class="sa-item" style="--accent:#4cc9f0;--img:url('images/scenes/medical.jpg');">
+                <span class="sa-ph"></span><span class="sa-bg"></span><span class="sa-grad"></span>
+                <div class="sa-content">
+                  <div class="sa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.5-1.5 3-3.5 3-6a4 4 0 0 0-8 0 4 4 0 0 0-8 0c0 2.5 1.5 4.5 3 6M12 8v13M9 21h6"/></svg></div>
+                  <h4 class="sa-title">医疗健康</h4>
+                  <div class="sa-detail">
+                    <span class="sa-tag">MEDICAL · EHR</span>
+                    <div class="sa-cap">核心能力</div>
+                    <p>医学影像、电子病历、医疗对话语料，加速医疗 AI 算法落地。</p>
+                    <a class="sa-link" href="javascript:void(0)" onclick="openMessageModal()">获取方案<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                  </div>
+                </div>
+              </div>
+              <div class="sa-item" style="--accent:#b14dff;--img:url('images/scenes/edu.jpg');">
+                <span class="sa-ph"></span><span class="sa-bg"></span><span class="sa-grad"></span>
+                <div class="sa-content">
+                  <div class="sa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></svg></div>
+                  <h4 class="sa-title">教育科研</h4>
+                  <div class="sa-detail">
+                    <span class="sa-tag">K12 · NLP</span>
+                    <div class="sa-cap">核心能力</div>
+                    <p>儿童语料、学科文本、双语翻译数据，支撑教育领域智能化产品。</p>
+                    <a class="sa-link" href="javascript:void(0)" onclick="openMessageModal()">获取方案<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                  </div>
+                </div>
+              </div>
+              <div class="sa-item" style="--accent:#44e08a;--img:url('images/scenes/llm.jpg');">
+                <span class="sa-ph"></span><span class="sa-bg"></span><span class="sa-grad"></span>
+                <div class="sa-content">
+                  <div class="sa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+                  <h4 class="sa-title">大模型训练</h4>
+                  <div class="sa-detail">
+                    <span class="sa-tag">PRETRAIN · SFT · RLHF</span>
+                    <div class="sa-cap">核心能力</div>
+                    <p>预训练语料、SFT 指令对、RLHF 偏好数据，覆盖 LLM 全链路。</p>
+                    <a class="sa-link" href="javascript:void(0)" onclick="openMessageModal()">获取方案<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>`;
+    });
+  }
+
   /* 应用场景手风琴：悬停展开，点击锁定（适配触屏）。任何含 .scene-acc 的页面自动生效 */
   function sceneAccordion() {
     document.querySelectorAll('.scene-acc').forEach(acc => {
@@ -1036,6 +1159,7 @@
     renderSharedProductAdvantages();
     renderIndustryScenarioPage();
     renderDatasetQualityStandard();
+    renderSharedDatasetUseCases();
     cursor();
     scrollProgress();
     headerScroll();
