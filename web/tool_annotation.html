@@ -43,27 +43,33 @@
   .req-sub{ white-space:nowrap; }
 }
 
-/* ===== 标注流程 · 插图 ===== */
-.proc-fig{ position:relative; border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; background:linear-gradient(150deg,rgba(13,26,58,0.6),rgba(10,20,46,0.6)); }
-.proc-fig img{ display:block; width:100%; height:auto; position:relative; z-index:1; }
-.proc-fig .ph{ position:absolute; inset:0; z-index:0; display:grid; place-items:center; color:var(--brand-hi); opacity:0.32; aspect-ratio:16/5; }
-.proc-fig .ph svg{ width:54px; height:54px; }
+/* ===== 标注流程 · HTML 可编辑图 ===== */
+.proc-fig{ position:relative; border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; background:linear-gradient(150deg,rgba(13,26,58,0.68),rgba(7,13,32,0.78)); box-shadow:var(--shadow-card); }
+.proc-flow{ position:relative; display:grid; grid-template-columns:repeat(6,1fr); gap:12px; padding:26px; }
+.proc-flow::before{ content:""; position:absolute; left:42px; right:42px; top:64px; height:1px; background:linear-gradient(90deg,rgba(76,201,240,0.12),rgba(76,201,240,0.55),rgba(76,201,240,0.12)); }
+.proc-step{ position:relative; z-index:1; min-height:178px; padding:18px 16px; border:1px solid var(--line); border-radius:var(--r); background:linear-gradient(180deg,rgba(13,26,58,0.78),rgba(7,13,32,0.72)); transition:all 220ms ease; }
+.proc-step:hover{ transform:translateY(-3px); border-color:rgba(76,201,240,0.45); box-shadow:0 18px 42px rgba(4,105,207,0.18); }
+.proc-step .num{ display:inline-flex; align-items:center; justify-content:center; width:42px; height:42px; border-radius:10px; border:1px solid rgba(76,201,240,0.32); background:rgba(76,201,240,0.08); color:var(--brand-hi); font-family:var(--font-mono); font-size:12px; letter-spacing:0.08em; margin-bottom:18px; }
+.proc-step h4{ font-family:var(--font-display); font-size:1rem; font-weight:600; color:var(--text-hi); margin:0 0 8px; }
+.proc-step p{ color:var(--text-mute); font-size:0.82rem; line-height:1.65; margin:0; }
+.proc-step::after{ content:""; position:absolute; top:34px; right:-11px; width:20px; height:20px; border-top:1px solid rgba(76,201,240,0.5); border-right:1px solid rgba(76,201,240,0.5); transform:rotate(45deg); background:rgba(7,13,32,0.96); }
+.proc-step:last-child::after{ display:none; }
+@media(max-width:1100px){ .proc-flow{ grid-template-columns:repeat(3,1fr); } .proc-flow::before,.proc-step::after{ display:none; } }
+@media(max-width:640px){ .proc-flow{ grid-template-columns:1fr; padding:18px; } .proc-step{ min-height:auto; } }
 
-/* ===== 任务全周期管理（沿用 ec-task）===== */
-.ec-task { display:grid; grid-template-columns:1.45fr 1fr; gap:36px; align-items:center; }
-.ec-task-frame { position:relative; border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; aspect-ratio:1380/800; background:linear-gradient(150deg,rgba(13,26,58,0.85),rgba(7,13,32,0.92)); box-shadow:0 24px 60px rgba(0,0,0,0.4); }
-.ec-task-slide { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity 700ms ease; }
-.ec-task-slide.is-active { opacity:1; }
-.ec-task-text { display:none; }
-.ec-task-text.is-active { display:block; animation:ecFade 500ms ease; }
-@keyframes ecFade { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:none;} }
-.ec-task-text .num { font-family:var(--font-tech); font-size:2.4rem; font-weight:700; color:var(--brand-hi); line-height:1; }
-.ec-task-text h4 { font-family:var(--font-display); font-size:1.5rem; font-weight:600; color:var(--text-hi); margin:12px 0 14px; }
-.ec-task-text p { color:var(--text-mute); font-size:0.95rem; line-height:1.85; margin:0; max-width:430px; }
-.ec-task-dots { display:flex; gap:10px; margin-top:30px; }
-.ec-task-dots button { width:28px; height:5px; border-radius:99px; border:0; background:rgba(143,214,255,0.22); cursor:pointer; transition:all 250ms ease; padding:0; }
-.ec-task-dots button.active { width:44px; background:var(--brand-hi); box-shadow:0 0 10px rgba(76,201,240,0.5); }
-@media(max-width:760px){ .ec-task{ grid-template-columns:1fr; gap:24px; } }
+/* ===== 标注后台管理配置 ===== */
+.ec-task { border:1px solid var(--line-strong); border-radius:var(--r-lg); background:linear-gradient(180deg,rgba(7,13,32,0.72),rgba(10,20,46,0.68)); box-shadow:var(--shadow-card); overflow:hidden; }
+.ec-admin-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; padding:24px; }
+.ec-admin-card { position:relative; min-height:178px; padding:22px; border:1px solid var(--line); border-radius:var(--r); background:linear-gradient(150deg,rgba(13,26,58,0.6),rgba(7,13,32,0.58)); overflow:hidden; transition:all 220ms ease; }
+.ec-admin-card::after { content:""; position:absolute; right:-34px; top:-34px; width:110px; height:110px; border-radius:50%; border:1px solid rgba(76,201,240,0.16); background:rgba(76,201,240,0.04); }
+.ec-admin-card:hover { transform:translateY(-3px); border-color:rgba(76,201,240,0.42); box-shadow:0 18px 42px rgba(4,105,207,0.18); }
+.ec-admin-card .num { font-family:var(--font-mono); font-size:11px; letter-spacing:0.16em; color:var(--brand-hi); }
+.ec-admin-card .icb { width:44px; height:44px; border-radius:10px; margin:14px 0 18px; border:1px solid var(--line-strong); background:rgba(76,201,240,0.08); color:var(--brand-hi); display:grid; place-items:center; }
+.ec-admin-card .icb svg { width:22px; height:22px; }
+.ec-admin-card h4 { font-family:var(--font-display); font-size:1.08rem; font-weight:600; color:var(--text-hi); margin:0 0 8px; }
+.ec-admin-card p { color:var(--text-mute); font-size:0.86rem; line-height:1.68; margin:0; }
+@media(max-width:980px){ .ec-admin-grid{ grid-template-columns:1fr 1fr; } }
+@media(max-width:640px){ .ec-admin-grid{ grid-template-columns:1fr; padding:18px; } }
 
 /* ===== 多级别权限管理 ===== */
 .security-layout{ display:grid; grid-template-columns:0.8fr 1.2fr; gap:30px; align-items:stretch; }
@@ -73,12 +79,23 @@
 .security-list{ list-style:none; padding:0; margin:6px 0 0; display:grid; gap:12px; }
 .security-list li{ position:relative; padding:12px 14px 12px 38px; border:1px solid rgba(143,214,255,0.12); border-radius:10px; background:rgba(76,201,240,0.045); color:var(--text); font-size:0.92rem; line-height:1.55; }
 .security-list li::before{ content:""; position:absolute; left:16px; top:19px; width:8px; height:8px; border-radius:2px; background:var(--brand-hi); box-shadow:0 0 12px rgba(76,201,240,0.8); transform:rotate(45deg); }
-.security-fig{ position:relative; display:grid; place-items:center; min-height:420px; padding:20px; border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; background:radial-gradient(circle at 50% 0%,rgba(76,201,240,0.14),transparent 50%),linear-gradient(150deg,rgba(13,26,58,0.56),rgba(7,13,32,0.82)); box-shadow:0 24px 60px rgba(0,0,0,0.4); }
+.security-fig{ position:relative; display:grid; place-items:stretch; min-height:420px; padding:20px; border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; background:radial-gradient(circle at 50% 0%,rgba(76,201,240,0.14),transparent 50%),linear-gradient(150deg,rgba(13,26,58,0.56),rgba(7,13,32,0.82)); box-shadow:0 24px 60px rgba(0,0,0,0.4); }
 .security-fig::before{ content:""; position:absolute; inset:14px; border:1px dashed rgba(76,201,240,0.12); border-radius:12px; pointer-events:none; }
-.security-fig img{ position:relative; z-index:1; width:100%; max-height:680px; object-fit:contain; filter:drop-shadow(0 20px 36px rgba(0,0,0,0.35)); }
-.security-fig .ph{ position:absolute; inset:0; z-index:0; display:grid; place-items:center; color:var(--brand-hi); opacity:0.28; }
-.security-fig .ph svg{ width:54px; height:54px; }
-@media(max-width:980px){ .security-layout{ grid-template-columns:1fr; } .security-copy{ padding:24px; } .security-fig{ min-height:auto; padding:14px; } }
+.security-diagram{ position:relative; z-index:1; display:grid; grid-template-columns:0.86fr 1.14fr; gap:18px; align-items:stretch; }
+.sec-role-stack,.sec-control-stack{ display:grid; gap:12px; }
+.sec-role,.sec-control{ padding:16px; border:1px solid var(--line); border-radius:var(--r); background:rgba(7,13,32,0.56); }
+.sec-role b,.sec-control b{ display:block; font-family:var(--font-display); font-size:0.98rem; color:var(--text-hi); margin-bottom:6px; }
+.sec-role span,.sec-control span{ display:block; color:var(--text-mute); font-size:0.82rem; line-height:1.6; }
+.sec-role strong{ display:inline-block; min-width:42px; margin-right:8px; color:var(--brand-hi); font-family:var(--font-mono); font-size:11px; letter-spacing:0.1em; }
+.sec-hub{ position:relative; display:grid; place-items:center; min-height:142px; border:1px solid rgba(76,201,240,0.24); border-radius:var(--r); background:radial-gradient(circle at 50% 50%,rgba(76,201,240,0.18),rgba(13,26,58,0.58) 60%,rgba(7,13,32,0.72)); text-align:center; }
+.sec-hub::before,.sec-hub::after{ content:""; position:absolute; inset:18px; border:1px solid rgba(76,201,240,0.14); border-radius:50%; }
+.sec-hub b{ font-family:var(--font-display); font-size:1.16rem; color:var(--text-hi); }
+.sec-hub span{ display:block; margin-top:6px; color:var(--brand-hi); font-family:var(--font-mono); font-size:11px; letter-spacing:0.14em; }
+.sec-control-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
+.sec-control{ min-height:104px; }
+.sec-control i{ display:inline-flex; width:30px; height:30px; align-items:center; justify-content:center; border-radius:8px; margin-bottom:10px; background:rgba(76,201,240,0.1); color:var(--brand-hi); font-style:normal; font-family:var(--font-mono); font-size:11px; }
+@media(max-width:980px){ .security-layout{ grid-template-columns:1fr; } .security-copy{ padding:24px; } .security-fig{ min-height:auto; padding:14px; } .security-diagram{ grid-template-columns:1fr; } }
+@media(max-width:560px){ .sec-control-grid{ grid-template-columns:1fr; } }
 </style>
 </head>
 <body>
@@ -132,30 +149,33 @@
       <p>标准化作业流程，全线上流转、可追溯，兼顾效率与质量。</p>
     </div>
     <div class="proc-fig" data-reveal>
-      <img src="images/tool/annotation/liuchengtu.png" alt="标注流程图：需求确认 → 数据准备 → AI 预标注 → 人工标注 → 多轮质检 → 交付验收" loading="lazy" onerror="this.style.display='none'">
-      <span class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 9h18M8 21h8M12 18v3"/></svg></span>
+      <div class="proc-flow" role="img" aria-label="标注流程图：需求确认、数据准备、AI 预标注、人工标注、多轮质检、交付验收">
+        <div class="proc-step"><span class="num">01</span><h4>需求确认</h4><p>明确数据类型、标注目标、字段规范、质检口径与交付格式。</p></div>
+        <div class="proc-step"><span class="num">02</span><h4>数据准备</h4><p>完成数据接收、脱敏、抽样试标和任务批次拆分。</p></div>
+        <div class="proc-step"><span class="num">03</span><h4>AI 预标注</h4><p>按场景接入预标注模型，输出初始框、标签、文本或时间戳。</p></div>
+        <div class="proc-step"><span class="num">04</span><h4>人工标注</h4><p>标注员按规范精修确认，复杂样本进入专家处理队列。</p></div>
+        <div class="proc-step"><span class="num">05</span><h4>多轮质检</h4><p>抽检、复核、返修和一致性校验全程留痕。</p></div>
+        <div class="proc-step"><span class="num">06</span><h4>交付验收</h4><p>交付标注文件、质检报告、字段说明和版本记录。</p></div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- 任务全周期管理 -->
+<!-- 标注后台管理配置 -->
 <section class="section" style="padding-top:0">
   <div class="container">
     <div class="section-head" data-reveal>
       <span class="eyebrow">Administration</span>
-      <h2 class="display">任务<span class="glow-text">全周期管理</span></h2>
+      <h2 class="display">标注<span class="glow-text">后台管理配置</span></h2>
     </div>
     <div class="ec-task" data-reveal>
-      <div class="ec-task-frame">
-        <img class="ec-task-slide is-active" data-i="0" src="images/annotation/2d/tag2D-01.png" alt="项目模版" loading="lazy">
-        <img class="ec-task-slide" data-i="1" src="images/annotation/2d/tag2D-02.png" alt="项目统计" loading="lazy">
-        <img class="ec-task-slide" data-i="2" src="images/annotation/2d/tag2D-03.png" alt="质检验收" loading="lazy">
-      </div>
-      <div class="ec-task-meta">
-        <div class="ec-task-text is-active" data-i="0"><div class="num">01</div><h4>项目模版</h4><p>灵活配置质检参数、任务模式、AI 算法辅助等能力，覆盖各种复杂项目场景。</p></div>
-        <div class="ec-task-text" data-i="1"><div class="num">02</div><h4>项目统计</h4><p>支持实时进度查看、多维度人员及任务统计，满足各种项目管理需求。</p></div>
-        <div class="ec-task-text" data-i="2"><div class="num">03</div><h4>质检验收</h4><p>算法辅助质检 + 人工多轮质检验收模型，极大提高工作效率，保证数据的质量与安全。</p></div>
-        <div class="ec-task-dots"><button class="active" data-d="0" aria-label="项目模版"></button><button data-d="1" aria-label="项目统计"></button><button data-d="2" aria-label="质检验收"></button></div>
+      <div class="ec-admin-grid">
+        <div class="ec-admin-card"><span class="num">01</span><div class="icb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 5h16M4 12h16M4 19h10"/><path d="M17 16l2 2 4-4"/></svg></div><h4>项目管理</h4><p>统一创建项目、批次、任务包与人员角色，支撑大规模标注生产调度。</p></div>
+        <div class="ec-admin-card"><span class="num">02</span><div class="icb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-7"/></svg></div><h4>进度监控</h4><p>实时查看产能、通过率、返修率与质检结果，让异常节点及时暴露。</p></div>
+        <div class="ec-admin-card"><span class="num">03</span><div class="icb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div><h4>质检规则</h4><p>按任务类型配置抽检比例、验收阈值、返修规则和多轮审核策略。</p></div>
+        <div class="ec-admin-card"><span class="num">04</span><div class="icb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><path d="M8 7l3 8M16 7l-3 8"/></svg></div><h4>流程配置</h4><p>按试标、生产、质检、复核、验收配置线上流转，保持过程可追溯。</p></div>
+        <div class="ec-admin-card"><span class="num">05</span><div class="icb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M8 9l-4 3 4 3M16 9l4 3-4 3"/><path d="M14 5l-4 14"/></svg></div><h4>脚本配置</h4><p>沉淀题目说明、快捷操作、字段校验和场景化标注模板。</p></div>
+        <div class="ec-admin-card"><span class="num">06</span><div class="icb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="5" y="5" width="14" height="14" rx="3"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/><path d="M9 12h6"/></svg></div><h4>模型配置</h4><p>接入预标注、辅助质检与自动校验模型，提升标注效率和一致性。</p></div>
       </div>
     </div>
   </div>
@@ -172,16 +192,30 @@
     <div class="security-layout" data-reveal>
       <div class="security-copy">
         <h3>从组织到任务的权限闭环</h3>
-        <p>围绕管理平台、机构平台、团队平台建立分级授权体系，将人员身份、任务领取、数据标注、质检验收与结果导出纳入统一管控。</p>
+        <p>围绕管理平台、租户平台、团队平台建立分级授权体系，将人员身份、任务领取、数据标注、质检验收与结果导出纳入统一管控。</p>
         <ul class="security-list">
-          <li>角色权限分层：超级管理员、机构管理员、团队成员各司其职</li>
+          <li>角色权限分层：超级管理员、租户管理员、团队成员各司其职</li>
           <li>操作全程留痕：日志审计、登录验证、任务流转记录可追踪</li>
           <li>数据安全管控：模板水印、API 授权、私有化部署灵活适配</li>
         </ul>
       </div>
       <div class="security-fig">
-        <img src="images/tool/annotation/security-permission.png" alt="多角色、多级别权限管理与数据安全能力架构图" loading="lazy" onerror="this.style.display='none'">
-        <span class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.2-2.8 8-7 10-4.2-2-7-5.8-7-10V6l7-3z"/><path d="M9 12l2 2 4-5"/></svg></span>
+        <div class="security-diagram" role="img" aria-label="多角色、多级别权限管理与数据安全能力架构图">
+          <div class="sec-role-stack">
+            <div class="sec-role"><b><strong>ROOT</strong>超级管理员</b><span>平台级账号、租户配置、系统策略和安全审计。</span></div>
+            <div class="sec-role"><b><strong>ORG</strong>租户管理员</b><span>项目、团队、角色、任务和质检规则配置。</span></div>
+            <div class="sec-role"><b><strong>TEAM</strong>团队成员</b><span>按权限领取、标注、质检、复核和导出数据。</span></div>
+          </div>
+          <div class="sec-control-stack">
+            <div class="sec-hub"><div><b>权限闭环中台</b><span>USER · TASK · DATA · LOG</span></div></div>
+            <div class="sec-control-grid">
+              <div class="sec-control"><i>01</i><b>角色授权</b><span>按组织、项目、任务维度控制可见与可操作范围。</span></div>
+              <div class="sec-control"><i>02</i><b>数据水印</b><span>模板水印与导出标识绑定账号，降低泄露风险。</span></div>
+              <div class="sec-control"><i>03</i><b>登录验证</b><span>账号认证、异常登录提醒和敏感操作二次校验。</span></div>
+              <div class="sec-control"><i>04</i><b>日志审计</b><span>记录任务流转、质检验收、文件导出和 API 调用。</span></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -255,15 +289,9 @@
     { cat:'点云标注', slug:'pointcloud', subs:[
       { slug:'pointcloud-4d', name:'4D 标注', title:'4D 标注', intro:'时序点云连续标注，精准还原物体在时间维度上的运动轨迹，为时序感知模型提供高质量训练数据。', points:['连续帧时序对齐与轨迹追踪','行进预测 / 插值预测智能辅助','物体 ID 跨帧保持一致'], scenes:['自动驾驶','机器人','车路协同'] },
       { slug:'pointcloud-seg', name:'语义分割', title:'点云语义分割', intro:'点云逐点语义分割，精细区分道路、车辆、行人、绿植等场景要素。', points:['AI 语义分割模型 + 人工补点','逐点类别精细划分','支持大规模场景批量处理'], scenes:['高精地图','场景理解','可行驶区域'] },
-      { slug:'pointcloud-box', name:'点云标注', title:'3D 点云框标注', intro:'高精度 3D BBox 与多形态点云标注，适配自动驾驶与机器人感知训练。', points:['3D 立体框 / 多边形多形态标注','尺寸朝向自动估计','属性字段自定义导出'], scenes:['目标检测','障碍物识别','测距'] },
+      { slug:'pointcloud-box', name:'点云标注', title:'3D 点云框标注', intro:'高精度 3D BBox 与多形态点云标注，适配自动驾驶与机器人感知训练。', points:['3D 立体框 / 多边形多形态标注','尺寸朝向自动估计','属性字段自定义导出'], scenes:['目标检测','障碍物识别'] },
       { slug:'pointcloud-frames', name:'点云连续帧', title:'点云连续帧标注', intro:'多帧联动标注，后台算法实时预估目标移动差值，大幅降低重复劳动。', points:['连续帧智能贴合','跨帧目标自动跟随','关键帧 + 插值补全'], scenes:['轨迹预测','行为分析'] },
       { slug:'pointcloud-fusion', name:'2&3D 融合标注', title:'2&3D 融合标注', intro:'图像与点云多传感器融合标注，2D / 3D 联动提升标注精度与一致性。', points:['相机 - 雷达联合标定','2D / 3D 框联动同步','多传感器时间对齐'], scenes:['多传感器融合','BEV 感知'] },
-    ]},
-    { cat:'语音标注', slug:'speech', subs:[
-      { slug:'speech-tts', name:'语音合成标注', title:'语音合成（TTS）标注', intro:'面向 TTS 任务的文本录制与韵律标注，支持情感标签、停顿节奏与多发音人管理。', points:['韵律 / 停顿 / 重音标注','情感标签与风格分类','多发音人统一管理'], scenes:['语音合成','有声内容','虚拟人'] },
-      { slug:'speech-asr', name:'语音识别标注', title:'语音识别（ASR）标注', intro:'转写、实体、情绪、说话人分离等 ASR 数据标注，内置多轮质检与绩效追踪。', points:['字级转写与时间戳对齐','命名实体与情绪标注','内置质检流程'], scenes:['智能客服','车载','输入法'] },
-      { slug:'speech-spk', name:'说话人分离', title:'说话人分离', intro:'多说话人音频的分段与归属标注，支持重叠语音与远场场景。', points:['说话人分段与聚类','重叠语音切分','远场降噪样本支持'], scenes:['会议转写','呼叫中心','访谈'] },
-      { slug:'speech-emotion', name:'情感标注', title:'语音情感标注', intro:'对语音片段的情绪类别与强度进行标注，支撑情感语音与质检模型。', points:['多维情绪类别标注','情绪强度分级','场景化标签体系'], scenes:['情感电台','客服质检','陪伴助手'] },
     ]},
     { cat:'图像标注', slug:'image', subs:[
       { slug:'image-det', name:'目标检测', title:'目标检测', intro:'AI 算法模型搭配人工调整，实现多场景、多对象的快速物体检测标注。', points:['BBox / 旋转框标注','AI 预标注加速','批量模板复用'], scenes:['安防','零售','工业质检'] },
@@ -278,6 +306,12 @@
       { slug:'video-track', name:'目标跟踪', title:'视频目标跟踪标注', intro:'（占位文案）跨帧跟踪目标并保持唯一 ID，输出运动轨迹。', points:['跨帧 ID 保持','轨迹平滑','遮挡恢复'], scenes:['自动驾驶','无人机','监控'] },
       { slug:'video-seg', name:'视频分割', title:'视频分割标注', intro:'（占位文案）逐帧 / 关键帧像素级分割，支持前景背景与实例分割。', points:['关键帧分割 + 插值','实例级 Mask','时序一致性'], scenes:['影视后期','虚拟背景'] },
       { slug:'video-event', name:'时序事件', title:'时序事件标注', intro:'（占位文案）标注视频中的关键事件起止点与类别。', points:['事件起止点标注','多事件并行','事件关系标注'], scenes:['内容理解','直播审核'] },
+    ]},
+    { cat:'语音标注', slug:'speech', subs:[
+      { slug:'speech-tts', name:'语音合成标注', title:'语音合成（TTS）标注', intro:'面向 TTS 任务的文本录制与韵律标注，支持情感标签、停顿节奏与多发音人管理。', points:['韵律 / 停顿 / 重音标注','情感标签与风格分类','多发音人统一管理'], scenes:['语音合成','有声内容','虚拟人'] },
+      { slug:'speech-asr', name:'语音识别标注', title:'语音识别（ASR）标注', intro:'转写、实体、情绪、说话人分离等 ASR 数据标注，内置多轮质检与绩效追踪。', points:['字级转写与时间戳对齐','命名实体与情绪标注','内置质检流程'], scenes:['智能客服','车载','输入法'] },
+      { slug:'speech-spk', name:'说话人分离', title:'说话人分离', intro:'多说话人音频的分段与归属标注，支持重叠语音与远场场景。', points:['说话人分段与聚类','重叠语音切分','远场降噪样本支持'], scenes:['会议转写','呼叫中心','访谈'] },
+      { slug:'speech-emotion', name:'情感标注', title:'语音情感标注', intro:'对语音片段的情绪类别与强度进行标注，支撑情感语音与质检模型。', points:['多维情绪类别标注','情绪强度分级','场景化标签体系'], scenes:['情感电台','客服质检','陪伴助手'] },
     ]},
     { cat:'文本标注', slug:'text', subs:[
       { slug:'text-ner', name:'命名实体 NER', title:'命名实体识别标注', intro:'（占位文案）对文本中的人名、地名、机构、时间等实体进行标注。', points:['多类别实体标注','嵌套实体支持','实体属性扩展'], scenes:['知识图谱','信息抽取'] },
@@ -350,25 +384,6 @@
   renderCats(); renderSide(); renderDetail();
 })();
 
-/* ===== 任务全周期管理 · 轮播 ===== */
-(function(){
-  const slides = [...document.querySelectorAll('.ec-task-slide')];
-  const texts  = [...document.querySelectorAll('.ec-task-text')];
-  const dots   = [...document.querySelectorAll('.ec-task-dots button')];
-  if (!dots.length) return;
-  const n = dots.length; let cur = 0, timer;
-  const go = i => { cur = (i + n) % n;
-    slides.forEach((s, k) => s.classList.toggle('is-active', k === cur));
-    texts.forEach((s, k) => s.classList.toggle('is-active', k === cur));
-    dots.forEach((d, k) => d.classList.toggle('active', k === cur));
-  };
-  const start = () => { timer = setInterval(() => go(cur + 1), 4000); };
-  const stop  = () => clearInterval(timer);
-  dots.forEach((d, k) => d.addEventListener('click', () => { go(k); stop(); start(); }));
-  const wrap = document.querySelector('.ec-task');
-  if (wrap) { wrap.addEventListener('mouseenter', stop); wrap.addEventListener('mouseleave', start); }
-  start();
-})();
 </script>
 </body>
 </html>

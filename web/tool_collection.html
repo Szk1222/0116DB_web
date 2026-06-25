@@ -44,11 +44,16 @@
 .ec-flow-tags { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:8px; }
 .ec-flow-tags span { padding:5px 10px; border:1px solid var(--line); border-radius:99px; background:rgba(76,201,240,0.06); color:var(--brand-hi); font-family:var(--font-mono); font-size:10px; letter-spacing:0.1em; text-transform:uppercase; }
 .ec-flow-visual { position:relative; z-index:1; margin:0; padding:24px 28px 18px; }
-.ec-flow-imgbox { position:relative; aspect-ratio:16/7.4; border:1px solid rgba(76,201,240,0.22); border-radius:14px; background:linear-gradient(135deg,rgba(4,105,207,0.12),rgba(7,13,32,0.86)); overflow:hidden; display:grid; place-items:center; }
-.ec-flow-imgbox img { position:absolute; inset:0; width:100%; height:100%; object-fit:contain; z-index:2; background:rgba(5,8,19,0.2); }
-.ec-flow-imgbox img.is-missing { display:none; }
-.ec-flow-placeholder { position:relative; z-index:1; display:grid; justify-items:center; gap:12px; color:var(--text-dim); font-family:var(--font-mono); font-size:12px; letter-spacing:0.14em; text-transform:uppercase; text-align:center; padding:24px; }
-.ec-flow-placeholder svg { width:52px; height:52px; color:var(--brand-hi); opacity:0.46; }
+.ec-flow-imgbox { position:relative; border:1px solid rgba(76,201,240,0.22); border-radius:14px; background:linear-gradient(135deg,rgba(4,105,207,0.12),rgba(7,13,32,0.86)); overflow:hidden; }
+.ec-flow-html { display:grid; grid-template-columns:repeat(6,1fr); gap:10px; padding:22px; }
+.ec-flow-node { position:relative; min-height:154px; padding:16px 14px; border:1px solid var(--line); border-radius:var(--r); background:linear-gradient(180deg,rgba(13,26,58,0.72),rgba(7,13,32,0.68)); transition:all 220ms ease; }
+.ec-flow-node:hover { transform:translateY(-3px); border-color:rgba(68,224,138,0.42); box-shadow:0 18px 42px rgba(68,224,138,0.12); }
+.ec-flow-node::after { content:""; position:absolute; right:-10px; top:38px; width:18px; height:18px; border-top:1px solid rgba(68,224,138,0.52); border-right:1px solid rgba(68,224,138,0.52); transform:rotate(45deg); background:rgba(7,13,32,0.96); z-index:2; }
+.ec-flow-node:last-child::after { display:none; }
+.ec-flow-node .num { display:inline-flex; width:36px; height:36px; align-items:center; justify-content:center; border-radius:10px; border:1px solid rgba(68,224,138,0.24); background:rgba(68,224,138,0.08); color:#44e08a; font-family:var(--font-mono); font-size:11px; letter-spacing:0.08em; margin-bottom:14px; }
+.ec-flow-node h4 { font-family:var(--font-display); font-size:0.98rem; color:var(--text-hi); font-weight:600; margin:0 0 7px; }
+.ec-flow-node p { color:var(--text-mute); font-size:0.78rem; line-height:1.58; margin:0; }
+.ec-flow-node b { display:inline-block; margin-top:12px; color:var(--brand-hi); font-family:var(--font-mono); font-size:10px; letter-spacing:0.1em; font-weight:600; }
 .ec-flow-caption { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px; margin-top:14px; color:var(--text-mute); font-size:0.86rem; }
 .ec-flow-caption code { color:var(--brand-hi); font-family:var(--font-mono); font-size:11px; }
 .ec-flow-steps { position:relative; z-index:1; display:grid; grid-template-columns:repeat(6,1fr); gap:10px; padding:0 28px 24px; }
@@ -66,21 +71,19 @@
 .ec-flow-assurance { position:relative; z-index:1; display:grid; grid-template-columns:repeat(4,1fr); gap:10px; padding:0 28px 28px; margin-top:8px; }
 .ec-flow-assurance span { display:flex; align-items:center; justify-content:center; min-height:46px; border:1px solid var(--line); border-radius:var(--r); background:rgba(13,26,58,0.46); color:var(--text); font-family:var(--font-display); font-size:0.9rem; }
 .ec-flow-assurance b { color:var(--brand-hi); margin-right:6px; }
-/* 任务全周期管理 · 自动轮播 */
-.ec-task { display:grid; grid-template-columns:1.45fr 1fr; gap:36px; align-items:center; }
-.ec-task-frame { position:relative; border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; aspect-ratio:1380/800; background:linear-gradient(150deg,rgba(13,26,58,0.85),rgba(7,13,32,0.92)); box-shadow:0 24px 60px rgba(0,0,0,0.4); }
-.ec-task-slide { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity 700ms ease; }
-.ec-task-slide.is-active { opacity:1; }
-.ec-task-text { display:none; }
-.ec-task-text.is-active { display:block; animation:ecFade 500ms ease; }
-@keyframes ecFade { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:none;} }
-.ec-task-text .num { font-family:var(--font-tech); font-size:2.4rem; font-weight:700; color:var(--brand-hi); line-height:1; }
-.ec-task-text h4 { font-family:var(--font-display); font-size:1.5rem; font-weight:600; color:var(--text-hi); margin:12px 0 14px; }
-.ec-task-text p { color:var(--text-mute); font-size:0.95rem; line-height:1.85; margin:0; max-width:430px; }
-.ec-task-dots { display:flex; gap:10px; margin-top:30px; }
-.ec-task-dots button { width:28px; height:5px; border-radius:99px; border:0; background:rgba(143,214,255,0.22); cursor:pointer; transition:all 250ms ease; padding:0; }
-.ec-task-dots button.active { width:44px; background:var(--brand-hi); box-shadow:0 0 10px rgba(76,201,240,0.5); }
-@media(max-width:760px){ .ec-task{ grid-template-columns:1fr; gap:24px; } }
+/* 采集后台管理配置 */
+.ec-task { border:1px solid var(--line-strong); border-radius:var(--r-lg); background:linear-gradient(180deg,rgba(7,13,32,0.72),rgba(10,20,46,0.68)); box-shadow:var(--shadow-card); overflow:hidden; }
+.ec-admin-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; padding:24px; }
+.ec-admin-card { position:relative; min-height:178px; padding:22px; border:1px solid var(--line); border-radius:var(--r); background:linear-gradient(150deg,rgba(13,26,58,0.6),rgba(7,13,32,0.58)); overflow:hidden; transition:all 220ms ease; }
+.ec-admin-card::after { content:""; position:absolute; right:-34px; top:-34px; width:110px; height:110px; border-radius:50%; border:1px solid rgba(68,224,138,0.18); background:rgba(68,224,138,0.045); }
+.ec-admin-card:hover { transform:translateY(-3px); border-color:rgba(68,224,138,0.42); box-shadow:0 18px 42px rgba(68,224,138,0.14); }
+.ec-admin-card .num { font-family:var(--font-mono); font-size:11px; letter-spacing:0.16em; color:#44e08a; }
+.ec-admin-card .icb { width:44px; height:44px; border-radius:10px; margin:14px 0 18px; border:1px solid rgba(68,224,138,0.24); background:rgba(68,224,138,0.08); color:#44e08a; display:grid; place-items:center; }
+.ec-admin-card .icb svg { width:22px; height:22px; }
+.ec-admin-card h4 { font-family:var(--font-display); font-size:1.08rem; font-weight:600; color:var(--text-hi); margin:0 0 8px; }
+.ec-admin-card p { color:var(--text-mute); font-size:0.86rem; line-height:1.68; margin:0; }
+@media(max-width:980px){ .ec-admin-grid{ grid-template-columns:1fr 1fr; } }
+@media(max-width:640px){ .ec-admin-grid{ grid-template-columns:1fr; padding:18px; } }
 /* 服务模式说明 */
 .ec-serve { border:1px solid var(--line-strong); border-radius:var(--r-lg); overflow:hidden; background:linear-gradient(180deg,rgba(13,26,58,0.6),rgba(10,20,46,0.6)); max-width:760px; margin:0 auto; }
 .ec-serve-head { padding:18px 26px; text-align:center; font-family:var(--font-display); font-size:1.2rem; font-weight:600; color:var(--text-hi); background:linear-gradient(120deg,rgba(4,105,207,0.22),rgba(24,166,184,0.18)); border-bottom:1px solid var(--line); }
@@ -133,6 +136,8 @@
 @media(max-width:1100px){
   .ec-flow-top { display:grid; align-items:start; }
   .ec-flow-tags { justify-content:flex-start; }
+  .ec-flow-html { grid-template-columns:repeat(3,1fr); }
+  .ec-flow-node::after { display:none; }
   .ec-flow-steps { grid-template-columns:repeat(3,1fr); }
   .ec-flow-step::after { display:none; }
   .ec-flow-core,.ec-flow-assurance,.ec-admin-grid,.ec-feat-grid { grid-template-columns:1fr 1fr; }
@@ -140,7 +145,7 @@
 }
 @media(max-width:760px){
   .ec-flow-top,.ec-flow-visual { padding-left:18px; padding-right:18px; }
-  .ec-flow-imgbox { aspect-ratio:4/3; }
+  .ec-flow-html { grid-template-columns:1fr; padding:18px; }
   .ec-flow-steps,.ec-flow-core,.ec-flow-assurance,.ec-admin-grid,.ec-feat-grid,.ec-rec-grid { grid-template-columns:1fr; padding-left:18px; padding-right:18px; }
   .ec-scene { grid-template-columns:1fr; }
   .ec-scene-tabs { flex-direction:row; overflow-x:auto; border-right:0; border-bottom:1px solid var(--line); }
@@ -182,7 +187,7 @@
     <div class="kw-line">关键词：数据采集 · 标贝易采 · 标贝采集</div>
   </div>
 </section>
-<!-- 采集流程展示：替换 images/collection/ecai/ecai-flow.png 即可更新主流程图 -->
+<!-- 采集流程展示 -->
 <section class="section" style="padding-top:60px;">
   <div class="container">
     <div class="section-head" data-reveal>
@@ -204,13 +209,17 @@
       </div>
 
       <figure class="ec-flow-visual">
-        <div class="ec-flow-imgbox">
-          <img src="images/collection/ecai/ecai-flow.png" alt="标贝易采数据采集流程图" loading="lazy" onerror="this.classList.add('is-missing')" />
-          <div class="ec-flow-placeholder">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3M7 9h10M7 13h6"/></svg>
-            <span>FLOW IMAGE SLOT</span>
+        <div class="ec-flow-imgbox" role="img" aria-label="标贝易采数据采集流程图：需求确认、任务配置、样本招募、采集执行、质检复核、交付归档">
+          <div class="ec-flow-html">
+            <div class="ec-flow-node"><span class="num">01</span><h4>需求确认</h4><p>明确采集模态、样本结构、场景脚本、设备标准和交付格式。</p><b>BRIEF</b></div>
+            <div class="ec-flow-node"><span class="num">02</span><h4>任务配置</h4><p>在后台配置问卷、脚本、配额、质检规则和任务流转节点。</p><b>CONFIG</b></div>
+            <div class="ec-flow-node"><span class="num">03</span><h4>样本招募</h4><p>按地域、人群、设备、环境条件匹配采集人员与采集资源。</p><b>RECRUIT</b></div>
+            <div class="ec-flow-node"><span class="num">04</span><h4>采集执行</h4><p>移动端或网页端完成录音、拍摄、上传和现场校验。</p><b>COLLECT</b></div>
+            <div class="ec-flow-node"><span class="num">05</span><h4>质检复核</h4><p>自动检测与人工抽检结合，问题样本回流返修。</p><b>QA</b></div>
+            <div class="ec-flow-node"><span class="num">06</span><h4>交付归档</h4><p>输出数据包、元数据、质检记录和授权说明，便于验收追溯。</p><b>DELIVER</b></div>
           </div>
         </div>
+      </figure>
 
       <div class="ec-flow-assurance">
         <span><b>安全合规</b> 数据加密流转</span>
@@ -222,24 +231,21 @@
   </div>
 </section>
 
-<!-- 任务全周期管理 -->
+<!-- 采集后台管理配置 -->
 <section class="section" style="padding-top:0">
   <div class="container">
     <div class="section-head" data-reveal>
       <span class="eyebrow">Administration</span>
-      <h2 class="display">任务<span class="glow-text">全周期管理</span></h2>
+      <h2 class="display">采集<span class="glow-text">后台管理配置</span></h2>
     </div>
     <div class="ec-task" data-reveal>
-      <div class="ec-task-frame">
-        <img class="ec-task-slide is-active" data-i="0" src="images/collection/ecai/ecai-task1@2x.png" alt="项目模版" loading="lazy">
-        <img class="ec-task-slide" data-i="1" src="images/collection/ecai/ecai-task2@2x.png" alt="项目统计" loading="lazy">
-        <img class="ec-task-slide" data-i="2" src="images/collection/ecai/ecai-task3@2x.png" alt="质检验收" loading="lazy">
-      </div>
-      <div class="ec-task-meta">
-        <div class="ec-task-text is-active" data-i="0"><div class="num">01</div><h4>项目模版</h4><p>灵活配置质检参数、音频参数、任务模式、AI 算法辅助等能力，覆盖各种复杂项目场景。</p></div>
-        <div class="ec-task-text" data-i="1"><div class="num">02</div><h4>项目统计</h4><p>支持实时进度查看、多维度人员及任务统计，满足各种项目管理需求。</p></div>
-        <div class="ec-task-text" data-i="2"><div class="num">03</div><h4>质检验收</h4><p>算法辅助质检 + 人工多轮质检验收模型，极大提高工作效率，保证数据的质量与安全。</p></div>
-        <div class="ec-task-dots"><button class="active" data-d="0" aria-label="项目模版"></button><button data-d="1" aria-label="项目统计"></button><button data-d="2" aria-label="质检验收"></button></div>
+      <div class="ec-admin-grid">
+        <div class="ec-admin-card"><span class="num">01</span><div class="icb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 5h16M4 12h16M4 19h10"/><path d="M16 17l2 2 4-4"/></svg></div><h4>样本管理</h4><p>按人群、地区、设备、场景维护样本池，支持采集任务快速匹配。</p></div>
+        <div class="ec-admin-card"><span class="num">02</span><div class="icb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-6"/></svg></div><h4>进度监控</h4><p>跟踪报名、执行、回收、审核和交付状态，实时掌握采集节奏。</p></div>
+        <div class="ec-admin-card"><span class="num">03</span><div class="icb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 4h16v6H4zM4 14h7v6H4zM15 14h5v6h-5z"/></svg></div><h4>招募规则</h4><p>配置地域、年龄、设备、环境与配额条件，保证样本结构达标。</p></div>
+        <div class="ec-admin-card"><span class="num">04</span><div class="icb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="5" cy="6" r="2"/><circle cx="19" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><path d="M7 7l4 8M17 7l-4 8"/></svg></div><h4>采集流程</h4><p>自定义报名、培训、采录、上传、初审与复核节点，统一线上流转。</p></div>
+        <div class="ec-admin-card"><span class="num">05</span><div class="icb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 3h9l3 3v15H6z"/><path d="M15 3v4h4M9 12h6M9 16h4"/></svg></div><h4>场景脚本</h4><p>沉淀话术、动作、拍摄角度、噪声环境等采集脚本，减少现场偏差。</p></div>
+        <div class="ec-admin-card"><span class="num">06</span><div class="icb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="5" y="7" width="14" height="11" rx="2"/><path d="M9 7V5h6v2M9 18v2h6v-2M8 12h8"/></svg></div><h4>设备模型</h4><p>管理手机、车机、麦克风、摄像头等设备参数，确保采集标准一致。</p></div>
       </div>
     </div>
   </div>
@@ -312,24 +318,6 @@
 <script>
 (function(){var items=[].slice.call(document.querySelectorAll(".logo-rows .sa-item"));})();
 document.querySelectorAll(".ec-scene-tab").forEach(function(t){t.addEventListener("click",function(){var i=t.getAttribute("data-ec-tab");document.querySelectorAll(".ec-scene-tab").forEach(function(x){x.classList.toggle("active",x===t);});document.querySelectorAll(".ec-scene-panel").forEach(function(p){p.classList.toggle("active",p.getAttribute("data-ec-panel")===i);});});});
-(function(){
-  var slides=[].slice.call(document.querySelectorAll('.ec-task-slide'));
-  var texts=[].slice.call(document.querySelectorAll('.ec-task-text'));
-  var dots=[].slice.call(document.querySelectorAll('.ec-task-dots button'));
-  if(!slides.length) return;
-  var n=slides.length, cur=0, timer;
-  function go(i){ cur=(i+n)%n;
-    slides.forEach(function(s,k){ s.classList.toggle('is-active',k===cur); });
-    texts.forEach(function(s,k){ s.classList.toggle('is-active',k===cur); });
-    dots.forEach(function(d,k){ d.classList.toggle('active',k===cur); });
-  }
-  function start(){ timer=setInterval(function(){ go(cur+1); },4000); }
-  function stop(){ clearInterval(timer); }
-  dots.forEach(function(d,k){ d.addEventListener('click',function(){ go(k); stop(); start(); }); });
-  var wrap=document.querySelector('.ec-task');
-  if(wrap){ wrap.addEventListener('mouseenter',stop); wrap.addEventListener('mouseleave',start); }
-  start();
-})();
 </script>
 </body>
 </html>

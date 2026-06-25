@@ -61,6 +61,50 @@
 .vc-arrow{ color:#ffc850; display:grid; place-items:center; }
 .vc-arrow svg{ width:40px; height:40px; }
 @media(max-width:720px){ .vc-flow{ grid-template-columns:1fr; } .vc-arrow{ transform:rotate(90deg); } }
+
+/* 悦读优势模块 */
+.reader-adv .adv-tabs{
+  width:max-content;
+  max-width:100%;
+  min-height:58px;
+  margin:0 auto 18px;
+  padding:7px;
+  gap:8px;
+  align-items:center;
+  justify-content:center;
+  border-radius:14px;
+  border:1px solid rgba(76,201,240,0.28);
+  background:
+    linear-gradient(180deg,rgba(13,26,58,0.78),rgba(7,13,32,0.86)),
+    radial-gradient(circle at 50% 0%,rgba(255,200,80,0.16),transparent 62%);
+  box-shadow:0 18px 44px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+.reader-adv .adv-tab{
+  min-width:126px;
+  border:1px solid rgba(143,214,255,0.16);
+  border-radius:10px;
+  background:rgba(76,201,240,0.06);
+  color:rgba(235,247,255,0.86);
+  box-shadow:none;
+  text-shadow:none;
+}
+.reader-adv .adv-tab.active{
+  color:#071322;
+  background:linear-gradient(135deg,#ffc850,#ff963d);
+  border-color:rgba(255,200,80,0.82);
+  box-shadow:0 10px 24px rgba(255,150,61,0.28), inset 0 1px 0 rgba(255,255,255,0.35);
+}
+.reader-adv .adv-tab:hover{ color:#fff; border-color:rgba(76,201,240,0.42); background:rgba(76,201,240,0.12); }
+.reader-adv .adv-tab.active:hover{ color:#071322; }
+.reader-adv .adv-tab .bar{ display:none; }
+.reader-adv .adv-stage{
+  background:#fff;
+  aspect-ratio:2000/996;
+}
+.reader-adv .adv-slide{
+  object-fit:contain;
+  background:#fff;
+}
 </style>
 </head>
 <body>
@@ -82,6 +126,7 @@
     <div class="htag-row"><span class="htag">TTS</span><span class="htag">AI 配音</span><span class="htag">多音色</span><span class="htag">声音转换</span><span class="htag">在线合成</span></div>
     <div class="page-actions">
       <a href="javascript:void(0)" onclick="openTrialModal()" class="btn btn-primary">预约试用<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      <a href="https://yuedu.data-baker.com/" target="_blank" rel="noopener" class="btn btn-ghost">了解标贝悦读工具<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
     </div>
   </div>
 </section>
@@ -130,62 +175,30 @@
 <section class="section" style="padding-top:0">
   <div class="container">
     <div class="section-head" data-reveal>
-      <span class="eyebrow">Features</span>
-      <h2 class="display">简单易用的交互，<span class="glow-text">完善齐全</span>的功能</h2>
+      <span class="eyebrow">ADVANTAGE</span>
+      <h2 class="display">我们的<span class="glow-text">优势</span></h2>
     </div>
-    <div class="adv-show" data-reveal>
+    <div class="adv-show reader-adv" data-reveal>
       <div class="adv-tabs">
-        <button class="adv-tab active" data-a="0">文章管理<span class="bar"></span></button>
-        <button class="adv-tab" data-a="1">多音字校正<span class="bar"></span></button>
-        <button class="adv-tab" data-a="2">数字读法<span class="bar"></span></button>
-        <button class="adv-tab" data-a="3">多人配音<span class="bar"></span></button>
-        <button class="adv-tab" data-a="4">局部变速<span class="bar"></span></button>
-        <button class="adv-tab" data-a="5">背景音乐<span class="bar"></span></button>
+        <button class="adv-tab" data-a="0">高级功能<span class="bar"></span></button>
+        <button class="adv-tab active" data-a="1">合成效果<span class="bar"></span></button>
+        <button class="adv-tab" data-a="2">音色丰富<span class="bar"></span></button>
       </div>
       <div class="adv-subs">
-        <div class="adv-sub is-active" data-a="0"><b>文章管理</b><span>支持多篇文稿在线编辑、分章节管理与一键合成，长文配音高效有序。</span></div>
-        <div class="adv-sub" data-a="1"><b>多音字校正</b><span>智能识别多音字并提供读音选择，逐字精修，确保发音准确无误。</span></div>
-        <div class="adv-sub" data-a="2"><b>数字读法</b><span>金额、日期、电话、序号等数字按场景自动选择读法，告别歧义。</span></div>
-        <div class="adv-sub" data-a="3"><b>多人配音</b><span>一段文稿可分配多个发音人，模拟对话与角色扮演，丰富听感层次。</span></div>
-        <div class="adv-sub" data-a="4"><b>局部变速</b><span>对任意片段单独调节语速、停顿与重音，细腻还原真人朗读节奏。</span></div>
-        <div class="adv-sub" data-a="5"><b>背景音乐</b><span>内置多风格背景音乐与音效，一键混音，成片即可直接发布使用。</span></div>
+        <div class="adv-sub" data-a="0"><b>高级功能</b><span>支持停顿、变速、多音字、数字读法、多人配音等精细化编辑，满足专业内容生产。</span></div>
+        <div class="adv-sub is-active" data-a="1"><b>合成效果</b><span>合成效果逼真，以假乱真，媲美真人。</span></div>
+        <div class="adv-sub" data-a="2"><b>音色丰富</b><span>覆盖儿童、青年、成熟、知性、磁性等多种音色风格，适配不同内容场景。</span></div>
       </div>
       <div class="adv-stage">
-        <img class="adv-slide is-active" data-a="0" src="images/tool/DByuedu/yuedu/func-1.png" alt="文章管理" loading="lazy" onerror="this.style.display='none'">
-        <img class="adv-slide" data-a="1" src="images/tool/DByuedu/yuedu/func-2.png" alt="多音字校正" loading="lazy" onerror="this.style.display='none'">
-        <img class="adv-slide" data-a="2" src="images/tool/DByuedu/yuedu/func-3.png" alt="数字读法" loading="lazy" onerror="this.style.display='none'">
-        <img class="adv-slide" data-a="3" src="images/tool/DByuedu/yuedu/func-4.png" alt="多人配音" loading="lazy" onerror="this.style.display='none'">
-        <img class="adv-slide" data-a="4" src="images/tool/DByuedu/yuedu/func-5.png" alt="局部变速" loading="lazy" onerror="this.style.display='none'">
-        <img class="adv-slide" data-a="5" src="images/tool/DByuedu/yuedu/func-6.png" alt="背景音乐" loading="lazy" onerror="this.style.display='none'">
+        <img class="adv-slide" data-a="0" src="images/tool/DByuedu/yuedu/yudu1.png" alt="高级功能" loading="lazy" onerror="this.style.display='none'">
+        <img class="adv-slide is-active" data-a="1" src="https://databaker-gw-static.oss-accelerate.aliyuncs.com/assets/images/solution/yuedu/yuedu2.png" alt="合成效果逼真，以假乱真，媲美真人" loading="lazy" onerror="this.style.display='none'">
+        <img class="adv-slide" data-a="2" src="https://databaker-gw-static.oss-accelerate.aliyuncs.com/assets/images/solution/yuedu/yuedu3.png" alt="音色丰富" loading="lazy" onerror="this.style.display='none'">
         <span class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 9h18M8 21h8M12 18v3"/></svg></span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- 声音转换 流程 -->
-<section class="section" style="padding-top:0">
-  <div class="container">
-    <div class="section-head" data-reveal>
-      <span class="eyebrow">Voice Conversion</span>
-      <h2 class="display">声音<span class="glow-text">转换</span></h2>
-      <p>你可以将自己的声音转换为别的声音 —— 保留语气与节奏，快速复刻专属音色。</p>
-    </div>
-    <div class="vc-flow" data-reveal>
-      <div class="vc-node">
-        <div class="vc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 1 3 3v6a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></div>
-        <h4>用户原声</h4>
-        <p>上传或录制一段真人语音作为转换源</p>
-      </div>
-      <div class="vc-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16M14 6l6 6-6 6"/></svg></div>
-      <div class="vc-node">
-        <div class="vc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg></div>
-        <h4>目标音色</h4>
-        <p>转换引擎输出指定音色的全新语音</p>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- 应用案例 · 手风琴 -->
 <section class="section" style="padding-top:0">

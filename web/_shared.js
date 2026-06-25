@@ -25,7 +25,7 @@
     { href: 'tool_collection.html', name: '标贝易采', en: 'EasyColl' },
   ];
   const TOOLS_OPENPLATFORM = [
-    { href: 'tool_openplatform.html', name: '开发者工具', en: 'Open Platform' },
+    { href: 'tool_openplatform.html', name: '开放平台', en: 'Open Platform' },
   ];
   const TOOLS_READER = [
     { href: 'tool_reader.html', name: '标贝悦读', en: 'YueReader' },
@@ -36,7 +36,7 @@
     { href: 'tool_annotation.html',   name: '标注平台', en: 'Annotation' },
     { href: 'tool_collection.html',   name: '采集平台', en: 'Collection' },
     { href: 'tool_reader.html',       name: '标贝悦读', en: 'YueReader' },
-    { href: 'tool_openplatform.html', name: '开发者工具', en: 'Dev Tools' },
+    { href: 'tool_openplatform.html', name: '开放平台', en: 'Open Platform' },
   ];
 
   const SOL_INDUSTRY_SCENES = [
@@ -82,7 +82,8 @@
       services: [
         ['道路场景采集', '覆盖城市道路、高速、泊车、夜间、雨雾等关键场景数据采集。', 'images/scenes/auto.jpg'],
         ['2D/3D/4D 标注', '提供图像框、车道线、语义分割、点云框、连续帧追踪等标注。', 'images/datasets/cat-auto.jpg'],
-        ['驾驶行为识别', '构建分心、疲劳、危险动作与座舱交互相关数据。', 'images/scenes/service.jpg']
+        ['驾驶行为识别', '构建分心、疲劳、危险动作与座舱交互相关数据。', 'images/scenes/service.jpg'],
+        ['车载语音服务', '覆盖车载语音识别与语音合成，支持唤醒、指令理解、播报音色与座舱交互体验优化。', 'images/datasets/asr.jpg']
       ],
       advantages: ['多源传感器时间对齐', '连续帧 ID 一致性管理', '自动预标注提升效率', '场景库按研发需求切片'],
       cases: [
@@ -172,7 +173,7 @@
       services: [
         ['违规内容标注', '建设涉政、暴恐、低俗、广告、辱骂等多维审核标签数据。', 'images/scenes/service.jpg'],
         ['音视频审核数据', '对音频、视频、直播切片进行风险识别、时间戳与证据标注。', 'images/datasets/video.jpg'],
-        ['审核策略评测', '构建误杀、漏放、边界样本和模型对抗评测集。', 'images/datasets/text.jpg']
+        ['审核策略评测', '构建误判、漏放、边界样本和模型对抗评测集。', 'images/datasets/text.jpg']
       ],
       advantages: ['风险标签体系可配置', '边界样本沉淀能力强', '支持多轮安全复核', '评测结果可回流模型'],
       cases: [
