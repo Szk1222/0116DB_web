@@ -94,13 +94,13 @@
         </h1>
         <p class="lead">为大模型预训练、SFT 指令微调、RLHF 偏好对齐与安全评测提供成套数据基础设施，所有标签均经过多轮人审与跨标注员一致性检验</p>
         <div class="hero-chips">
-          <span class="hero-chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 6-6"/></svg>RLHF <b>偏好对齐</b></span>
-          <span class="hero-chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 9h8M8 13h6"/></svg><b>200w+</b> SFT 指令</span>
-          <span class="hero-chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l3 6.5H22l-5.7 4.1 2.2 6.9L12 15.5 5.5 19.5l2.2-6.9L2 8.5h7L12 2z"/></svg>一致性<b>κ ≥0.82</b></span>
+          <span class="hero-chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg><b>20B +</b> 数据量</span>
+          <span class="hero-chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 9h8M8 13h6"/></svg><b>30w+</b> 指令对</span>
+          <span class="hero-chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l3 6.5H22l-5.7 4.1 2.2 6.9L12 15.5 5.5 19.5l2.2-6.9L2 8.5h7L12 2z"/></svg><b>40+</b> 场景</span>
         </div>
         <div class="page-actions">
           <a href="javascript:void(0)" onclick="openTrialModal()" class="btn btn-primary">预约试用<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-          <a href="data_service_annotation.html" class="btn btn-ghost">了解标注服务</a>
+          <a href="#pipeline" data-scroll-target="pipeline" class="btn btn-ghost">了解详情</a>
         </div>
       </div>
 
@@ -135,7 +135,7 @@
 </section>
 
 <!-- PIPELINE -->
-<section class="section">
+<section id="pipeline" class="section">
   <div class="container">
     <div class="section-head" data-reveal>
       <span class="eyebrow">01 · Pipeline</span>
@@ -227,10 +227,9 @@ window.DATASET_QUALITY_STANDARD = {
   title: '大模型数据交付与质量标准',
   intro: '面向预训练、SFT、RLHF、评测与安全对齐，大模型数据交付覆盖清洗语料、指令样本、偏好对、评分 Rubric、红队样本、数据 schema 和质检报告，确保数据可审计、可复现、可直接进入训练管线。',
   stats: [
-    ['200w+', 'SFT 指令样本覆盖通用与垂直任务'],
-    ['80w+', 'RLHF 偏好对与多回答排序样本'],
-    ['κ ≥0.82', '跨标注员一致性可按项目抽检验收'],
-    ['15类', '安全、合规、拒答边界和红队风险类目']
+    ['20B +', '覆盖预训练、SFT、偏好对齐与评测的数据量储备'],
+    ['30w+', '高质量指令对覆盖通用与垂直任务'],
+    ['40+', '专业领域、多模态增强与安全评测场景']
   ],
   deliveryItems: [
     ['数据格式', 'JSONL / Parquet / CSV，支持 Alpaca、ShareGPT、ChatML 等 schema'],

@@ -85,15 +85,15 @@
           <span class="line">NLP 训练</span>
           <span class="line glow-text">文本与对话数据集</span>
         </h1>
-        <p class="lead">面向 NER、关系抽取、意图识别、情感分类、对话与机器翻译等任务，覆盖 30+ 语种、20+ 垂直领域，所有数据均经过多轮质检</p>
+        <p class="lead">面向 NER、关系抽取、意图识别、情感分类、对话与机器翻译等任务，覆盖 20+ 语种、12+ 任务场景，所有数据均经过多轮质检</p>
         <div class="hero-chips">
-          <span class="hero-chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 9h8M8 13h6"/></svg><b>10 亿</b> Token</span>
-          <span class="hero-chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/></svg><b>30+</b> 语种</span>
-          <span class="hero-chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 6-6"/></svg>F1 <b>≥0.94</b></span>
+          <span class="hero-chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 9h8M8 13h6"/></svg><b>10B +</b> 条目</span>
+          <span class="hero-chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 6-6"/></svg><b>12+</b> 任务</span>
+          <span class="hero-chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/></svg><b>20+</b> 语种</span>
         </div>
         <div class="page-actions">
           <a href="javascript:void(0)" onclick="openTrialModal()" class="btn btn-primary">预约试用<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-          <a href="dataset_llm.html" class="btn btn-ghost">查看大模型数据集</a>
+          <a href="#types" data-scroll-target="types" class="btn btn-ghost">了解详情</a>
         </div>
       </div>
 
@@ -109,9 +109,9 @@
           <div class="line"><span class="ts">[BOT]</span>已为您查询到 <span class="tk ORG">12306<small>ORG</small></span> 18 日9:00 G1 次余票，是否确认下单</div>
         </div>
         <div class="txt-meta">
-          <div><b>10亿</b><span>Token</span></div>
-          <div><b>30+</b><span>语种</span></div>
-          <div><b>0.946</b><span>F1</span></div>
+          <div><b>10B +</b><span>条目</span></div>
+          <div><b>12+</b><span>任务</span></div>
+          <div><b>20+</b><span>语种</span></div>
         </div>
       </div>
     </div>
@@ -119,7 +119,7 @@
 </section>
 
 <!-- TYPES -->
-<section class="section">
+<section id="types" class="section">
   <div class="container">
     <div class="section-head" data-reveal>
       <span class="eyebrow">01 · Types</span>
@@ -255,10 +255,9 @@ window.DATASET_QUALITY_STANDARD = {
   title: '文本数据交付与质量标准',
   intro: '面向 NER、关系抽取、意图识别、情感分类、翻译与对话系统训练，文本数据交付覆盖原文、标注结果、标签体系、字段说明、语料清洗记录与质检报告，保证语义标签一致、字段可追溯、训练集可复现。',
   stats: [
-    ['10亿', 'Token 级多语种文本与对话语料储备'],
-    ['30+', '中文、英文、日韩、欧洲语种和东南亚语种覆盖'],
-    ['20+', '金融、医疗、法律、电商、客服等垂直领域'],
-    ['多任务', '抽取、分类、匹配、翻译、对话和情感分析']
+    ['10B +', '高质量文本条目与对话语料储备'],
+    ['12+', '抽取、分类、匹配、翻译、对话和情感分析等任务'],
+    ['20+', '中文、英文、日韩、欧洲语种和东南亚语种覆盖']
   ],
   deliveryItems: [
     ['文本格式', 'JSONL / CSV / TXT / Parquet，可按训练框架输出字段结构'],

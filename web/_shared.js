@@ -711,38 +711,27 @@
   /* ── Cursor ─────────────────────────────────────── */
   function cursor() {
     if (!matchMedia('(hover: hover)').matches) return;
-    if (document.querySelector('.cursor')) return;
+    if (document.querySelector('.cursor-dot')) return;
     const wrap = document.createElement('div'); wrap.innerHTML = `
-      <div class="cursor-glow" id="cursorGlow"></div>
-      <div class="cursor" id="cursor">
-        <svg viewBox="0 0 28 28" fill="none">
-          <circle cx="14" cy="14" r="13" stroke-width="1" stroke-dasharray="3 3"/>
-          <line x1="14" y1="3" x2="14" y2="9" stroke-width="1.2"/>
-          <line x1="14" y1="19" x2="14" y2="25" stroke-width="1.2"/>
-          <line x1="3" y1="14" x2="9" y2="14" stroke-width="1.2"/>
-          <line x1="19" y1="14" x2="25" y2="14" stroke-width="1.2"/>
-        </svg>
-      </div>
+      <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
       <div class="cursor-dot" id="cursorDot" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
           <path d="M4 3l9 18 2.6-6 5.4-2.1L4 3z"/>
         </svg>
       </div>`;
     [...wrap.children].forEach(c => document.body.appendChild(c));
-    const c  = document.getElementById('cursor');
-    const cd = document.getElementById('cursorDot');
     const cg = document.getElementById('cursorGlow');
-    let tx=0, ty=0, dx=0, dy=0;
+    const cd = document.getElementById('cursorDot');
     const root = document.documentElement;
     addEventListener('mousemove', e => {
       if (root.classList.contains('cursor-out')) root.classList.remove('cursor-out');
-      tx = e.clientX; ty = e.clientY;
-      cd.style.left = tx + 'px'; cd.style.top = ty + 'px';
-      cg.style.left = tx + 'px'; cg.style.top = ty + 'px';
+      const x = e.clientX;
+      const y = e.clientY;
+      cd.style.left = x + 'px';
+      cd.style.top = y + 'px';
+      cg.style.left = x + 'px';
+      cg.style.top = y + 'px';
     });
-    (function loop(){ dx += (tx - dx) * 0.18; dy += (ty - dy) * 0.18; c.style.left = dx + 'px'; c.style.top = dy + 'px'; requestAnimationFrame(loop); })();
-    document.addEventListener('mouseover', e => { if (e.target.closest('a,button')) c.classList.add('is-link'); });
-    document.addEventListener('mouseout',  e => { if (e.target.closest('a,button')) c.classList.remove('is-link'); });
 
     /* 指针移出窗口/切走时隐藏光标，回到窗口再显示 —— 修复停滞在边缘的问题 */
     const hideCursor = () => root.classList.add('cursor-out');

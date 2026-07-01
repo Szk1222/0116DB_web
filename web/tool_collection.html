@@ -45,7 +45,7 @@
 .ec-flow-tags span { padding:5px 10px; border:1px solid var(--line); border-radius:99px; background:rgba(76,201,240,0.06); color:var(--brand-hi); font-family:var(--font-mono); font-size:10px; letter-spacing:0.1em; text-transform:uppercase; }
 .ec-flow-visual { position:relative; z-index:1; margin:0; padding:24px 28px 18px; }
 .ec-flow-imgbox { position:relative; border:1px solid rgba(76,201,240,0.22); border-radius:14px; background:linear-gradient(135deg,rgba(4,105,207,0.12),rgba(7,13,32,0.86)); overflow:hidden; }
-.ec-flow-html { display:grid; grid-template-columns:repeat(6,1fr); gap:10px; padding:22px; }
+.ec-flow-html { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:10px; padding:22px; }
 .ec-flow-node { position:relative; min-height:154px; padding:16px 14px; border:1px solid var(--line); border-radius:var(--r); background:linear-gradient(180deg,rgba(13,26,58,0.72),rgba(7,13,32,0.68)); transition:all 220ms ease; }
 .ec-flow-node:hover { transform:translateY(-3px); border-color:rgba(68,224,138,0.42); box-shadow:0 18px 42px rgba(68,224,138,0.12); }
 .ec-flow-node::after { content:""; position:absolute; right:-10px; top:38px; width:18px; height:18px; border-top:1px solid rgba(68,224,138,0.52); border-right:1px solid rgba(68,224,138,0.52); transform:rotate(45deg); background:rgba(7,13,32,0.96); z-index:2; }
@@ -182,9 +182,7 @@
         <div class="app-qr"><img src="images/collection/ecai/app-android.png" alt="Android 下载二维码" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='grid';"><div class="ph" style="display:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3M17 17v3M14 17h.01M20 14v.01"/></svg></div><b>Android · 扫码下载</b></div>
       </span>
       <a href="https://distribute.ebiaoge.com/sp/formreport/distribute/TY0D2TKKVP/4748489893055628723" target="_blank" rel="noopener" class="btn btn-ghost">数据供应商入驻 <span class="btn-arrow">→</span></a>
-      <a href="tool_annotation.html" class="btn btn-ghost">返回总览</a>
-    </div>
-    <div class="kw-line">关键词：数据采集 · 标贝易采 · 标贝采集</div>
+      </div>
   </div>
 </section>
 <!-- 采集流程展示 -->
@@ -209,14 +207,15 @@
       </div>
 
       <figure class="ec-flow-visual">
-        <div class="ec-flow-imgbox" role="img" aria-label="标贝易采数据采集流程图：需求确认、任务配置、样本招募、采集执行、质检复核、交付归档">
+        <div class="ec-flow-imgbox" role="img" aria-label="标贝易采数据采集流程图：需求确认、任务配置、样本招募、采集执行、质检复核、客户验收、交付归档">
           <div class="ec-flow-html">
             <div class="ec-flow-node"><span class="num">01</span><h4>需求确认</h4><p>明确采集模态、样本结构、场景脚本、设备标准和交付格式。</p><b>BRIEF</b></div>
             <div class="ec-flow-node"><span class="num">02</span><h4>任务配置</h4><p>在后台配置问卷、脚本、配额、质检规则和任务流转节点。</p><b>CONFIG</b></div>
             <div class="ec-flow-node"><span class="num">03</span><h4>样本招募</h4><p>按地域、人群、设备、环境条件匹配采集人员与采集资源。</p><b>RECRUIT</b></div>
             <div class="ec-flow-node"><span class="num">04</span><h4>采集执行</h4><p>移动端或网页端完成录音、拍摄、上传和现场校验。</p><b>COLLECT</b></div>
             <div class="ec-flow-node"><span class="num">05</span><h4>质检复核</h4><p>自动检测与人工抽检结合，问题样本回流返修。</p><b>QA</b></div>
-            <div class="ec-flow-node"><span class="num">06</span><h4>交付归档</h4><p>输出数据包、元数据、质检记录和授权说明，便于验收追溯。</p><b>DELIVER</b></div>
+            <div class="ec-flow-node"><span class="num">06</span><h4>客户验收</h4><p>按验收标准确认样本质量、数量、格式和授权材料，闭环反馈意见。</p><b>ACCEPT</b></div>
+            <div class="ec-flow-node"><span class="num">07</span><h4>交付归档</h4><p>输出数据包、元数据、质检记录和授权说明，便于验收追溯。</p><b>DELIVER</b></div>
           </div>
         </div>
       </figure>
@@ -307,7 +306,6 @@
         <p>填写需求表单，我们将在 1 个工作日内回复并提供免费样本或演示账号</p>
         <div class="cta-actions">
           <a href="javascript:void(0)" onclick="openTrialModal()" class="btn btn-primary">预约试用<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-          <a href="tool_annotation.html" class="btn btn-ghost">返回总览</a>
         </div>
       </div>
     </div>
