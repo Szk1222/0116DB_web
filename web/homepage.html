@@ -369,9 +369,9 @@ h2.display, h1.display {
 .hv-chip .ch-head .led { width: 6px; height: 6px; border-radius: 50%; background: #44e08a; box-shadow: 0 0 8px #44e08a; }
 .hv-chip .ch-row { display: flex; justify-content: space-between; color: var(--text-mute); margin: 3px 0; }
 .hv-chip .ch-row b { color: var(--text-hi); font-weight: 500; }
-.hv-chip.c1 { top: 4%; right: -2%; }
-.hv-chip.c2 { bottom: 12%; left: -8%; animation-delay: 1.2s; }
-.hv-chip.c3 { top: 48%; right: -8%; animation-delay: 2s; }
+.hv-chip.c1 { top: 4%; right: 60%; }
+.hv-chip.c2 { bottom: 10%; left: -8%; animation-delay: 1.2s; }
+.hv-chip.c3 { top: 60%; right: -8%; animation-delay: 2s; }
 @keyframes chipFloat { 50% { transform: translateY(-8px); } }
 
 /* Scroll hint */
@@ -773,18 +773,18 @@ h2.display, h1.display {
       <div class="hv-pulse d2" aria-hidden="true"></div>
 
       <div class="hv-chip c1">
-        <div class="ch-head"><span class="led"></span> LIVE · ASR</div>
-        <div class="ch-row"><span>样本</span><b>12,840</b></div>
-        <div class="ch-row"><span>准确率</span><b>97.6%</b></div>
+        <div class="ch-head"><span class="led"></span> LIVE · ASR / TTS</div>
+        <div class="ch-row"><span>样本</span><b>150w h+</b></div>
+        <div class="ch-row"><span>准确率</span><b>98%</b></div>
       </div>
       <div class="hv-chip c2">
         <div class="ch-head"><span class="led"></span> QC · IMAGE</div>
-        <div class="ch-row"><span>已质检</span><b>8,210</b></div>
+        <div class="ch-row"><span>已质检</span><b>700w +</b></div>
         <div class="ch-row"><span>通过率</span><b>99.2%</b></div>
       </div>
       <div class="hv-chip c3">
         <div class="ch-head"><span class="led"></span> LLM · SFT</div>
-        <div class="ch-row"><span>指令对</span><b>34.5K</b></div>
+        <div class="ch-row"><span>指令对</span><b>30w +</b></div>
         <div class="ch-row"><span>偏好对齐</span><b>就绪</b></div>
       </div>
     </div>
