@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>新闻详情 · 标贝科技</title>
+<link rel="stylesheet" href="_shared.css" />
+<style>
+.news-detail-hero {
+  position: relative;
+  padding: 148px 0 54px;
+  overflow: hidden;
+  isolation: isolate;
+}
+.news-detail-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(760px 460px at 18% 30%, rgba(4,105,207,0.35), transparent 62%),
+    radial-gradient(720px 420px at 82% 20%, rgba(76,201,240,0.16), transparent 60%),
+    linear-gradient(180deg, rgba(5,8,19,0.96), rgba(5,8,19,1));
+}
+.news-detail-wrap {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 28px;
+}
+.news-detail-title {
+  margin: 0;
+  color: var(--text-hi);
+  font-family: var(--font-cn);
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  line-height: 1.18;
+  letter-spacing: 0;
+}
+.news-detail-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 22px;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+}
+.news-detail-summary {
+  margin: 26px 0 0;
+  color: var(--text-mute);
+  font-size: 1rem;
+  line-height: 1.9;
+}
+.news-detail-main {
+  padding: 0 0 92px;
+}
+.news-article {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 42px 28px 0;
+  color: var(--text);
+  font-size: 1rem;
+  line-height: 1.95;
+}
+.news-article p { margin: 0 0 18px; }
+.news-article strong { color: var(--text-hi); }
+.news-article img {
+  max-width: min(100%, 760px);
+  height: auto;
+  border-radius: var(--r);
+}
+.news-article a { color: var(--brand-hi); }
+.news-state {
+  max-width: 900px;
+  margin: 42px auto 92px;
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  color: var(--text-mute);
+  text-align: center;
+  background: rgba(13,26,58,0.32);
+}
+@media (max-width: 720px) {
+  .news-detail-hero { padding-top: 122px; }
+  .news-detail-wrap,
+  .news-article { padding-left: 20px; padding-right: 20px; }
+}
+</style>
+</head>
+<body data-page="about">
+<div id="nav-placeholder"></div>
+
+<main>
+  <section class="news-detail-hero">
+    <div class="news-detail-wrap">
+      <h1 class="news-detail-title" id="newsTitle">新闻加载中...</h1>
+      <div class="news-detail-meta" id="newsMeta"></div>
+      <p class="news-detail-summary" id="newsSummary"></p>
+    </div>
+  </section>
+
+  <section class="news-detail-main">
+    <article class="news-article" id="newsContent"></article>
+  </section>
+</main>
+
+<div id="footer-placeholder"></div>
+
+<script src="_shared.js"></script>
+<script>
+(function() {
+  const DETAIL_API = 'https://www.data-baker.com/official-website/v1/about-us/baker-news/detail/';
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get('id');
+  const title = document.getElementById('newsTitle');
+  const meta = document.getElementById('newsMeta');
+  const summary = document.getElementById('newsSummary');
+  const content = document.getElementById('newsContent');
+
+  function escapeHTML(value) {
+    return String(value || '').replace(/[&<>"']/g, char => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;'
+    }[char]));
+  }
+
+  function dateOnly(value) {
+    return String(value || '').split(' ')[0];
+  }
+
+  function showError(message) {
+    title.textContent = '新闻暂时无法加载';
+    meta.textContent = '';
+    summary.textContent = '';
+    content.outerHTML = '<div class="news-state">' + escapeHTML(message) + '</div>';
+  }
+
+  if (!id) {
+    showError('缺少新闻 ID，请从新闻列表进入详情页。');
+    return;
+  }
+
+  fetch(DETAIL_API + encodeURIComponent(id))
+    .then(res => res.ok ? res.json() : Promise.reject(new Error('detail api failed')))
+    .then(json => {
+      const data = json && json.data;
+      if (!data) {
+        showError('没有找到这条新闻。');
+        return;
+      }
+
+      document.title = data.newsTitle + ' · 标贝科技';
+      title.textContent = data.newsTitle || '新闻详情';
+      meta.innerHTML = '<span>发布时间：' + escapeHTML(dateOnly(data.publishTime)) + '</span>';
+      summary.textContent = data.briefContent || '';
+      content.innerHTML = data.content || '';
+    })
+    .catch(() => {
+      showError('接口请求失败，请稍后再试。');
+    });
+})();
+</script>
+</body>
+</html>

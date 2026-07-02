@@ -184,6 +184,7 @@
   border: 1px solid var(--line); border-radius: var(--r-lg);
   background: linear-gradient(180deg, rgba(13,26,58,0.55), rgba(7,13,32,0.55));
   display: grid; gap: 0;
+  align-content: start;
   transition: border-color 240ms ease, transform 240ms ease;
 }
 .tl-col:hover { border-color: rgba(76,201,240,0.4); }
@@ -527,25 +528,144 @@
 /* =========================================================
    News
    ========================================================= */
-.news-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+.news-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
 .news-card {
-  position: relative; padding: 28px 26px 24px;
-  border: 1px solid var(--line); border-radius: var(--r-lg);
-  background: linear-gradient(180deg, rgba(13,26,58,0.55), rgba(10,20,46,0.55));
-  transition: all 240ms ease;
-  display: grid; gap: 14px; align-content: start;
+  position: relative;
+  border: 1px solid rgba(143,214,255,0.12);
+  border-radius: var(--r);
+  background: linear-gradient(90deg, rgba(14,31,68,0.68), rgba(9,20,47,0.46));
+  transition: border-color 220ms ease, transform 220ms ease, background 220ms ease;
+  overflow: hidden;
 }
-.news-card:hover { border-color: rgba(76,201,240,0.4); transform: translateY(-4px); }
-.news-card::after { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: var(--grad-line); transform: scaleX(0); transform-origin: left; transition: transform 500ms ease; }
-.news-card:hover::after { transform: scaleX(1); }
-.news-date { display: flex; align-items: baseline; gap: 10px; }
-.news-date b { font-family: var(--font-tech); font-size: 2rem; color: var(--text-hi); line-height: 1; }
-.news-date small { color: var(--text-mute); font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; }
-.news-card h4 { font-family: var(--font-cn); font-size: 1rem; font-weight: 600; color: var(--text-hi); margin: 0; line-height: 1.5; }
-.news-card p { color: var(--text-mute); font-size: 0.86rem; line-height: 1.7; margin: 0; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-.news-card .news-more {
-  display: inline-flex; align-items: center; gap: 6px;
-  color: var(--brand-hi); font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+.news-card:hover {
+  border-color: rgba(76,201,240,0.42);
+  background: linear-gradient(90deg, rgba(20,43,88,0.78), rgba(10,22,52,0.58));
+  transform: translateY(-2px);
+}
+.news-card::after {
+  content: "";
+  position: absolute;
+  left: 112px;
+  top: 18px;
+  bottom: 18px;
+  width: 1px;
+  background: rgba(143,214,255,0.16);
+}
+.news-card a {
+  color: inherit;
+  text-decoration: none;
+  display: grid;
+  grid-template-columns: 112px minmax(0, 1fr);
+  gap: 22px;
+  min-height: 112px;
+  padding: 22px 28px 22px 0;
+  align-items: center;
+}
+.news-date {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  padding: 0 22px;
+}
+.news-date b {
+  font-family: var(--font-tech);
+  font-size: 2rem;
+  color: var(--text-hi);
+  line-height: 1;
+}
+.news-date small {
+  color: var(--text-mute);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
+.news-body { min-width: 0; }
+.news-card h4 {
+  font-family: var(--font-cn);
+  font-size: clamp(1rem, 1.8vw, 1.32rem);
+  font-weight: 600;
+  color: var(--text-hi);
+  margin: 0 0 10px;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.news-card p {
+  color: var(--text-mute);
+  font-size: 0.9rem;
+  line-height: 1.75;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.news-state { padding: 28px; border: 1px solid var(--line); border-radius: var(--r-lg); color: var(--text-mute); text-align: center; background: rgba(13,26,58,0.32); }
+.news-state b { color: var(--brand-hi); font-weight: 600; }
+.news-progress {
+  display: grid;
+  gap: 12px;
+  max-width: 360px;
+  margin: 0 auto;
+}
+.news-progress-text {
+  color: var(--text-mute);
+  font-size: 0.92rem;
+}
+.news-progress-text b {
+  font-family: var(--font-mono);
+  color: var(--brand-hi);
+}
+.news-progress-track {
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(143,214,255,0.12);
+  overflow: hidden;
+}
+.news-progress-bar {
+  height: 100%;
+  width: var(--progress, 0%);
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--brand), var(--brand-hi), var(--cyan-hi));
+  box-shadow: 0 0 16px rgba(76,201,240,0.42);
+  transition: width 180ms ease;
+}
+.news-pager {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 34px;
+  flex-wrap: wrap;
+}
+.news-page-btn,
+.news-page-arrow {
+  width: 32px;
+  height: 32px;
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text-mute);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  cursor: pointer;
+  transition: color 180ms ease, background 180ms ease, border-color 180ms ease;
+}
+.news-page-btn:hover,
+.news-page-arrow:hover { color: var(--text-hi); border-color: rgba(76,201,240,0.28); }
+.news-page-btn.is-active { background: var(--brand); color: #fff; border-color: var(--brand); }
+.news-page-arrow:disabled { opacity: 0.35; cursor: default; border-color: transparent; }
+.news-page-ellipsis,
+.news-page-total { color: var(--text-mute); font-family: var(--font-mono); font-size: 12px; }
+@media (max-width: 720px) {
+  .news-card::after { display: none; }
+  .news-card a { grid-template-columns: 1fr; gap: 12px; padding: 22px; }
+  .news-date { justify-items: start; padding: 0; display: flex; align-items: baseline; }
+  .news-card h4 { -webkit-line-clamp: 2; }
 }
 
 /* =========================================================
@@ -559,7 +679,6 @@
   .stats-bar { grid-template-columns: repeat(2,1fr); }
   .stat-cell:nth-child(2) { border-right: 0; }
   .stat-cell:nth-child(1), .stat-cell:nth-child(2) { border-bottom: 1px solid var(--line); }
-  .news-grid { grid-template-columns: 1fr 1fr; }
   .map-pin .label { font-size: 0.72rem; padding: 3px 7px; }
 }
 @media (max-width: 720px) {
@@ -866,8 +985,8 @@
     <div class="map-wrap" data-reveal>
       <div class="map-head">
         <div>
-          <h3>Beijing HQ · 北京总部</h3>
-          <p>以北京为总部，辐射 6 城数据基地与 2 处海外服务中心，确保高效服务响应与多语种交付能力。</p>
+          <h3>Qingdao HQ · 青岛总部</h3>
+          <p>以青岛为总部，遍布 6 城数据基地与 2 处海外服务中心，确保高效服务响应与多语种交付能力。</p>
         </div>
         <div class="map-stats">
           <div class="map-stat"><b>06</b><span>China bases</span></div>
@@ -997,26 +1116,10 @@
       <h2 class="display">新闻<span class="glow-text">资讯</span></h2>
       <p>关注标贝最新动态，了解 AI 数据领域前沿实践与行业洞察。</p>
     </div>
-    <div class="news-grid" data-reveal>
-      <article class="news-card">
-        <div class="news-date"><b>20</b><small>2026-05</small></div>
-        <h4>标贝科技高质量图像数据集，让 AI「看」得更准、更深</h4>
-        <p>面对计算机视觉领域日益复杂的应用需求，标贝科技依托深厚的数据服务积淀，匠心打造覆盖智慧教育、商业零售、文旅创意等主流场景的大规模专业化图像数据集。</p>
-        <a href="javascript:void(0)" class="news-more">阅读全文 →</a>
-      </article>
-      <article class="news-card">
-        <div class="news-date"><b>12</b><small>2026-05</small></div>
-        <h4>标贝科技亮相第 12 届上海国际人形机器人与供应链生态展览会</h4>
-        <p>第 12 届上海国际人形机器人与供应链生态展览会圆满落幕。标贝携具身智能数据解决方案亮相，集中展示在多模态数据采集、高精度标注、高质量数据集建设等领域的核心实力。</p>
-        <a href="javascript:void(0)" class="news-more">阅读全文 →</a>
-      </article>
-      <article class="news-card">
-        <div class="news-date"><b>24</b><small>2026-04</small></div>
-        <h4>从舞台到赛道：高质量数据驱动具身智能机器人「跨越式进化」</h4>
-        <p>2026 年马年春晚舞台上人形机器人方阵姿态流畅；时隔两月，北京亦庄机器人半马赛事再传捷报。再次刷新大众对机器人灵活性、耐力与自主性的认知上限。</p>
-        <a href="javascript:void(0)" class="news-more">阅读全文 →</a>
-      </article>
+    <div class="news-grid" id="aboutNewsGrid" data-reveal>
+      <div class="news-state">新闻加载中...</div>
     </div>
+    <nav class="news-pager" id="aboutNewsPager" aria-label="新闻分页"></nav>
   </div>
 </section>
 
@@ -1149,6 +1252,237 @@
   fillTrack('isoTrack',  ISO);
   fillTrack('certTrack', CERTS);
 
+  // ── 新闻资讯：复用旧官网列表接口，按旧站 40 页分页拉完整列表 ─────
+  const NEWS_API = 'https://www.data-baker.com/official-website/v1/about-us/baker-news/list';
+  const NEWS_PAGE_SIZE = 8;
+  const NEWS_ITEMS_PER_PAGE = 4;
+  const NEWS_CACHE_KEY = 'databaker:about-news:v1';
+  const NEWS_CACHE_MAX_AGE = 6 * 60 * 60 * 1000;
+  let aboutNewsRecords = [];
+  let aboutNewsPage = 1;
+  function escapeHTML(value) {
+    return String(value || '').replace(/[&<>"']/g, char => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;'
+    }[char]));
+  }
+  function splitNewsDate(value) {
+    const date = String(value || '').split(' ')[0];
+    const parts = date.split('-');
+    return {
+      day: parts[2] || '',
+      month: parts[0] && parts[1] ? parts[0] + '-' + parts[1] : date
+    };
+  }
+  function newsCard(item) {
+    const d = splitNewsDate(item.publishTime);
+    return `
+      <article class="news-card">
+        <a href="news_detail.html?id=${encodeURIComponent(item.id)}">
+          <div class="news-date"><b>${escapeHTML(d.day)}</b><small>${escapeHTML(d.month)}</small></div>
+          <div class="news-body">
+            <h4>${escapeHTML(item.newsTitle)}</h4>
+            <p>${escapeHTML(item.briefContent)}</p>
+          </div>
+        </a>
+      </article>
+    `;
+  }
+  function setNewsState(grid, html) {
+    grid.innerHTML = '<div class="news-state">' + html + '</div>';
+  }
+  function newsProgressHTML(loadedPages, totalPages) {
+    const total = Math.max(Number(totalPages) || 1, 1);
+    const loaded = Math.min(Math.max(Number(loadedPages) || 0, 0), total);
+    const percent = Math.round((loaded / total) * 100);
+    return `
+      <div class="news-progress">
+        <div class="news-progress-text">正在拉取完整新闻列表：<b>${percent}%</b></div>
+        <div class="news-progress-track" aria-hidden="true">
+          <div class="news-progress-bar" style="--progress:${percent}%"></div>
+        </div>
+      </div>
+    `;
+  }
+  function readNewsCache() {
+    try {
+      const raw = localStorage.getItem(NEWS_CACHE_KEY);
+      if (!raw) return null;
+      const cache = JSON.parse(raw);
+      if (!cache || !Array.isArray(cache.records) || !cache.records.length) return null;
+      return {
+        records: cache.records,
+        createdAt: Number(cache.createdAt) || 0,
+        total: Number(cache.total) || cache.records.length
+      };
+    } catch (error) {
+      return null;
+    }
+  }
+  function writeNewsCache(records, total) {
+    try {
+      localStorage.setItem(NEWS_CACHE_KEY, JSON.stringify({
+        createdAt: Date.now(),
+        total: total || records.length,
+        records
+      }));
+    } catch (error) {
+      // localStorage may be unavailable or full; the page can still use in-memory data.
+    }
+  }
+  function isNewsCacheFresh(cache) {
+    return cache && Date.now() - cache.createdAt < NEWS_CACHE_MAX_AGE;
+  }
+  function fetchNewsPage(page) {
+    return fetch(NEWS_API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ limit: NEWS_PAGE_SIZE, page })
+    })
+      .then(res => res.ok ? res.json() : Promise.reject(new Error('news api failed')))
+      .then(json => json && json.data ? json.data : {});
+  }
+  function fetchRemainingNews(totalPages, onProgress) {
+    const recordsByPage = [];
+    const concurrency = 4;
+    let nextPage = 2;
+    let loadedPages = 1;
+
+    function worker() {
+      if (nextPage > totalPages) return Promise.resolve();
+      const page = nextPage;
+      nextPage += 1;
+
+      return fetchNewsPage(page).then(data => {
+        recordsByPage[page] = data.records || [];
+        loadedPages += 1;
+        onProgress(loadedPages);
+        return worker();
+      });
+    }
+
+    const workerCount = Math.min(concurrency, Math.max(totalPages - 1, 0));
+    return Promise.all(Array.from({ length: workerCount }, worker)).then(() => {
+      const rest = [];
+      for (let page = 2; page <= totalPages; page++) {
+        rest.push(...(recordsByPage[page] || []));
+      }
+      return rest;
+    });
+  }
+  function compactNewsPages(current, total) {
+    const pages = new Set([1, total, current, current - 1, current + 1]);
+    if (current <= 4) {
+      for (let i = 2; i <= Math.min(6, total); i++) pages.add(i);
+    }
+    if (total - current <= 3) {
+      for (let i = Math.max(1, total - 5); i < total; i++) pages.add(i);
+    }
+    return Array.from(pages)
+      .filter(page => page >= 1 && page <= total)
+      .sort((a, b) => a - b)
+      .reduce((acc, page) => {
+        if (acc.length && page - acc[acc.length - 1] > 1) acc.push('...');
+        acc.push(page);
+        return acc;
+      }, []);
+  }
+  function renderAboutNewsPage() {
+    const grid = document.getElementById('aboutNewsGrid');
+    const pager = document.getElementById('aboutNewsPager');
+    if (!grid || !pager) return;
+
+    const totalPages = Math.max(1, Math.ceil(aboutNewsRecords.length / NEWS_ITEMS_PER_PAGE));
+    aboutNewsPage = Math.min(Math.max(aboutNewsPage, 1), totalPages);
+
+    const start = (aboutNewsPage - 1) * NEWS_ITEMS_PER_PAGE;
+    const pageList = aboutNewsRecords.slice(start, start + NEWS_ITEMS_PER_PAGE);
+    grid.innerHTML = pageList.length
+      ? pageList.map(newsCard).join('')
+      : '<div class="news-state">暂无新闻资讯</div>';
+
+    if (!pageList.length || totalPages <= 1) {
+      pager.innerHTML = '';
+      return;
+    }
+
+    const pages = compactNewsPages(aboutNewsPage, totalPages);
+    pager.innerHTML = `
+      <button class="news-page-arrow" type="button" data-news-page="${aboutNewsPage - 1}" ${aboutNewsPage === 1 ? 'disabled' : ''} aria-label="上一页">‹</button>
+      ${pages.map(page => page === '...'
+        ? '<span class="news-page-ellipsis">...</span>'
+        : '<button class="news-page-btn' + (page === aboutNewsPage ? ' is-active' : '') + '" type="button" data-news-page="' + page + '">' + page + '</button>'
+      ).join('')}
+      <button class="news-page-arrow" type="button" data-news-page="${aboutNewsPage + 1}" ${aboutNewsPage === totalPages ? 'disabled' : ''} aria-label="下一页">›</button>
+      <span class="news-page-total">共${totalPages}页</span>
+    `;
+  }
+  function bindAboutNewsPager() {
+    const pager = document.getElementById('aboutNewsPager');
+    const section = document.getElementById('news');
+    if (!pager) return;
+    pager.addEventListener('click', event => {
+      const btn = event.target.closest('[data-news-page]');
+      if (!btn || btn.disabled) return;
+      aboutNewsPage = Number(btn.dataset.newsPage) || 1;
+      renderAboutNewsPage();
+      if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
+  function fetchAllAboutNews(options) {
+    const opts = options || {};
+    const grid = document.getElementById('aboutNewsGrid');
+    if (grid && opts.showProgress) setNewsState(grid, '新闻加载中...');
+
+    return fetchNewsPage(1)
+      .then(firstPage => {
+        const totalPages = Number(firstPage.pages) || 1;
+        const total = Number(firstPage.total) || 0;
+
+        if (grid && opts.showProgress) {
+          setNewsState(grid, newsProgressHTML(1, totalPages));
+        }
+        return fetchRemainingNews(totalPages, loadedPages => {
+          if (grid && opts.showProgress) {
+            setNewsState(grid, newsProgressHTML(loadedPages, totalPages));
+          }
+        }).then(rest => ({
+          total,
+          list: (firstPage.records || []).concat(rest)
+        }));
+      });
+  }
+  function loadAboutNews() {
+    const grid = document.getElementById('aboutNewsGrid');
+    if (!grid) return;
+    const cache = readNewsCache();
+
+    if (cache) {
+      aboutNewsRecords = cache.records;
+      aboutNewsPage = 1;
+      renderAboutNewsPage();
+      if (isNewsCacheFresh(cache)) return;
+    } else {
+      setNewsState(grid, '新闻加载中...');
+    }
+
+    fetchAllAboutNews({ showProgress: !cache })
+      .then(result => {
+        aboutNewsRecords = result.list || [];
+        aboutNewsPage = 1;
+        writeNewsCache(aboutNewsRecords, result.total);
+        renderAboutNewsPage();
+      })
+      .catch(() => {
+        if (!cache) setNewsState(grid, '新闻暂时无法完整加载，请稍后再试。');
+      });
+  }
+  bindAboutNewsPager();
+  loadAboutNews();
+
   // ── 合作伙伴 改为四条 logo 图横向轮播（静态 PNG，无需 JS 渲染）──
 
   // ── 发展历程 已改为 5 列纵向，不再需要 phase pills + 滚动联动 ──
@@ -1275,13 +1609,13 @@
   ];
   CTX.forEach(poly => renderRegion(poly, 'ctx'));
 
-  // ── routes · Beijing → other locations (含跨太平洋至美国) ──
+  // ── routes · Qingdao HQ → other locations (含跨太平洋至美国) ──
   const routes = document.getElementById('mapRoutes');
-  const BJ = proj(116.4, 39.9);
+  const HQ = proj(120.4, 36.1);
   const DESTS = [
+    [116.4, 39.9],  // Beijing
     [125.3, 43.9],  // Changchun
     [117.2, 39.1],  // Tianjin
-    [120.4, 36.1],  // Qingdao
     [120.2, 30.3],  // Hangzhou
     [114.1, 22.5],  // Shenzhen
     [103.8,  1.4],  // Singapore
@@ -1290,13 +1624,13 @@
   DESTS.forEach(([lon, lat]) => {
     const to = proj(lon, lat);
     // 跨太平洋的弧线 control point 朝北偏移更明显（大地线效果）
-    const dx = to.x - BJ.x, dy = to.y - BJ.y;
+    const dx = to.x - HQ.x, dy = to.y - HQ.y;
     const dist = Math.hypot(dx, dy);
     const k = dist > 500 ? 0.18 : 0.10;
-    const mx = (BJ.x + to.x) / 2 + dy * k;
-    const my = (BJ.y + to.y) / 2 - dx * k;
+    const mx = (HQ.x + to.x) / 2 + dy * k;
+    const my = (HQ.y + to.y) / 2 - dx * k;
     routes.appendChild(el('path', {
-      d: `M${BJ.x.toFixed(1)} ${BJ.y.toFixed(1)} Q${mx.toFixed(1)} ${my.toFixed(1)} ${to.x.toFixed(1)} ${to.y.toFixed(1)}`,
+      d: `M${HQ.x.toFixed(1)} ${HQ.y.toFixed(1)} Q${mx.toFixed(1)} ${my.toFixed(1)} ${to.x.toFixed(1)} ${to.y.toFixed(1)}`,
       class: dist > 500 ? 'route dim' : 'route',
     }));
   });
@@ -1304,10 +1638,10 @@
   // ── pins ──
   const PIN_LAYER = document.getElementById('mapPinLayer');
   const CITIES = [
-    { name: '北京',   en: 'Beijing',   lon:  116.4, lat: 39.9, type: 'hq',       tag: 'HQ',       labelPos: 'right' },
+    { name: '北京',   en: 'Beijing',   lon:  116.4, lat: 39.9, type: 'base',     tag: 'BASE',     labelPos: 'right' },
     { name: '长春',   en: 'Changchun', lon:  125.3, lat: 43.9, type: 'base',     tag: 'BASE',     labelPos: 'right' },
     { name: '天津',   en: 'Tianjin',   lon:  117.2, lat: 39.1, type: 'base',     tag: 'BASE',     labelPos: 'left'  },
-    { name: '青岛',   en: 'Qingdao',   lon:  120.4, lat: 36.1, type: 'base',     tag: 'BASE',     labelPos: 'right' },
+    { name: '青岛',   en: 'Qingdao',   lon:  120.4, lat: 36.1, type: 'hq',       tag: 'HQ',       labelPos: 'right' },
     { name: '杭州',   en: 'Hangzhou',  lon:  120.2, lat: 30.3, type: 'base',     tag: 'BASE',     labelPos: 'right' },
     { name: '深圳',   en: 'Shenzhen',  lon:  114.1, lat: 22.5, type: 'base',     tag: 'BASE',     labelPos: 'left'  },
     { name: '新加坡', en: 'Singapore', lon:  103.8, lat:  1.4, type: 'overseas', tag: 'OVERSEAS', labelPos: 'above' },

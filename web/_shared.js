@@ -54,9 +54,9 @@
     { href: 'data_service_annotation.html', name: '数据标注服务', en: 'Annotation' },
   ];
   const SOL_VOICE = [
-    { href: 'voice_ai.html', name: 'ASR 语音识别', en: 'Speech Recognition', badge: '' },
-    { href: 'voice_ai.html', name: 'TTS 语音合成', en: 'Text-to-Speech',     badge: '' },
-    { href: 'voice_ai.html', name: '语音拓展产品', en: 'Voice Extension',    badge: '' },
+    { href: 'voice_ai.html#asr', name: 'ASR 语音识别', en: 'Speech Recognition', badge: '' },
+    { href: 'voice_ai.html#tts', name: 'TTS 语音合成', en: 'Text-to-Speech',     badge: '' },
+    { href: 'voice_ai.html#ext', name: '语音拓展产品', en: 'Voice Extension',    badge: '' },
   ];
 
   const INDUSTRY_SCENES = {
@@ -82,7 +82,7 @@
       services: [
         ['道路场景采集', '覆盖城市道路、高速、泊车、夜间、雨雾等关键场景数据采集。', 'images/scenes/auto.jpg'],
         ['2D/3D/4D 标注', '提供图像框、车道线、语义分割、点云框、连续帧追踪等标注。', 'images/datasets/cat-auto.jpg'],
-        ['驾驶行为识别', '构建分心、疲劳、危险动作与座舱交互相关数据。', 'images/scenes/service.jpg'],
+        ['驾驶行为识别', '构建分心、疲劳、危险动作与座舱交互相关数据。', 'images/scenes/auto03.jpg'],
         ['车载语音服务', '覆盖车载语音识别与语音合成，支持唤醒、指令理解、播报音色与座舱交互体验优化。', 'images/datasets/asr.jpg']
       ],
       advantages: ['多源传感器时间对齐', '连续帧 ID 一致性管理', '自动预标注提升效率', '场景库按研发需求切片'],
@@ -117,7 +117,7 @@
       ],
       advantages: ['隐私脱敏与权限管控', '金融字段体系可定制', '多轮质检保障一致性', '支持私有化流程交付'],
       cases: [
-        ['智能客服质检数据', '对通话内容进行转写、情绪、意图和合规点标注。', 'images/scenes/finance.jpg', ['ASR', '质检', '情绪']],
+        ['智能客服质检数据', '对通话内容进行转写、情绪、意图和合规点标注。', 'images/scenes/finance-case01.jpg', ['ASR', '质检', '情绪']],
         ['金融票据 OCR 数据', '构建票据检测、字段转写与版面结构数据集。', 'images/datasets/cat-ocr.jpg', ['OCR', '字段抽取', '版面']]
       ]
     },
@@ -141,14 +141,14 @@
       summary: '面向内容平台、电商、本地生活和在线服务场景，提供搜索推荐、商品理解、用户反馈和内容理解数据。',
       meta: ['商品理解', '推荐搜索', '用户反馈'],
       services: [
-        ['商品与内容理解', '标注商品属性、图文描述、类目体系和内容标签。', 'images/datasets/cat-retail.jpg'],
+        ['商品与内容理解', '标注商品属性、图文描述、类目体系和内容标签。', 'images/scenes/Internet01.png'],
         ['用户反馈分析', '对评论、客服工单、社区内容进行意图、情绪与主题归因。', 'images/scenes/service.jpg'],
         ['搜索推荐评测', '构建相关性、排序偏好与召回质量评测数据。', 'images/datasets/text.jpg']
       ],
       advantages: ['标签层级灵活扩展', '适配高并发批量交付', '支持图文多模态处理', '指标反馈驱动迭代'],
       cases: [
         ['电商商品属性标注', '对商品图文进行类目、属性、风格与适用场景标注。', 'images/datasets/cat-retail.jpg', ['商品', '属性', '图文']],
-        ['社区评论情绪分析', '为评论治理和推荐策略构建主题与情绪数据。', 'images/scenes/service.jpg', ['评论', '情绪', '主题']]
+        ['社区评论情绪分析', '为评论治理和推荐策略构建主题与情绪数据。', 'images/scenes/internetcase02.png', ['评论', '情绪', '主题']]
       ]
     },
     terminal: {
@@ -157,8 +157,8 @@
       meta: ['端侧交互', '语音视觉', '低延迟评测'],
       services: [
         ['唤醒与语音交互', '采集多环境、多口音、多距离语音，支持唤醒、识别和意图理解。', 'images/scenes/home.jpg'],
-        ['端侧视觉数据', '构建家庭、办公、户外等真实环境下的视觉识别数据。', 'images/datasets/image.jpg'],
-        ['设备体验评测', '围绕响应速度、误唤醒、识别准确率和用户体验搭建评测样本。', 'images/scenes/service.jpg']
+        ['端侧视觉数据', '构建家庭、办公、户外等真实环境下的视觉识别数据。', 'images/scenes/terminal02.png'],
+        ['设备体验评测', '围绕响应速度、误唤醒、识别准确率和用户体验搭建评测样本。', 'images/scenes/terminal03.png']
       ],
       advantages: ['覆盖真实设备环境', '支持噪声与远场采集', '多语种多口音可扩展', '交付格式适配端侧模型'],
       cases: [
@@ -171,13 +171,13 @@
       summary: '面向平台治理与安全合规场景，提供文本、图像、音视频与多模态内容审核数据、策略评测和模型对齐服务。',
       meta: ['安全合规', '多模态审核', '策略评测'],
       services: [
-        ['违规内容标注', '建设涉政、暴恐、低俗、广告、辱骂等多维审核标签数据。', 'images/scenes/service.jpg'],
+        ['违规内容标注', '建设涉政、暴恐、低俗、广告、辱骂等多维审核标签数据。', 'images/scenes/review01.png'],
         ['音视频审核数据', '对音频、视频、直播切片进行风险识别、时间戳与证据标注。', 'images/datasets/video.jpg'],
         ['审核策略评测', '构建误判、漏放、边界样本和模型对抗评测集。', 'images/datasets/text.jpg']
       ],
       advantages: ['风险标签体系可配置', '边界样本沉淀能力强', '支持多轮安全复核', '评测结果可回流模型'],
       cases: [
-        ['社区内容安全数据', '对图文帖、评论和短视频进行风险分类和证据标注。', 'images/scenes/service.jpg', ['图文', '短视频', '安全']],
+        ['社区内容安全数据', '对图文帖、评论和短视频进行风险分类和证据标注。', 'images/scenes/reviewcase01.png', ['图文', '短视频', '安全']],
         ['模型安全对齐评测', '构建敏感问题、拒答边界与合规回答评测样本。', 'images/scenes/llm.jpg', ['安全', '对齐', '评测']]
       ]
     }
@@ -430,10 +430,6 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         <span class="sb-label">咨询</span>
       </button>
-      <button class="sidebar-btn" onclick="openMessageModal()" title="留言">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v10c0 1.1-.9 2-2 2H8l-4 4V6c0-1.1.9-2 2-2z"/><path d="M8 9h8M8 13h5"/></svg>
-        <span class="sb-label">留言</span>
-      </button>
       <button class="sidebar-btn" title="客服二维码">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.45 2 2 0 0 1 3.59 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2z"/></svg>
         <span class="sb-label">客服</span>
@@ -541,64 +537,12 @@
         </a>
       </div>`;
 
-    /* 留言弹窗 */
-    const msgModal = document.createElement('div');
-    msgModal.className = 'msg-modal';
-    msgModal.id = 'messageModal';
-    msgModal.innerHTML = `
-      <div class="msg-box" role="dialog" aria-labelledby="msgModalTitle" aria-modal="true">
-        <div class="msg-head">
-          <span id="msgModalTitle">请您留言</span>
-          <button class="msg-min" onclick="closeMessageModal()" aria-label="关闭" title="关闭">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14"/></svg>
-          </button>
-        </div>
-        <form class="msg-body" onsubmit="return submitMessageForm(event)" novalidate>
-          <div class="msg-corp">
-            <p class="msg-corp-name">北京标贝科技股份有限公司</p>
-            <p class="msg-corp-tel">400-898-2016、010-8260-3083</p>
-          </div>
-          <div class="msg-field">
-            <textarea name="content" rows="3" required placeholder="请在此输入留言内容，我们会尽快与您联系。（必填）"></textarea>
-          </div>
-          <div class="msg-field">
-            <span class="msg-pre">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            </span>
-            <input type="text" name="name" required placeholder="姓名（必填）" />
-          </div>
-          <div class="msg-field">
-            <span class="msg-pre">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.45 2 2 0 0 1 3.59 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2z"/></svg>
-            </span>
-            <input type="tel" name="phone" required pattern="^[0-9+\\-\\s()]{6,20}$" placeholder="电话（必填）" />
-          </div>
-          <div class="msg-field">
-            <span class="msg-pre">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-            </span>
-            <input type="text" name="org" required placeholder="学校/企业（必填）" />
-          </div>
-          <div class="msg-field">
-            <span class="msg-pre">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></svg>
-            </span>
-            <input type="email" name="email" placeholder="邮箱" />
-          </div>
-          <div class="msg-actions">
-            <button type="submit" class="msg-submit">提交</button>
-          </div>
-        </form>
-      </div>`;
-
     document.body.appendChild(sidebar);
     document.body.appendChild(modal);
     document.body.appendChild(chat);
-    document.body.appendChild(msgModal);
 
     /* 点击背景关闭弹窗 */
     modal.addEventListener('click', e => { if (e.target === modal) closeTrialModal(); });
-    msgModal.addEventListener('click', e => { if (e.target === msgModal) closeMessageModal(); });
   }
 
   /* 全局暴露弹窗方法 */
@@ -606,78 +550,6 @@
   window.closeTrialModal = () => document.getElementById('trialModal').classList.remove('is-open');
   window.openChatPopup   = () => document.getElementById('chatPopup').classList.add('is-open');
   window.closeChatPopup  = () => document.getElementById('chatPopup').classList.remove('is-open');
-  window.openMessageModal = () => {
-    const m = document.getElementById('messageModal');
-    if (!m) return;
-    m.classList.add('is-open');
-    setTimeout(() => { const t = m.querySelector('textarea'); if (t) t.focus(); }, 80);
-  };
-  window.closeMessageModal = () => {
-    const m = document.getElementById('messageModal');
-    if (m) m.classList.remove('is-open');
-  };
-  /* 留言提交 → DataBakerAPI.submitForm（接口与移动端一致：
-     POST /customer/demand/uploadV2，含 bd_vid 转化跟踪与手机号校验，
-     参考原官网 footerForm.vue / mobile/js/api.js） */
-  const LEAD_FORM_TYPE = 7;            // formType：与官网“留资”表单一致
-  const LEAD_SOURCE_INFO = 'PC端留言'; // sourceInfo：会自动按 bd_vid 加 “SEM-” 前缀
-
-  window.submitMessageForm = async (ev) => {
-    ev.preventDefault();
-    const form = ev.target;
-    const get = n => (form.elements[n] && form.elements[n].value || '').trim();
-    const lead = {
-      customerName:    get('name'),
-      customerMobile:  get('phone'),
-      customerCompany: get('org'),
-      customerEmail:   get('email'),
-      demandContent:   get('content')
-    };
-
-    /* 前端必填高亮（content/name/phone/org），手机号交由 DataBakerAPI.validateLead 校验 */
-    let firstInvalid = null;
-    [['content', !!lead.demandContent],
-     ['name',    !!lead.customerName],
-     ['phone',   /^1[3456789]\d{9}$/.test(lead.customerMobile)],
-     ['org',     !!lead.customerCompany]].forEach(([n, ok]) => {
-      const el = form.elements[n];
-      if (!el) return;
-      el.closest('.msg-field').classList.toggle('is-invalid', !ok);
-      if (!ok && !firstInvalid) firstInvalid = el;
-    });
-
-    const api = window.DataBakerAPI;
-    /* 校验 */
-    const err = api ? api.validateLead(lead) : (firstInvalid ? '请完整填写必填项' : '');
-    if (err || firstInvalid) {
-      if (firstInvalid) firstInvalid.focus();
-      if (err) alert(err);
-      return false;
-    }
-
-    const btn = form.querySelector('.msg-submit');
-    const old = btn.textContent;
-    btn.disabled = true; btn.textContent = '提交中…';
-
-    try {
-      if (!api) throw new Error('接口未就绪，请稍后重试');
-      await api.submitForm(lead, { formType: LEAD_FORM_TYPE, sourceInfo: LEAD_SOURCE_INFO });
-      btn.textContent = '✓ 提交成功';
-      setTimeout(() => {
-        form.reset();
-        form.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
-        btn.disabled = false; btn.textContent = old;
-        window.closeMessageModal();
-      }, 900);
-    } catch (e) {
-      alert((e && e.message) || '提交失败，请稍后重试');
-      btn.disabled = false; btn.textContent = old;
-    }
-    return false;
-  };
-
-  /* 在线咨询「转人工客服」→ 唤起百度商桥/爱番番（与移动端一致），
-     页内组件未就绪时回退到商桥对话页（参考 mobile/index.html openHumanChat） */
   const QIAO_URL = 'https://p.qiao.baidu.com/cps/chat?siteId=14907061&userId=30234502';
   window.openHumanChat = function () {
     try {
@@ -700,14 +572,6 @@
   }
   loadOnce('js/api.js');
   loadOnce('js/baidu.js');
-  /* ESC 关闭留言弹窗 */
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      const m = document.getElementById('messageModal');
-      if (m && m.classList.contains('is-open')) window.closeMessageModal();
-    }
-  });
-
   /* ── Cursor ─────────────────────────────────────── */
   function cursor() {
     if (!matchMedia('(hover: hover)').matches) return;
@@ -853,8 +717,8 @@
             </div>
           </div>
           <div class="block-head"><h3>优势特点</h3><p>围绕数据质量、效率、安全与交付一致性建立项目保障机制。</p></div>
-          <div class="advantage-grid">${scene.advantages.map(a => `<div class="advantage-card"><strong>${a}</strong><p>结合场景 SOP、自动化工具与多轮质检，将需求拆解为可管理、可追踪、可复用的数据资产。</p></div>`).join('')}</div>
-          <div class="block-head"><h3>成功案例</h3><p>案例采用左右交叉的 S 型叙事，便于后续替换为真实项目图片和客户成果。</p></div>
+          <div class="advantage-grid">${scene.advantages.map(a => `<div class="advantage-card"><strong>${a}</strong></div>`).join('')}</div>
+          <div class="block-head"><h3>成功案例</h3></div>
           <div class="case-list">${scene.cases.map((c, i) => `<div class="case-row"><div class="case-img"><img src="${c[2]}" alt="${c[0]}" loading="lazy" onerror="this.hidden=true"></div><div class="case-text"><div class="num">CASE ${String(i + 1).padStart(2, '0')}</div><h4>${c[0]}</h4><p>${c[1]}</p><div class="case-tags">${c[3].map(t => `<span>${t}</span>`).join('')}</div></div></div>`).join('')}</div>
         </div>
       </section>`;
@@ -1001,7 +865,7 @@
                     <span class="sa-tag">ROBOT · VLA · MULTIMODAL</span>
                     <div class="sa-cap">核心能力</div>
                     <p>面向机器人与具身智能体的多模态数据，覆盖视觉、语音、动作轨迹与操作示教，支撑感知—决策—控制闭环训练。</p>
-                    <a class="sa-link" href="javascript:void(0)" onclick="openMessageModal()">获取方案<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                    <a class="sa-link" href="javascript:void(0)" onclick="openTrialModal()">获取方案<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
                   </div>
                 </div>
               </div>
@@ -1014,7 +878,7 @@
                     <span class="sa-tag">DIALOG · QA</span>
                     <div class="sa-cap">核心能力</div>
                     <p>外呼质检、坐席辅助、意图理解，提供高质量对话与语音语料。</p>
-                    <a class="sa-link" href="javascript:void(0)" onclick="openMessageModal()">获取方案<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                    <a class="sa-link" href="javascript:void(0)" onclick="openTrialModal()">获取方案<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
                   </div>
                 </div>
               </div>
@@ -1027,7 +891,7 @@
                     <span class="sa-tag">3D · LIDAR · BEV</span>
                     <div class="sa-cap">核心能力</div>
                     <p>3D 点云、4D BEV、车道线、舱内行为多模态数据，加速自动驾驶研发。</p>
-                    <a class="sa-link" href="javascript:void(0)" onclick="openMessageModal()">获取方案<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                    <a class="sa-link" href="javascript:void(0)" onclick="openTrialModal()">获取方案<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
                   </div>
                 </div>
               </div>
@@ -1040,7 +904,7 @@
                     <span class="sa-tag">FAR-FIELD · IOT</span>
                     <div class="sa-cap">核心能力</div>
                     <p>远场唤醒、近场指令、声源定位等小型设备 AI 训练数据。</p>
-                    <a class="sa-link" href="javascript:void(0)" onclick="openMessageModal()">获取方案<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                    <a class="sa-link" href="javascript:void(0)" onclick="openTrialModal()">获取方案<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
                   </div>
                 </div>
               </div>
@@ -1053,7 +917,7 @@
                     <span class="sa-tag">OCR · COMPLIANCE</span>
                     <div class="sa-cap">核心能力</div>
                     <p>金融术语语音、证件文档 OCR、风控文本，满足金融合规要求。</p>
-                    <a class="sa-link" href="javascript:void(0)" onclick="openMessageModal()">获取方案<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                    <a class="sa-link" href="javascript:void(0)" onclick="openTrialModal()">获取方案<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
                   </div>
                 </div>
               </div>
@@ -1066,7 +930,7 @@
                     <span class="sa-tag">MEDICAL · EHR</span>
                     <div class="sa-cap">核心能力</div>
                     <p>医学影像、电子病历、医疗对话语料，加速医疗 AI 算法落地。</p>
-                    <a class="sa-link" href="javascript:void(0)" onclick="openMessageModal()">获取方案<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                    <a class="sa-link" href="javascript:void(0)" onclick="openTrialModal()">获取方案<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
                   </div>
                 </div>
               </div>
@@ -1079,7 +943,7 @@
                     <span class="sa-tag">K12 · NLP</span>
                     <div class="sa-cap">核心能力</div>
                     <p>儿童语料、学科文本、双语翻译数据，支撑教育领域智能化产品。</p>
-                    <a class="sa-link" href="javascript:void(0)" onclick="openMessageModal()">获取方案<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                    <a class="sa-link" href="javascript:void(0)" onclick="openTrialModal()">获取方案<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
                   </div>
                 </div>
               </div>
@@ -1092,7 +956,7 @@
                     <span class="sa-tag">PRETRAIN · SFT · RLHF</span>
                     <div class="sa-cap">核心能力</div>
                     <p>预训练语料、SFT 指令对、RLHF 偏好数据，覆盖 LLM 全链路。</p>
-                    <a class="sa-link" href="javascript:void(0)" onclick="openMessageModal()">获取方案<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                    <a class="sa-link" href="javascript:void(0)" onclick="openTrialModal()">获取方案<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
                   </div>
                 </div>
               </div>

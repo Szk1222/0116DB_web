@@ -236,6 +236,7 @@ h2.display, h1.display {
 .news-more { display: inline-flex; align-items: center; gap: 6px; color: var(--brand-hi); font-family: var(--font-display); font-size: 0.86rem; font-weight: 600; white-space: nowrap; }
 .news-more svg { transition: transform 200ms ease; }
 .news-card:hover .news-more svg { transform: translateX(4px); }
+.news-state { grid-column: 1 / -1; padding: 28px; border: 1px solid var(--line); border-radius: var(--r-lg); color: var(--text-mute); text-align: center; background: rgba(13,26,58,0.32); }
 @media (max-width: 720px) { .news-grid { grid-template-columns: 1fr; } }
 
 /* =========================================================
@@ -1273,47 +1274,11 @@ h2.display, h1.display {
       <h2 class="display">新闻<span class="glow-text">资讯</span></h2>
       <p>洞察 AI 数据行业前沿动态，了解标贝科技最新产品与合作进展。</p>
     </div>
-    <div class="news-grid" data-reveal>
-
-      <a class="news-card" href="javascript:void(0)">
-        <h3>标贝科技携全栈图像视觉数据解决方案亮相2026中国图像图形大会</h3>
-        <p>5月30日，2026中国图像图形大会CCIG 2026在广州盛大开幕。本届大会以“图绘湾区，象启新元”为主题，汇聚了全国顶尖高校、科研院所及行业企业的4000余名产学研精英。标贝科技携最新图像视觉数据解决方案亮相会议，与行业同仁共探计算机视觉技术的产学研融合创新之路。</p>
-        <div class="news-foot"><span class="news-date">发布时间：2026-06-02</span><span class="news-more">查看详情 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></div>
-      </a>
-
-      <a class="news-card" href="javascript:void(0)">
-        <h3>标贝科技高字准率小语种数据集 破局小语种语音交互壁垒</h3>
-        <p>随着中国智能硬件、新能源汽车、消费电子及互联网服务加速全球化，多语种自然交互的本地化能力已成为产品出海的核心竞争力。标贝科技依托全球化数据采集网络与工业化生产管线，推出日语、韩语、俄语三大语音数据集，总规模达3万小时，覆盖近30万余个男女音色，文本字准率抽检98%以上，有效补齐热门小语种数据短板。</p>
-        <div class="news-foot"><span class="news-date">发布时间：2026-05-28</span><span class="news-more">查看详情 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></div>
-      </a>
-
-      <a class="news-card" href="javascript:void(0)">
-        <h3>标贝科技高质量图像数据集，让AI“看”得更准、更深</h3>
-        <p>面对计算机视觉领域日益复杂的应用需求，标贝科技依托深厚的数据服务积淀，匠心打造了一系列覆盖智慧教育、商业零售、文旅创意等主流场景的大规模专业化图像数据集。旨在为OCR识别、图像增强、目标检测与分割等前沿算法提供高标准、精细化的训练支撑，全面加速AI视觉技术的商业化落地进程。</p>
-        <div class="news-foot"><span class="news-date">发布时间：2026-05-20</span><span class="news-more">查看详情 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></div>
-      </a>
-
-      <a class="news-card" href="javascript:void(0)">
-        <h3>标贝科技亮相第12届上海国际人形机器人与供应链生态展览会</h3>
-        <p>近日，第12届上海国际人形机器人与供应链生态展览会在上海国家会展中心圆满落幕。标贝科技携具身智能数据解决方案亮相展会，集中展示在多模态数据采集、高精度标注、高质量数据集建设等领域的核心技术实力，与产业链同仁共探具身智能技术创新与商业化落地路径。</p>
-        <div class="news-foot"><span class="news-date">发布时间：2026-05-12</span><span class="news-more">查看详情 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></div>
-      </a>
-
-      <a class="news-card" href="javascript:void(0)">
-        <h3>从舞台到赛道：高质量数据驱动具身智能机器人“跨越式进化”</h3>
-        <p>2026年马年春晚舞台上，人形机器人方阵姿态流畅的惊艳表现仍令人记忆犹新；时隔两个月，北京亦庄机器人半马赛事再传捷报，冠军机器人以50分26秒的成绩完赛，大幅超越人类男子半马世界纪录，再次刷新大众对机器人运动灵活性、耐力与自主性的认知上限。</p>
-        <div class="news-foot"><span class="news-date">发布时间：2026-04-24</span><span class="news-more">查看详情 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></div>
-      </a>
-
-      <a class="news-card" href="javascript:void(0)">
-        <h3>标贝科技入选《2026中国数据标注领域最具商业合作价值企业》</h3>
-        <p>近日，数据猿联合上海大数据联盟发布《2026中国数据标注领域最具商业合作价值企业盘点》。标贝科技凭借在AI数据服务领域的技术实力和全模态数据解决方案，成功入选榜单。</p>
-        <div class="news-foot"><span class="news-date">发布时间：2026-04-21</span><span class="news-more">查看详情 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></div>
-      </a>
-
+    <div class="news-grid" id="homeNewsGrid" data-reveal>
+      <div class="news-state">新闻加载中...</div>
     </div>
     <div style="text-align:center;margin-top:40px;" data-reveal>
-      <a href="javascript:void(0)" class="btn btn-ghost">更多新闻资讯 <svg class="btn-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      <a href="about.html#news" class="btn btn-ghost">更多新闻资讯 <svg class="btn-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
     </div>
   </div>
 </section>
@@ -1354,8 +1319,8 @@ h2.display, h1.display {
           </div>
         </div>
       <div class="cta-actions" style="justify-content:center;margin-top:30px;">
-        <a class="btn btn-primary" href="mailto:contact@databaker.com" data-magnetic>
-          联系我们 contact@databaker.com
+        <a href="javascript:void(0)" onclick="openTrialModal()" class="btn btn-primary" data-magnetic>
+          联系我们 contact
           <svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
       </div>
@@ -1414,6 +1379,62 @@ h2.display, h1.display {
     });
   }, { threshold: 0.12, rootMargin: '0px 0px -10% 0px' });
   document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
+})();
+
+/* =========================================================
+   Home news · old official site API
+   ========================================================= */
+(function() {
+  const API = 'https://www.data-baker.com/official-website/v1/about-us/baker-news/list';
+  const grid = document.getElementById('homeNewsGrid');
+  if (!grid) return;
+
+  function escapeHTML(value) {
+    return String(value || '').replace(/[&<>"']/g, char => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;'
+    }[char]));
+  }
+
+  function dateOnly(value) {
+    return String(value || '').split(' ')[0];
+  }
+
+  function arrowIcon() {
+    return '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+  }
+
+  function card(item) {
+    return `
+      <a class="news-card" href="news_detail.html?id=${encodeURIComponent(item.id)}">
+        <h3>${escapeHTML(item.newsTitle)}</h3>
+        <p>${escapeHTML(item.briefContent)}</p>
+        <div class="news-foot">
+          <span class="news-date">发布时间：${escapeHTML(dateOnly(item.publishTime))}</span>
+          <span class="news-more">查看详情 ${arrowIcon()}</span>
+        </div>
+      </a>
+    `;
+  }
+
+  fetch(API, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ limit: 6, page: 1 })
+  })
+    .then(res => res.ok ? res.json() : Promise.reject(new Error('news api failed')))
+    .then(json => {
+      const list = (json && json.data && json.data.records) || [];
+      grid.innerHTML = list.length
+        ? list.slice(0, 6).map(card).join('')
+        : '<div class="news-state">暂无新闻资讯</div>';
+    })
+    .catch(() => {
+      grid.innerHTML = '<div class="news-state">新闻暂时无法加载，请稍后再试。</div>';
+    });
 })();
 
 /* =========================================================
