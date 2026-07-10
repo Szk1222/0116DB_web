@@ -1,0 +1,193 @@
+<h1>录音文件识别 Restful API</h1>
+<p class="doc-lead">录音文件识别用于对已经录制完成的音频文件进行文字转写。接口采用异步调用方式，提交音频文件或可下载的文件 URL 后，系统创建识别任务，识别完成后可通过主动轮询或回调通知获取结果。</p>
+
+<h2 id="asr-file-rest-intro">功能介绍</h2>
+<ul>
+<li>支持通过请求体直接上传音频二进制数据。</li>
+<li>支持提交外网可访问的 <code>file_url</code>，服务端从指定 URL 下载音频文件。</li>
+<li>支持主动轮询查询任务结果，也支持在创建任务时传入 <code>callback_url</code> 接收回调通知。</li>
+<li>直接上传音频数据时，单次文件最大 <code>64MB</code>；通过音频 URL 提交时，文件最大 <code>512MB</code>。</li>
+<li>识别结果返回耗时受音频时长和排队任务量影响；高峰期请耐心等待。</li>
+</ul>
+
+<h2 id="asr-file-rest-audio">音频要求</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>项目</th><th>要求</th></tr>
+<tr><td>单声道格式</td><td><code>wav</code>、<code>pcm</code>、<code>mp3</code>、<code>ogg</code>、<code>flac</code></td></tr>
+<tr><td>双声道格式</td><td><code>wav</code>、<code>mp3</code>、<code>ogg</code>、<code>flac</code></td></tr>
+<tr><td>采样率</td><td><code>8000Hz</code>、<code>16000Hz</code>。音频采样率高于 <code>16000Hz</code> 时，会按参数指定采样率降采样后识别。</td></tr>
+<tr><td>位深</td><td><code>16bits</code></td></tr>
+</table>
+</div>
+
+<h2 id="asr-file-rest-usage">使用方法</h2>
+<ol>
+<li>创建账号和应用，在开放平台应用服务中获取 <code>client_id</code> 与 <code>client_secret</code>。</li>
+<li>调用授权服务获取 <code>access_token</code>。</li>
+<li>调用新建任务接口，上传音频数据或传入 <code>file_url</code>，获取 <code>taskid</code>。</li>
+<li>如果未设置 <code>callback_url</code>，使用 <code>taskid</code> 主动轮询查询识别结果。</li>
+<li>如果设置了 <code>callback_url</code>，识别结束后服务端会向回调地址发送结果；长时间未收到回调时仍可使用 <code>taskid</code> 查询。</li>
+</ol>
+
+<h2 id="asr-file-rest-endpoint">服务地址</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>访问类型</th><th>接口</th><th>URL</th><th>Host</th></tr>
+<tr><td>外网访问</td><td>新建任务</td><td><code>https://openapi.data-baker.com/asr/starttask?</code></td><td><code>openapi.data-baker.com</code></td></tr>
+<tr><td>外网访问</td><td>查询结果</td><td><code>https://openapi.data-baker.com/asr/taskresult?</code></td><td><code>openapi.data-baker.com</code></td></tr>
+</table>
+</div>
+
+<h2 id="asr-file-rest-create">新建任务请求参数</h2>
+<h3>请求 Headers</h3>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>参数名称</th><th>类型</th><th>是否必填</th><th>说明</th></tr>
+<tr><td><code>access_token</code></td><td>string</td><td>是</td><td>通过 <code>client_id</code>、<code>client_secret</code> 调用授权服务获得。</td></tr>
+<tr><td><code>file_url</code></td><td>string</td><td>否</td><td>外网可访问的录音文件 URL。未指定时，请将音频二进制数据放入 HTTP 请求体；指定后服务端会忽略请求体并从该 URL 下载音频。</td></tr>
+<tr><td><code>callback_url</code></td><td>string</td><td>否</td><td>识别结果回调 URL。传入后识别结束会通过回调通知；未传入时通过查询接口轮询。</td></tr>
+<tr><td><code>channel</code></td><td>integer</td><td>是</td><td>录音文件声道数，<code>1</code> 单声道，<code>2</code> 双声道。</td></tr>
+<tr><td><code>audio_format</code></td><td>string</td><td>是</td><td>音频格式，如 <code>wav</code>、<code>pcm</code>、<code>mp3</code>、<code>ogg</code>、<code>flac</code>。</td></tr>
+<tr><td><code>sample_rate</code></td><td>integer</td><td>是</td><td>音频采样率，支持 <code>8000</code>、<code>16000</code>。</td></tr>
+<tr><td><code>domain</code></td><td>string</td><td>否</td><td>模型名称，默认 <code>common</code>。</td></tr>
+<tr><td><code>add_pct</code></td><td>boolean</td><td>否</td><td>是否添加标点，<code>true</code> 添加，<code>false</code> 不添加。</td></tr>
+<tr><td><code>hotwordid</code></td><td>string</td><td>否</td><td>配置的热词组 ID。</td></tr>
+<tr><td><code>diylmid</code></td><td>string</td><td>否</td><td>ASR 个性化模型 ID。</td></tr>
+<tr><td><code>enable_itn</code></td><td>boolean</td><td>否</td><td>是否将中文数字转换为阿拉伯数字，仅支持 3 位及以上数字串。</td></tr>
+<tr><td><code>auto_split</code></td><td>boolean</td><td>否</td><td>是否开启说话人分离。该能力处于测试阶段，支持 2 个说话人分离。</td></tr>
+</table>
+</div>
+<h3>请求体</h3>
+<p>未指定 <code>file_url</code> 时，请将二进制音频数据放到 HTTP 请求体中；指定 <code>file_url</code> 时，服务端将忽略 HTTP 请求体。</p>
+
+<h2 id="asr-file-rest-create-example">新建任务示例</h2>
+<pre><code class="language-python">import requests
+
+url = "https://openapi.data-baker.com/asr/starttask?"
+headers = {
+    "access_token": "ACCESS_TOKEN",
+    "audio_format": "wav",
+    "sample_rate": "16000",
+    "channel": "1",
+    "domain": "common"
+}
+
+with open("test.wav", "rb") as f:
+    response = requests.post(url, headers=headers, data=f)
+
+task_id = response.json().get("taskid")
+print(task_id)</code></pre>
+<p>示例代码参考：<a href="https://github.com/data-baker/BakerSpeechApiDemo/tree/main/asr-rest-api/audio_file_recognition" target="_blank" rel="noopener">audio_file_recognition</a></p>
+
+<h2 id="asr-file-rest-create-response">新建任务响应结果</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>字段</th><th>类型</th><th>说明</th></tr>
+<tr><td><code>trace_id</code></td><td>string</td><td>日志 ID，遇到问题时可用于跟踪排查。</td></tr>
+<tr><td><code>code</code></td><td>int</td><td>请求结果码，成功为 <code>20000</code>。</td></tr>
+<tr><td><code>info</code></td><td>string</td><td>任务结果描述，请求失败时可根据该字段分析问题。</td></tr>
+<tr><td><code>taskid</code></td><td>string</td><td>识别任务 ID，后续查询识别结果时使用。</td></tr>
+</table>
+</div>
+
+<h2 id="asr-file-rest-query">查询识别结果</h2>
+<p>主动轮询时，调用查询结果接口，并在 Header 中传入 <code>access_token</code> 与 <code>taskid</code>。</p>
+<pre><code class="language-python">import time
+import requests
+
+url = "https://openapi.data-baker.com/asr/taskresult?"
+headers = {
+    "access_token": "ACCESS_TOKEN",
+    "taskid": "TASK_ID"
+}
+
+while True:
+    result = requests.post(url, headers=headers).json()
+    if result.get("code") in (20000, 20001, 20005):
+        if result.get("text"):
+            print(result["text"].get("left_result"))
+            break
+        time.sleep(2)
+    else:
+        raise RuntimeError(result)</code></pre>
+
+<h2 id="asr-file-rest-result">识别结果参数</h2>
+<p>查询结果或回调通知均以 JSON 返回。任务失败时 <code>text</code> 为空。</p>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>字段</th><th>类型</th><th>说明</th></tr>
+<tr><td><code>trace_id</code></td><td>string</td><td>日志 ID。</td></tr>
+<tr><td><code>code</code></td><td>int</td><td>任务状态或错误码。</td></tr>
+<tr><td><code>info</code></td><td>string</td><td>任务结果描述。</td></tr>
+<tr><td><code>text</code></td><td>object</td><td>识别结果对象。</td></tr>
+<tr><td><code>left_duration</code></td><td>int</td><td>左声道时长，单位毫秒。</td></tr>
+<tr><td><code>right_duration</code></td><td>int</td><td>右声道时长，单位毫秒。</td></tr>
+</table>
+</div>
+
+<h3>text 内部结构</h3>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>字段</th><th>类型</th><th>说明</th></tr>
+<tr><td><code>left_result</code></td><td>string</td><td>左声道全部识别结果。</td></tr>
+<tr><td><code>right_result</code></td><td>string</td><td>右声道全部识别结果。</td></tr>
+<tr><td><code>left_result_array</code></td><td>array</td><td>左声道分段识别结果。</td></tr>
+<tr><td><code>right_result_array</code></td><td>array</td><td>右声道分段识别结果。</td></tr>
+</table>
+</div>
+
+<h3>分段结果结构</h3>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>字段</th><th>类型</th><th>说明</th></tr>
+<tr><td><code>result</code></td><td>string</td><td>该分段语音识别结果，失败时为空。</td></tr>
+<tr><td><code>confidence</code></td><td>int</td><td>整句置信度，范围 <code>0-100</code>。</td></tr>
+<tr><td><code>speakerid</code></td><td>int</td><td>说话人 ID。开启说话人分离后为 <code>1</code> 或 <code>2</code>，关闭后为 <code>-1</code>。</td></tr>
+<tr><td><code>sos</code></td><td>float</td><td>该句在音频中的绝对开始时间点，单位秒。</td></tr>
+<tr><td><code>eos</code></td><td>float</td><td>该句在音频中的绝对结束时间点，单位秒。</td></tr>
+<tr><td><code>segment_code</code></td><td>int</td><td>分段任务 code，旧站文档标注暂时固定为 <code>20000</code>。</td></tr>
+<tr><td><code>speed</code></td><td>int</td><td>语速，范围 <code>0-2000</code>。</td></tr>
+<tr><td><code>speed_label</code></td><td>string</td><td>语速标签：<code>FAST</code>、<code>MEDIUM</code>、<code>SLOW</code>。</td></tr>
+<tr><td><code>volume</code></td><td>int</td><td>音量，范围 <code>0-100</code>。</td></tr>
+<tr><td><code>volume_label</code></td><td>string</td><td>音量标签：<code>SILENT</code>、<code>XSOFT</code>、<code>SOFT</code>、<code>MEDIUM</code>、<code>LOUD</code>、<code>XLOUD</code>。</td></tr>
+<tr><td><code>words</code></td><td>array</td><td>词级别识别结果，包含 <code>confidence</code>、<code>sos</code>、<code>eos</code>、<code>word</code>。</td></tr>
+</table>
+</div>
+
+<h2 id="asr-file-rest-callback">回调通知</h2>
+<p>创建任务时传入 <code>callback_url</code> 后，识别完成会将识别结果发送到该地址。若长时间未收到回调，仍可根据 <code>taskid</code> 调用查询接口。</p>
+<pre><code class="language-python">from flask import Flask, request
+import json
+
+app = Flask(__name__)
+
+@app.route("/", methods=["GET", "POST"])
+def get_text():
+    payload = json.loads(request.get_data())
+    text = payload["text"]["left_result"]
+    with open("result.txt", "w", encoding="utf-8") as f:
+        f.write(text)
+    return "finished"</code></pre>
+
+<h2 id="asr-file-rest-errors">错误码</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>错误码</th><th>含义</th><th>处理建议</th></tr>
+<tr><td><code>20000</code></td><td>请求成功</td><td>按响应内容解析。</td></tr>
+<tr><td><code>20001</code></td><td>任务正在处理</td><td>等待一段时间后继续查询。</td></tr>
+<tr><td><code>20002</code></td><td><code>taskid</code> 无效</td><td>使用新建识别任务返回的 <code>taskid</code>。</td></tr>
+<tr><td><code>20005</code></td><td>任务在队列中等待调度执行</td><td>等待前序任务结束后自动处理。</td></tr>
+<tr><td><code>20006</code></td><td>音频分割后部分识别失败</td><td>重新发送识别请求或联系技术人员。</td></tr>
+<tr><td><code>20007</code></td><td>音频分割后全部识别失败</td><td>检查音频质量和格式后重试。</td></tr>
+<tr><td><code>30001</code></td><td>HTTP 请求参数错误</td><td>检查请求参数。</td></tr>
+<tr><td><code>30002</code></td><td>服务内部错误</td><td>保留 TraceID 并排查。</td></tr>
+<tr><td><code>30003</code></td><td>识别结果解析出错</td><td>保留响应内容并排查。</td></tr>
+<tr><td><code>30005</code></td><td>语音质量问题</td><td>检查音频清晰度、噪声和格式。</td></tr>
+<tr><td><code>30006</code></td><td>输入语音过长</td><td>控制音频时长或拆分文件。</td></tr>
+<tr><td><code>30015</code></td><td>单个语音分片过长</td><td>检查上传文件大小。</td></tr>
+<tr><td><code>30016</code></td><td>回调 URL 失败</td><td>检查回调地址可访问性和服务状态。</td></tr>
+<tr><td><code>50002</code></td><td>内部 RPC 调用失败</td><td>稍后重试或联系技术人员。</td></tr>
+<tr><td><code>50009</code></td><td>其他内部错误</td><td>保留 TraceID 并排查。</td></tr>
+</table>
+</div>

@@ -1,0 +1,96 @@
+<h1>定制模型 RESTful API</h1>
+<p class="doc-lead">定制模型 RESTful API 用于提交声音复刻训练任务。接口接收多段复刻音频和回调地址，初步校验成功后返回 <code>modelId</code>，并异步完成模型训练。</p>
+
+<h2 id="vc-custom-rest-intro">功能介绍</h2>
+<ul>
+<li>支持上传 <code>wav</code>、<code>pcm</code> 音频文件。</li>
+<li>音频采样率要求 <code>16000Hz</code>，位深 <code>16bits</code>，单声道。</li>
+<li>支持中文声音复刻训练。</li>
+<li>有效音频时长建议不小于 <code>3</code> 分钟；实际会结合识别出的字数进行判定。</li>
+<li>训练结果通过 <code>notifyUrl</code> 异步回调返回。</li>
+</ul>
+
+<h2 id="vc-custom-rest-endpoint">服务地址</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>访问类型</th><th>说明</th><th>URL</th><th>Host</th></tr>
+<tr><td>外网访问</td><td>提交复刻任务接口，仅支持 <code>POST</code></td><td><code>https://openapi.data-baker.com/gramophone/v1/submit</code></td><td><code>openapi.data-baker.com</code></td></tr>
+</table>
+</div>
+
+<h2 id="vc-custom-rest-params">请求参数</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>参数名称</th><th>类型</th><th>是否必填</th><th>说明</th></tr>
+<tr><td><code>access_token</code></td><td>string</td><td>是</td><td>通过 <code>client_id</code>、<code>client_secret</code> 调用授权服务获得。</td></tr>
+<tr><td><code>originFiles</code></td><td>MultipartFile[]</td><td>是</td><td>音频列表。格式为 <code>pcm</code> 或 <code>wav</code>，采样率 <code>16000Hz</code>，位深 <code>16bits</code>，单声道。</td></tr>
+<tr><td><code>notifyUrl</code></td><td>string</td><td>是</td><td>用于接收训练结果的回调地址，必须外网可访问，不能携带参数。</td></tr>
+<tr><td><code>mobile</code></td><td>string</td><td>否</td><td>手机号，用于接收短信提醒。正式项目中可按业务需要决定是否传入。</td></tr>
+</table>
+</div>
+
+<h2 id="vc-custom-rest-example">请求示例</h2>
+<pre><code class="language-python">import json
+import requests
+
+url = "https://openapi.data-baker.com/gramophone/v1/submit"
+data = {
+    "access_token": "ACCESS_TOKEN",
+    "notifyUrl": "https://example.com/voice/callback"
+}
+files = [
+    ("originFiles", ("101.wav", open("101.wav", "rb"), "audio/wav")),
+    ("originFiles", ("201.wav", open("201.wav", "rb"), "audio/wav")),
+    ("originFiles", ("301.wav", open("301.wav", "rb"), "audio/wav"))
+]
+
+response = requests.post(url, data=data, files=files)
+print(json.dumps(response.json(), ensure_ascii=False, indent=2))</code></pre>
+<p>示例代码参考：<a href="https://github.com/data-baker/BakerSpeechApiDemo/tree/main/voice_clone/create_custom_model/Python" target="_blank" rel="noopener">create_custom_model/Python</a></p>
+
+<h2 id="vc-custom-rest-response">响应结果</h2>
+<p>接口收到请求后会先进行参数校验并立即返回。校验成功后进入异步训练和回调流程；校验失败时返回错误码并放弃本次训练。</p>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>字段</th><th>类型</th><th>说明</th></tr>
+<tr><td><code>code</code></td><td>string</td><td>请求结果码，<code>20000</code> 表示请求成功。</td></tr>
+<tr><td><code>data.modelId</code></td><td>string</td><td>声音模型 ID。训练成功后可作为 <code>voice_name</code> 调用语音合成。</td></tr>
+<tr><td><code>message</code></td><td>string</td><td>请求结果描述。</td></tr>
+</table>
+</div>
+
+<h2 id="vc-custom-rest-callback">回调说明</h2>
+<p>训练进度或结果会通过 <code>notifyUrl</code> 回调。请求体中包含 <code>modelId</code>、<code>modelStatus</code> 和 <code>reason</code> 字段；<code>modelStatus=success</code> 表示训练成功，<code>modelStatus=fail</code> 表示训练失败。</p>
+<p>建议回调服务收到请求后提取业务所需字段，并在响应体中返回固定字符串 <code>SUCCESSOK</code>。旧站文档标注：回调失败时会每隔 5 秒重试一次，最多重试 4 次，该策略可能调整。</p>
+<pre><code class="language-python">from flask import Flask, request
+
+app = Flask(__name__)
+
+@app.route("/voice/callback", methods=["POST"])
+def callback():
+    payload = request.get_json(force=True)
+    model_id = payload.get("modelId")
+    status = payload.get("modelStatus")
+    reason = payload.get("reason")
+    print(model_id, status, reason)
+    return "SUCCESSOK"</code></pre>
+
+<h2 id="vc-custom-rest-errors">错误码</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>错误码</th><th>含义</th><th>处理建议</th></tr>
+<tr><td><code>20000</code></td><td>请求成功</td><td>保存返回的 <code>modelId</code> 并等待回调。</td></tr>
+<tr><td><code>30000</code></td><td>鉴权错误，<code>access_token</code> 不正确或已失效</td><td>重新获取 Token。</td></tr>
+<tr><td><code>30008</code></td><td>授权禁用</td><td>检查服务授权。</td></tr>
+<tr><td><code>30009</code></td><td>授权到期</td><td>续期或重新开通服务。</td></tr>
+<tr><td><code>30010</code></td><td>调用次数超过限制</td><td>检查用量和配额。</td></tr>
+<tr><td><code>30013</code></td><td>授权不支持声音复刻</td><td>确认应用已开通声音复刻能力。</td></tr>
+<tr><td><code>40000</code></td><td>参数获取失败或未传输</td><td>检查必填参数。</td></tr>
+<tr><td><code>40002</code></td><td>提交次数已达到最大限制</td><td>减少重复提交或联系服务人员。</td></tr>
+<tr><td><code>40003</code></td><td>接口请在有效期内使用</td><td>检查接口有效期。</td></tr>
+<tr><td><code>40006</code></td><td>文件大小或音频时长不符合要求</td><td>检查音频格式、大小和有效时长。</td></tr>
+<tr><td><code>50000</code></td><td>系统内部错误</td><td>稍后重试或保留请求信息排查。</td></tr>
+<tr><td><code>50001</code></td><td>Redis 操作错误</td><td>稍后重试。</td></tr>
+<tr><td><code>50002</code></td><td>引擎下载失败</td><td>稍后重试或联系服务人员。</td></tr>
+</table>
+</div>

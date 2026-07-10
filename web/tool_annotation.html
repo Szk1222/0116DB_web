@@ -103,11 +103,6 @@
 
 <section class="page-hero has-hero-img" style="--hero-img:url('images/tool/annotation/annotation-hero.png')">
   <div class="container">
-    <nav class="crumbs">
-      <a href="homepage.html">首页</a>
-      <span class="sep">/</span>
-      <span class="cur">标注平台</span>
-    </nav>
     <span class="eyebrow">Annotation Platform · 标注平台</span>
     <h1 class="display" style="font-size:clamp(2.2rem,4.8vw,4rem);margin:16px 0 20px;">
       <span style="display:block;">全模态数据</span>
@@ -115,9 +110,6 @@
     </h1>
     <p class="lead">覆盖点云、语音、图像、视频、文本与多模态大模型的一站式标注工作台，AI 预标注 + 多轮质检 + 全周期项目管理，让大规模数据生产又快又准。</p>
     <div class="htag-row"><span class="htag">点云</span><span class="htag">语音</span><span class="htag">图像</span><span class="htag">视频</span><span class="htag">文本</span><span class="htag">多模态</span></div>
-    <div class="page-actions">
-      <a href="javascript:void(0)" onclick="openTrialModal()" class="btn btn-primary">预约试用<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-      </div>
   </div>
 </section>
 
@@ -195,7 +187,7 @@
         <ul class="security-list">
           <li>角色权限分层：超级管理员、租户管理员、团队成员各司其职</li>
           <li>操作全程留痕：日志审计、登录验证、任务流转记录可追踪</li>
-          <li>数据安全管控：模板水印、API 授权、私有化部署灵活适配</li>
+          <li>数据安全管控：模板水印、私有化部署灵活适配</li>
         </ul>
       </div>
       <div class="security-fig">
@@ -267,10 +259,9 @@
     <div class="cta-card" data-reveal>
       <div class="cta-inner">
         <span class="eyebrow">Next Step</span>
-        <h2>获取标注平台试用方案</h2>
-        <p>填写需求表单，我们将在 1 个工作日内回复并提供免费样本或演示账号</p>
+        <h2>获取标注平台方案</h2>
         <div class="cta-actions">
-          <a href="javascript:void(0)" onclick="openTrialModal()" class="btn btn-primary">预约试用<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          <a href="javascript:void(0)" onclick="openTrialModal()" class="btn btn-primary">咨询更多<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
         </div>
       </div>
     </div>
@@ -290,11 +281,11 @@
       { slug:'pointcloud-seg', name:'语义分割', title:'点云语义分割', intro:'点云逐点语义分割，精细区分道路、车辆、行人、绿植等场景要素。', points:['AI 语义分割模型 + 人工补点','逐点类别精细划分','支持大规模场景批量处理'], scenes:['高精地图','场景理解','可行驶区域'] },
       { slug:'pointcloud-box', name:'点云标注', title:'3D 点云框标注', intro:'高精度 3D BBox 与多形态点云标注，适配自动驾驶与机器人感知训练。', points:['3D 立体框 / 多边形多形态标注','尺寸朝向自动估计','属性字段自定义导出'], scenes:['目标检测','障碍物识别'] },
       { slug:'pointcloud-frames', name:'点云连续帧', title:'点云连续帧标注', intro:'多帧联动标注，后台算法实时预估目标移动差值，大幅降低重复劳动。', points:['连续帧智能贴合','跨帧目标自动跟随','关键帧 + 插值补全'], scenes:['轨迹预测','行为分析'] },
-      { slug:'pointcloud-fusion', name:'2&3D 融合标注', title:'2&3D 融合标注', intro:'图像与点云多传感器融合标注，2D / 3D 联动提升标注精度与一致性。', points:['相机 - 雷达联合标定','2D / 3D 框联动同步','多传感器时间对齐'], scenes:['多传感器融合','BEV 感知'] },
+      { slug:'pointcloud-fusion', name:'2D &3D 融合标注', title:'2D & 3D 融合标注', intro:'图像与点云多传感器融合标注，2D / 3D 联动提升标注精度与一致性。', points:['相机 - 雷达联合标定','2D / 3D 框联动同步','多传感器时间对齐'], scenes:['多传感器融合','BEV 感知'] },
     ]},
     { cat:'图像标注', slug:'image', subs:[
       { slug:'image-det', name:'目标检测', title:'目标检测', intro:'AI 算法模型搭配人工调整，实现多场景、多对象的快速物体检测标注。', points:['BBox / 旋转框标注','AI 预标注加速','批量模板复用'], scenes:['安防','零售','工业质检'] },
-      { slug:'image-keypoint', name:'关键点标注', title:'关键点标注', intro:'用点组、单点等工具完成关键点 / 关键部位标注，支持单点附加属性导出。', points:['人体 / 人脸 / 物体关键点','点组顺序可调','单点属性扩展'], scenes:['姿态估计','手势识别','美颜'] },
+      { slug:'image-keypoint', name:'关键点标注', title:'关键点标注', intro:'用点组、单点等工具完成关键点 / 关键部位标注，支持单点附加属性导出。', points:['物体关键点','点组顺序可调','单点属性扩展'], scenes:['姿态估计','手势识别','美颜'] },
       { slug:'image-seg', name:'语义分割', title:'图像语义分割', intro:'智能 AI 语义分割模型搭配人工补点，实现快速高效的物体语义分割。', points:['Mask / Polygon 标注','AI 分割 + 人工精修','像素级类别划分'], scenes:['医疗影像','遥感','自动驾驶'] },
       { slug:'image-cls', name:'图片分类', title:'图片分类', intro:'通过 tag 标记对图片或连续帧进行类型分类与数据清洗。', points:['单标签 / 多标签分类','数据清洗与去重','层级标签体系'], scenes:['内容审核','数据治理'] },
       { slug:'image-ocr', name:'OCR 转写', title:'OCR 转写', intro:'图片中字符的 OCR 识别与转写，适用于车牌、文档、票据等场景。', points:['文本检测 + 转写','版面结构还原','多语种支持'], scenes:['票据识别','证件','文档数字化'] },

@@ -13,15 +13,6 @@
 
 <section class="page-hero">
   <div class="container">
-    <nav class="crumbs">
-      <a href="homepage.html">首页</a>
-      <span class="sep">/</span>
-      <a href="voice_ai.html">智能语音</a>
-      <span class="sep">/</span>
-      <a href="voice_ai.html">语音拓展</a>
-      <span class="sep">/</span>
-      <span class="cur">声纹识别</span>
-    </nav>
     <span class="eyebrow">Voiceprint Recognition · 语音拓展</span>
     <h1 class="display" style="font-size:clamp(2.2rem,4.8vw,4rem);margin:16px 0 20px;">
       <span style="display:block;">声纹识别</span>
@@ -30,7 +21,7 @@
     <p class="lead">基于强大的算法引擎，通过声音特征识别与核验说话人身份，适用于智能安防、身份核验与个性化服务场景。公测期间免费体验。</p>
     <div class="htag-row"><span class="htag">声纹识别</span><span class="htag">身份核验</span><span class="htag">1:1 比对</span><span class="htag">1:N 检索</span><span class="htag">公测免费</span></div>
     <div class="page-actions">
-      <a href="javascript:void(0)" onclick="openTrialModal()" class="btn btn-primary">预约试用<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      <a href="javascript:void(0)" onclick="openTrialModal()" class="btn btn-primary">联系我们<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
       <a href="tool_docs.html" class="btn btn-ghost">查看接入文档</a>
       <a href="voice_ai.html" class="btn btn-ghost">返回智能语音</a>
     </div>
@@ -111,7 +102,7 @@
         <tr><th>注册语音时长</th><td>建议 ≥ 10 秒有效人声</td></tr>
         <tr><th>核验语音时长</th><td>建议 ≥ 3 秒有效人声</td></tr>
         <tr><th>声纹库容量</th><td>支持百万级声纹库检索</td></tr>
-        <tr><th>核验准确率</th><td>等错误率（EER）低至 1% 以内</td></tr>
+        <tr><th>核验准确率</th><td>复杂声纹场景下保持稳定核验表现</td></tr>
         <tr><th>音频格式</th><td><span class="mono-tag">PCM</span><span class="mono-tag">WAV</span></td></tr>
         <tr><th>采样率</th><td>8000 Hz / 16000 Hz</td></tr>
         <tr><th>接口协议</th><td>HTTP / RESTful</td></tr>
@@ -293,7 +284,6 @@ curl -X POST "https://openspeech.data-baker.com/vpr/v1/verify" \
       <div class="cta-inner">
         <span class="eyebrow">Get Started</span>
         <h2>立即体验声纹识别</h2>
-        <p>注册标贝开放平台，免费试用智能语音全系列产品能力</p>
         <div class="cta-actions">
           <a href="tool_openplatform.html" class="btn btn-primary">免费注册<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
           <a href="tool_docs.html" class="btn btn-ghost">查看开发文档</a>

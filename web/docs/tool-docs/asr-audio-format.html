@@ -1,0 +1,44 @@
+<h1>音频格式说明</h1>
+<p class="doc-lead">语音识别服务对音频编码、采样率、位深和声道有明确要求。提交识别前请确认音频参数与接口参数一致，否则会影响识别效果或导致请求失败。</p>
+
+<h2 id="asr-audio-format-requirements">音频要求</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>项目</th><th>要求</th><th>说明</th></tr>
+<tr><td>支持音频格式</td><td><code>wav</code>、<code>pcm</code></td><td>旧站音频格式说明中，一句话识别和实时识别推荐使用 WAV 或裸 PCM 音频。</td></tr>
+<tr><td>音频采样率</td><td><code>8000Hz</code>、<code>16000Hz</code></td><td>语音数据采样率需要与请求参数保持一致。高于 <code>16000Hz</code> 的音频建议降采样后提交。</td></tr>
+<tr><td>位深</td><td><code>16bits</code></td><td>常用格式为 16bit 小端序，每次采样使用 2 字节保存。</td></tr>
+<tr><td>声道</td><td>单声道</td><td>除录音文件识别等特殊能力外，识别服务通常要求单声道音频；双声道音频需先转换为单声道。</td></tr>
+</table>
+</div>
+
+<h2 id="asr-audio-format-ffmpeg">音频文件转换工具 ffmpeg</h2>
+<p>FFmpeg 是一款可进行音视频处理的开源软件。旧站文档提供了常见音频格式转换命令，以下命令统一转换为 <code>16000Hz</code>、16bit、小端序、单声道音频。</p>
+
+<h4>wav 转 pcm</h4>
+<pre><code class="language-bash">ffmpeg -i input.wav -acodec pcm_s16le -ac 1 -ar 16000 -f s16le output.pcm</code></pre>
+
+<h4>mp3 转 pcm</h4>
+<pre><code class="language-bash">ffmpeg -i input.mp3 -acodec pcm_s16le -ac 1 -ar 16000 -f s16le output.pcm</code></pre>
+
+<h4>mp3 转 wav</h4>
+<pre><code class="language-bash">ffmpeg -i input.mp3 -acodec pcm_s16le -ac 1 -ar 16000 output.wav</code></pre>
+
+<h2 id="asr-audio-format-params">参数解释</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>参数</th><th>说明</th></tr>
+<tr><td><code>-i</code></td><td>输入文件。</td></tr>
+<tr><td><code>-acodec</code></td><td>音频编码器或解码器；<code>pcm_s16le</code> 表示 16bit 小端序 PCM。</td></tr>
+<tr><td><code>-ac</code></td><td>声道数；<code>1</code> 表示单声道。</td></tr>
+<tr><td><code>-ar</code></td><td>采样率；示例中使用 <code>16000</code>。</td></tr>
+<tr><td><code>-f</code></td><td>设置输出音频文件格式；裸 PCM 输出常用 <code>s16le</code>。</td></tr>
+</table>
+</div>
+
+<h2 id="asr-audio-format-notes">注意事项</h2>
+<ul>
+<li>如果音频文件是 <code>8000Hz</code>，不要简单升采样到 <code>16000Hz</code> 后提交，应选择匹配 <code>8000Hz</code> 的识别参数。</li>
+<li>WAV 是文件封装格式，音频数据本身仍可能采用 PCM 或其他编码；提交前应确认编码格式被服务支持。</li>
+<li>转换后的音频建议先抽样试听或检查文件信息，确认采样率、位深、声道与接口参数一致。</li>
+</ul>

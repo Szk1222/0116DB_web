@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>一句话识别 · 智能语音 · 标贝科技</title>
-<meta name="description" content="标贝一句话识别（Short Speech Recognition），面向 60 秒以内短音频的实时流式语音转文字服务，普通话准确率 ≥ 98%，首字延迟低于 300ms。" />
+<meta name="description" content="标贝一句话识别（Short Speech Recognition），面向 60 秒以内短音频的实时流式语音转文字服务，普通话识别表现稳定，首字延迟低于 300ms。" />
 <link rel="stylesheet" href="_shared.css" />
 <style>
 /* ── 标签 ── */
@@ -174,21 +174,12 @@
 <!-- ── HERO ── -->
 <section class="page-hero">
   <div class="container">
-    <nav class="crumbs">
-      <a href="homepage.html">首页</a>
-      <span class="sep">/</span>
-      <a href="voice_ai.html">智能语音</a>
-      <span class="sep">/</span>
-      <a href="voice_ai.html">语音识别</a>
-      <span class="sep">/</span>
-      <span class="cur">一句话识别</span>
-    </nav>
     <span class="eyebrow">Short Speech Recognition · 语音识别</span>
     <h1 class="display" style="font-size:clamp(2.2rem,4.8vw,4rem);margin:16px 0 20px;">
       <span style="display:block;">一句话识别</span>
       <span style="display:block;" class="glow-text">让机器听懂每一句话</span>
     </h1>
-    <p class="lead">对 60 秒以内的短语音进行实时流式转写，边说边出字。基于标贝自研端到端深度神经网络声学模型，普通话识别准确率 ≥ 98%，首字返回延迟低于 300ms，适用于语音输入、语音指令与实时交互场景</p>
+    <p class="lead">对 60 秒以内的短语音进行实时流式转写，边说边出字。基于标贝自研端到端深度神经网络声学模型，普通话识别表现稳定，首字返回延迟低于 300ms，适用于语音输入、语音指令与实时交互场景</p>
     <div class="htag-row">
       <span class="htag">实时流式</span>
       <span class="htag">短音频</span>
@@ -198,7 +189,7 @@
       <span class="htag">热词定制</span>
     </div>
     <div class="page-actions">
-      <a href="javascript:void(0)" onclick="openTrialModal()" class="btn btn-primary">预约试用<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      <a href="javascript:void(0)" onclick="openTrialModal()" class="btn btn-primary">联系我们<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
       <a href="tool_docs.html" class="btn btn-ghost">查看接入文档</a>
       <a href="voice_ai.html" class="btn btn-ghost">返回智能语音</a>
     </div>
@@ -294,7 +285,7 @@
         <b>一句话识别（Short Speech Recognition）</b>是标贝智能语音识别（ASR）产品线中面向短音频的实时转写服务，专为 60 秒以内的语音输入设计。用户边说话，引擎边以流式分片返回识别文本，真正实现"随说随出字"的交互体验。
       </p>
       <p class="lead-para">
-        产品依托标贝自研的<b>端到端深度神经网络声学模型</b>，结合大规模真实场景语料持续训练迭代。在标准测试集上普通话识别准确率达 <b>98% 以上</b>，并内置前端降噪、智能断句、标点预测与数字格式规整能力，输出可直接使用的规范文本。
+        产品依托标贝自研的<b>端到端深度神经网络声学模型</b>，结合大规模真实场景语料持续训练迭代。在标准测试集上普通话识别表现优秀，并内置前端降噪、智能断句、标点预测与数字格式规整能力，输出可直接使用的规范文本。
       </p>
       <p class="lead-para">
         无论是语音输入法、智能硬件语音指令，还是 App 内的语音交互入口，一句话识别都能以低于 <b>300ms</b> 的首字延迟稳定支撑。产品同时提供公有云 API 与私有化部署两种接入方式，满足开发者快速验证与企业级合规落地的不同需求。
@@ -367,7 +358,7 @@
         <tr><th>单次音频时长</th><td>≤ 60 秒</td></tr>
         <tr><th>传输协议</th><td>WebSocket（流式实时）/ HTTP（整段上传）</td></tr>
         <tr><th>首字返回延迟</th><td>&lt; 300 ms</td></tr>
-        <tr><th>识别准确率</th><td>普通话 ≥ 98%（标准测试集）</td></tr>
+        <tr><th>识别准确率</th><td>普通话标准测试集表现优秀</td></tr>
         <tr><th>支持语种</th><td>普通话、英语、粤语等 20+ 语种与方言</td></tr>
         <tr><th>默认并发</th><td>10 路（公有云，可申请扩容）</td></tr>
         <tr><th>SDK 支持</th><td>Python / Java / JavaScript / iOS / Android / C++</td></tr>
@@ -609,7 +600,6 @@ print(json.loads(ws.recv())["result"]["text"])</code></pre></div>
       <div class="cta-inner">
         <span class="eyebrow">Get Started</span>
         <h2>立即接入一句话识别</h2>
-        <p>注册即可免费调用 API，新用户赠送 50,000 次识别额度，30 分钟完成接入</p>
         <div class="cta-actions">
           <a href="tool_openplatform.html" class="btn btn-primary">免费注册<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
           <a href="tool_docs.html" class="btn btn-ghost">查看开发文档</a>

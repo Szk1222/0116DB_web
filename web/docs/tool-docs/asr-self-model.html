@@ -1,0 +1,67 @@
+<h1>自学习 - 个性化模型</h1>
+<p class="doc-lead">个性化模型用于通过业务文本语料训练专有语言模型，提升特定领域、行业或场景下的语音识别准确率。模型训练完成并生效后，在识别请求中传入模型 ID 即可使用。</p>
+
+<h2 id="asr-self-model-intro">功能介绍</h2>
+<p>当业务场景中积累了大量专有文本数据时，可使用 ASR 自学习引擎完成个性化语言模型配置和训练。相比热词，个性化模型更适合较长文本、句式表达、专业领域语料等整体语言习惯优化。</p>
+<p>训练文本越接近真实使用场景，识别效果通常越好。</p>
+
+<h2 id="asr-self-model-limits">使用限制</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>项目</th><th>说明</th></tr>
+<tr><td>生效时间</td><td>保存发布后约 <code>5-20</code> 分钟生效。</td></tr>
+<tr><td>模型数量</td><td>单个应用的语音识别服务下最多可创建 <code>5</code> 个个性化语言模型。</td></tr>
+<tr><td>文件大小</td><td>每个模型上传文件不超过 <code>12MB</code>。</td></tr>
+<tr><td>文件编码</td><td><code>UTF-8</code> 编码的 <code>txt</code> 文件。</td></tr>
+<tr><td>文本格式</td><td>每行一段话或一个词，以回车键区分。</td></tr>
+<tr><td>单行长度</td><td>每行字数不大于 <code>150</code> 个字。</td></tr>
+<tr><td>字符范围</td><td>只能包含简体汉字或英文字母。</td></tr>
+<tr><td>适用服务</td><td>一句话识别、实时长语音识别、录音文件识别。</td></tr>
+<tr><td>语言类型</td><td>中文普通话、粤语、英文。</td></tr>
+<tr><td>采样率模型</td><td><code>8K</code>、<code>16K</code> 采样率。</td></tr>
+<tr><td>创建方式</td><td>通过开放平台控制台创建和修改。</td></tr>
+</table>
+</div>
+
+<h2 id="asr-self-model-notes">特别注意</h2>
+<ul>
+<li>上传文本只能包含简体汉字或英文字母，并使用 <code>UTF-8</code> 编码。</li>
+<li>中文语言类型中的数字需要用汉字代替，例如 <code>10月26号</code> 写作 <code>十月二十六号</code>。</li>
+<li>百分数、小数等也建议按自然读法书写，例如 <code>80%</code> 写作 <code>百分之八十</code>，<code>3.14</code> 写作 <code>三点一四</code>。</li>
+<li>英文语言类型中的英文字母使用半角小写，例如 <code>vip</code>、<code>nba</code>。</li>
+<li>训练文本应来自真实业务场景，避免堆叠无关文本。</li>
+</ul>
+
+<h2 id="asr-self-model-usage">使用方法</h2>
+<ol>
+<li>登录开放平台并创建应用。</li>
+<li>进入语音识别下的自学习工具页面。</li>
+<li>切换到个性化模型页面。</li>
+<li>点击新增模型，上传训练文本 <code>TXT</code> 文件。</li>
+<li>保存并发布后等待训练完成，模型状态变为已生效。</li>
+<li>获取个性化模型 ID。</li>
+<li>调用语音识别 API 或 SDK 时传入该模型 ID，测试识别效果。</li>
+</ol>
+
+<h2 id="asr-self-model-call">识别调用传参</h2>
+<p>控制台完成个性化模型添加并生效后，在后续语音识别请求中传入 <code>diylmid</code> 即可使用该模型。</p>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+<tr><td><code>diylmid</code></td><td>string</td><td>ASR 个性化模型 ID。适用于一句话识别、实时长语音识别、录音文件识别等支持个性化模型的请求。</td></tr>
+</table>
+</div>
+<pre><code class="language-json">{
+  "asr_params": {
+    "audio_format": "wav",
+    "sample_rate": 16000,
+    "diylmid": "MODEL_ID"
+  }
+}</code></pre>
+
+<h2 id="asr-self-model-example">训练文本示例</h2>
+<pre><code class="language-text">十月二十六号发布新的业务方案
+本次会议围绕智能客服质检流程展开
+百分之八十的工单已完成回访
+vip
+nba</code></pre>

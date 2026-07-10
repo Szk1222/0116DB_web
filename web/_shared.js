@@ -123,16 +123,16 @@
     },
     medical: {
       title: '医疗解决方案', en: 'Medical', image: 'images/scenes/medical.jpg',
-      summary: '面向医学影像、临床文本、导诊问答与医疗语音场景，提供专业标注、结构化处理与模型评测数据服务。',
-      meta: ['医学影像', '临床文本', '专业审核'],
+      summary: '面向临床文本、导诊问答与医疗语音场景，提供专业标注、结构化处理与模型评测数据服务。',
+      meta: ['医疗语音', '临床文本', '专业审核'],
       services: [
-        ['医学影像标注', '支持病灶框选、分割、关键点与多模态影像标注。', 'images/scenes/medical.jpg'],
+        ['医疗数据标注', '支持病灶框选、分割、关键点与多模态影像标注。', 'images/scenes/medical.jpg'],
         ['临床文本结构化', '处理病历、检查报告、问诊记录中的实体、关系与摘要任务。', 'images/datasets/cat-medical.jpg'],
         ['医疗问答评测', '构建医学问答、导诊分诊与安全回答评测集。', 'images/datasets/text.jpg']
       ],
       advantages: ['医学专家参与复核', '标签体系贴合科室场景', '支持敏感信息脱敏', '质量抽检链路清晰'],
       cases: [
-        ['医学影像分割数据', '围绕特定病灶区域进行像素级分割与复核。', 'images/datasets/cat-medical.jpg', ['影像', 'Mask', '复核']],
+        ['医疗分割数据', '围绕特定病灶区域进行像素级分割与复核。', 'images/datasets/cat-medical.jpg', ['影像', 'Mask', '复核']],
         ['智能导诊问答数据', '构建症状描述、分诊建议与安全边界样本。', 'images/scenes/medical.jpg', ['问答', '分诊', '安全']]
       ]
     },
@@ -243,10 +243,15 @@
     return false;
   }
 
+  function getCtaLabel() {
+    return isActive('home') || isActive('tools') ? '预约试用' : '联系我们';
+  }
+
   /* ── renderHeader ───────────────────────────────── */
   function renderHeader() {
     const el = document.getElementById('nav-placeholder');
     if (!el) return;
+    const ctaLabel = getCtaLabel();
 
     /* 数据集 mega：六个数据集直接作为二级标题纵向排列 */
     const datasetsMega = `<div class="nav-mega" style="min-width:220px;">
@@ -323,7 +328,7 @@
               400 898 2016
             </a>
             <a class="btn btn-primary btn-sm" onclick="openTrialModal()" href="javascript:void(0)">
-              预约试用
+              ${ctaLabel}
               <svg class="btn-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </a>
           </div>
@@ -340,23 +345,22 @@
         <div class="container">
           <div class="footer-main">
             <div class="footer-col">
-              <h4>智能语音</h4>
-              <a href="voice_ai.html">ASR 语音识别</a>
-              <a href="voice_ai.html">TTS 语音合成</a>
-              <a href="voice_ai.html">语音拓展</a>
-            </div>
-            <div class="footer-col">
               <h4>AI 数据服务</h4>
-              <div class="fc-group-head">行业场景</div>
-              ${SOL_INDUSTRY_SCENES.slice(0, 5).map(s => `<a href="${s.href}">${s.name}</a>`).join('')}
-              <div class="fc-group-head">数据服务</div>
               <a href="data_service_collection.html">数据采集服务</a>
               <a href="data_service_annotation.html">数据标注服务</a>
+              <a href="datasets_overview.html">成品数据集</a>
+              <a href="https://yuedu.data-baker.com/" target="_blank" rel="noopener noreferrer">标贝悦读</a>
               <a href="tool_annotation.html">工具平台</a>
             </div>
             <div class="footer-col">
               <h4>场景解决方案</h4>
               ${SOL_INDUSTRY_SCENES.map(s => `<a href="${s.href}">${s.name}解决方案</a>`).join('')}
+            </div>
+            <div class="footer-col">
+              <h4>智能语音</h4>
+              <a href="voice_ai.html">ASR 语音识别</a>
+              <a href="voice_ai.html">TTS 语音合成</a>
+              <a href="voice_ai.html">语音拓展</a>
             </div>
             <div class="footer-col">
               <h4>关于我们</h4>
@@ -401,11 +405,6 @@
               </div>
             </div>
           </div>
-          <div class="footer-subbar">
-            <span><strong>数据供应商</strong><a href="https://distribute.ebiaoge.com/sp/formreport/distribute/TY0D2TKKVP/4748489893055628723" target="_blank" rel="noopener">入驻申请 &rsaquo;</a></span>
-            <span class="fs-sep">|</span>
-            <span><strong>技术产品销售渠道</strong><a href="https://distribute.ebiaoge.com/sp/formreport/distribute/ty0d2tkkvp/1476002722365784915" target="_blank" rel="noopener">联系销售 &rsaquo;</a></span>
-          </div>
           <div class="footer-bottom">
             <div class="fb-links">
               <a href="javascript:void(0)">标贝科技服务声明</a>
@@ -421,6 +420,7 @@
 
   /* ── renderSidebar（全局右侧侧栏 + 试用弹窗 + 在线咨询）── */
   function renderSidebar() {
+    const ctaLabel = getCtaLabel();
     /* 侧栏 HTML */
     const sidebar = document.createElement('div');
     sidebar.className = 'sidebar-right';
@@ -439,7 +439,7 @@
           <p>扫码加客服企微<br/>提供更多<span class="qr-hl">咨询服务</span></p>
         </div>
       </button>
-      <button class="sidebar-btn" onclick="openTrialModal()" title="预约试用">
+      <button class="sidebar-btn" onclick="openTrialModal()" title="${ctaLabel}">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><path d="M8 21h8M12 17v4"/></svg>
         <span class="sb-label">试用</span>
       </button>
@@ -462,15 +462,15 @@
             400 898 2016
           </div>
         </div>
-        <div class="modal-right">
-          <button class="modal-close" onclick="closeTrialModal()">
+        <form class="modal-right" id="trialForm" novalidate>
+          <button class="modal-close" type="button" onclick="closeTrialModal()">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
           </button>
           <h2>联系我们</h2>
           <div class="mf-row">
-            <div class="mf-field has-icon">
+            <div class="mf-field has-icon mf-required">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-              <input type="text" placeholder="* 请填写您的姓名" />
+              <input type="text" name="name" placeholder="请填写您的姓名" autocomplete="name" required />
             </div>
           </div>
           <div class="mf-row">
@@ -480,35 +480,35 @@
             </div>
           </div>
           <div class="mf-row">
-            <div class="mf-field has-icon">
+            <div class="mf-field has-icon mf-required">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.45 2 2 0 0 1 3.59 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2z"/></svg>
-              <input type="tel" placeholder="* 请填写您的手机号" />
+              <input type="tel" name="phone" placeholder="请填写您的手机号" autocomplete="tel" required />
             </div>
           </div>
           <div class="mf-row">
-            <div class="mf-field has-icon">
+            <div class="mf-field has-icon mf-required">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 2H8L2 7h20z"/></svg>
-              <input type="text" placeholder="* 请填写您的公司名称" />
+              <input type="text" name="company" placeholder="请填写您的公司名称" autocomplete="organization" required />
             </div>
           </div>
           <div class="mf-row">
-            <div class="mf-field has-icon">
+            <div class="mf-field has-icon mf-required">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg>
-              <input type="email" placeholder="请填写您的企业邮箱" />
+              <input type="email" name="email" placeholder="请填写您的企业邮箱" autocomplete="email" required />
             </div>
           </div>
           <div class="mf-row">
             <div class="mf-field">
-              <input type="text" placeholder="请填写您的职位" />
+              <input type="text" name="position" placeholder="请填写您的职位" autocomplete="organization-title" />
             </div>
           </div>
           <div class="mf-row">
             <div class="mf-field">
-              <textarea placeholder="请详细填写您的需求、数据规模、预留信息等，我们会反馈更快哦"></textarea>
+              <textarea name="requirement" placeholder="请详细填写您的需求、数据规模、预留信息等，我们会反馈更快哦"></textarea>
             </div>
           </div>
-          <button class="mf-submit">提 交</button>
-        </div>
+          <button class="mf-submit" type="submit">提 交</button>
+        </form>
       </div>`;
 
     /* 在线咨询气泡 */
@@ -543,10 +543,33 @@
 
     /* 点击背景关闭弹窗 */
     modal.addEventListener('click', e => { if (e.target === modal) closeTrialModal(); });
+
+    const trialForm = modal.querySelector('#trialForm');
+    const emailInput = trialForm && trialForm.querySelector('input[name="email"]');
+    if (emailInput) {
+      emailInput.addEventListener('input', () => emailInput.setCustomValidity(''));
+    }
+    if (trialForm) {
+      trialForm.addEventListener('submit', e => {
+        e.preventDefault();
+        trialForm.classList.add('is-submitted');
+        if (emailInput) {
+          const value = emailInput.value.trim();
+          const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+          emailInput.setCustomValidity(value && !isEmail ? '请填写正确的邮箱格式' : '');
+        }
+        trialForm.reportValidity();
+      });
+    }
   }
 
   /* 全局暴露弹窗方法 */
-  window.openTrialModal  = () => document.getElementById('trialModal').classList.add('is-open');
+  window.openTrialModal  = () => {
+    const modal = document.getElementById('trialModal');
+    const form = modal && modal.querySelector('#trialForm');
+    if (form) form.classList.remove('is-submitted');
+    if (modal) modal.classList.add('is-open');
+  };
   window.closeTrialModal = () => document.getElementById('trialModal').classList.remove('is-open');
   window.openChatPopup   = () => document.getElementById('chatPopup').classList.add('is-open');
   window.closeChatPopup  = () => document.getElementById('chatPopup').classList.remove('is-open');
@@ -662,12 +685,12 @@
             <div class="adv-stat-item"><div class="adv-num">10<span class="unit">年+</span></div><p>AI 数据与语音技术积累</p></div>
             <div class="adv-stat-item"><div class="adv-num">1000<span class="unit">+</span></div><p>头部企业与科研机构客户</p></div>
             <div class="adv-stat-item"><div class="adv-num">50<span class="unit">+</span></div><p>支持语种与地区方言</p></div>
-            <div class="adv-stat-item"><div class="adv-num">99.9<span class="unit">%</span></div><p>多轮质检后数据准确率</p></div>
+            <div class="adv-stat-item"><div class="adv-num">稳定</div><p>多轮质检后数据准确率</p></div>
           </div>
           <div class="pa-grid">
             ${[
               ['v1','M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5','全品类数据资产','覆盖语音、视觉、点云、文本与大模型语料，10 亿+ 多模态样本沉淀，支持从样本试制到百万级商用训练。',['SPEECH','CV','NLP','3D','LLM']],
-              ['v2','M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM9 12l2 2 4-4','高精度交付','AI 预标注 + 多轮人工质检 + 抽检复核三道闸口，平均交付准确率 99.9%，满足商用级 AI 模型训练标准。',['QA','AI ASSIST','99.9% Acc.']],
+              ['v2','M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM9 12l2 2 4-4','高精度交付','AI 预标注 + 多轮人工质检 + 抽检复核三道闸口，平均交付质量稳定，满足商用级 AI 模型训练标准。',['QA','AI ASSIST','QUALITY']],
               ['v3','M3 11h18v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-9zM7 11V7a5 5 0 0 1 10 0v4','安全合规体系','ISO 27001 / 27701 双认证，符合 GDPR 与国内数据合规法规，支持端到端加密、私有化部署、全流程留痕。',['ISO 27001','27701','GDPR']],
               ['v4','M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20','全球资源 · 多语种','覆盖 50+ 主流语种与地区方言，自有海外采集团队与录音棚，200 万+ 全球众包资源池，赋能企业出海。',['GLOBAL','50+ LANG','200W+ POOL']],
               ['v5','M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z','自研全栈工具链','标贝易采、3D / 2D 标注平台、ASR / TTS 切音转写工具与开放平台，端到端打通采集—标注—模型迭代。',['EASY COLL','3D / 2D','SaaS']],
@@ -693,14 +716,11 @@
     page.innerHTML = `
       <section class="page-hero has-hero-img" style="--hero-img:url('${heroImg}')">
         <div class="container industry-hero-main">
-            <nav class="crumbs">
-              <a href="homepage.html">首页</a><span class="sep">/</span><span>解决方案</span><span class="sep">/</span><span class="cur">${scene.title}</span>
-            </nav>
             <span class="eyebrow">Industry Scenario · ${scene.en}</span>
             <h1 class="display" style="font-size:clamp(2.2rem,4.8vw,4rem);margin:16px 0 20px;">${scene.title}</h1>
             <p class="industry-hero-summary">${scene.summary}</p>
             <div class="industry-meta">${scene.meta.map(m => `<span>${m}</span>`).join('')}</div>
-            <a href="javascript:void(0)" onclick="openTrialModal()" class="btn btn-primary">预约试用<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+            <a href="javascript:void(0)" onclick="openTrialModal()" class="btn btn-primary">联系我们<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
         </div>
       </section>
       <section class="section" style="padding-top:70px;">
@@ -742,6 +762,12 @@
       const metricRows = rows => (rows || []).map(row => `
         <div class="dqs-metric-row"><b>${h(row[0])}</b><span>${h(row[1])}</span></div>
       `).join('');
+      const panel = (title, rows) => Array.isArray(rows) && rows.length ? `
+        <div class="dqs-panel">
+          <h4>${h(title)}</h4>
+          <ul class="dqs-list">${pairRows(rows)}</ul>
+        </div>
+      ` : '';
 
       const data = {
         eyebrow: '02 · Delivery & QA',
@@ -764,6 +790,11 @@
           ['扩展标签', '口音、噪声、情绪、意图、热词与行业术语'],
           ['元数据', '采集设备、环境、地域、年龄段、授权范围等字段']
         ],
+        customItems: [
+          ['字段深度', '按模型训练、评测或业务分析需求扩展字段'],
+          ['数据比例', '按语种、性别、年龄、地域、场景与噪声条件配比'],
+          ['授权方式', '支持样本试用、子集授权与项目化定制授权']
+        ],
         qaSteps: [
           ['初标', '完成基础转写、标签与时间戳'],
           ['复核', '校验漏字、错字、断句和标签一致性'],
@@ -781,14 +812,20 @@
         packageItems: ['数据文件包', '标注文件', '元数据表', '字段说明文档', '训练/验证/测试集切分', '质检报告', '授权与合规说明'],
         ...cfg
       };
+      const hasIntro = String(data.intro || '').trim() !== '';
+      const panelsHTML = [
+        panel('交付内容', data.deliveryItems),
+        panel('标注维度', data.annotationItems),
+        panel('可定制项', data.customItems)
+      ].join('');
 
       el.innerHTML = `
         <div class="dqs-module" data-reveal>
-          <div class="dqs-hero">
+          <div class="dqs-hero${hasIntro ? '' : ' dqs-hero-no-intro'}">
             <div class="dqs-copy">
               <span class="eyebrow">${h(data.eyebrow)}</span>
               <h3>${h(data.title)}</h3>
-              <p>${h(data.intro)}</p>
+              ${hasIntro ? `<p>${h(data.intro)}</p>` : ''}
             </div>
             <div class="dqs-summary">
               ${(data.stats || []).map(item => `
@@ -797,24 +834,7 @@
             </div>
           </div>
 
-          <div class="dqs-grid">
-            <div class="dqs-panel">
-              <h4>交付内容</h4>
-              <ul class="dqs-list">${pairRows(data.deliveryItems)}</ul>
-            </div>
-            <div class="dqs-panel">
-              <h4>标注维度</h4>
-              <ul class="dqs-list">${pairRows(data.annotationItems)}</ul>
-            </div>
-            <div class="dqs-panel">
-              <h4>可定制项</h4>
-              <ul class="dqs-list">${pairRows(data.customItems || [
-                ['字段深度', '按模型训练、评测或业务分析需求扩展字段'],
-                ['数据比例', '按语种、性别、年龄、地域、场景与噪声条件配比'],
-                ['授权方式', '支持样本试用、子集授权与项目化定制授权']
-              ])}</ul>
-            </div>
-          </div>
+          ${panelsHTML ? `<div class="dqs-grid">${panelsHTML}</div>` : ''}
 
           <div class="dqs-flow">
             <h4>质检流程</h4>
@@ -929,7 +949,7 @@
                   <div class="sa-detail">
                     <span class="sa-tag">MEDICAL · EHR</span>
                     <div class="sa-cap">核心能力</div>
-                    <p>医学影像、电子病历、医疗对话语料，加速医疗 AI 算法落地。</p>
+                    <p>医疗对话语料，加速医疗 AI 算法落地。</p>
                     <a class="sa-link" href="javascript:void(0)" onclick="openTrialModal()">获取方案<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
                   </div>
                 </div>
@@ -1006,6 +1026,31 @@
     });
   }
 
+  function addDatasetConsultButtons() {
+    const cur = (location.pathname.split('/').pop() || '').toLowerCase();
+    if (!cur.startsWith('dataset_')) return;
+
+    const grid = document.querySelector(
+      '#datasets .ds-grid, #catalog .cat-grid, #voices .voices-grid, #types .type-grid, #pipeline .pipe-grid'
+    );
+    if (!grid || grid.dataset.consultButtonInit) return;
+    grid.dataset.consultButtonInit = '1';
+
+    const row = document.createElement('div');
+    row.className = 'dataset-consult-row';
+    row.innerHTML = `
+      <a href="javascript:void(0)" onclick="openTrialModal()" class="btn btn-primary">
+        咨询更多
+        <svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    `;
+    grid.insertAdjacentElement('afterend', row);
+  }
+
+  function removeBreadcrumbs() {
+    document.querySelectorAll('nav.crumbs, .crumbs').forEach(el => el.remove());
+  }
+
   function init() {
     renderHeader();
     renderFooter();
@@ -1014,6 +1059,7 @@
     renderIndustryScenarioPage();
     renderDatasetQualityStandard();
     renderSharedDatasetUseCases();
+    removeBreadcrumbs();
     cursor();
     scrollProgress();
     headerScroll();
@@ -1021,6 +1067,7 @@
     reveal();
     sceneAccordion();
     advSlider();
+    addDatasetConsultButtons();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();

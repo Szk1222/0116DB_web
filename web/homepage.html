@@ -88,8 +88,8 @@ body::after {
    通用布局
    ========================================================= */
 .container { width: min(1280px, calc(100% - 40px)); margin-inline: auto; }
-.section { position: relative; padding: 130px 0; }
-.section-pad-tight { padding: 90px 0; }
+.section { position: relative; padding: 92px 0; }
+.section-pad-tight { padding: 64px 0; }
 
 .eyebrow {
   display: inline-flex; align-items: center; gap: 10px;
@@ -107,6 +107,7 @@ body::after {
   background: var(--brand-hi); box-shadow: 0 0 10px var(--brand-hi);
   animation: blink 1.6s ease-in-out infinite;
 }
+.eyebrow { display: none !important; }
 @keyframes blink { 50% { opacity: 0.3; } }
 
 h1, h2, h3 { color: var(--text-hi); margin: 0; text-wrap: balance; }
@@ -128,6 +129,8 @@ h2.display, h1.display {
 .section-head { display: grid; gap: 18px; max-width: 760px; margin: 0 auto 60px; text-align: center; justify-items: center; }
 .section-head h2 { font-size: clamp(2rem, 3.4vw, 3rem); }
 .section-head p { color: var(--text-mute); font-size: 1.02rem; line-height: 1.78; margin: 0; }
+#datasets { padding-bottom: 48px; }
+#voice { padding-top: 48px; }
 
 /* 按钮 */
 .btn { position: relative; display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 12px 24px; border-radius: var(--r); font-family: var(--font-display); font-size: 0.96rem; font-weight: 700; letter-spacing: 0.04em; transition: transform 200ms ease, box-shadow 200ms ease, background 200ms ease; overflow: hidden; }
@@ -324,21 +327,30 @@ h2.display, h1.display {
 /* Hero visual — 3D 数据基建场景图 */
 .hero-visual { position: relative; width: 100%; max-width: 620px; aspect-ratio: 16/13; margin-left: auto; }
 
-.hv-hero-image { position: absolute; inset: 0; border-radius: var(--r-lg); overflow: hidden; }
+.hv-hero-image {
+  position: absolute;
+  inset: -14px;
+  border-radius: 0;
+  overflow: hidden;
+  -webkit-mask-image: radial-gradient(ellipse 58% 56% at 52% 48%, #000 46%, rgba(0,0,0,0.82) 62%, rgba(0,0,0,0.34) 78%, transparent 96%);
+  mask-image: radial-gradient(ellipse 58% 56% at 52% 48%, #000 46%, rgba(0,0,0,0.82) 62%, rgba(0,0,0,0.34) 78%, transparent 96%);
+}
 .hv-hero-image::before {
   /* 角部光带 + 让深色界面与浅色 3D 图融合 */
   content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none;
   background:
-    radial-gradient(circle at 30% 100%, rgba(5,8,19,0.85), transparent 55%),
-    radial-gradient(circle at 0% 0%, rgba(5,8,19,0.75), transparent 45%),
-    linear-gradient(180deg, rgba(5,8,19,0.15) 0%, transparent 30%, transparent 65%, rgba(5,8,19,0.55) 100%);
+    radial-gradient(ellipse at 50% 50%, transparent 42%, rgba(5,8,19,0.25) 66%, rgba(5,8,19,0.82) 96%),
+    radial-gradient(circle at 30% 100%, rgba(5,8,19,0.72), transparent 55%),
+    radial-gradient(circle at 0% 0%, rgba(5,8,19,0.62), transparent 45%),
+    linear-gradient(180deg, rgba(5,8,19,0.12) 0%, transparent 30%, transparent 65%, rgba(5,8,19,0.50) 100%);
 }
 .hv-hero-image::after {
   /* 边框扫光 */
   content: ""; position: absolute; inset: 0; z-index: 3; pointer-events: none;
-  border-radius: var(--r-lg);
-  border: 1px solid rgba(76,201,240,0.22);
-  box-shadow: inset 0 0 60px rgba(76,201,240,0.08), 0 30px 80px rgba(4,105,207,0.35);
+  background:
+    radial-gradient(ellipse at 50% 50%, transparent 58%, rgba(76,201,240,0.10) 74%, transparent 94%),
+    radial-gradient(ellipse at 50% 50%, transparent 50%, rgba(5,8,19,0.42) 88%);
+  box-shadow: none;
 }
 .hv-hero-image img { width: 100%; height: 100%; object-fit: cover; object-position: center; filter: saturate(1.15) contrast(1.05); animation: heroImgFloat 8s ease-in-out infinite; }
 @keyframes heroImgFloat {
@@ -347,7 +359,7 @@ h2.display, h1.display {
 }
 
 /* 图像四角扫光线 */
-.hv-corner { position: absolute; width: 24px; height: 24px; z-index: 4; pointer-events: none; border-color: var(--brand-hi); border-style: solid; }
+.hv-corner { display: none; }
 .hv-corner.tl { top: 10px; left: 10px; border-width: 1px 0 0 1px; }
 .hv-corner.tr { top: 10px; right: 10px; border-width: 1px 1px 0 0; border-color: var(--brand-hi); }
 .hv-corner.bl { bottom: 10px; left: 10px; border-width: 0 0 1px 1px; border-color: var(--brand-hi); }
@@ -381,22 +393,9 @@ h2.display, h1.display {
 @keyframes scrollBar { 0%,100%{ transform: translateY(0); opacity: 1;} 50%{ transform: translateY(10px); opacity: 0.4;} }
 
 /* =========================================================
-   Logo Marquee
-   ========================================================= */
-.marquee-band { padding: 60px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: rgba(7,13,32,0.5); }
-.marquee-head { display: flex; align-items: center; gap: 16px; justify-content: center; margin-bottom: 28px; color: var(--text-mute); font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; }
-.marquee-head i { width: 60px; height: 1px; background: var(--line-strong); }
-.marquee { overflow: hidden; mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); }
-.marquee-track { display: flex; gap: 56px; width: max-content; animation: marquee 28s linear infinite; }
-.marquee-item { display: inline-flex; align-items: center; gap: 10px; padding: 12px 20px; color: var(--text-mute); font-family: var(--font-display); font-size: 1.1rem; font-weight: 600; letter-spacing: 0.02em; opacity: 0.78; transition: opacity 220ms ease, color 220ms ease; }
-.marquee-item:hover { color: var(--text-hi); opacity: 1; }
-.marquee-item svg { width: 24px; height: 24px; color: var(--brand-hi); }
-@keyframes marquee { to { transform: translateX(-50%); } }
-
-/* =========================================================
    STATS
    ========================================================= */
-.stats { padding: 80px 0; }
+.stats { padding: 56px 0; }
 .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; }
 .stat-cell { position: relative; padding: 36px 28px; background: rgba(10,20,46,0.7); transition: background 220ms ease; }
 .stat-cell:hover { background: rgba(13,26,58,0.95); }
@@ -438,7 +437,7 @@ h2.display, h1.display {
 /* =========================================================
    PIPELINE / FLOW SECTION
    ========================================================= */
-.flow-section { padding: 130px 0; position: relative; overflow: hidden; }
+.flow-section { padding: 92px 0; position: relative; overflow: hidden; }
 .flow-grid { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 64px; align-items: center; }
 .flow-grid.rev { grid-template-columns: 1.15fr 0.85fr; direction: rtl; }
 .flow-grid.rev > * { direction: ltr; }
@@ -635,7 +634,7 @@ h2.display, h1.display {
 .logo-row:hover .logo-row-track { animation-play-state: paused; }
 @media (prefers-reduced-motion: reduce) { .logo-row-track { animation: none; } }
 
-.cta-section { padding: 110px 0; position: relative; overflow: hidden; }
+.cta-section { padding: 82px 0; position: relative; overflow: hidden; }
 .cta-card { position: relative; padding: 80px 60px; border: 1px solid var(--line-strong); border-radius: var(--r-lg); background: linear-gradient(135deg, rgba(4,105,207,0.18), rgba(4,105,207,0.18) 50%, rgba(24,166,184,0.18)); overflow: hidden; isolation: isolate; }
 .cta-card::before {
   content: ""; position: absolute; inset: 0; z-index: -1;
@@ -728,16 +727,9 @@ h2.display, h1.display {
 
   <div class="container hero-grid">
     <div class="hero-copy">
-      <div class="hero-meta" data-reveal>
-        <i></i>
-        <span> SYS-INIT · v2.6.0</span>
-        <span>·</span>
-        <span data-decode>AI DATA INFRASTRUCTURE</span>
-      </div>
-      <span class="eyebrow" data-reveal>AI Data Infrastructure</span>
+      
       <h1 class="slogan-text">
-      优质<em>数据生产力</em>，<br/>
-      让 AI 赋能数字世界。
+      <em>让高质量数据赋能AI</em><br/>
       </h1>
       <p class="lead" data-reveal>
         标贝科技围绕语音、视觉、文本与大模型场景，提供从数据采集、标注到数据集交付的全流程服务，帮助 AI 团队更快获得可训练、可验收、可追溯的数据资产。
@@ -776,7 +768,7 @@ h2.display, h1.display {
       <div class="hv-chip c1">
         <div class="ch-head"><span class="led"></span> LIVE · ASR / TTS</div>
         <div class="ch-row"><span>样本</span><b>150w h+</b></div>
-        <div class="ch-row"><span>准确率</span><b>98%</b></div>
+        <div class="ch-row"><span>准确率</span><b>稳定</b></div>
       </div>
       <div class="hv-chip c2">
         <div class="ch-head"><span class="led"></span> QC · IMAGE</div>
@@ -791,37 +783,19 @@ h2.display, h1.display {
     </div>
   </div>
 
-  <div class="scroll-hint" aria-hidden="true">
-    <span>SCROLL</span>
-    <span class="bar"></span>
-  </div>
 </section>
-
-<!-- Logo Marquee -->
-<section class="marquee-band">
-  <div class="container">
-    <div class="marquee-head"><i></i><span> TRUSTED BY · 与全球 AI 团队共同进化</span><i></i></div>
-    <div class="marquee" aria-hidden="true">
-      <div class="marquee-track" id="marqueeTrack">
-        <!-- duplicated by JS -->
-      </div>
-    </div>
-  </div>
-</section>
-
 
 <!-- SERVICES -->
 <section class="section" id="services">
   <div class="container">
     <div class="section-head" data-reveal>
       <span class="eyebrow"> 02 · Service Matrix</span>
-      <h2 class="display">从原始数据到模型可用数据<br/><span class="glow-text">一站式组织交付</span></h2>
+      <h2 class="display">从原始数据到模型可用数据<br/><span class="glow-text">一站式高质量交付</span></h2>
       <p>采集、标注、数据集——三个引擎协同支撑你的模型训练 / 评测全链路。</p>
     </div>
 
     <div class="svc-grid">
       <a class="svc-card" href="data_service_collection.html" data-tilt data-reveal>
-        <div class="svc-num"> 001 <em>—</em> COLLECTION</div>
         <div class="svc-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="9" y="2" width="6" height="13" rx="3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v3"/></svg>
         </div>
@@ -832,11 +806,10 @@ h2.display, h1.display {
           <li>多端采集任务管理</li>
           <li>数据脱敏与版权确认</li>
         </ul>
-        <span class="svc-more">EXPLORE <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        <span class="svc-more">更多 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
       </a>
 
       <a class="svc-card" href="data_service_annotation.html" data-tilt data-reveal>
-        <div class="svc-num"> 002 <em>—</em> ANNOTATION</div>
         <div class="svc-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15.7 21.3a1 1 0 0 1-1.4 0l-1.6-1.6a1 1 0 0 1 0-1.4l5.6-5.6a1 1 0 0 1 1.4 0l1.6 1.6a1 1 0 0 1 0 1.4z"/><path d="m18 13-1.4-6.9a1 1 0 0 0-.7-.8L3.2 2a1 1 0 0 0-1.2 1.2l3.3 12.6a1 1 0 0 0 .8.8L13 18"/><circle cx="11" cy="11" r="2"/></svg>
         </div>
@@ -847,11 +820,10 @@ h2.display, h1.display {
           <li>复杂任务 SOP 拆解</li>
           <li>标注平台与项目管理联动</li>
         </ul>
-        <span class="svc-more">EXPLORE <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        <span class="svc-more">更多 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
       </a>
 
       <a class="svc-card" href="datasets_overview.html" data-tilt data-reveal>
-        <div class="svc-num"> 003 <em>—</em> DATASETS</div>
         <div class="svc-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5M3 12a9 3 0 0 0 18 0"/></svg>
         </div>
@@ -862,7 +834,7 @@ h2.display, h1.display {
           <li>行业场景定制补充</li>
           <li>训练/评测集分层交付</li>
         </ul>
-        <span class="svc-more">EXPLORE <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        <span class="svc-more">更多 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
       </a>
     </div>
   </div>
@@ -874,7 +846,7 @@ h2.display, h1.display {
     <div class="flow-grid" data-reveal>
       <div class="flow-copy">
         <span class="eyebrow"> 03 · Data Collection</span>
-        <h2 class="display">构建全球化、多模态的 <span class="glow-text">AI 数据基座</span></h2>
+        <h2 class="display">全球化、多模态的 <span class="glow-text">数据采集</span></h2>
         <p>从样本招募、设备规范、场景脚本到回收交付，每一步留痕可追溯。</p>
         <div class="flow-feat">
           <div class="flow-feat-item">
@@ -994,7 +966,7 @@ h2.display, h1.display {
 
       <div class="flow-copy">
         <span class="eyebrow"> 04 · Data Annotation</span>
-        <h2 class="display">让 AI 更懂视界、听觉与 <span class="glow-text">行业语义</span></h2>
+        <h2 class="display"><span class="glow-text">全模态标注</span> 为AI训练提供高质量数据基石 </h2>
         <p>规范沉淀、试标校准、批量生产、抽检返修、验收报告——形成完整闭环。</p>
         <div class="flow-feat">
           <div class="flow-feat-item">
@@ -1089,77 +1061,6 @@ h2.display, h1.display {
   </div>
 </section>
 
-
-<!-- VOICE TABS -->
-<section class="section" id="voice">
-  <div class="container">
-    <div class="section-head" data-reveal>
-      <span class="eyebrow"> 07 · Voice Model</span>
-      <h2 class="display">感受 <span class="glow-text">声波 × 模型</span> 的精度边界</h2>
-      <p>ASR、TTS、音色克隆共享同一展示框架，切换标签查看不同任务的实时回路。</p>
-    </div>
-
-    <div class="voice-tabs" role="tablist">
-      <button class="v-tab" role="tab" aria-selected="true" data-vtab="asr">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="2" width="6" height="13" rx="3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v3"/></svg>
-        语音识别 ASR
-      </button>
-      <button class="v-tab" role="tab" aria-selected="false" data-vtab="tts">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 10v3M6 6v11M10 3v18M14 8v7M18 5v13M22 10v3"/></svg>
-        语音合成 TTS
-      </button>
-      <button class="v-tab" role="tab" aria-selected="false" data-vtab="clone">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="8" y="8" width="14" height="14" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
-        音色克隆
-      </button>
-    </div>
-
-    <div class="v-panel is-active" data-vpanel="asr">
-      <div class="v-main">
-        <div class="v-title">
-          <span class="icb"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="2" width="6" height="13" rx="3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg></span>
-          <div><h3>ASR · 语音识别模型</h3><p>覆盖远场、噪声、方言与行业词汇场景，适合训练和评测识别模型。</p></div>
-        </div>
-        <div class="wave" id="waveAsr"></div>
-        <div class="v-result"><span class="pl"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span><span> 识别结果：多模态数据正在完成清洗、质检与训练集拆分</span></div>
-      </div>
-      <div class="v-side">
-        <div class="v-metric"><strong>16k / 44k / 48k</strong><span> 常见采样率</span></div>
-        <div class="v-metric"><strong>98%</strong><span> 平均识别准确率</span></div>
-      </div>
-    </div>
-
-    <div class="v-panel" data-vpanel="tts">
-      <div class="v-main">
-        <div class="v-title">
-          <span class="icb"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 10v3M6 6v11M10 3v18M14 8v7M18 5v13M22 10v3"/></svg></span>
-          <div><h3>TTS · 语音合成数据</h3><p>面向音色、情绪、韵律和多说话人建模，强调棚录质量与文本覆盖。</p></div>
-        </div>
-        <div class="wave" id="waveTts"></div>
-        <div class="v-result"><span class="pl"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span><span> 合成提示：清晰、自然、稳定的音频片段已完成韵律标注</span></div>
-      </div>
-      <div class="v-side">
-        <div class="v-metric"><strong>Studio</strong><span> 录音棚级质量</span></div>
-        <div class="v-metric"><strong>400+</strong><span> 可扩展风格</span></div>
-      </div>
-    </div>
-
-    <div class="v-panel" data-vpanel="clone">
-      <div class="v-main">
-        <div class="v-title">
-          <span class="icb"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="8" y="8" width="14" height="14" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10"/></svg></span>
-          <div><h3>音色克隆数据工程</h3><p>构建授权样本、风格样本与安全评测集，降低上线风险。</p></div>
-        </div>
-        <div class="wave" id="waveClone"></div>
-        <div class="v-result"><span class="pl"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span><span> 克隆评估：目标音色、情绪强度和稳定性已进入人工复核</span></div>
-      </div>
-      <div class="v-side">
-        <div class="v-metric"><strong>Voice</strong><span> 音色一致性</span></div>
-        <div class="v-metric"><strong>Safe</strong><span> 授权与安全校验</span></div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- DATASETS -->
 <section class="section" id="datasets">
@@ -1266,6 +1167,77 @@ h2.display, h1.display {
   </div>
 </section>
 
+<!-- VOICE TABS -->
+<section class="section" id="voice">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow"> 07 · Voice Model</span>
+      <h2 class="display">感受 <span class="glow-text">声波 × 模型</span> 的精度边界</h2>
+      <p>ASR、TTS、音色克隆共享同一展示框架，切换标签查看不同任务的实时回路。</p>
+    </div>
+
+    <div class="voice-tabs" role="tablist">
+      <button class="v-tab" role="tab" aria-selected="true" data-vtab="asr">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="2" width="6" height="13" rx="3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v3"/></svg>
+        语音识别 ASR
+      </button>
+      <button class="v-tab" role="tab" aria-selected="false" data-vtab="tts">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 10v3M6 6v11M10 3v18M14 8v7M18 5v13M22 10v3"/></svg>
+        语音合成 TTS
+      </button>
+      <button class="v-tab" role="tab" aria-selected="false" data-vtab="clone">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="8" y="8" width="14" height="14" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+        音色克隆
+      </button>
+    </div>
+
+    <div class="v-panel is-active" data-vpanel="asr">
+      <div class="v-main">
+        <div class="v-title">
+          <span class="icb"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="2" width="6" height="13" rx="3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg></span>
+          <div><h3>ASR · 语音识别模型</h3><p>覆盖远场、噪声、方言与行业词汇场景，适合训练和评测识别模型。</p></div>
+        </div>
+        <div class="wave" id="waveAsr"></div>
+        <div class="v-result"><span class="pl"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span><span> 识别结果：多模态数据正在完成清洗、质检与训练集拆分</span></div>
+      </div>
+      <div class="v-side">
+        <div class="v-metric"><strong>16k / 44k / 48k</strong><span> 常见采样率</span></div>
+        <div class="v-metric"><strong>稳定</strong><span> 平均识别准确率</span></div>
+      </div>
+    </div>
+
+    <div class="v-panel" data-vpanel="tts">
+      <div class="v-main">
+        <div class="v-title">
+          <span class="icb"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 10v3M6 6v11M10 3v18M14 8v7M18 5v13M22 10v3"/></svg></span>
+          <div><h3>TTS · 语音合成数据</h3><p>面向音色、情绪、韵律和多说话人建模，强调棚录质量与文本覆盖。</p></div>
+        </div>
+        <div class="wave" id="waveTts"></div>
+        <div class="v-result"><span class="pl"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span><span> 合成提示：清晰、自然、稳定的音频片段已完成韵律标注</span></div>
+      </div>
+      <div class="v-side">
+        <div class="v-metric"><strong>Studio</strong><span> 录音棚级质量</span></div>
+        <div class="v-metric"><strong>400+</strong><span> 可扩展风格</span></div>
+      </div>
+    </div>
+
+    <div class="v-panel" data-vpanel="clone">
+      <div class="v-main">
+        <div class="v-title">
+          <span class="icb"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="8" y="8" width="14" height="14" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10"/></svg></span>
+          <div><h3>音色克隆数据工程</h3><p>构建授权样本、风格样本与安全评测集，降低上线风险。</p></div>
+        </div>
+        <div class="wave" id="waveClone"></div>
+        <div class="v-result"><span class="pl"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span><span> 克隆评估：目标音色、情绪强度和稳定性已进入人工复核</span></div>
+      </div>
+      <div class="v-side">
+        <div class="v-metric"><strong>Voice</strong><span> 音色一致性</span></div>
+        <div class="v-metric"><strong>Safe</strong><span> 授权与安全校验</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- NEWS -->
 <section class="section" id="news" style="padding-top:0;">
   <div class="container">
@@ -1290,7 +1262,6 @@ h2.display, h1.display {
       <div class="cta-inner">
         <span class="eyebrow"> 10 · Partners</span>
         <h2>与全球领先企业和机构<br/><span class="glow-text">携手共建 AI 数据生态</span></h2>
-        <p>服务于头部互联网企业、研究机构与垂直行业领导者，已累计与 1000+ 团队建立合作。</p>
       </div>
       <div class="logo-rows" aria-label="合作伙伴">
           <div class="logo-row">
@@ -1423,13 +1394,13 @@ h2.display, h1.display {
   fetch(API, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ limit: 6, page: 1 })
+    body: JSON.stringify({ limit: 4, page: 1 })
   })
     .then(res => res.ok ? res.json() : Promise.reject(new Error('news api failed')))
     .then(json => {
       const list = (json && json.data && json.data.records) || [];
       grid.innerHTML = list.length
-        ? list.slice(0, 6).map(card).join('')
+        ? list.slice(0, 4).map(card).join('')
         : '<div class="news-state">暂无新闻资讯</div>';
     })
     .catch(() => {
@@ -1551,10 +1522,10 @@ h2.display, h1.display {
   const mouse = { x: -9999, y: -9999, active: false };
 
   const COLORS = [
-    { rgb: '76,201,240', weight: 0.45 },   // electric cyan
-    { rgb: '24,166,184', weight: 0.25 },   // cyan
-    { rgb: '177,77,255', weight: 0.20 },   // violet
-    { rgb: '255,255,255', weight: 0.10 }   // white spark
+    { rgb: '76,201,240', weight: 0.42 },   // electric cyan
+    { rgb: '24,166,184', weight: 0.30 },   // cyan
+    { rgb: '177,77,255', weight: 0.22 },   // violet
+    { rgb: '255,255,255', weight: 0.06 }   // white spark
   ];
   function pickColor() {
     const r = Math.random();
@@ -1605,8 +1576,8 @@ h2.display, h1.display {
     p.vx = (dx / d) * speed + (-dy / d) * tangentSign * 0.15;
     p.vy = (dy / d) * speed + ( dx / d) * tangentSign * 0.15;
 
-    p.r = 0.8 + Math.random() * 2.0;
-    p.z = 0.3 + Math.random() * 0.8;
+    p.r = 0.55 + Math.random() * 1.35;
+    p.z = 0.22 + Math.random() * 0.55;
     p.c = pickColor();
     p.life = 0;
     p.maxLife = 360 + Math.random() * 240;
@@ -1614,7 +1585,7 @@ h2.display, h1.display {
   }
 
   function init() {
-    const count = Math.min(200, Math.max(80, Math.floor((W * H) / 9000)));
+    const count = Math.min(95, Math.max(36, Math.floor((W * H) / 17000)));
     particles = [];
     for (let i = 0; i < count; i++) {
       const p = {};
@@ -1632,11 +1603,11 @@ h2.display, h1.display {
     }
   }
 
-  const LINK = 110, MLINK = 200, REPEL = 110;
+  const LINK = 92, MLINK = 170, REPEL = 110;
 
   function step() {
     // 用半透明黑覆盖产生残影 / 拖尾
-    ctx.fillStyle = 'rgba(5,8,19,0.18)';
+    ctx.fillStyle = 'rgba(5,8,19,0.28)';
     ctx.fillRect(0, 0, W, H);
 
     // 微弱"引力曲率" — 让粒子稍稍向目标加速
@@ -1678,9 +1649,9 @@ h2.display, h1.display {
       if (inCore || out || p.life > p.maxLife) {
         // 进入核心时画一个亮点闪光
         if (inCore) {
-          ctx.fillStyle = `rgba(${p.c},0.9)`;
+          ctx.fillStyle = `rgba(${p.c},0.34)`;
           ctx.beginPath();
-          ctx.arc(target.x + (Math.random()-0.5)*target.r, target.y + (Math.random()-0.5)*target.r, 2.4, 0, Math.PI*2);
+          ctx.arc(target.x + (Math.random()-0.5)*target.r, target.y + (Math.random()-0.5)*target.r, 1.6, 0, Math.PI*2);
           ctx.fill();
         }
         spawnAtEdge(p);
@@ -1692,9 +1663,9 @@ h2.display, h1.display {
       if (p.trail.length < 2) continue;
       for (let i = 1; i < p.trail.length; i++) {
         const t0 = p.trail[i-1], t1 = p.trail[i];
-        const alpha = (i / p.trail.length) * 0.55 * p.z;
+        const alpha = (i / p.trail.length) * 0.20 * p.z;
         ctx.strokeStyle = `rgba(${p.c},${alpha})`;
-        ctx.lineWidth = p.r * p.z * 0.9;
+        ctx.lineWidth = p.r * p.z * 0.7;
         ctx.beginPath();
         ctx.moveTo(t0[0], t0[1]);
         ctx.lineTo(t1[0], t1[1]);
@@ -1704,11 +1675,11 @@ h2.display, h1.display {
 
     // 绘制粒子本体 + 外发光
     for (const p of particles) {
-      ctx.fillStyle = `rgba(${p.c},${0.85*p.z})`;
+      ctx.fillStyle = `rgba(${p.c},${0.36*p.z})`;
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.r * p.z, 0, Math.PI*2);
       ctx.fill();
-      ctx.fillStyle = `rgba(${p.c},${0.10*p.z})`;
+      ctx.fillStyle = `rgba(${p.c},${0.035*p.z})`;
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.r * p.z * 3.5, 0, Math.PI*2);
       ctx.fill();
@@ -1727,7 +1698,7 @@ h2.display, h1.display {
         const dx = a.x - b.x, dy = a.y - b.y;
         const d2 = dx*dx + dy*dy;
         if (d2 < LINK*LINK) {
-          const alpha = (1 - Math.sqrt(d2)/LINK) * 0.35 * Math.min(a.z, b.z);
+          const alpha = (1 - Math.sqrt(d2)/LINK) * 0.12 * Math.min(a.z, b.z);
           ctx.strokeStyle = `rgba(76,201,240,${alpha})`;
           ctx.lineWidth = 1;
           ctx.beginPath();
@@ -1741,7 +1712,7 @@ h2.display, h1.display {
         const dx = a.x - mouse.x, dy = a.y - mouse.y;
         const d2 = dx*dx + dy*dy;
         if (d2 < MLINK*MLINK) {
-          const alpha = (1 - Math.sqrt(d2)/MLINK) * 0.45;
+          const alpha = (1 - Math.sqrt(d2)/MLINK) * 0.16;
           ctx.strokeStyle = `rgba(76,201,240,${alpha})`;
           ctx.lineWidth = 1.1;
           ctx.beginPath();
@@ -1798,25 +1769,6 @@ h2.display, h1.display {
   });
 })();
 
-/* =========================================================
-   Marquee
-   ========================================================= */
-(function() {
-  const track = document.getElementById('marqueeTrack');
-  if (!track) return;
-  const items = [
-    '智能座舱', '智能家居', '医疗 AI', '金融风控',
-    '具身智能', '内容审核', '安防分析', '电商搜索',
-    '工业质检', '车载语音', '法律科技', '在线教育'
-  ];
-  const html = items.map(t => `
-    <span class="marquee-item">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>
-      ${t}
-    </span>
-  `).join('');
-  track.innerHTML = html + html;
-})();
 </script>
 <script src="_shared.js"></script>
 </body>

@@ -19,6 +19,11 @@
 @media(max-width:720px){.info-grid{grid-template-columns:1fr;}}
 
 /* ===== 开发者文档 · 三栏布局 ===== */
+.doc-page-head { padding:96px 0 18px; border-bottom:1px solid var(--line); background:rgba(7,13,32,0.72); }
+.doc-page-head .crumbs { margin-bottom:12px; }
+.doc-page-head h1 { font-family:var(--font-display); color:var(--text-hi); font-size:clamp(1.9rem,3vw,2.7rem); line-height:1.15; margin:0 0 10px; letter-spacing:0; }
+.doc-page-head p { margin:0; color:var(--text-mute); line-height:1.7; max-width:720px; }
+.docs-section { padding-top:18px; }
 .docs { display:grid; grid-template-columns:252px minmax(0,1fr) 196px; gap:30px; align-items:start; }
 .docs-nav { position:sticky; top:90px; max-height:calc(100vh - 110px); overflow-y:auto; border:1px solid var(--line); border-radius:var(--r-lg); background:linear-gradient(180deg,rgba(13,26,58,0.55),rgba(10,20,46,0.55)); padding:12px 8px; }
 .docs-nav::-webkit-scrollbar{ width:6px; } .docs-nav::-webkit-scrollbar-thumb{ background:rgba(143,214,255,0.2); border-radius:3px; }
@@ -81,28 +86,18 @@
 </head>
 <body>
 <div id="nav-placeholder"></div>
-<section class="page-hero">
+<section class="doc-page-head">
   <div class="container">
-    <nav class="crumbs">
-      <a href="homepage.html">首页</a>
-      <span class="sep">/</span>
-      <a href="tool_annotation.html">工具平台</a>
-      <span class="sep">/</span>
-      <span class="cur">开发文档</span>
-    </nav>
-    <span class="eyebrow">Developer · 文档</span>
-    <h1 class="display" style="font-size:clamp(2.2rem,4.8vw,4rem);margin:16px 0 20px;">
-      <span style="display:block;" class="glow-text">开发文档</span>
-    </h1>
-    <div class="htag-row"><span class="htag">Docs</span><span class="htag">API Reference</span><span class="htag">SDK</span><span class="htag">代码示例</span><span class="htag">多语言</span></div>
-    </div>
+    <h1>开发文档</h1>
+    <p>查看开放平台产品说明、接口参数、调用流程和 SDK 接入方式。</p>
+  </div>
 </section>
 <!-- 开发者文档 -->
-<section class="section" style="padding-top:24px;">
+<section class="section docs-section">
   <div class="container">
     <div class="docs">
       <aside class="docs-nav" data-reveal>
-<div class="dn-item"><div class="dn-row active" data-doc="intro" data-title="产品简介"><span>产品简介</span></div></div><div class="dn-item"><div class="dn-row" data-doc="basic" data-title="基本概念"><span>基本概念</span></div></div><div class="dn-item"><div class="dn-row" data-doc="guide" data-title="平台新手指引"><span>平台新手指引</span></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>计价模式</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="open-pricing" data-title="开放平台计价"><span>开放平台计价</span></div></div><div class="dn-item"><div class="dn-row" data-doc="custom-pricing" data-title="定价服务计价"><span>定价服务计价</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-doc="access-token" data-title="获取访问令牌"><span>获取访问令牌</span></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>语音合成</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="接口说明"><span>接口说明</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="发音人列表"><span>发音人列表</span></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>短文本合成</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="RESTful API"><span>RESTful API</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="Websocket API"><span>Websocket API</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="Android SDK"><span>Android SDK</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="iOS SDK"><span>iOS SDK</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="C++(linux) SDK"><span>C++(linux) SDK</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>长文本合成</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="RESTful API"><span>RESTful API</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="Websocket API"><span>Websocket API</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>离线合成</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="模型文件说明"><span>模型文件说明</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="Android SDK(普通版)"><span>Android SDK(普通版)</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="iOS SDK(普通版)"><span>iOS SDK(普通版)</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="Android SDK(精品版)"><span>Android SDK(精品版)</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="iOS SDK(精品版)"><span>iOS SDK(精品版)</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="xml 标签"><span>xml 标签</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="SSML 标签"><span>SSML 标签</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="语音合成时间戳功能"><span>语音合成时间戳功能</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>语音识别</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="音频格式说明"><span>音频格式说明</span></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>一句话识别</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="Restful API"><span>Restful API</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="Websocket API"><span>Websocket API</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="Android SDK"><span>Android SDK</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="iOS SDK"><span>iOS SDK</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>实时长语音识别</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="Websocket API"><span>Websocket API</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="Android SDK"><span>Android SDK</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="iOS SDK"><span>iOS SDK</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>录音文件识别</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="Restful API"><span>Restful API</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>自学习</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="热词"><span>热词</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="个性化模型"><span>个性化模型</span></div></div></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>声音复刻</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-toggle="1"><span>定制模型</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="平台上传复刻音频"><span>平台上传复刻音频</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="RESTful API"><span>RESTful API</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="Android SDK"><span>Android SDK</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="iOS SDK"><span>iOS SDK</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>定制声音合成</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="短文本合成 RESTful API"><span>短文本合成 RESTful API</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="长文本合成 Websocket API"><span>长文本合成 Websocket API</span></div></div></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>声音转换</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="发音人列表"><span>发音人列表</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="Websocket API"><span>Websocket API</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="Android SDK"><span>Android SDK</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="iOS SDK"><span>iOS SDK</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>离线声音转换</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="发音人列表"><span>发音人列表</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="Android SDK"><span>Android SDK</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="iOS SDK"><span>iOS SDK</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>声纹识别</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="RESTful API"><span>RESTful API</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>声音理解</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="RESTful API"><span>RESTful API</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>协议规则</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="标贝开放平台服务协议"><span>标贝开放平台服务协议</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="标贝开放平台通用规则"><span>标贝开放平台通用规则</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="法律声明及隐私政策"><span>法律声明及隐私政策</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="服务等级协议 SLA"><span>服务等级协议 SLA</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>常见问题</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="语音合成常见问题"><span>语音合成常见问题</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="语音识别常见问题"><span>语音识别常见问题</span></div></div></div></div>
+<div class="dn-item"><div class="dn-row active" data-doc="intro" data-title="产品简介"><span>产品简介</span></div></div><div class="dn-item"><div class="dn-row" data-doc="basic" data-title="基本概念"><span>基本概念</span></div></div><div class="dn-item"><div class="dn-row" data-doc="guide" data-title="平台新手指引"><span>平台新手指引</span></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>计价模式</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="open-pricing" data-title="开放平台计价"><span>开放平台计价</span></div></div><div class="dn-item"><div class="dn-row" data-doc="custom-pricing" data-title="定价服务计价"><span>定价服务计价</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-doc="access-token" data-title="获取访问令牌"><span>获取访问令牌</span></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>语音合成</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="tts-overview" data-title="接口说明"><span>接口说明</span></div></div><div class="dn-item"><div class="dn-row" data-doc="tts-voices" data-title="发音人列表"><span>发音人列表</span></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>短文本合成</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="tts-short-rest" data-title="RESTful API"><span>RESTful API</span></div></div><div class="dn-item"><div class="dn-row" data-doc="tts-short-ws" data-title="Websocket API"><span>Websocket API</span></div></div><div class="dn-item"><div class="dn-row" data-doc="tts-short-android" data-title="Android SDK"><span>Android SDK</span></div></div><div class="dn-item"><div class="dn-row" data-doc="tts-short-ios" data-title="iOS SDK"><span>iOS SDK</span></div></div><div class="dn-item"><div class="dn-row" data-doc="tts-short-cpp" data-title="C++(linux) SDK"><span>C++(linux) SDK</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>长文本合成</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="tts-long-rest" data-title="RESTful API"><span>RESTful API</span></div></div><div class="dn-item"><div class="dn-row" data-doc="tts-long-ws" data-title="Websocket API"><span>Websocket API</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>离线合成</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="tts-offline-model" data-title="模型文件说明"><span>模型文件说明</span></div></div><div class="dn-item"><div class="dn-row" data-doc="tts-offline-android-standard" data-title="Android SDK(普通版)"><span>Android SDK(普通版)</span></div></div><div class="dn-item"><div class="dn-row" data-doc="tts-offline-ios-standard" data-title="iOS SDK(普通版)"><span>iOS SDK(普通版)</span></div></div><div class="dn-item"><div class="dn-row" data-doc="tts-offline-android-premium" data-title="Android SDK(精品版)"><span>Android SDK(精品版)</span></div></div><div class="dn-item"><div class="dn-row" data-doc="tts-offline-ios-premium" data-title="iOS SDK(精品版)"><span>iOS SDK(精品版)</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-doc="tts-xml-tags" data-title="xml 标签"><span>xml 标签</span></div></div><div class="dn-item"><div class="dn-row" data-doc="tts-ssml-tags" data-title="SSML 标签"><span>SSML 标签</span></div></div><div class="dn-item"><div class="dn-row" data-doc="tts-api-time" data-title="语音合成时间戳功能"><span>语音合成时间戳功能</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>语音识别</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="asr-audio-format" data-title="音频格式说明"><span>音频格式说明</span></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>一句话识别</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="asr-word-rest" data-title="Restful API"><span>Restful API</span></div></div><div class="dn-item"><div class="dn-row" data-doc="asr-word-ws" data-title="Websocket API"><span>Websocket API</span></div></div><div class="dn-item"><div class="dn-row" data-doc="asr-word-android" data-title="Android SDK"><span>Android SDK</span></div></div><div class="dn-item"><div class="dn-row" data-doc="asr-word-ios" data-title="iOS SDK"><span>iOS SDK</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>实时长语音识别</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="asr-realtime-ws" data-title="Websocket API"><span>Websocket API</span></div></div><div class="dn-item"><div class="dn-row" data-doc="asr-realtime-android" data-title="Android SDK"><span>Android SDK</span></div></div><div class="dn-item"><div class="dn-row" data-doc="asr-realtime-ios" data-title="iOS SDK"><span>iOS SDK</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>录音文件识别</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="asr-file-rest" data-title="Restful API"><span>Restful API</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>自学习</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="asr-self-hotword" data-title="热词"><span>热词</span></div></div><div class="dn-item"><div class="dn-row" data-doc="asr-self-model" data-title="个性化模型"><span>个性化模型</span></div></div></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>声音复刻</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-toggle="1"><span>定制模型</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="vc-custom-upload" data-title="平台上传复刻音频"><span>平台上传复刻音频</span></div></div><div class="dn-item"><div class="dn-row" data-doc="vc-custom-rest" data-title="RESTful API"><span>RESTful API</span></div></div><div class="dn-item"><div class="dn-row" data-doc="vc-custom-android" data-title="Android SDK"><span>Android SDK</span></div></div><div class="dn-item"><div class="dn-row" data-doc="vc-custom-ios" data-title="iOS SDK"><span>iOS SDK</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>定制声音合成</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="vc-synth-short-rest" data-title="短文本合成 RESTful API"><span>短文本合成 RESTful API</span></div></div><div class="dn-item"><div class="dn-row" data-doc="vc-synth-long-ws" data-title="长文本合成 Websocket API"><span>长文本合成 Websocket API</span></div></div></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>声音转换</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="voice-convert-voices" data-title="发音人列表"><span>发音人列表</span></div></div><div class="dn-item"><div class="dn-row" data-doc="voice-convert-ws" data-title="Websocket API"><span>Websocket API</span></div></div><div class="dn-item"><div class="dn-row" data-doc="voice-convert-android" data-title="Android SDK"><span>Android SDK</span></div></div><div class="dn-item"><div class="dn-row" data-doc="voice-convert-ios" data-title="iOS SDK"><span>iOS SDK</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>离线声音转换</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="发音人列表"><span>发音人列表</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="Android SDK"><span>Android SDK</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="iOS SDK"><span>iOS SDK</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>声纹识别</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="RESTful API"><span>RESTful API</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>声音理解</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="RESTful API"><span>RESTful API</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>协议规则</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="标贝开放平台服务协议"><span>标贝开放平台服务协议</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="标贝开放平台通用规则"><span>标贝开放平台通用规则</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="法律声明及隐私政策"><span>法律声明及隐私政策</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="服务等级协议 SLA"><span>服务等级协议 SLA</span></div></div></div></div><div class="dn-item"><div class="dn-row" data-toggle="1"><span>常见问题</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><div class="dn-children"><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="语音合成常见问题"><span>语音合成常见问题</span></div></div><div class="dn-item"><div class="dn-row" data-doc="todo" data-title="语音识别常见问题"><span>语音识别常见问题</span></div></div></div></div>
       </aside>
       <div class="docs-main" data-reveal>
         <article class="doc-panel doc-body" data-doc="intro">
@@ -494,6 +489,1211 @@ content-type: application/json;charset=UTF-8
 </div>
 <div class="doc-callout doc-note"><strong>安全提醒：</strong><code>client_secret</code> 属于长期敏感凭证，建议只保存在业务服务端。前端、移动端或第三方集成方只应拿到短期可控的访问令牌。</div>
         </article>
+        <article class="doc-panel doc-body" data-doc="tts-overview" hidden>
+<h1>语音合成接口说明</h1>
+<p class="doc-lead">语音合成接口将输入文本转换为自然流畅的语音，支持通过 RESTful API 或 WebSocket API 接入。调用时可按业务场景设置音频格式、采样率、发音人、音量、语速、语调、语言类型及时间戳返回等参数。</p>
+
+<h2 id="tts-overview-features">功能说明</h2>
+<ul>
+<li>支持设置合成音频格式：<code>pcm</code>、<code>wav</code>、<code>alaw</code>、<code>ulaw</code>、<code>mp3</code>。</li>
+<li>支持设置合成音频采样率：<code>8000Hz</code>、<code>16000Hz</code>、<code>24000Hz</code>。</li>
+<li>支持设置多种发音人，可根据产品场景选择不同音色。</li>
+<li>支持设置音量、语速、语调，便于在客服、播报、阅读等场景中调整听感。</li>
+<li>支持返回时间戳信息，便于字幕、逐字高亮、口型驱动等场景对齐音频播放进度。</li>
+<li>支持设置多种语言，包括中文、英文、粤语、四川话、天津话、台湾话、韩语、巴葡语、日语、西班牙西语、墨西哥西语、维吾尔语、法语、泰语。</li>
+</ul>
+
+<h2 id="tts-overview-language">语言参数</h2>
+<p>调用语音合成接口时，可通过 <code>language</code> 参数指定语种或方言。纯中文及中英混合文本使用 <code>ZH</code>。</p>
+<div class="doc-scroll">
+<table class="doc-table">
+<tr><th>语言</th><th>language 参数</th><th>说明</th></tr>
+<tr><td>中文 / 中英混合</td><td><code>ZH</code></td><td>适用于纯中文及中英文混合文本。</td></tr>
+<tr><td>英文</td><td><code>ENG</code></td><td>适用于英文文本。</td></tr>
+<tr><td>粤语</td><td><code>CAT</code></td><td>适用于粤语文本。</td></tr>
+<tr><td>四川话</td><td><code>SCH</code></td><td>适用于四川话文本。</td></tr>
+<tr><td>天津话</td><td><code>TJH</code></td><td>适用于天津话文本。</td></tr>
+<tr><td>台湾话</td><td><code>TAI</code></td><td>适用于台湾话文本。</td></tr>
+<tr><td>韩语</td><td><code>KR</code></td><td>适用于韩语文本。</td></tr>
+<tr><td>巴葡语</td><td><code>BRA</code></td><td>适用于巴西葡萄牙语文本。</td></tr>
+<tr><td>日语</td><td><code>JP</code></td><td>适用于日语文本。</td></tr>
+<tr><td>西班牙西语</td><td><code>ESP</code></td><td>适用于西班牙西语文本。</td></tr>
+<tr><td>墨西哥西语</td><td><code>MEX</code></td><td>适用于墨西哥西语文本。</td></tr>
+<tr><td>维吾尔语</td><td><code>UYG</code></td><td>适用于维吾尔语文本。</td></tr>
+<tr><td>法语</td><td><code>FR</code></td><td>适用于法语文本。</td></tr>
+<tr><td>泰语</td><td><code>THA</code></td><td>适用于泰语文本。</td></tr>
+</table>
+</div>
+
+<h2 id="tts-overview-endpoints">服务地址</h2>
+<div class="doc-scroll">
+<table class="doc-table">
+<tr><th>接入方式</th><th>服务地址</th><th>说明</th></tr>
+<tr><td>RESTful API</td><td><code>https://openapi.data-baker.com/tts?</code></td><td>适合短文本、同步请求类场景。</td></tr>
+<tr><td>WebSocket API</td><td><code>wss://openapi.data-baker.com/tts/wsapi?</code></td><td>适合需要流式传输或更灵活交互的合成场景。</td></tr>
+</table>
+</div>
+<div class="doc-callout"><strong>鉴权提示：</strong>调用语音合成服务前，请先在“获取访问令牌”章节完成 <code>access_token</code> 获取，并在后续接口请求中携带有效令牌。</div>
+
+<h2 id="tts-overview-tags">XML 与 SSML 标签</h2>
+<p>语音合成支持通过 XML 标签和 SSML 标签对文本进行更精细的播报控制，例如停顿、音量、语速、读法或多音字处理。具体标签用法可继续迁移左侧“xml 标签”和“SSML 标签”章节。</p>
+        </article>
+        <article class="doc-panel doc-body" data-doc="tts-voices" hidden>
+<h1>发音人列表</h1>
+<p class="doc-lead">语音合成接口通过 <code>voice_name</code> 指定发音人。旧官网发音人列表包含音色名称、接口参数、声音类型、适用场景、支持语言、采样率以及是否支持音子 / 字级别时间戳。实际可用音色会随开放平台授权变化，接入前请以平台服务页可选音色为准。</p>
+
+<h2 id="tts-voices-common">常用发音人</h2>
+<div class="doc-scroll">
+<table class="doc-table">
+<tr><th>名字</th><th><code>voice_name</code></th><th>声音类型</th><th>适用场景</th><th>支持语言</th><th>采样率</th><th>时间戳</th></tr>
+<tr><td>静静</td><td><code>Jingjing</code></td><td>女声</td><td>智能客服</td><td>中文及中英文混合</td><td>8K / 16K</td><td>是</td></tr>
+<tr><td>静静 cc</td><td><code>Jingjingcc</code></td><td>女声</td><td>智能客服</td><td>中文及中英文混合</td><td>8K</td><td>否</td></tr>
+<tr><td>果果 cc</td><td><code>Guoguocc</code></td><td>女声</td><td>智能客服</td><td>中文及中英文混合</td><td>8K</td><td>否</td></tr>
+<tr><td>君君 cc</td><td><code>Junjuncc</code></td><td>女声</td><td>智能客服</td><td>中文及中英文混合</td><td>8K</td><td>否</td></tr>
+<tr><td>小金 cc</td><td><code>Xiaojincc</code></td><td>男声</td><td>智能客服</td><td>中文及中英文混合</td><td>8K</td><td>否</td></tr>
+<tr><td>子衿 cc</td><td><code>Zijincc</code></td><td>女声</td><td>智能客服</td><td>中文及中英文混合</td><td>8K</td><td>否</td></tr>
+<tr><td>小美 cc</td><td><code>Xiaomeicc</code></td><td>女声</td><td>智能客服</td><td>中文及中英文混合</td><td>8K</td><td>否</td></tr>
+<tr><td>蓉蓉</td><td><code>Rongrong</code></td><td>女声</td><td>新闻播报</td><td>中文及中英文混合</td><td>8K / 16K</td><td>否</td></tr>
+<tr><td>天天</td><td><code>Tiantian</code></td><td>男声</td><td>新闻播报</td><td>中文及中英文混合</td><td>8K / 16K</td><td>否</td></tr>
+<tr><td>小勤</td><td><code>Xiaoqin</code></td><td>女声</td><td>小说合成</td><td>纯中文</td><td>8K / 16K</td><td>否</td></tr>
+<tr><td>阿志</td><td><code>Azhi</code></td><td>男声</td><td>小说合成</td><td>中文及中英文混合</td><td>8K / 16K</td><td>否</td></tr>
+<tr><td>灵柒</td><td><code>Lingqi</code></td><td>男声</td><td>小说合成</td><td>中文及中英文混合</td><td>8K / 16K</td><td>否</td></tr>
+<tr><td>雾封华</td><td><code>Wufenghua</code></td><td>男声</td><td>小说合成</td><td>中文及中英文混合</td><td>8K / 16K</td><td>否</td></tr>
+<tr><td>阿科</td><td><code>Ake</code></td><td>男声</td><td>标准合成</td><td>纯中文</td><td>8K / 16K</td><td>是</td></tr>
+<tr><td>小玉</td><td><code>Xiaoyu</code></td><td>女声</td><td>标准合成</td><td>纯中文</td><td>8K / 16K</td><td>是</td></tr>
+<tr><td>娇娇</td><td><code>Jiaojiao</code></td><td>女声</td><td>标准合成</td><td>中文及中英文混合</td><td>8K / 16K</td><td>是</td></tr>
+<tr><td>果子</td><td><code>Guozi</code></td><td>儿童</td><td>标准合成</td><td>中文及中英文混合</td><td>8K / 16K</td><td>否</td></tr>
+<tr><td>恐龙贝克</td><td><code>Baklong</code></td><td>卡通</td><td>特色合成</td><td>纯中文</td><td>8K / 16K</td><td>是</td></tr>
+<tr><td>兰兰</td><td><code>Lanlan</code></td><td>女声</td><td>电商销售</td><td>纯中文</td><td>8K / 16K</td><td>否</td></tr>
+</table>
+</div>
+
+<h2 id="tts-voices-foreign">外语与特色音色</h2>
+<div class="doc-scroll">
+<table class="doc-table">
+<tr><th>名字</th><th><code>voice_name</code></th><th>声音类型</th><th>适用场景</th><th>支持语言</th><th>采样率</th><th>时间戳</th></tr>
+<tr><td>美语 Lisa</td><td><code>Lisa</code></td><td>女声</td><td>英文合成</td><td>纯英文</td><td>8K / 16K</td><td>否</td></tr>
+<tr><td>美语 Troy</td><td><code>Troy</code></td><td>男声</td><td>英文合成</td><td>纯英文</td><td>8K / 16K</td><td>否</td></tr>
+<tr><td>美语 Tina</td><td><code>Tina</code></td><td>女声</td><td>英文合成</td><td>纯英文</td><td>8K / 16K</td><td>否</td></tr>
+<tr><td>贝洛伊（美语）</td><td><code>Beiluoyi</code></td><td>男声</td><td>英文合成</td><td>纯英文</td><td>8K / 16K / 24K</td><td>是</td></tr>
+<tr><td>贝汉娜（美语）</td><td><code>Beihanna</code></td><td>女声</td><td>英文合成</td><td>纯英文</td><td>8K / 16K / 24K</td><td>是</td></tr>
+<tr><td>贝恩秀（韩语）</td><td><code>Beienxiu</code></td><td>女声</td><td>3.0 特色合成</td><td>韩语</td><td>8K / 16K</td><td>否</td></tr>
+<tr><td>贝恩俊（韩语）</td><td><code>Beienjun</code></td><td>男声</td><td>3.0 特色合成</td><td>韩语</td><td>8K / 16K</td><td>否</td></tr>
+<tr><td>贝迪亚（巴葡）</td><td><code>Beidiya</code></td><td>男声</td><td>3.0 特色合成</td><td>巴葡语</td><td>8K / 16K</td><td>否</td></tr>
+<tr><td>贝菲娅（巴葡）</td><td><code>Beifeiya</code></td><td>女声</td><td>3.0 特色合成</td><td>巴葡语</td><td>8K / 16K</td><td>否</td></tr>
+<tr><td>贝小野（日语）</td><td><code>Beixiaoye</code></td><td>男声</td><td>3.0 特色合成</td><td>日语</td><td>8K / 16K</td><td>否</td></tr>
+<tr><td>贝小樱（日语）</td><td><code>Beixiaoying</code></td><td>女声</td><td>3.0 特色合成</td><td>日语</td><td>8K / 16K</td><td>否</td></tr>
+<tr><td>贝洛拉（西语）</td><td><code>Beiluola</code></td><td>女声</td><td>3.0 特色合成</td><td>西班牙西语</td><td>8K / 16K</td><td>否</td></tr>
+<tr><td>贝妮卡（西语）</td><td><code>Beinika</code></td><td>女声</td><td>3.0 特色合成</td><td>墨西哥西语</td><td>8K / 16K</td><td>否</td></tr>
+<tr><td>贝古丽（维语）</td><td><code>Beiguli</code></td><td>女声</td><td>3.0 特色合成</td><td>维吾尔语</td><td>8K / 16K</td><td>否</td></tr>
+<tr><td>贝德莉</td><td><code>Beideli</code></td><td>女声</td><td>外语场景</td><td>法语</td><td>8K / 16K</td><td>否</td></tr>
+<tr><td>贝英拉</td><td><code>Beiyingla</code></td><td>女声</td><td>外语场景</td><td>泰语</td><td>8K / 16K</td><td>否</td></tr>
+</table>
+</div>
+
+<h2 id="tts-voices-emotion">多情感声音</h2>
+<p>多情感声音可在语音合成接口中通过 <code>emo_type</code> 参数设置。调用时将 <code>voice_name</code> 设为对应多情感音色，并将 <code>emo_type</code> 设为目标情感值即可。</p>
+<div class="doc-scroll">
+<table class="doc-table">
+<tr><th>名字</th><th><code>voice_name</code></th><th>支持情感 / 风格</th></tr>
+<tr><td>贝小悠</td><td><code>Beixiaoyou_emo</code></td><td><code>neutral</code> 中性、<code>happy</code> 开心、<code>angry</code> 生气、<code>sad</code> 悲伤、<code>surprise</code> 惊讶、<code>fear</code> 害怕、<code>hate</code> 厌恶</td></tr>
+<tr><td>贝小夕</td><td><code>Beixiaoxi_emo</code></td><td><code>neutral</code> 中性、<code>happy</code> 开心、<code>angry</code> 生气、<code>sad</code> 悲伤、<code>surprise</code> 惊讶、<code>fear</code> 害怕、<code>hate</code> 厌恶</td></tr>
+<tr><td>贝小灵</td><td><code>Beixiaoling_emo</code></td><td><code>neutral</code> 中性、<code>happy</code> 开心、<code>angry</code> 生气、<code>sad</code> 悲伤、<code>surprise</code> 惊讶、<code>cute</code> 可爱、<code>newscast-entertainment</code> 娱乐新闻、<code>newscast-civic</code> 民生新闻、<code>newscast-sports</code> 体育新闻</td></tr>
+<tr><td>贝小悦</td><td><code>Beixiaoyue_emo</code></td><td><code>positive</code> 积极、<code>negative</code> 消极、<code>dialogue-natural</code> 对话、<code>newscast</code> 新闻、<code>customerservice</code> 客服</td></tr>
+<tr><td>贝小驰</td><td><code>Beixiaochi_emo</code></td><td><code>sad</code> 悲伤、<code>happy</code> 开心、<code>dialogue-natural</code> 对话、<code>customerservice</code> 客服</td></tr>
+<tr><td>贝小恒</td><td><code>Beixiaoheng_emo</code></td><td><code>neutral</code> 中性、<code>happy</code> 开心、<code>angry</code> 生气、<code>sad</code> 悲伤、<code>dialogue</code> 对话、<code>customerservice</code> 客服</td></tr>
+<tr><td>贝小楠</td><td><code>Beixiaonan_emo</code></td><td><code>neutral</code> 中性、<code>happy</code> 开心、<code>comfort</code> 安慰、<code>angry</code> 生气、<code>sad</code> 悲伤、<code>chat</code> 闲聊</td></tr>
+</table>
+</div>
+        </article>
+        <article class="doc-panel doc-body" data-doc="tts-short-rest" hidden>
+<h1>短文本合成 RESTful API</h1>
+<p class="doc-lead">短文本合成 RESTful API 适合一次请求返回完整音频的场景。接口通过 HTTPS 请求传入文本、发音人、语言、音频格式等参数；合成成功时直接返回音频数据，失败时返回 JSON 错误信息。</p>
+
+<h2 id="tts-short-rest-flow">接入流程</h2>
+<div class="doc-flow">
+  <div class="doc-flow-step"><b>01</b><span>在开放平台创建应用并开通短文本合成服务，获取 <code>client_id</code> 与 <code>client_secret</code>。</span></div>
+  <div class="doc-flow-step"><b>02</b><span>调用“获取访问令牌”章节中的授权接口获取 <code>access_token</code>。</span></div>
+  <div class="doc-flow-step"><b>03</b><span>携带 <code>access_token</code>、<code>text</code>、<code>voice_name</code>、<code>language</code>、<code>audiotype</code> 等参数调用合成接口。</span></div>
+  <div class="doc-flow-step"><b>04</b><span>根据响应头判断返回类型：<code>audio/*</code> 为合成音频，<code>application/json</code> 为错误信息。</span></div>
+</div>
+
+<h2 id="tts-short-rest-endpoint">服务地址</h2>
+<div class="doc-callout"><strong>RESTful API：</strong><code>https://openapi.data-baker.com/tts?</code></div>
+
+<h2 id="tts-short-rest-params">请求参数</h2>
+<div class="doc-scroll">
+<table class="doc-table">
+<tr><th>参数</th><th>类型</th><th>必填</th><th>说明</th></tr>
+<tr><td><code>access_token</code></td><td>string</td><td>是</td><td>通过 <code>client_id</code> 与 <code>client_secret</code> 获取的访问令牌。</td></tr>
+<tr><td><code>text</code></td><td>string</td><td>是</td><td>需要合成的文本，UTF-8 编码。短文本接口单次请求建议不超过 300 个有效字符。</td></tr>
+<tr><td><code>voice_name</code></td><td>string</td><td>是</td><td>发音人参数，例如 <code>Jingjing</code>、<code>Jiaojiao</code>，详见“发音人列表”。</td></tr>
+<tr><td><code>language</code></td><td>string</td><td>是</td><td>语言参数，例如 <code>ZH</code>、<code>ENG</code>、<code>CAT</code>、<code>SCH</code> 等。</td></tr>
+<tr><td><code>domain</code></td><td>string</td><td>否</td><td>业务域参数，公有云默认可传 <code>1</code>。</td></tr>
+<tr><td><code>audiotype</code></td><td>int</td><td>否</td><td>音频类型。旧版 SDK 示例中 <code>4</code> 表示 16K PCM，<code>5</code> 表示 8K PCM；其他格式请以平台服务配置为准。</td></tr>
+<tr><td><code>speed</code></td><td>float</td><td>否</td><td>语速，取值范围 <code>0～9</code>，默认 <code>5</code>。</td></tr>
+<tr><td><code>volume</code></td><td>int</td><td>否</td><td>音量，取值范围 <code>0～9</code>，默认 <code>5</code>。</td></tr>
+<tr><td><code>pitch</code></td><td>float</td><td>否</td><td>语调，取值范围 <code>0～9</code>，默认 <code>5</code>。</td></tr>
+<tr><td><code>interval</code></td><td>int</td><td>否</td><td>音子级别时间戳：<code>0</code> 关闭，<code>1</code> 开启。</td></tr>
+<tr><td><code>enable_subtitles</code></td><td>int</td><td>否</td><td>字级别时间戳，需配合 <code>interval=1</code> 使用：<code>0</code> 关闭，<code>1</code> 开启。</td></tr>
+<tr><td><code>silence</code></td><td>int</td><td>否</td><td>标点静音时长：<code>0</code> 默认，<code>1</code> 句中停顿较短，<code>2</code> 句中停顿较长。</td></tr>
+</table>
+</div>
+
+<h2 id="tts-short-rest-sample">请求示例</h2>
+<pre class="doc-sample doc-code">https://openapi.data-baker.com/tts?access_token=your_access_token&amp;domain=1&amp;language=ZH&amp;voice_name=Jingjing&amp;text=欢迎使用标贝开放平台&amp;audiotype=5</pre>
+<pre class="doc-sample doc-code">import requests
+
+params = {
+    "access_token": "your_access_token",
+    "domain": "1",
+    "language": "ZH",
+    "voice_name": "Jingjing",
+    "text": "欢迎使用标贝开放平台",
+    "audiotype": 5
+}
+
+response = requests.post("https://openapi.data-baker.com/tts", params=params)
+content_type = response.headers.get("Content-Type", "")
+if "audio" in content_type:
+    open("tts.pcm", "wb").write(response.content)
+else:
+    print(response.text)</pre>
+
+<h2 id="tts-short-rest-errors">返回与错误</h2>
+<p>合成成功时返回音频二进制数据；合成失败时返回 JSON 错误信息。常见错误包括令牌缺失或无效、语言参数错误、发音人参数错误、音频类型参数错误、文本为空或文本长度超限等。</p>
+        </article>
+
+        <article class="doc-panel doc-body" data-doc="tts-short-ws" hidden>
+<h1>短文本合成 Websocket API</h1>
+<p class="doc-lead">短文本合成 WebSocket API 适合需要流式返回音频、边合成边播放或接收时间戳信息的场景。客户端建立 WebSocket 连接后发送合成参数，服务端分片返回音频数据和合成状态。</p>
+
+<h2 id="tts-short-ws-endpoint">服务地址</h2>
+<div class="doc-callout"><strong>WebSocket API：</strong><code>wss://openapi.data-baker.com/tts/wsapi?</code></div>
+
+<h2 id="tts-short-ws-params">连接与合成参数</h2>
+<p>WebSocket 接口使用的核心参数与 RESTful API 基本一致，包括 <code>access_token</code>、<code>text</code>、<code>voice_name</code>、<code>language</code>、<code>audiotype</code>、<code>speed</code>、<code>volume</code>、<code>pitch</code>、<code>interval</code>、<code>enable_subtitles</code> 等。</p>
+<div class="doc-scroll">
+<table class="doc-table">
+<tr><th>参数</th><th>说明</th></tr>
+<tr><td><code>text</code></td><td>待合成文本，短文本接口单次请求建议不超过 300 个有效字符。</td></tr>
+<tr><td><code>voice_name</code></td><td>发音人名称，例如 <code>Jingjing</code>、<code>Jiaojiao</code>。</td></tr>
+<tr><td><code>language</code></td><td>语言类型，例如 <code>ZH</code>、<code>ENG</code>。</td></tr>
+<tr><td><code>audiotype</code></td><td>返回音频类型，需与播放器采样率和解码方式保持一致。</td></tr>
+<tr><td><code>interval</code></td><td>开启后返回音子级别时间戳信息。</td></tr>
+<tr><td><code>enable_subtitles</code></td><td>配合 <code>interval=1</code> 使用，开启字级别时间戳。</td></tr>
+</table>
+</div>
+
+<h2 id="tts-short-ws-response">返回数据</h2>
+<p>服务端会持续返回分片数据。旧版 SDK 回调中返回的核心字段如下：</p>
+<div class="doc-scroll">
+<table class="doc-table">
+<tr><th>字段</th><th>说明</th></tr>
+<tr><td><code>code</code></td><td>状态码，<code>90000</code> 表示成功。</td></tr>
+<tr><td><code>message</code></td><td>状态描述。</td></tr>
+<tr><td><code>trace_id</code></td><td>引擎内部合成任务 ID，用于问题排查。</td></tr>
+<tr><td><code>data.idx</code></td><td>音频分片序号。</td></tr>
+<tr><td><code>data.audio_data</code></td><td>音频数据，通常为 Base64 编码，客户端需解码后播放或保存。</td></tr>
+<tr><td><code>data.audio_type</code></td><td>音频类型，例如 <code>audio/pcm</code>。</td></tr>
+<tr><td><code>data.interval</code></td><td>时间戳信息，可能为空。</td></tr>
+<tr><td><code>data.interval_x</code></td><td>扩展时间戳信息，例如语言与音子类型标识。</td></tr>
+<tr><td><code>data.end_flag</code></td><td>是否为最后一个数据块，最后一包返回后合成完成。</td></tr>
+</table>
+</div>
+<pre class="doc-sample doc-code">{
+  "code": 90000,
+  "message": "Success",
+  "trace_id": "1572234229176271",
+  "data": {
+    "idx": 1,
+    "audio_data": "P8EAPz/AQAGAPf/8v/n/wkAAwD//wsA7f/q/x",
+    "audio_type": "audio/pcm",
+    "interval": "h=0.083746&amp;e=0.175807",
+    "interval_x": "L=1&amp;T=1,L=1&amp;T=2",
+    "end_flag": 0
+  }
+}</pre>
+
+<h2 id="tts-short-ws-notes">调用注意事项</h2>
+<ul>
+<li>播放器采样率、声道和编码方式需要与请求的 <code>audiotype</code> 保持一致。</li>
+<li>如果开启时间戳，需要在客户端同时处理音频分片和时间戳字段。</li>
+<li>连接关闭或收到最后一包数据后，应释放 WebSocket、播放器与缓存资源。</li>
+</ul>
+        </article>
+
+        <article class="doc-panel doc-body" data-doc="tts-short-android" hidden>
+<h1>短文本合成 Android SDK</h1>
+<p class="doc-lead">Android SDK 提供在线短文本合成能力，可选择只接收合成音频源数据，也可直接使用 SDK 内置播放器完成播放。旧站示例基于 Android Studio 集成。</p>
+
+<h2 id="tts-short-android-install">下载安装与集成</h2>
+<ul>
+<li>将 <code>basecomponent-release.aar</code> 与 <code>synthesizer-release.aar</code> 添加到主 module 的 <code>libs</code> 目录。</li>
+<li>在主 module 的 <code>build.gradle</code> 中引入 AAR，并添加 <code>okhttp</code> 与 <code>gson</code> 依赖。若项目已存在这两个库，无需重复添加；<code>okhttp</code> 建议使用 4.x 以上版本。</li>
+<li>在 <code>AndroidManifest.xml</code> 中添加网络权限 <code>android.permission.INTERNET</code>。</li>
+<li>在 <code>application</code> 节点添加 <code>android:usesCleartextTraffic="true"</code>。</li>
+</ul>
+<pre class="doc-sample doc-code">dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.aar'])
+    implementation 'com.squareup.okhttp3:okhttp:4.2.2'
+    implementation 'com.google.code.gson:gson:2.8.6'
+}</pre>
+
+<h2 id="tts-short-android-classes">SDK 关键类</h2>
+<div class="doc-scroll">
+<table class="doc-table">
+<tr><th>类名</th><th>说明</th></tr>
+<tr><td><code>BakerSynthesizer</code></td><td>语音合成关键业务处理类，全局通常只需一个实例。</td></tr>
+<tr><td><code>BakerCallback</code></td><td>合成结果源数据回调，适合自行处理返回的音频字节数据。</td></tr>
+<tr><td><code>BakerMediaCallback</code></td><td>播放器回调，适合直接使用 SDK 内置播放器播放合成音频。</td></tr>
+<tr><td><code>BakerConstants</code></td><td>参数、错误码等常量类。</td></tr>
+</table>
+</div>
+<pre class="doc-sample doc-code">BakerSynthesizer bakerSynthesizer =
+    new BakerSynthesizer(context, clientId, secret);
+
+// 私有化部署示例
+BakerSynthesizer bakerSynthesizer = new BakerSynthesizer(context);
+bakerSynthesizer.setUrl("ws://xxx");
+bakerSynthesizer.setTtsToken("default");</pre>
+
+<h2 id="tts-short-android-flow">调用说明</h2>
+<div class="doc-flow">
+  <div class="doc-flow-step"><b>01</b><span>初始化 <code>BakerSynthesizer</code>。</span></div>
+  <div class="doc-flow-step"><b>02</b><span>根据业务选择实现 <code>BakerCallback</code> 或 <code>BakerMediaCallback</code>。</span></div>
+  <div class="doc-flow-step"><b>03</b><span>设置合成参数，例如文本、发音人、语言、语速、音量、音调和音频类型。</span></div>
+  <div class="doc-flow-step"><b>04</b><span>调用 <code>start()</code> 与云端服务建立连接。</span></div>
+  <div class="doc-flow-step"><b>05</b><span>在 <code>onPrepared()</code> 回调中可调用 <code>bakerPlay()</code> 开始播放。</span></div>
+  <div class="doc-flow-step"><b>06</b><span>页面关闭或业务完成时调用 <code>onDestroy()</code> 释放 WebSocket 与播放器资源。</span></div>
+</div>
+
+<h2 id="tts-short-android-params">常用参数</h2>
+<div class="doc-scroll">
+<table class="doc-table">
+<tr><th>方法 / 参数</th><th>必填</th><th>说明</th></tr>
+<tr><td><code>setText</code></td><td>是</td><td>设置要转为语音的合成文本。</td></tr>
+<tr><td><code>setBakerCallback</code></td><td>是</td><td>设置返回数据的回调。</td></tr>
+<tr><td><code>setVoice</code></td><td>否</td><td>设置发音人声音名称，默认 <code>Jiaojiao</code>。</td></tr>
+<tr><td><code>setLanguage</code></td><td>否</td><td>设置语言类型，默认 <code>ZH</code>。</td></tr>
+<tr><td><code>setSpeed</code></td><td>否</td><td>语速，<code>0～9</code>，默认 <code>5</code>。</td></tr>
+<tr><td><code>setVolume</code></td><td>否</td><td>音量，<code>0～9</code>，默认 <code>5</code>。</td></tr>
+<tr><td><code>setPitch</code></td><td>否</td><td>音调，<code>0～9</code>，默认 <code>5</code>。</td></tr>
+<tr><td><code>setAudioType</code></td><td>否</td><td>音频类型，旧站示例中 <code>4</code> 为 16K PCM，<code>5</code> 为 8K PCM。</td></tr>
+<tr><td><code>interval</code></td><td>否</td><td>音子级别时间戳：<code>0</code> 关闭，<code>1</code> 开启。</td></tr>
+<tr><td><code>enable_subtitles</code></td><td>否</td><td>字级别时间戳，需配合 <code>interval=1</code> 使用。</td></tr>
+</table>
+</div>
+
+<h2 id="tts-short-android-player">播放器方法</h2>
+<ul>
+<li><code>bakerPlay()</code>：播放音频，常在 <code>onPrepared()</code> 回调中调用。</li>
+<li><code>bakerPause()</code>：暂停播放。</li>
+<li><code>bakerStop()</code>：停止播放。</li>
+<li><code>isPlaying()</code>：返回当前播放状态。</li>
+<li><code>getCurrentPosition()</code>：获取当前播放进度。</li>
+<li><code>getDuration()</code>：获取合成音频总长度。</li>
+</ul>
+        </article>
+
+        <article class="doc-panel doc-body" data-doc="tts-short-ios" hidden>
+<h1>短文本合成 iOS SDK</h1>
+<p class="doc-lead">iOS SDK 支持在线短文本合成与合成播放两种使用方式。旧站示例要求 iOS 9.0 以上，支持 arm64 与 i386 架构。</p>
+
+<h2 id="tts-short-ios-install">集成方式</h2>
+<ul>
+<li>可通过 Pod 集成 <code>DBAudioSDK/DBOnlineTTSKit</code>，版本号以实际 SDK 包为准。</li>
+<li>也可参考 demo 手动导入资源文件和 Framework。</li>
+<li>在业务 <code>ViewController</code> 中引入 <code>DBSynthesizerManager.h</code>。</li>
+</ul>
+<pre class="doc-sample doc-code">Pod 'DBAudioSDK/DBOnlineTTSKit', 'x.x.x'
+
+#import "DBSynthesizerManager.h"</pre>
+
+<h2 id="tts-short-ios-classes">SDK 关键类</h2>
+<div class="doc-scroll">
+<table class="doc-table">
+<tr><th>类 / 协议</th><th>说明</th></tr>
+<tr><td><code>DBSynthesizerManager</code></td><td>语音合成关键业务处理类，需要注册回调对象。</td></tr>
+<tr><td><code>DBSynthesizerManagerDelegate</code></td><td>合成功能回调协议。</td></tr>
+<tr><td><code>DBSynthesisPlayerDelegate</code></td><td>合成播放功能回调协议。</td></tr>
+<tr><td><code>DBSynthesizerRequestParam</code></td><td>合成参数设置类。</td></tr>
+<tr><td><code>DBFailureModel</code></td><td>请求异常回调模型，包含错误码、错误信息和 <code>trace_id</code>。</td></tr>
+<tr><td><code>DBTTSEnumerate</code></td><td>SDK 全局错误枚举类。</td></tr>
+</table>
+</div>
+
+<h2 id="tts-short-ios-flow">调用说明</h2>
+<div class="doc-flow">
+  <div class="doc-flow-step"><b>01</b><span>实例化 <code>DBSynthesizerManager</code>，公有云设置 <code>clientId</code> 与 <code>clientSecret</code>，私有化部署设置服务地址。</span></div>
+  <div class="doc-flow-step"><b>02</b><span>设置回调代理：合成功能使用 <code>delegate</code>，合成播放功能使用 <code>playerDelegate</code>。</span></div>
+  <div class="doc-flow-step"><b>03</b><span>创建并设置 <code>DBSynthesizerRequestParam</code> 合成参数。</span></div>
+  <div class="doc-flow-step"><b>04</b><span>调用 <code>startPlayNeedSpeaker:YES</code> 开始连接云端并播放；如仅需合成数据，可按 SDK 方法设置为不播放。</span></div>
+  <div class="doc-flow-step"><b>05</b><span>业务完成或页面关闭时调用 <code>cancel</code> 结束服务并释放资源。</span></div>
+</div>
+<pre class="doc-sample doc-code">_synthesizerManager.delegate = self;
+_synthesizerManager.playerDelegate = self;
+
+// 开始合成播放
+[_synthesizerManager startPlayNeedSpeaker:YES];
+
+// 结束服务
+[self.synthesizerManager cancel];</pre>
+        </article>
+
+        <article class="doc-panel doc-body" data-doc="tts-short-cpp" hidden>
+<h1>短文本合成 C++(linux) SDK</h1>
+<p class="doc-lead">C++(linux) SDK 用于在 Linux 服务或客户端环境中接入短文本合成能力。旧官网该章节入口存在，但当前可抓取内容不稳定；本章节先整理通用集成要点，后续可继续补充 SDK 包下载、类接口、编译参数和完整示例。</p>
+
+<h2 id="tts-short-cpp-flow">接入要点</h2>
+<ul>
+<li>接入前需在开放平台开通短文本合成服务，并获取 <code>client_id</code> 与 <code>client_secret</code>。</li>
+<li>服务端可先通过 RESTful 授权接口获取 <code>access_token</code>，再在 SDK 或 WebSocket 请求中复用该令牌。</li>
+<li>合成参数与短文本 RESTful / WebSocket API 保持一致，包括文本、发音人、语言、音频格式、语速、音量、语调等。</li>
+<li>播放或保存音频时，需要确保采样率、编码格式与请求参数一致。</li>
+</ul>
+
+<h2 id="tts-short-cpp-pending">待补充内容</h2>
+<div class="doc-callout doc-note"><strong>迁移提示：</strong>旧站 C++(linux) SDK 页面需要继续定位原始正文。建议后续补齐 SDK 下载地址、依赖库、编译命令、初始化代码、参数设置、回调说明和错误码。</div>
+        </article>
+
+        <article class="doc-panel doc-body" data-doc="tts-long-rest" hidden>
+<h1>长文本合成 RESTful API</h1>
+<p class="doc-lead">长文本合成 RESTful API 适合一次性提交较长文本的场景，例如新闻稿、短篇小说、有声读物片段等。接口采用异步方式：提交任务后返回 <code>work_id</code>，开发者可通过回调地址接收音频链接，也可按 <code>work_id</code> 主动轮询合成结果。旧站说明中建议轮询频率不要过高，通常 10 秒或更长时间查询一次即可，回调音频下载地址有效期为 7 天。</p>
+
+<h2 id="tts-long-rest-flow">接入流程</h2>
+<div class="doc-flow">
+  <div class="doc-flow-step"><b>01</b><span>在开放平台创建账号和应用，开通长文本合成服务，获取 <code>client_id</code> 与 <code>client_secret</code>。</span></div>
+  <div class="doc-flow-step"><b>02</b><span>调用“获取访问令牌”章节中的授权接口获取 <code>access_token</code>。</span></div>
+  <div class="doc-flow-step"><b>03</b><span>向任务创建接口提交 <code>version</code>、<code>access_token</code> 与 <code>tts_params</code>。</span></div>
+  <div class="doc-flow-step"><b>04</b><span>通过 <code>notify_url</code> 接收回调，或使用查询接口按 <code>work_id</code> 轮询合成状态和音频链接。</span></div>
+</div>
+
+<h2 id="tts-long-rest-endpoint">服务地址</h2>
+<div class="doc-scroll">
+<table class="doc-table">
+<tr><th>访问类型</th><th>说明</th><th>URL</th><th>Host</th></tr>
+<tr><td>外网访问</td><td>创建长文本合成任务，只支持 <code>POST</code> 调用。</td><td><code>https://openapi.data-baker.com/asynctts/synthesis/work</code></td><td><code>openapi.data-baker.com</code></td></tr>
+<tr><td>外网访问</td><td>根据 <code>work_id</code> 主动查询合成结果，只支持 <code>GET</code> 调用。</td><td><code>https://openapi.data-baker.com/asynctts/synthesis/query</code></td><td><code>openapi.data-baker.com</code></td></tr>
+</table>
+</div>
+
+<h2 id="tts-long-rest-params">请求参数</h2>
+<p>创建任务时需将参数放在 HTTPS 请求体 Body 中，Body 使用 JSON 格式。</p>
+<div class="doc-scroll">
+<table class="doc-table">
+<tr><th>参数</th><th>类型</th><th>必填</th><th>说明</th></tr>
+<tr><td><code>version</code></td><td>string</td><td>是</td><td>版本信息，固定传 <code>2.1</code>，其他值无效。</td></tr>
+<tr><td><code>access_token</code></td><td>string</td><td>是</td><td>通过 <code>client_id</code> 与 <code>client_secret</code> 获取的访问令牌。</td></tr>
+<tr><td><code>tts_params</code></td><td>object</td><td>是</td><td>语音合成参数对象。</td></tr>
+</table>
+</div>
+<div class="doc-scroll">
+<table class="doc-table">
+<tr><th><code>tts_params</code> 参数</th><th>类型</th><th>必填</th><th>说明</th></tr>
+<tr><td><code>text</code></td><td>string</td><td>是</td><td>需要合成的文本，UTF-8 编码，支持一次性上传不超过 10 万个字节。</td></tr>
+<tr><td><code>voice_name</code></td><td>string</td><td>是</td><td>发音人名称，例如 <code>Jingjing</code>，详见“发音人列表”。</td></tr>
+<tr><td><code>language</code></td><td>string</td><td>是</td><td>语言类型，例如 <code>ZH</code>、<code>ENG</code>、<code>CAT</code>、<code>SCH</code>、<code>TJH</code>、<code>TAI</code>、<code>KR</code>、<code>BRA</code>、<code>JP</code>、<code>ESP</code>、<code>MEX</code>、<code>UYG</code>、<code>FR</code>、<code>THA</code>。</td></tr>
+<tr><td><code>audio_fmt</code></td><td>string</td><td>否</td><td>音频格式，默认 <code>MP3</code>，支持 <code>MP3</code>、<code>PCM</code>、<code>WAV</code>。</td></tr>
+<tr><td><code>sample_rate</code></td><td>int</td><td>否</td><td>采样率，默认 <code>16000</code>，支持 <code>8000</code>、<code>16000</code>、<code>24000</code>。</td></tr>
+<tr><td><code>speed</code></td><td>float</td><td>否</td><td>语速，取值范围 <code>0～9</code>，默认 <code>5</code>。</td></tr>
+<tr><td><code>volume</code></td><td>int</td><td>否</td><td>音量，取值范围 <code>0～9</code>，默认 <code>5</code>。</td></tr>
+<tr><td><code>pitch</code></td><td>float</td><td>否</td><td>语调，取值范围 <code>0～9</code>，默认 <code>5</code>。</td></tr>
+<tr><td><code>spectrum</code></td><td>int</td><td>否</td><td>高频频谱调整，取值 <code>0～20</code>，默认 <code>1</code> 表示不调整。</td></tr>
+<tr><td><code>spectrum_8k</code></td><td>int</td><td>否</td><td>低频部分频谱调整，取值 <code>0～20</code>，仅针对 8K 音频。</td></tr>
+<tr><td><code>silence</code></td><td>int</td><td>否</td><td>标点静音时长：<code>0</code> 默认，<code>1</code> 句中停顿较短，<code>2</code> 句中停顿较长。</td></tr>
+<tr><td><code>notify_url</code></td><td>string</td><td>否</td><td>用于接收合成结果的回调地址，必须可公网访问。</td></tr>
+<tr><td><code>timestamp</code></td><td>int</td><td>否</td><td>是否返回时间戳信息：默认 <code>0</code> 不开启，<code>1</code> 开启。</td></tr>
+</table>
+</div>
+
+<h2 id="tts-long-rest-sample">请求示例</h2>
+<pre class="doc-sample doc-code">curl --location --request POST 'https://openapi.data-baker.com/asynctts/synthesis/work' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "version": "2.1",
+  "access_token": "your_access_token",
+  "tts_params": {
+    "voice_name": "Jingjing",
+    "language": "ZH",
+    "domain": "1",
+    "audio_fmt": "WAV",
+    "notify_url": "https://example.com/notify",
+    "text": "欢迎使用标贝开放平台"
+  }
+}'</pre>
+
+<h2 id="tts-long-rest-result">响应、回调与轮询</h2>
+<p>任务创建成功时返回 <code>err_no=0</code>，并在 <code>result.work_id</code> 中返回作品 ID。主动查询时需传入 <code>client_id</code>、<code>access_token</code>、<code>work_id</code> 与 <code>version=2.1</code>。</p>
+<div class="doc-scroll">
+<table class="doc-table">
+<tr><th>字段</th><th>类型</th><th>说明</th></tr>
+<tr><td><code>err_msg</code></td><td>string</td><td>描述信息，仅作提示。</td></tr>
+<tr><td><code>err_no</code></td><td>int</td><td>错误码，<code>0</code> 表示成功。</td></tr>
+<tr><td><code>log_id</code></td><td>string</td><td>日志跟踪 ID。</td></tr>
+<tr><td><code>result.work_id</code></td><td>string</td><td>任务创建成功时返回的作品 ID。</td></tr>
+<tr><td><code>result.audio_url</code></td><td>string</td><td>合成完成后的音频下载链接。</td></tr>
+<tr><td><code>result.timestamp</code></td><td>object</td><td>开启时间戳时返回的字、音子、句段信息。</td></tr>
+</table>
+</div>
+<pre class="doc-sample doc-code">GET https://openapi.data-baker.com/asynctts/synthesis/query?version=2.1&amp;work_id=WORK_ID&amp;client_id=CLIENT_ID&amp;access_token=ACCESS_TOKEN</pre>
+<div class="doc-callout"><strong>轮询建议：</strong>长文本合成是异步任务，文本上传成功后会进入等待队列。旧站建议轮询间隔为 10 秒或更长；如果返回 <code>21040001</code>，表示任务仍在处理中。</div>
+
+<h2 id="tts-long-rest-errors">常见错误码</h2>
+<div class="doc-scroll">
+<table class="doc-table">
+<tr><th>错误码</th><th>含义</th><th>说明</th></tr>
+<tr><td><code>0</code></td><td>调用成功</td><td><code>Success</code></td></tr>
+<tr><td><code>21010000</code></td><td>版本号错误</td><td><code>version</code> 参数不正确。</td></tr>
+<tr><td><code>21010001</code></td><td>访问令牌错误</td><td><code>access_token</code> 为空或不正确。</td></tr>
+<tr><td><code>21010003</code></td><td>语言参数错误</td><td><code>language</code> 为空或不正确。</td></tr>
+<tr><td><code>21010004</code></td><td>发音人错误</td><td><code>voice_name</code> 为空或不正确。</td></tr>
+<tr><td><code>21010009</code></td><td>文本错误</td><td><code>text</code> 为空或不正确。</td></tr>
+<tr><td><code>21010010</code></td><td>文本超长</td><td><code>text</code> 超过接口限制。</td></tr>
+<tr><td><code>21030000</code></td><td>鉴权错误</td><td><code>access_token</code> 不正确或已失效。</td></tr>
+<tr><td><code>21040001</code></td><td>任务处理中</td><td>合成任务正在处理，请稍后再查。</td></tr>
+<tr><td><code>21040002</code></td><td>合成失败</td><td>请检查参数或文本内容。</td></tr>
+<tr><td><code>21040003</code></td><td>作品不存在</td><td>请确认 <code>client_id</code> 和 <code>work_id</code> 正确。</td></tr>
+</table>
+</div>
+        </article>
+
+        <article class="doc-panel doc-body" data-doc="tts-long-ws" hidden>
+<h1>长文本合成 Websocket API</h1>
+<p class="doc-lead">长文本合成 WebSocket API 适合希望尽快获得合成音频的场景。客户端建立 WebSocket 连接后发送文本和合成参数，服务端以流式分片持续返回音频数据，直到最后一帧返回完成标记。</p>
+
+<h2 id="tts-long-ws-features">功能说明</h2>
+<ul>
+<li>支持 <code>PCM</code> 音频格式。</li>
+<li>支持 <code>8000Hz</code>、<code>16000Hz</code>、<code>24000Hz</code> 采样率。</li>
+<li>支持多种发音人、音量、语速、语调和时间戳信息。</li>
+<li>支持中文、英文、粤语、四川话、天津话、台湾话、韩语、巴葡语、日语、西班牙西语、墨西哥西语、维吾尔语、法语、泰语等语言参数。</li>
+</ul>
+
+<h2 id="tts-long-ws-endpoint">服务地址</h2>
+<div class="doc-callout"><strong>WebSocket API：</strong><code>wss://openapi.data-baker.com/tts/wsapi</code></div>
+
+<h2 id="tts-long-ws-flow">调用流程</h2>
+<div class="doc-flow">
+  <div class="doc-flow-step"><b>01</b><span>创建应用并获取 <code>client_id</code>、<code>client_secret</code>。</span></div>
+  <div class="doc-flow-step"><b>02</b><span>调用授权接口获取 <code>access_token</code>。</span></div>
+  <div class="doc-flow-step"><b>03</b><span>建立 WebSocket 连接并发送 JSON 合成参数。</span></div>
+  <div class="doc-flow-step"><b>04</b><span>持续接收服务端分片，解析 <code>audio_data</code>、<code>timestamp</code> 与 <code>end_flag</code>。</span></div>
+  <div class="doc-flow-step"><b>05</b><span>收到最后一帧或业务完成后关闭连接，并释放播放器、缓存等资源。</span></div>
+</div>
+
+<h2 id="tts-long-ws-params">请求参数</h2>
+<div class="doc-scroll">
+<table class="doc-table">
+<tr><th>参数</th><th>类型</th><th>必填</th><th>说明</th></tr>
+<tr><td><code>version</code></td><td>string</td><td>是</td><td>版本信息，固定传 <code>2.1</code>。</td></tr>
+<tr><td><code>access_token</code></td><td>string</td><td>是</td><td>通过 <code>client_id</code> 与 <code>client_secret</code> 获取的访问令牌。</td></tr>
+<tr><td><code>tts_params</code></td><td>object</td><td>是</td><td>语音合成参数对象。</td></tr>
+</table>
+</div>
+<div class="doc-scroll">
+<table class="doc-table">
+<tr><th><code>tts_params</code> 参数</th><th>类型</th><th>必填</th><th>说明</th></tr>
+<tr><td><code>text</code></td><td>string</td><td>是</td><td>合成文本，UTF-8 编码，旧站说明中该接口一次请求最多不超过 2 万个汉字。</td></tr>
+<tr><td><code>voice_name</code></td><td>string</td><td>是</td><td>发音人名称，例如 <code>Jingjing</code>。</td></tr>
+<tr><td><code>domain</code></td><td>int</td><td>是</td><td>应用所属领域，目前固定传 <code>1</code>。</td></tr>
+<tr><td><code>language</code></td><td>string</td><td>是</td><td>语言类型，例如 <code>ZH</code>、<code>ENG</code>、<code>CAT</code>、<code>SCH</code>、<code>TJH</code>、<code>TAI</code>、<code>KR</code>、<code>BRA</code>、<code>JP</code>、<code>ESP</code>、<code>MEX</code>、<code>UYG</code>、<code>FR</code>、<code>THA</code>。</td></tr>
+<tr><td><code>audio_fmt</code></td><td>string</td><td>否</td><td>音频格式，仅支持 <code>PCM</code>。</td></tr>
+<tr><td><code>sample_rate</code></td><td>int</td><td>否</td><td>采样率，默认 <code>16000</code>，支持 <code>8000</code>、<code>16000</code>、<code>24000</code>。</td></tr>
+<tr><td><code>speed</code></td><td>float</td><td>否</td><td>语速，取值范围 <code>0～9</code>，默认 <code>5</code>。</td></tr>
+<tr><td><code>volume</code></td><td>int</td><td>否</td><td>音量，取值范围 <code>0～9</code>，默认 <code>5</code>。</td></tr>
+<tr><td><code>pitch</code></td><td>float</td><td>否</td><td>语调，取值范围 <code>0～9</code>，默认 <code>5</code>。</td></tr>
+<tr><td><code>timestamp</code></td><td>string</td><td>否</td><td>时间戳选项：<code>phone</code> 返回音子时间戳，<code>word</code> 返回字时间戳，<code>both</code> 同时返回。</td></tr>
+<tr><td><code>silence</code></td><td>int</td><td>否</td><td>标点静音时长：<code>0</code> 默认，<code>1</code> 句中停顿较短，<code>2</code> 句中停顿较长。</td></tr>
+<tr><td><code>emo_type</code></td><td>string</td><td>请求情感音色时必填</td><td>情感类型，取值参考“发音人列表”中的多情感/风格音色。</td></tr>
+<tr><td><code>emo_intensity</code></td><td>int</td><td>否</td><td>情感强度，取值 <code>1～5</code>，默认 <code>3</code>。</td></tr>
+</table>
+</div>
+
+<h2 id="tts-long-ws-sample">请求示例</h2>
+<pre class="doc-sample doc-code">{
+  "access_token": "your_access_token",
+  "version": "2.1",
+  "tts_params": {
+    "domain": "1",
+    "language": "ZH",
+    "voice_name": "Jingjing",
+    "audio_fmt": "PCM",
+    "sample_rate": 16000,
+    "text": "欢迎使用标贝开放平台"
+  }
+}</pre>
+
+<h2 id="tts-long-ws-response">响应结果</h2>
+<p>服务端分片返回 JSON。音频数据使用 Base64 编码，客户端需要解码后按包序拼接、播放或保存。</p>
+<div class="doc-scroll">
+<table class="doc-table">
+<tr><th>字段</th><th>类型</th><th>说明</th></tr>
+<tr><td><code>err_msg</code></td><td>string</td><td>描述信息，仅作提示。</td></tr>
+<tr><td><code>err_no</code></td><td>int</td><td>错误码，<code>0</code> 表示成功。</td></tr>
+<tr><td><code>log_id</code></td><td>string</td><td>日志跟踪 ID。</td></tr>
+<tr><td><code>result.idx</code></td><td>int</td><td>包序号，从 <code>1</code> 开始。</td></tr>
+<tr><td><code>result.end_flag</code></td><td>int</td><td>包结束标识，<code>0</code> 未结束，<code>1</code> 已结束。</td></tr>
+<tr><td><code>result.audio_type</code></td><td>string</td><td>固定为 <code>audio/pcm</code>。</td></tr>
+<tr><td><code>result.audio_data</code></td><td>string</td><td>Base64 编码的音频数据，可能为空。</td></tr>
+<tr><td><code>result.timestamp</code></td><td>object</td><td>时间戳信息，可能为空。</td></tr>
+</table>
+</div>
+<pre class="doc-sample doc-code">{
+  "err_msg": "Success",
+  "err_no": 0,
+  "log_id": "955891560",
+  "result": {
+    "idx": 1,
+    "audio_data": "P8EAPz/AQAGAPf/8v/n/wkAAwD//wsA7f/q/x",
+    "audio_type": "audio/pcm",
+    "end_flag": 0,
+    "timestamp": {
+      "segments": []
+    }
+  }
+}</pre>
+
+<h2 id="tts-long-ws-errors">常见错误码</h2>
+<div class="doc-scroll">
+<table class="doc-table">
+<tr><th>错误码</th><th>含义</th><th>说明</th></tr>
+<tr><td><code>0</code></td><td>调用成功</td><td><code>Success</code></td></tr>
+<tr><td><code>21010000</code></td><td>版本号错误</td><td><code>version</code> 参数不正确。</td></tr>
+<tr><td><code>21010001</code></td><td>访问令牌错误</td><td><code>access_token</code> 为空或不正确。</td></tr>
+<tr><td><code>21010002</code></td><td>领域参数错误</td><td><code>domain</code> 为空或不正确。</td></tr>
+<tr><td><code>21010003</code></td><td>语言参数错误</td><td><code>language</code> 为空或不正确。</td></tr>
+<tr><td><code>21010004</code></td><td>发音人错误</td><td><code>voice_name</code> 为空或不正确。</td></tr>
+<tr><td><code>21010009</code></td><td>文本错误</td><td><code>text</code> 为空或不正确。</td></tr>
+<tr><td><code>21010010</code></td><td>文本超长</td><td><code>text</code> 超过接口限制。</td></tr>
+<tr><td><code>21030000</code></td><td>鉴权错误</td><td><code>access_token</code> 不正确或已失效。</td></tr>
+<tr><td><code>21040002</code></td><td>合成失败</td><td>请检查参数或文本内容。</td></tr>
+</table>
+</div>
+        </article>
+
+        <article class="doc-panel doc-body" data-doc="tts-offline-model" hidden>
+<h1>模型文件说明</h1>
+<p class="doc-lead">离线合成与离在线融合语音合成在新增发音人后，需要将对应音色的模型资源文件添加到原有 SDK 中。模型资源文件包由音色资源文件和公共参数文件两部分组成，音色资源文件内包含已获取的不同音色资源。</p>
+
+<h2 id="tts-offline-model-purpose">作用</h2>
+<p>当开发者在开放平台应用的离线合成服务下获取新的发音人时，需要下载该发音人的模型资源文件，并配置到已有 SDK 中，后续才能在终端侧合成对应音色。</p>
+<div class="doc-callout"><strong>资源组成：</strong>模型资源文件包通常包含公共前端文件、公共后端文件、音色模型文件、解码器等内容。不同版本和音色包内文件名可能不同，请以实际下载包为准。</div>
+
+<h2 id="tts-offline-model-steps">示例步骤</h2>
+<div class="doc-flow">
+  <div class="doc-flow-step"><b>01</b><span>在开放平台获取新的离线发音人，例如贝茹 3.0。</span></div>
+  <div class="doc-flow-step"><b>02</b><span>进入发音人管理，点击下载新获取音色的模型资源文件。获取 3.0 音色时，对应下载 3.0 模型文件。</span></div>
+  <div class="doc-flow-step"><b>03</b><span>勾选新获取的发音人，点击下载并等待资源包生成。</span></div>
+  <div class="doc-flow-step"><b>04</b><span>下载等待期间不要刷新页面；旧站说明中单个文件下载通常在 1 分钟内完成，多个音色需等待全部下载完成。</span></div>
+  <div class="doc-flow-step"><b>05</b><span>解压模型资源文件包，并按照 Android / iOS SDK 章节中的资源设置方法配置到工程中。</span></div>
+</div>
+        </article>
+
+        <article class="doc-panel doc-body" data-doc="tts-offline-android-standard" hidden>
+<h1>离线合成 Android SDK（普通版）</h1>
+<p class="doc-lead">Android 普通版离线合成 SDK 支持终端侧离线合成，可选择返回音频源数据，也可使用 SDK 内置播放器处理播放。设备首次使用离线合成服务时需要联网完成授权激活。</p>
+
+<h2 id="tts-offline-android-standard-install">下载安装与集成</h2>
+<ul>
+<li>SDK 及示例 demo 旧站指向 GitHub：<code>https://github.com/data-baker/BakerSynthesizerOffline</code>。</li>
+<li>将 AAR 包复制到主 module 的 <code>libs</code> 目录。</li>
+<li>在主 module 的 <code>build.gradle</code> 中引入 AAR、OkHttp 和 Gson。</li>
+<li>在 <code>AndroidManifest.xml</code> 中添加网络、网络状态和存储读写权限，并按项目需要设置 <code>android:usesCleartextTraffic="true"</code>。</li>
+<li>如果开启混淆，需要保留 SDK 关键类、OkHttp 和 Gson 相关类。</li>
+</ul>
+<pre class="doc-sample doc-code">dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
+    implementation 'com.squareup.okhttp3:okhttp:4.2.2'
+    implementation 'com.google.code.gson:gson:2.8.6'
+}</pre>
+<pre class="doc-sample doc-code">&lt;uses-permission android:name="android.permission.INTERNET" /&gt;
+&lt;uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /&gt;
+&lt;uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /&gt;
+&lt;uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /&gt;</pre>
+
+<h2 id="tts-offline-android-standard-classes">SDK 关键类</h2>
+<div class="doc-scroll">
+<table class="doc-table">
+<tr><th>类名</th><th>说明</th></tr>
+<tr><td><code>OfflineBakerSynthesizer</code></td><td>离线合成关键业务处理类，全局通常只需要一个实例。</td></tr>
+<tr><td><code>BakerCallback</code></td><td>合成结果源数据回调类，适合自行处理返回的音频字节数据。</td></tr>
+<tr><td><code>BakerMediaCallback</code></td><td>播放器回调类，适合直接使用 SDK 内置播放器播放合成音频。</td></tr>
+<tr><td><code>BakerConstants</code></td><td>参数、错误码等常量类。</td></tr>
+</table>
+</div>
+
+<h2 id="tts-offline-android-standard-flow">调用说明</h2>
+<div class="doc-flow">
+  <div class="doc-flow-step"><b>01</b><span>首次使用时联网完成离线服务授权激活。</span></div>
+  <div class="doc-flow-step"><b>02</b><span>初始化 <code>OfflineBakerSynthesizer</code> 实例。</span></div>
+  <div class="doc-flow-step"><b>03</b><span>根据业务选择实现 <code>BakerCallback</code> 或 <code>BakerMediaCallback</code>。</span></div>
+  <div class="doc-flow-step"><b>04</b><span>设置合成文本、发音人、语速、音量等参数。</span></div>
+  <div class="doc-flow-step"><b>05</b><span>启动合成；如果使用播放器，可在首帧准备完成后调用播放方法。</span></div>
+  <div class="doc-flow-step"><b>06</b><span>页面关闭或业务完成时释放播放器和离线引擎资源。</span></div>
+</div>
+
+<h2 id="tts-offline-android-standard-params">参数说明</h2>
+<div class="doc-scroll">
+<table class="doc-table">
+<tr><th>方法 / 参数</th><th>必填</th><th>说明</th></tr>
+<tr><td><code>setText</code></td><td>是</td><td>设置要转为语音的合成文本，旧站说明中普通版文本长度不超过 1024 字节。</td></tr>
+<tr><td><code>setBakerCallback</code></td><td>是</td><td>设置返回数据的回调。</td></tr>
+<tr><td><code>setVoice</code></td><td>是</td><td>设置离线发音人声音名称。</td></tr>
+<tr><td><code>setSpeed</code></td><td>否</td><td>语速，取值 <code>50～200</code>，默认 <code>100</code>。</td></tr>
+<tr><td><code>setVolume</code></td><td>否</td><td>音量，取值 <code>50～200</code>，默认 <code>100</code>。</td></tr>
+</table>
+</div>
+
+<h2 id="tts-offline-android-standard-callbacks">回调与错误码</h2>
+<div class="doc-scroll">
+<table class="doc-table">
+<tr><th>回调</th><th>说明</th></tr>
+<tr><td><code>onSynthesisStarted</code></td><td>开始合成。</td></tr>
+<tr><td><code>onPrepared</code></td><td>第一帧数据返回，可开始播放。</td></tr>
+<tr><td><code>onBinaryReceived</code></td><td>持续返回音频数据、音频类型、时间戳信息和结束标记。</td></tr>
+<tr><td><code>onSynthesisCompleted</code></td><td>最后一包返回后触发。</td></tr>
+<tr><td><code>onTaskFailed</code></td><td>合成失败，返回错误码、错误信息和 <code>trace_id</code>。</td></tr>
+</table>
+</div>
+<div class="doc-scroll">
+<table class="doc-table">
+<tr><th>错误码</th><th>含义</th></tr>
+<tr><td><code>90001</code></td><td>合成 SDK 初始化失败。</td></tr>
+<tr><td><code>90002</code></td><td>合成文本内容为空。</td></tr>
+<tr><td><code>90008</code></td><td>离线 SDK 授权错误。</td></tr>
+<tr><td><code>90009</code></td><td>传入文本过长。</td></tr>
+<tr><td><code>90011</code></td><td>引擎内部错误。</td></tr>
+<tr><td><code>90019</code></td><td>模型文件错误。</td></tr>
+<tr><td><code>90020</code></td><td>动态库链接错误。</td></tr>
+<tr><td><code>90023</code></td><td>无 SD 卡读写权限错误。</td></tr>
+</table>
+</div>
+        </article>
+
+        <article class="doc-panel doc-body" data-doc="tts-offline-ios-standard" hidden>
+<h1>离线合成 iOS SDK（普通版）</h1>
+<p class="doc-lead">iOS 普通版离线合成 SDK 支持 iOS 9.0 及以上、arm64 及以上架构。旧站说明要求将 <code>Enable Bitcode</code> 设置为 <code>NO</code>，一个 <code>bundleId</code> 会被视为一个设备。</p>
+
+<h2 id="tts-offline-ios-standard-integrate">Xcode 集成</h2>
+<ul>
+<li>普通版体验 demo 旧站入口为开放平台离线普通版体验页。</li>
+<li>依赖库包括 <code>DBMixTTS3SDK.framework</code>、<code>tts-framework.a</code>、<code>libc++.tbd</code>。</li>
+<li>公共资源包括 <code>tts_entry_1.0.0_release_front_chn_eng_ser.dat</code> 和 <code>tts_entry_1.0.0_release_back_chn_eng_hts_bb_f4180623_jm3_fix.dat</code>。</li>
+<li>资源文件拖入工程时选择 <code>Copy Item to Project</code>，库和 framework 路径按 demo 配置到 <code>Library Search Paths</code> / <code>Framework Search Paths</code>。</li>
+</ul>
+<pre class="doc-sample doc-code">#import &lt;DBMixtTTS3SDK/DBMixSynthesizer.h&gt;</pre>
+
+<h2 id="tts-offline-ios-standard-classes">SDK 关键类</h2>
+<div class="doc-scroll">
+<table class="doc-table">
+<tr><th>类 / 协议</th><th>说明</th></tr>
+<tr><td><code>DBMixSynthesizer</code></td><td>语音合成关键业务处理类，全局通常只需一个实例，并需要注册回调对象。</td></tr>
+<tr><td><code>DBSynthesizerRequestParam</code></td><td>在线合成参数类，用于设置在线合成所需参数。</td></tr>
+<tr><td><code>DBTTSEnumerate</code></td><td>SDK 枚举类，包含状态枚举和错误码说明。</td></tr>
+<tr><td><code>DBSynthesizerDelegate</code></td><td>合成代理回调。</td></tr>
+<tr><td><code>DBSynthesisPlayerDelegate</code></td><td>合成播放代理回调。</td></tr>
+</table>
+</div>
+
+<h2 id="tts-offline-ios-standard-flow">调用说明</h2>
+<div class="doc-flow">
+  <div class="doc-flow-step"><b>01</b><span>引入 <code>DBMixSynthesizer.h</code>。</span></div>
+  <div class="doc-flow-step"><b>02</b><span>设置离线或在线鉴权；两类鉴权相互独立，合成模式会影响最终可用能力。</span></div>
+  <div class="doc-flow-step"><b>03</b><span>调用离线鉴权方法，传入离线 <code>clientId</code>、<code>clientSecret</code> 和 <code>tts_model</code>。</span></div>
+  <div class="doc-flow-step"><b>04</b><span>设置离线引擎的声码器和发音人列表，初始化合成引擎。</span></div>
+  <div class="doc-flow-step"><b>05</b><span>设置离线合成参数，包括音量、语速、发音人和语言等。</span></div>
+  <div class="doc-flow-step"><b>06</b><span>注册合成或播放回调，开启合成并按需控制播放。</span></div>
+</div>
+<pre class="doc-sample doc-code">- (void)offlineSetupClientId:(NSString *)offClientId
+                clientSecret:(NSString *)offClientSecret
+                    ttsModel:(tts_model)ttsModel
+               messageHander:(DBMessagHandler)messageHandler;
+
+- (NSInteger)setDataPath:(NSString *)dataPath
+               frontPath:(NSString *)frontPath
+              voiceArray:(NSArray&lt;DBOfflineSpeechModel*&gt; *)voiceArray;</pre>
+
+<h2 id="tts-offline-ios-standard-params">参数说明</h2>
+<div class="doc-scroll">
+<table class="doc-table">
+<tr><th>参数</th><th>必填</th><th>说明</th></tr>
+<tr><td><code>networkThreshold</code></td><td>否</td><td>网络模式，支持纯在线、纯离线、离在线模式，默认离在线模式。</td></tr>
+<tr><td><code>bufferDataLenght</code></td><td>否</td><td>音频缓存程度，单位 KB，旧站默认 <code>100KB</code>。</td></tr>
+<tr><td><code>offlineClientId</code> / <code>offlineClientSecret</code></td><td>是</td><td>离线合成鉴权信息。</td></tr>
+<tr><td><code>setDataPath:frontPath:voiceArray:</code></td><td>是</td><td>设置后端模型、前端模型和离线发音人列表。</td></tr>
+<tr><td><code>setSpeaker</code></td><td>是</td><td>设置发音人。</td></tr>
+<tr><td><code>speed</code> / <code>volume</code> / <code>pitch</code></td><td>否</td><td>语速、音量、音调，取值范围通常为 <code>0～9</code>。</td></tr>
+</table>
+</div>
+
+<h2 id="tts-offline-ios-standard-callbacks">回调与错误</h2>
+<p>失败时返回的 <code>msg</code> 通常包含 <code>code</code>、<code>message</code>、<code>trace_id</code>。其中 <code>9xxxx</code> 多表示 SDK 相关错误，<code>5xxxx</code> 多表示授权或其他错误。</p>
+        </article>
+
+        <article class="doc-panel doc-body" data-doc="tts-offline-android-premium" hidden>
+<h1>离线合成 Android SDK（精品版）</h1>
+<p class="doc-lead">Android 精品版 SDK 支持离线、在线与离在线融合合成模式。它在普通版基础上增加了精品音色资源、动态模型加载、离线授权刷新、字级别时间戳等能力，适合需要更高音质或更丰富音色的端侧合成场景。</p>
+
+<h2 id="tts-offline-android-premium-install">下载安装与集成</h2>
+<ul>
+<li>按 demo 将精品版 AAR、模型文件和依赖库加入工程。</li>
+<li>普通 Android Studio AAR 集成方式仍适用。</li>
+<li>首次使用需要执行鉴权；如果使用离线合成，需要初始化离线引擎并设置模型资源。</li>
+</ul>
+
+<h2 id="tts-offline-android-premium-resources">离线声音资源文件列表</h2>
+<div class="doc-scroll">
+<table class="doc-table">
+<tr><th>资源</th><th>文件名称</th><th>备注</th></tr>
+<tr><td>模型前端文件</td><td><code>tts_entry_1.0.0_release_front_chn_eng_ser.dat</code></td><td>所有音色共用 1 份。</td></tr>
+<tr><td>模型后端文件</td><td><code>tts_entry_1.0.0_release_back_chn_eng_hts_bb_f4180623_jm3_fix.dat</code></td><td>所有音色共用 1 份。</td></tr>
+<tr><td>贝鹤</td><td><code>mix005007128_16k_DB-CN-M-11_chn21k_175k.pb.tflite.x</code></td><td>模型文件。</td></tr>
+<tr><td>贝华</td><td><code>mix005007128_16k_DB-CN-M-06_chn7k_mix2k.pb.tflite.x</code></td><td>模型文件。</td></tr>
+<tr><td>贝菲</td><td><code>mix005007128_16k_DB-CN-F-07_chn16k_mix2k_177k.pb.tflite.x</code></td><td>模型文件。</td></tr>
+<tr><td>贝茹</td><td><code>mix005007128_16k_DB-CN-F-04_chn9k_eng2k_mix2k_188k.pb.tflite.x</code></td><td>模型文件。</td></tr>
+<tr><td>贝雪</td><td><code>mix005007128_16k_DB-CS-F-02_100k.tflite.x</code></td><td>模型文件。</td></tr>
+</table>
+</div>
+
+<h2 id="tts-offline-android-premium-classes">SDK 关键类</h2>
+<div class="doc-scroll">
+<table class="doc-table">
+<tr><th>类 / 回调</th><th>说明</th></tr>
+<tr><td><code>SynthesisMixEngine</code></td><td>精品版离在线融合合成核心单例类。</td></tr>
+<tr><td><code>SynthesisMixAuthCallback</code></td><td>授权结果回调。</td></tr>
+<tr><td><code>SynthesizerInitCallback</code></td><td>离线引擎初始化结果回调。</td></tr>
+<tr><td><code>SynthesisMixCallback</code></td><td>合成数据回调。</td></tr>
+<tr><td><code>SynthesizerMixMediaCallback</code></td><td>合成播放回调。</td></tr>
+</table>
+</div>
+
+<h2 id="tts-offline-android-premium-flow">调用说明</h2>
+<div class="doc-flow">
+  <div class="doc-flow-step"><b>01</b><span>通过 <code>firstDoAuthentication()</code> 执行鉴权，合成方式支持 <code>Online</code>、<code>mix</code>、<code>offline</code>。</span></div>
+  <div class="doc-flow-step"><b>02</b><span>如果使用离线合成，调用 <code>secondInitMixEngine</code> 初始化离线引擎，传入前端模型、后端模型和发音人资源。</span></div>
+  <div class="doc-flow-step"><b>03</b><span>调用 <code>setSynthesizerCallback</code> 设置合成回调或播放回调。</span></div>
+  <div class="doc-flow-step"><b>04</b><span>设置在线发音人、离线发音人、连接超时、语速、音量、音调、缓存大小、语言等参数。</span></div>
+  <div class="doc-flow-step"><b>05</b><span>调用 <code>startSynthesis</code> 开始合成；如使用内置播放器，可调用 <code>bakerPlay</code>、<code>bakerPause</code>、<code>bakerStopPlay</code>。</span></div>
+  <div class="doc-flow-step"><b>06</b><span>不再使用时调用 <code>release</code> 释放服务和引擎资源。</span></div>
+</div>
+
+<h2 id="tts-offline-android-premium-params">参数说明</h2>
+<div class="doc-scroll">
+<table class="doc-table">
+<tr><th>方法</th><th>必填</th><th>说明</th></tr>
+<tr><td><code>firstDoAuthentication()</code></td><td>是</td><td>鉴权方法，传入合成方式、在线/离线鉴权信息和授权回调。</td></tr>
+<tr><td><code>secondInitMixEngine</code></td><td>使用离线合成时必填</td><td>初始化离线引擎，设置模型文件路径和发音人资源。</td></tr>
+<tr><td><code>setSynthesizerCallback</code></td><td>是</td><td>设置合成回调，支持数据回调或播放器回调。</td></tr>
+<tr><td><code>setVoiceNameOnline</code></td><td>在线合成时必填</td><td>设置在线合成发音人。</td></tr>
+<tr><td><code>setOfflineVoiceName</code></td><td>离线合成时必填</td><td>设置离线合成发音人。</td></tr>
+<tr><td><code>startSynthesis</code></td><td>是</td><td>开启合成，支持单段文本或文本列表。</td></tr>
+<tr><td><code>enableSubtitles</code></td><td>否</td><td>是否开启字级别时间戳，默认关闭。</td></tr>
+<tr><td><code>loadModel</code> / <code>unInstallModel</code></td><td>否</td><td>动态加载或卸载离线模型。</td></tr>
+</table>
+</div>
+
+<h2 id="tts-offline-android-premium-errors">错误码</h2>
+<div class="doc-scroll">
+<table class="doc-table">
+<tr><th>错误码</th><th>含义</th></tr>
+<tr><td><code>23180001</code></td><td>在线合成 token 过期。</td></tr>
+<tr><td><code>23180008</code></td><td>授权相关错误。</td></tr>
+<tr><td><code>23180009</code></td><td>离线 SDK 初始化或资源设置相关错误。</td></tr>
+<tr><td><code>23180010</code></td><td>离线合成文本内容为空。</td></tr>
+<tr><td><code>23180011</code></td><td>传入文本过长。</td></tr>
+<tr><td><code>23180017</code></td><td>引擎忙。</td></tr>
+<tr><td><code>23180022</code></td><td>离线合成模型文件错误。</td></tr>
+<tr><td><code>23180023</code></td><td>离线合成模型资源匹配错误。</td></tr>
+<tr><td><code>23180025</code></td><td>离线动态加载模型失败。</td></tr>
+<tr><td><code>23180027</code></td><td>离线 TTS 线程被占用。</td></tr>
+</table>
+</div>
+        </article>
+
+        <article class="doc-panel doc-body" data-doc="tts-offline-ios-premium" hidden>
+<h1>离线合成 iOS SDK（精品版）</h1>
+<p class="doc-lead">iOS 精品版 SDK 与普通版使用流程基本一致，区别在于依赖库、资源文件和模型配置更丰富。旧站说明中精品版支持 iOS 9.0 及以上、arm64 及以上架构，<code>Enable Bitcode</code> 需设置为 <code>NO</code>。</p>
+
+<h2 id="tts-offline-ios-premium-integrate">Xcode 集成</h2>
+<div class="doc-scroll">
+<table class="doc-table">
+<tr><th>依赖库</th><th>集成方式</th><th>说明</th></tr>
+<tr><td><code>libprotobuf.a</code></td><td>配置到 <code>Library Search Paths</code>。</td><td>TTS 合成引擎依赖库。</td></tr>
+<tr><td><code>libtts-framework.a</code></td><td>配置到库搜索路径。</td><td>TTS 合成引擎依赖库。</td></tr>
+<tr><td><code>TensorFlowlite.framework</code></td><td>配置到 <code>Framework Search Paths</code>。</td><td>TTS 合成引擎依赖库。</td></tr>
+<tr><td><code>libc++.tbd</code></td><td>添加到 <code>Link Binary With Libraries</code>。</td><td>系统 C++ 依赖库。</td></tr>
+<tr><td><code>DBMixTTS3SDK.framework</code></td><td>拖入工程并选择复制到项目。</td><td>离在线融合 framework 库。</td></tr>
+</table>
+</div>
+<div class="doc-scroll">
+<table class="doc-table">
+<tr><th>依赖资源</th><th>说明</th></tr>
+<tr><td><code>tts_attn.conf</code></td><td>合成引擎依赖资源。</td></tr>
+<tr><td><code>tts_attention.json</code></td><td>合成引擎依赖资源。</td></tr>
+<tr><td><code>tts_entry_1.0.0_release_front_chn_eng_ser.dat</code></td><td>合成引擎前端文件。</td></tr>
+<tr><td><code>tts_entry_1.0.0_release_back_chn_eng_hts_bb_f4180623_jm3_fix.dat</code></td><td>合成引擎后端文件。</td></tr>
+</table>
+</div>
+<pre class="doc-sample doc-code">#import &lt;DBMixtTTS3SDK/DBMixSynthesizer.h&gt;</pre>
+
+<h2 id="tts-offline-ios-premium-classes">SDK 关键类</h2>
+<div class="doc-scroll">
+<table class="doc-table">
+<tr><th>类 / 协议</th><th>说明</th></tr>
+<tr><td><code>DBMixSynthesizer</code></td><td>语音合成关键业务处理类，全局通常只需一个实例，并需要注册回调对象。</td></tr>
+<tr><td><code>DBSynthesizerRequestParam</code></td><td>在线合成参数类。</td></tr>
+<tr><td><code>DBTTSEnumerate</code></td><td>SDK 枚举类，包含状态和错误码说明。</td></tr>
+<tr><td><code>DBSynthesizerDelegate</code></td><td>合成代理回调。</td></tr>
+<tr><td><code>DBSynthesisPlayerDelegate</code></td><td>合成播放代理回调。</td></tr>
+</table>
+</div>
+
+<h2 id="tts-offline-ios-premium-flow">调用说明</h2>
+<div class="doc-flow">
+  <div class="doc-flow-step"><b>01</b><span>引入 <code>DBMixSynthesizer.h</code> 并完成 framework、静态库、资源文件配置。</span></div>
+  <div class="doc-flow-step"><b>02</b><span>调用离线鉴权方法，<code>tts_model_2</code> 表示普通版，<code>tts_model_3</code> 表示精品版。</span></div>
+  <div class="doc-flow-step"><b>03</b><span>设置后端模型、前端模型和发音人列表，初始化离线引擎。</span></div>
+  <div class="doc-flow-step"><b>04</b><span>设置离线合成音量、语速、发音人、语言等参数。</span></div>
+  <div class="doc-flow-step"><b>05</b><span>设置 <code>DBSynthesizerDelegate</code> 或 <code>DBSynthesisPlayerDelegate</code>，处理合成和播放事件。</span></div>
+  <div class="doc-flow-step"><b>06</b><span>按业务分段合成文本，并使用停止、暂停、继续播放等控制方法管理播放。</span></div>
+</div>
+<pre class="doc-sample doc-code">- (void)offlineSetupClientId:(NSString *)offClientId
+                clientSecret:(NSString *)offClientSecret
+                    ttsModel:(tts_model)ttsModel
+               messageHander:(DBMessagHandler)messageHandler;
+
+- (NSInteger)setDataPath:(NSString *)dataPath
+               frontPath:(NSString *)frontPath
+              voiceArray:(NSArray&lt;DBOfflineSpeechModel*&gt; *)voiceArray;</pre>
+
+<h2 id="tts-offline-ios-premium-params">参数与回调</h2>
+<div class="doc-scroll">
+<table class="doc-table">
+<tr><th>参数 / 回调</th><th>说明</th></tr>
+<tr><td><code>networkThreshold</code></td><td>网络模式，支持纯在线、纯离线、离在线模式。</td></tr>
+<tr><td><code>bufferDataLenght</code></td><td>音频缓存程度，单位 KB，旧站默认 <code>100KB</code>。</td></tr>
+<tr><td><code>setSpeaker</code></td><td>设置发音人。</td></tr>
+<tr><td><code>setAudioType</code></td><td>返回数据文件格式，仅支持 PCM 16K。</td></tr>
+<tr><td><code>speed</code> / <code>volume</code> / <code>pitch</code></td><td>语速、音量、音调，取值范围通常为 <code>0～9</code>。</td></tr>
+<tr><td><code>onSynthesisStarted</code></td><td>开始合成。</td></tr>
+<tr><td><code>onBinaryReceived</code></td><td>返回音频数据、音频类型、时间戳信息和结束标记。</td></tr>
+<tr><td><code>readlyToPlay</code></td><td>播放器准备就绪，可调起播放器播放。</td></tr>
+<tr><td><code>playFinished</code></td><td>播放结束回调。</td></tr>
+</table>
+</div>
+
+<h2 id="tts-offline-ios-premium-errors">错误说明</h2>
+<p>失败时返回的 <code>msg</code> 通常包含 <code>code</code>、<code>message</code>、<code>trace_id</code>。其中 <code>9xxxx</code> 多表示 SDK 相关错误，<code>5xxxx</code> 多表示授权及其他错误或 token 过期。</p>
+        </article>
+        <article class="doc-panel doc-body" data-doc="tts-xml-tags" hidden>
+          <h1>xml 标签</h1>
+          <p class="doc-lead">xml 标签用于在合成文本中显式控制读法、停顿、发音和特殊内容处理。提交文本时可直接把标签写入 <code>text</code> 字段；如果把合成文本拼在 URL 中，包含 <code>#</code> 的内容需要转义为 <code>%23</code>。</p>
+
+<h2 id="tts-xml-tags-usage">xml 标签如何使用</h2>
+<p>标签应按文档约定成对或单独使用，成对标签不建议嵌套。停顿类标签可与静音标签组合使用，但标签前后不要只保留空格或标点，建议放在完整语句或短语之间。</p>
+<pre><code class="language-xml">今天的订单号是 &lt;figure type="characters"&gt;A1024&lt;/figure&gt;。
+请在这里&lt;pause type="1"&gt;&lt;/pause&gt;稍作停顿。</code></pre>
+
+<h2 id="tts-xml-tags-figure">数字等字符串读法</h2>
+<p><code>&lt;figure&gt;</code> 标签用于指定数字、编号、日期、时间、货币、度量衡等字符串的朗读方式，适合处理默认读法不符合业务语境的文本。</p>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>类型</th><th>用途</th><th>示例</th></tr>
+<tr><td><code>digit</code></td><td>数字读法，逐位朗读数字串。</td><td><code>&lt;figure type="digit"&gt;110&lt;/figure&gt;</code></td></tr>
+<tr><td><code>ordinal</code></td><td>序数读法，适用于第几、第几名等场景。</td><td><code>&lt;figure type="ordinal"&gt;1&lt;/figure&gt;</code></td></tr>
+<tr><td><code>telephone</code></td><td>电话号码读法，按号码习惯朗读。</td><td><code>&lt;figure type="telephone"&gt;62552560&lt;/figure&gt;</code></td></tr>
+<tr><td><code>address</code></td><td>地址读法，优化门牌号、楼层等表达。</td><td><code>&lt;figure type="address"&gt;元和镇嘉元30-9&lt;/figure&gt;</code></td></tr>
+<tr><td><code>id</code></td><td>ID 读法，适合账号、设备号、工单号。</td><td><code>&lt;figure type="id"&gt;dell0101&lt;/figure&gt;</code></td></tr>
+<tr><td><code>characters</code></td><td>逐字符读法，适合版本号、验证码等。</td><td><code>&lt;figure type="characters"&gt;v1.0.1&lt;/figure&gt;</code></td></tr>
+<tr><td><code>punctuation</code></td><td>标点读法，朗读特殊符号名称。</td><td><code>&lt;figure type="punctuation"&gt;!%&amp;amp;&lt;/figure&gt;</code></td></tr>
+<tr><td><code>date</code></td><td>日期读法。</td><td><code>&lt;figure type="date"&gt;2026-07-09&lt;/figure&gt;</code></td></tr>
+<tr><td><code>time</code></td><td>时间读法。</td><td><code>&lt;figure type="time"&gt;18:30&lt;/figure&gt;</code></td></tr>
+<tr><td><code>currency</code></td><td>货币读法。</td><td><code>&lt;figure type="currency"&gt;128.50元&lt;/figure&gt;</code></td></tr>
+<tr><td><code>measure</code></td><td>度量衡读法。</td><td><code>&lt;figure type="measure"&gt;15kg&lt;/figure&gt;</code></td></tr>
+</table>
+</div>
+
+<h2 id="tts-xml-tags-pronunciation">拼音与英文发音</h2>
+<p>当中文多音字或英文单词默认发音不符合预期时，可以通过拼音或音标类标签指定读法。</p>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>标签</th><th>说明</th><th>示例</th></tr>
+<tr><td><code>cnphone</code></td><td>指定中文拼音，拼音需包含声调数字。</td><td><code>&lt;cnphone py="xing2"&gt;行&lt;/cnphone&gt;</code></td></tr>
+<tr><td><code>phoneme</code></td><td>指定英文音标或英文读法。</td><td><code>&lt;phoneme ph="test"&gt;test&lt;/phoneme&gt;</code></td></tr>
+</table>
+</div>
+
+<h2 id="tts-xml-tags-break">停顿与静音</h2>
+<p>停顿标签用于调整语句节奏；静音标签用于插入固定时长的无声片段，常用于播报提示音、分段播报和流程化话术。</p>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>标签</th><th>说明</th><th>示例</th></tr>
+<tr><td><code>pause</code></td><td>按类型插入停顿，可根据语义强弱选择不同 <code>type</code>。</td><td><code>您好&lt;pause type="1"&gt;&lt;/pause&gt;欢迎使用语音服务。</code></td></tr>
+<tr><td><code>silence</code></td><td>按毫秒插入静音，<code>len</code> 表示静音时长。</td><td><code>第一段&lt;silence len="500"&gt;&lt;/silence&gt;第二段</code></td></tr>
+</table>
+</div>
+
+<h2 id="tts-xml-tags-special">特殊读法</h2>
+<p>旧版文档还支持英文读法、录音、车牌号、姓名和 LaTeX 公式等特殊内容控制。实际接入时请结合所选发音人与接口能力验证效果。</p>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>能力</th><th>适用场景</th><th>处理方式</th></tr>
+<tr><td>英文读法</td><td>指定英文单词或缩写的朗读方式。</td><td>对英文片段标注目标读法，避免字母、单词或缩写被误读。</td></tr>
+<tr><td>录音读法</td><td>在合成文本中插入预置录音片段。</td><td>在文本指定位置引用已准备好的录音资源。</td></tr>
+<tr><td>车牌号读法</td><td>优化车牌号码播报。</td><td>把车牌号作为独立片段标注，按车牌习惯播报。</td></tr>
+<tr><td>姓名读法</td><td>优化人名、多音字姓名的朗读。</td><td>对姓名片段标注读法，降低多音字误读概率。</td></tr>
+<tr><td>LaTeX 公式读法</td><td>朗读数学公式或含 LaTeX 的文本。</td><td>把公式内容作为独立片段标注，按公式语义播报。</td></tr>
+</table>
+</div>
+
+<h2 id="tts-xml-tags-notes">注意事项</h2>
+<ul>
+<li>标签需要写在合成文本中一起提交，接口字段、鉴权和音频参数仍按对应合成接口要求传入。</li>
+<li>成对标签不要交叉嵌套，避免出现开始标签和结束标签不匹配的情况。</li>
+<li>放在 URL 中提交的文本需要做 URL 编码，尤其是 <code>#</code> 等特殊字符。</li>
+<li>静音和停顿标签前后建议保留可朗读文本，避免只与空格或标点相邻。</li>
+</ul>
+        </article>
+        <article class="doc-panel doc-body" data-doc="tts-ssml-tags" hidden>
+          <h1>SSML 标签</h1>
+          <p class="doc-lead">SSML 是一种基于 XML 的语音合成标记语言，用于在合成文本中控制音色、文件类型、采样率、码率、语速、音调、音量、背景音乐、停顿、分词、别名、读音和场景读法等效果。</p>
+
+<h2 id="tts-ssml-tags-overview">概述</h2>
+<p>SSML 文本需要以 <code>&lt;speak&gt;</code> 作为根标签。使用 SSML 后，标签内指定的参数优先级高于接口请求参数；SSML 标记语言与标贝 XML 标签不可混用。</p>
+<pre><code class="language-xml">&lt;speak voice="Jingjing" speed="5" volume="6"&gt;
+  欢迎使用语音合成服务。
+&lt;/speak&gt;</code></pre>
+
+<h2 id="tts-ssml-tags-usage">使用方式</h2>
+<ul>
+<li>将完整 SSML 文本作为待合成文本提交，鉴权、请求地址和音频返回方式仍按对应语音合成接口说明执行。</li>
+<li>普通语音合成任务只包含一个 <code>&lt;speak&gt;&lt;/speak&gt;</code> 根标签；长文本合成可包含多个成对的 <code>&lt;speak&gt;&lt;/speak&gt;</code> 标签。</li>
+<li>当文本中连续使用多个 SSML 标签时，标签之间不要插入多余空格。</li>
+<li>目前旧版文档标注为仅支持中文音色；不同发音人对部分标签的支持效果可能不同，建议以实际合成结果为准。</li>
+</ul>
+
+<h2 id="tts-ssml-tags-speak">基本功能：&lt;speak&gt;</h2>
+<p><code>&lt;speak&gt;</code> 标签可在根节点上配置合成的整体效果，常用属性如下。</p>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>属性</th><th>用途</th><th>说明</th></tr>
+<tr><td><code>voice</code></td><td>音色</td><td>指定线上可调用的发音人名称代号，如 <code>Jingjing</code>；优先级高于接口请求参数 <code>voice_name</code>。</td></tr>
+<tr><td><code>audiotype</code></td><td>文件类型 / 采样率</td><td>指定合成音频格式，取值需与接口支持的音频类型保持一致。</td></tr>
+<tr><td><code>rate</code></td><td>码率</td><td>通常与 <code>audiotype</code> 组合使用，用于指定输出文件码率。</td></tr>
+<tr><td><code>speed</code></td><td>语速</td><td>调整整体朗读速度。</td></tr>
+<tr><td><code>pitch</code></td><td>音调</td><td>调整整体音高。</td></tr>
+<tr><td><code>volume</code></td><td>音量</td><td>调整整体音量。</td></tr>
+<tr><td><code>bgm</code></td><td>背景音乐</td><td>指定背景音乐资源地址；上传或引用音频资源时需自行确认版权与使用权限。</td></tr>
+<tr><td><code>backgroundMusicVolume</code></td><td>背景音乐音量</td><td>调整背景音乐相对音量。</td></tr>
+</table>
+</div>
+<pre><code class="language-xml">&lt;speak speed="7" pitch="4" volume="8"&gt;
+  我的声音有很多种变化，可以根据你的需要来改变。
+&lt;/speak&gt;</code></pre>
+
+<h2 id="tts-ssml-tags-personal">个性化功能</h2>
+<p>个性化标签用于细化文本结构、停顿、词语读法和提示音等局部效果。</p>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>标签</th><th>功能</th><th>示例</th></tr>
+<tr><td><code>&lt;s&gt;</code></td><td>自定义文本结构，把文本拆成句子片段。</td><td><code>&lt;speak&gt;&lt;s&gt;这是一句话&lt;/s&gt;&lt;s&gt;现在是另一句话&lt;/s&gt;&lt;/speak&gt;</code></td></tr>
+<tr><td><code>&lt;break&gt;</code></td><td>插入停顿时间，<code>time</code> 支持毫秒或秒。</td><td><code>&lt;break time="500ms"/&gt;</code></td></tr>
+<tr><td><code>&lt;sub&gt;</code></td><td>别名，将标签内文本按 <code>alias</code> 指定内容朗读。</td><td><code>&lt;sub alias="网络协议标准"&gt;W3C&lt;/sub&gt;</code></td></tr>
+<tr><td><code>&lt;w&gt;</code></td><td>词组分词，指定词语边界。</td><td><code>武汉市长&lt;w&gt;江大桥&lt;/w&gt;今天发表了演讲。</code></td></tr>
+<tr><td><code>&lt;phoneme&gt;</code></td><td>读音更改，通过拼音等方式指定发音。</td><td><code>&lt;phoneme alphabet="py" ph="zhao1"&gt;着&lt;/phoneme&gt;</code></td></tr>
+<tr><td><code>&lt;soundEvent&gt;</code></td><td>添加提示音，在文本中插入音频资源。</td><td><code>&lt;soundEvent src="https://example.com/prompt.wav"/&gt;</code></td></tr>
+<tr><td><code>&lt;say-as&gt;</code></td><td>选择指定场景读法。</td><td><code>&lt;say-as interpret-as="digits"&gt;110&lt;/say-as&gt;</code></td></tr>
+</table>
+</div>
+
+<h2 id="tts-ssml-tags-say-as">场景读法：&lt;say-as&gt;</h2>
+<p><code>&lt;say-as&gt;</code> 通过 <code>interpret-as</code> 指定文本类型，适合数字、号码、姓名、地址、ID、日期、时间、货币和度量衡等内容。</p>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>interpret-as</th><th>用途</th><th>示例</th></tr>
+<tr><td><code>cardinal</code></td><td>基数读法。</td><td><code>&lt;say-as interpret-as="cardinal"&gt;110&lt;/say-as&gt;</code></td></tr>
+<tr><td><code>digits</code></td><td>数字串逐位朗读。</td><td><code>&lt;say-as interpret-as="digits"&gt;110&lt;/say-as&gt;</code></td></tr>
+<tr><td><code>telephone</code></td><td>电话号码读法。</td><td><code>&lt;say-as interpret-as="telephone"&gt;62552560&lt;/say-as&gt;</code></td></tr>
+<tr><td><code>name</code></td><td>姓名读法。</td><td><code>&lt;say-as interpret-as="name"&gt;单红军&lt;/say-as&gt;</code></td></tr>
+<tr><td><code>address</code></td><td>地址读法。</td><td><code>&lt;say-as interpret-as="address"&gt;市台路388弄1107-1108号&lt;/say-as&gt;</code></td></tr>
+<tr><td><code>id</code></td><td>ID 读法。</td><td><code>&lt;say-as interpret-as="id"&gt;lily_878&lt;/say-as&gt;</code></td></tr>
+<tr><td><code>characters</code></td><td>逐字符读法。</td><td><code>&lt;say-as interpret-as="characters"&gt;v1.0.1&lt;/say-as&gt;</code></td></tr>
+<tr><td><code>punctuation</code></td><td>标点读法。</td><td><code>&lt;say-as interpret-as="punctuation"&gt;?@&lt;/say-as&gt;</code></td></tr>
+<tr><td><code>date</code></td><td>日期读法。</td><td><code>&lt;say-as interpret-as="date"&gt;2001-2-28&lt;/say-as&gt;</code></td></tr>
+<tr><td><code>time</code></td><td>时间读法。</td><td><code>&lt;say-as interpret-as="time"&gt;2:00pm&lt;/say-as&gt;</code></td></tr>
+<tr><td><code>currency</code></td><td>货币读法。</td><td><code>&lt;say-as interpret-as="currency"&gt;8000000.00RMB&lt;/say-as&gt;</code></td></tr>
+<tr><td><code>measure</code></td><td>度量衡读法。</td><td><code>&lt;say-as interpret-as="measure"&gt;45m12cm&lt;/say-as&gt;</code></td></tr>
+</table>
+</div>
+
+<h2 id="tts-ssml-tags-integrated">综合示例</h2>
+<pre><code class="language-xml">&lt;speak voice="Jingjing" speed="5" volume="6"&gt;
+  &lt;s&gt;请找一个舒适的地方坐下&lt;/s&gt;
+  &lt;break time="500ms"/&gt;
+  慢慢放松呼吸。
+  订单号是 &lt;say-as interpret-as="characters"&gt;A1024&lt;/say-as&gt;。
+&lt;/speak&gt;</code></pre>
+
+<h2 id="tts-ssml-tags-notes">注意事项</h2>
+<ul>
+<li>SSML 标记语言和标贝 XML 标签不可混用。</li>
+<li>使用 SSML 后，以 SSML 标签内选定参数为准，优先级高于接口请求参数。</li>
+<li>长文本任务若多个 <code>&lt;speak&gt;</code> 标签使用不同音色，接口参数与标签内音色的采样率需保持一致。</li>
+<li>文本内容包含 XML 特殊字符时需要转义：<code>"</code> 转为 <code>&amp;quot;</code>，<code>'</code> 转为 <code>&amp;apos;</code>，<code>&amp;</code> 转为 <code>&amp;amp;</code>，<code>&lt;</code> 转为 <code>&amp;lt;</code>，<code>&gt;</code> 转为 <code>&amp;gt;</code>。</li>
+<li>背景音乐或提示音资源应确保可访问，并由接入方自行确认版权与使用权限。</li>
+</ul>
+        </article>
+        <article class="doc-panel doc-body" data-doc="tts-api-time" hidden>
+          <h1>语音合成时间戳功能</h1>
+          <p class="doc-lead">语音合成时间戳功能可在输出音频的同时返回文本在音频中的时间位置。旧站文档按使用场景分为音子级别时间戳和字级别时间戳，主要用于虚拟人口型驱动、视频配音字幕、有声书朗读等场景。</p>
+
+<h2 id="tts-api-time-overview">功能介绍</h2>
+<p>时间戳功能分为两类：音子级别时间戳用于获取音子边界信息，常见于口型驱动；字级别时间戳用于获取每个汉字或英文单词的起止时间，常见于字幕对齐。</p>
+<ul>
+<li>只有支持音子级别时间戳的音色可以使用对应能力，具体以发音人列表标注为准。</li>
+<li>长文本任务中如使用多个发音人，所选音色都需要支持音子或字级别时间戳。</li>
+<li>开启时间戳后，响应结果结构会发生变化，需要按下文说明解析音频和时间戳信息。</li>
+</ul>
+
+<h2 id="tts-api-time-rest-params">短文本 RESTful API 参数</h2>
+<p>RESTful 接口通过 <code>interval</code> 和 <code>enable_subtitles</code> 开启时间戳能力。字级别时间戳需要与 <code>interval=1</code> 一起使用。</p>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>参数名称</th><th>是否必填</th><th>名称</th><th>说明</th></tr>
+<tr><td><code>interval</code></td><td>否</td><td>音子边界时间戳</td><td><code>0</code> 关闭音子级别时间戳；<code>1</code> 开启音子级别时间戳。</td></tr>
+<tr><td><code>enable_subtitles</code></td><td>否</td><td>字级别时间戳</td><td><code>0</code> 关闭字级别时间戳；<code>1</code> 开启字级别时间戳，需同 <code>interval=1</code> 一起使用。</td></tr>
+</table>
+</div>
+<pre><code class="language-python">params = {
+    "access_token": access_token,
+    "domain": "1",
+    "language": "zh",
+    "voice_name": "Jiaojiao",
+    "text": "标贝科技",
+    "audiotype": "6",
+    "interval": "1",
+    "enable_subtitles": "1"
+}</code></pre>
+
+<h2 id="tts-api-time-rest-response">RESTful 响应结果</h2>
+<p>RESTful 接口需要先检查 HTTP 响应头 <code>Content-Type</code>：如果以 <code>audio</code> 开头表示合成成功；如果返回 <code>application/json</code> 表示合成出现错误。</p>
+<p>开启时间戳后，成功响应的音频数据前部会携带时间戳结构。旧站示例中使用前 4 字节读取 JSON 长度，再解析时间戳 JSON，最后把剩余字节保存为音频。</p>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>字段名</th><th>类型</th><th>描述</th></tr>
+<tr><td><code>data</code></td><td>object</td><td>时间戳信息。</td></tr>
+<tr><td><code>err_msg</code></td><td>string</td><td>错误信息，成功时通常为 <code>succ</code>。</td></tr>
+<tr><td><code>err_no</code></td><td>int</td><td>错误码。</td></tr>
+<tr><td><code>log_id</code></td><td>int</td><td>日志 ID。</td></tr>
+<tr><td><code>sn</code></td><td>string</td><td>系统内部使用信息。</td></tr>
+</table>
+</div>
+
+<h2 id="tts-api-time-data-fields">时间戳字段</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>字段名</th><th>说明</th></tr>
+<tr><td><code>interval-info</code></td><td>音子级别时间戳，例如 <code>b=0.072346&amp;iao=0.238304</code>。</td></tr>
+<tr><td><code>interval-info-x</code></td><td>音子附加信息，例如 <code>L=1&amp;T=1</code>。其中 <code>L</code> 表示语言种类，<code>T</code> 表示 interval 类型。</td></tr>
+<tr><td><code>interval-subtitles</code></td><td>字级别时间戳，返回结果是 Base64 编码，需要解码后使用。</td></tr>
+<tr><td><code>subtitles_list</code></td><td><code>interval-subtitles</code> 解码后的时间戳列表。</td></tr>
+</table>
+</div>
+<p><code>T</code> 的取值含义：<code>0</code> 默认值，<code>1</code> 声母，<code>2</code> 韵母，<code>3</code> 儿化韵母，<code>4</code> 英文，<code>5</code> <code>#3</code> 静音。</p>
+
+<h2 id="tts-api-time-subtitles">字级别时间戳结构</h2>
+<p><code>interval-subtitles</code> 解码后包含 <code>subtitles_list</code>，其中每个句子对象包含原句文本和 <code>subtitles</code> 明细。</p>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>字段名</th><th>类型</th><th>描述</th></tr>
+<tr><td><code>text</code></td><td>string</td><td>句子级别文本。</td></tr>
+<tr><td><code>subtitles</code></td><td>list</td><td>当前句子的时间戳明细。</td></tr>
+<tr><td><code>begin_index</code></td><td>int</td><td>文本对应当前句中的起始索引。</td></tr>
+<tr><td><code>begin_time</code></td><td>int</td><td>文本对应音频中的起始时间戳，单位毫秒。</td></tr>
+<tr><td><code>end_index</code></td><td>int</td><td>文本对应当前句中的结束索引。</td></tr>
+<tr><td><code>end_time</code></td><td>int</td><td>文本对应音频中的结束时间戳，单位毫秒。</td></tr>
+<tr><td><code>prosody</code></td><td>string</td><td>停顿类型，如 <code>SP0</code>、<code>SP1</code>、<code>SP2</code>、<code>SP3</code>。</td></tr>
+</table>
+</div>
+<pre><code class="language-json">{
+  "subtitles_list": [{
+    "text": "标贝科技",
+    "subtitles": [
+      {"begin_index": 0, "begin_time": 0, "end_index": 2, "end_time": 238, "prosody": "SP0", "text": "标"},
+      {"begin_index": 3, "begin_time": 238, "end_index": 5, "end_time": 409, "prosody": "SP0", "text": "贝"}
+    ]
+  }]
+}</code></pre>
+
+<h2 id="tts-api-time-ws">短文本 WebSocket API</h2>
+<p>WebSocket 接口同样通过 <code>tts_params.interval=1</code> 和 <code>tts_params.enable_subtitles=1</code> 开启时间戳。开启后，时间戳信息会保存在响应 <code>data.subtitles_list</code> 中。</p>
+<p>由于时间戳信息通常在整句音频生成完毕后给出，并非所有数据包都包含 <code>subtitles_list</code>，客户端应先判断字段是否存在，再读取时间戳。</p>
+<pre><code class="language-json">{
+  "access_token": "ACCESS_TOKEN",
+  "version": "1.0",
+  "tts_params": {
+    "language": "ZH",
+    "voice_name": "beixi",
+    "audiotype": "4",
+    "domain": "1",
+    "text": "BASE64_TEXT",
+    "interval": "1",
+    "enable_subtitles": "1"
+  }
+}</code></pre>
+
+<h2 id="tts-api-time-ws-response">WebSocket 响应字段</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>字段名</th><th>说明</th></tr>
+<tr><td><code>code</code></td><td>错误码，<code>4xxxx</code> 表示客户端参数错误，<code>5xxxx</code> 表示服务端内部错误。</td></tr>
+<tr><td><code>message</code></td><td>错误描述或成功提示。</td></tr>
+<tr><td><code>trace_id</code></td><td>任务 ID。</td></tr>
+<tr><td><code>idx</code></td><td>包序号。</td></tr>
+<tr><td><code>audio_data</code></td><td>Base64 编码后的音频数据，需要解码后使用。</td></tr>
+<tr><td><code>audio_type</code></td><td>音频格式。</td></tr>
+<tr><td><code>interval</code></td><td>音子边界信息。</td></tr>
+<tr><td><code>interval_x</code></td><td>音子附加信息。</td></tr>
+<tr><td><code>subtitles_list</code></td><td>字级别时间戳信息，存在时再解析。</td></tr>
+<tr><td><code>end_flag</code></td><td>结束标志：<code>0</code> 未结束，<code>1</code> 结束。</td></tr>
+</table>
+</div>
+<pre><code class="language-json">{
+  "code": 90000,
+  "data": {
+    "audio_type": "audio/pcm",
+    "end_flag": 1,
+    "idx": 1,
+    "interval": "b=0.072346&amp;iao=0.238304",
+    "interval_x": "L=1&amp;T=1,L=1&amp;T=2",
+    "subtitles_list": []
+  },
+  "message": "Success",
+  "trace_id": "1656986976642904"
+}</code></pre>
+        </article>
+        <article class="doc-panel doc-body" data-doc="asr-audio-format" data-src="docs/tool-docs/asr-audio-format.html" hidden></article>
+        <article class="doc-panel doc-body" data-doc="asr-word-rest" data-src="docs/tool-docs/asr-word-rest.html" hidden></article>
+        <article class="doc-panel doc-body" data-doc="asr-word-ws" data-src="docs/tool-docs/asr-word-ws.html" hidden></article>
+        <article class="doc-panel doc-body" data-doc="asr-word-android" data-src="docs/tool-docs/asr-word-android.html" hidden></article>
+        <article class="doc-panel doc-body" data-doc="asr-word-ios" data-src="docs/tool-docs/asr-word-ios.html" hidden></article>
+        <article class="doc-panel doc-body" data-doc="asr-realtime-ws" data-src="docs/tool-docs/asr-realtime-ws.html" hidden></article>
+        <article class="doc-panel doc-body" data-doc="asr-realtime-android" data-src="docs/tool-docs/asr-realtime-android.html" hidden></article>
+        <article class="doc-panel doc-body" data-doc="asr-realtime-ios" data-src="docs/tool-docs/asr-realtime-ios.html" hidden></article>
+        <article class="doc-panel doc-body" data-doc="asr-file-rest" data-src="docs/tool-docs/asr-file-rest.html" hidden></article>
+        <article class="doc-panel doc-body" data-doc="asr-self-hotword" data-src="docs/tool-docs/asr-self-hotword.html" hidden></article>
+        <article class="doc-panel doc-body" data-doc="asr-self-model" data-src="docs/tool-docs/asr-self-model.html" hidden></article>
+        <article class="doc-panel doc-body" data-doc="vc-custom-upload" data-src="docs/tool-docs/vc-custom-upload.html" hidden></article>
+        <article class="doc-panel doc-body" data-doc="vc-custom-rest" data-src="docs/tool-docs/vc-custom-rest.html" hidden></article>
+        <article class="doc-panel doc-body" data-doc="vc-custom-android" data-src="docs/tool-docs/vc-custom-android.html" hidden></article>
+        <article class="doc-panel doc-body" data-doc="vc-custom-ios" data-src="docs/tool-docs/vc-custom-ios.html" hidden></article>
+        <article class="doc-panel doc-body" data-doc="vc-synth-short-rest" data-src="docs/tool-docs/vc-synth-short-rest.html" hidden></article>
+        <article class="doc-panel doc-body" data-doc="vc-synth-long-ws" data-src="docs/tool-docs/vc-synth-long-ws.html" hidden></article>
+        <article class="doc-panel doc-body" data-doc="voice-convert-voices" data-src="docs/tool-docs/voice-convert-voices.html" hidden></article>
+        <article class="doc-panel doc-body" data-doc="voice-convert-ws" data-src="docs/tool-docs/voice-convert-ws.html" hidden></article>
+        <article class="doc-panel doc-body" data-doc="voice-convert-android" data-src="docs/tool-docs/voice-convert-android.html" hidden></article>
+        <article class="doc-panel doc-body" data-doc="voice-convert-ios" data-src="docs/tool-docs/voice-convert-ios.html" hidden></article>
         <article class="doc-panel" data-doc="todo" hidden>
           <div class="doc-todo">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h6"/></svg>
@@ -516,7 +1716,6 @@ content-type: application/json;charset=UTF-8
       <div class="cta-inner">
         <span class="eyebrow">Next Step</span>
         <h2>获取开发文档试用方案</h2>
-        <p>填写需求表单，我们将在 1 个工作日内回复并提供免费样本或演示账号</p>
         <div class="cta-actions">
           <a href="javascript:void(0)" onclick="openTrialModal()" class="btn btn-primary">预约试用<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
           <a href="tool_annotation.html" class="btn btn-ghost">返回总览</a>
@@ -542,10 +1741,27 @@ content-type: application/json;charset=UTF-8
       toc.appendChild(a);
     });
   }
+  function loadPanel(panel){
+    if(!panel || !panel.getAttribute('data-src') || panel.getAttribute('data-loaded')==='1') return Promise.resolve(panel);
+    var src=panel.getAttribute('data-src');
+    panel.innerHTML='<p class="doc-lead">文档加载中...</p>';
+    return fetch(src,{cache:'no-cache'}).then(function(res){
+      if(!res.ok) throw new Error('HTTP '+res.status);
+      return res.text();
+    }).then(function(fragment){
+      panel.innerHTML=fragment;
+      panel.setAttribute('data-loaded','1');
+      return panel;
+    }).catch(function(){
+      panel.innerHTML='<h1>文档加载失败</h1><p class="doc-lead">该章节使用独立内容源，请通过本地服务或线上站点访问后重试。</p>';
+      return panel;
+    });
+  }
   function show(doc,title){
+    var panel=panelOf(doc);
     panels.forEach(function(p){ p.hidden = p.getAttribute('data-doc')!==doc; });
     if(doc==='todo'){ var t=document.querySelector('[data-todo-title]'); if(t) t.textContent=title||'该章节文档'; }
-    buildToc(panelOf(doc));
+    loadPanel(panel).then(function(){ buildToc(panel); });
     window.scrollTo({top:document.querySelector('.docs').offsetTop-80,behavior:'smooth'});
   }
   // 父级展开/收起

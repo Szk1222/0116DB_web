@@ -1,0 +1,136 @@
+<h1>一句话识别 Websocket API</h1>
+<p class="doc-lead">一句话识别 Websocket API 用于识别不超过 60 秒的短语音。相比 RESTful API，WebSocket 支持持续返回中间识别结果，可用于连续上屏、实时交互等场景。</p>
+
+<h2 id="asr-word-ws-intro">功能介绍</h2>
+<ul>
+<li>支持语言：中文普通话、中英自由说、英文、粤语、维语。</li>
+<li>支持添加标点，支持将中文数字转换为阿拉伯数字输出。</li>
+<li>支持连续返回中间识别结果，实现连续上屏效果。</li>
+<li>时长限制：60 秒以内。</li>
+<li>支持音频格式：<code>wav</code>、<code>pcm</code>；采样率：<code>8000Hz</code>、<code>16000Hz</code>；位深：<code>16bits</code>；声道：单声道。</li>
+</ul>
+
+<h2 id="asr-word-ws-usage">使用方法</h2>
+<ol>
+<li>创建账号和应用，在开放平台应用服务中获取 <code>client_id</code> 与 <code>client_secret</code>。</li>
+<li>调用授权服务获取 <code>access_token</code>。</li>
+<li>建立 WebSocket 连接。</li>
+<li>实时发送需要识别的音频分包。</li>
+<li>接收返回结果，读取中间结果和最终结果。</li>
+<li>收到最终包后关闭连接。</li>
+</ol>
+<ul>
+<li>建立 WebSocket 会话会受网络环境影响产生延迟，接入侧需要按实际测试结果处理。</li>
+<li>结束识别时不要立刻关闭麦克风，可延迟数百毫秒保留部分环境静音，有助于 VAD 快速结束。</li>
+<li>最后一个数据包发送后，应等待最终识别结果返回；响应参数 <code>end_flag=1</code> 表示最后一个包。</li>
+</ul>
+
+<h2 id="asr-word-ws-endpoint">服务地址</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>访问类型</th><th>说明</th><th>URL</th><th>Host</th></tr>
+<tr><td>外网访问</td><td>支持中文普通话、中英自由说、英文、粤语、维语。</td><td><code>wss://openapi.data-baker.com/asr/wsapi/</code></td><td><code>openapi.data-baker.com</code></td></tr>
+</table>
+</div>
+
+<h2 id="asr-word-ws-message">请求消息</h2>
+<p>请求消息和响应消息均序列化为 JSON 格式。请求顶层包含 <code>access_token</code>、<code>version</code> 和 <code>asr_params</code>。</p>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>参数名称</th><th>类型</th><th>是否必填</th><th>说明</th></tr>
+<tr><td><code>access_token</code></td><td>string</td><td>是</td><td>通过授权服务获得的访问令牌。</td></tr>
+<tr><td><code>version</code></td><td>string</td><td>是</td><td>版本信息，旧站文档标注当前为 <code>1.0</code>。</td></tr>
+<tr><td><code>asr_params</code></td><td>object</td><td>是</td><td>ASR 识别参数对象，其中 <code>audio_data</code> 为必需字段，且需使用 Base64 编码。</td></tr>
+</table>
+</div>
+
+<h2 id="asr-word-ws-asr-params">asr_params 参数</h2>
+<p>流式接口需要将音频分包发送：除最后一包外，每包长度固定为 <code>5120</code> 字节；最后一包不足 <code>5120</code> 字节时发送剩余全部数据。每包音频需进行 Base64 编码。</p>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>参数名称</th><th>类型</th><th>是否必填</th><th>说明</th></tr>
+<tr><td><code>audio_data</code></td><td>string</td><td>是</td><td>Base64 编码后的音频分包。</td></tr>
+<tr><td><code>audio_format</code></td><td>string</td><td>是</td><td>音频编码格式，支持 <code>pcm</code>、<code>wav</code>。</td></tr>
+<tr><td><code>sample_rate</code></td><td>int</td><td>是</td><td>音频采样率，支持 <code>8000</code>、<code>16000</code>。</td></tr>
+<tr><td><code>req_idx</code></td><td>int</td><td>是</td><td>音频序号索引，步长为 1 递增；<code>0</code> 为起始音频帧，正数为中间音频帧，负数为结束音频帧。</td></tr>
+<tr><td><code>domain</code></td><td>string</td><td>否</td><td>模型名称。16k 支持 <code>common</code>、<code>cn-en-mixed</code>、<code>english</code>、<code>cantonese</code>、<code>uighur</code>；8k 支持 <code>kefu</code>。</td></tr>
+<tr><td><code>add_pct</code></td><td>boolean</td><td>否</td><td>是否添加标点：<code>true</code> 添加，<code>false</code> 不添加。</td></tr>
+<tr><td><code>hotwordid</code></td><td>string</td><td>否</td><td>配置的热词组 ID。</td></tr>
+<tr><td><code>diylmid</code></td><td>string</td><td>否</td><td>ASR 个性化模型 ID。</td></tr>
+<tr><td><code>enable_itn</code></td><td>boolean</td><td>否</td><td>中文数字转换为阿拉伯数字，仅支持 3 位及以上数字串。</td></tr>
+<tr><td><code>enable_vad</code></td><td>boolean</td><td>否</td><td>是否开启静音检测：<code>false</code> 关闭，<code>true</code> 开启。</td></tr>
+<tr><td><code>max_begin_silence</code></td><td>int</td><td>否</td><td><code>enable_vad=true</code> 时有效，允许的最大开始静音时长，单位毫秒，范围 <code>200-60000</code>。</td></tr>
+<tr><td><code>max_end_silence</code></td><td>int</td><td>否</td><td><code>enable_vad=true</code> 时有效，允许的最大结束静音时长，单位毫秒，范围 <code>200-5000</code>。</td></tr>
+</table>
+</div>
+
+<h2 id="asr-word-ws-example">请求示例</h2>
+<pre><code class="language-json">{
+  "access_token": "ACCESS_TOKEN",
+  "version": "1.0",
+  "asr_params": {
+    "audio_format": "wav",
+    "sample_rate": 16000,
+    "req_idx": 0,
+    "audio_data": "BASE64_AUDIO_CHUNK",
+    "add_pct": true,
+    "enable_itn": true
+  }
+}</code></pre>
+
+<h2 id="asr-word-ws-response">响应结果参数</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>字段名</th><th>类型</th><th>描述</th></tr>
+<tr><td><code>code</code></td><td>int</td><td>错误码，<code>4xxxx</code> 表示客户端参数错误，<code>5xxxx</code> 表示服务端内部错误。</td></tr>
+<tr><td><code>message</code></td><td>string</td><td>错误描述或成功提示。</td></tr>
+<tr><td><code>trace_id</code></td><td>string</td><td>任务 ID，用于定位错误和跟踪日志。</td></tr>
+<tr><td><code>data</code></td><td>object</td><td>识别结果数据。</td></tr>
+</table>
+</div>
+
+<h2 id="asr-word-ws-data">data 内部结构</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>字段名</th><th>类型</th><th>描述</th></tr>
+<tr><td><code>res_idx</code></td><td>int</td><td>数据块序列号，由服务端生成，从 1 递增。</td></tr>
+<tr><td><code>nbest</code></td><td>array</td><td>候选识别结果。</td></tr>
+<tr><td><code>end_flag</code></td><td>int</td><td>是否最后一个数据块：<code>0</code> 否，<code>1</code> 是。</td></tr>
+<tr><td><code>text</code></td><td>string</td><td>语音识别结果，失败时为空。</td></tr>
+<tr><td><code>confidence</code></td><td>int</td><td>整句置信度，范围 <code>0-100</code>，值越大表示置信度越高。</td></tr>
+<tr><td><code>speed</code></td><td>int</td><td>语速，范围 <code>0-2000</code>。</td></tr>
+<tr><td><code>speed_label</code></td><td>string</td><td>语速标签：<code>FAST</code>、<code>MEDIUM</code>、<code>SLOW</code>。</td></tr>
+<tr><td><code>volume</code></td><td>int</td><td>音量，范围 <code>0-100</code>。</td></tr>
+<tr><td><code>volume_label</code></td><td>string</td><td>音量标签：<code>SILENT</code>、<code>XSOFT</code>、<code>SOFT</code>、<code>MEDIUM</code>、<code>LOUD</code>、<code>XLOUD</code>。</td></tr>
+<tr><td><code>words</code></td><td>array</td><td>词级别识别结果，结构与 RESTful API 一致，包含 <code>word</code>、<code>sos</code>、<code>eos</code>、<code>confidence</code>。</td></tr>
+</table>
+</div>
+
+<h2 id="asr-word-ws-response-example">响应结果示例</h2>
+<pre><code class="language-json">{
+  "code": 90000,
+  "message": "Success",
+  "trace_id": "TRACE_ID",
+  "data": {
+    "res_idx": 1,
+    "end_flag": 1,
+    "nbest": ["你好标贝科技"],
+    "text": "你好标贝科技",
+    "confidence": 92,
+    "words": []
+  }
+}</code></pre>
+
+<h2 id="asr-word-ws-errors">错误码</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>错误码</th><th>说明</th><th>解决方案</th></tr>
+<tr><td><code>90000</code></td><td>文本数据。</td><td>正常读取识别结果。</td></tr>
+<tr><td><code>90001</code></td><td>检测到音频。</td><td>正常。</td></tr>
+<tr><td><code>90002</code></td><td>未检测到音频，超过最大开始静音时长。</td><td>检查音频有效长度，或调整最大开始静音时长参数。</td></tr>
+<tr><td><code>30001</code></td><td>HTTP 请求参数错误。</td><td>检查请求参数和音频分包。</td></tr>
+<tr><td><code>30002</code></td><td>服务内部错误。</td><td>保留 <code>trace_id</code> 并反馈排查。</td></tr>
+<tr><td><code>30005</code></td><td>语音质量问题。</td><td>检查录音质量、噪声、音量和采样参数。</td></tr>
+<tr><td><code>30006</code></td><td>输入语音过长。</td><td>确保单次语音不超过 60 秒。</td></tr>
+</table>
+</div>

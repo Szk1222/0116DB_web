@@ -1,0 +1,142 @@
+<h1>定制模型 iOS SDK</h1>
+<p class="doc-lead">定制模型 iOS SDK 用于在 iOS 端完成声音复刻，包括噪声检测、朗读文本获取、录音、上传识别、提交训练、模型状态查询和合成体验。</p>
+
+<h2 id="vc-custom-ios-download">下载与兼容</h2>
+<p>SDK 与示例 Demo 下载地址：<a href="https://github.com/data-baker/BakerIosSdks" target="_blank" rel="noopener">https://github.com/data-baker/BakerIosSdks</a></p>
+<ul>
+<li>系统版本：iOS 8.0 及以上。</li>
+<li>CPU 架构：<code>arm64</code>、<code>arm64e</code>、<code>armv7</code>、<code>armv7s</code>。</li>
+<li>权限配置：在 <code>Info.plist</code> 中添加 <code>Privacy - Microphone Usage Description</code>。</li>
+</ul>
+
+<h2 id="vc-custom-ios-integrate">集成方式</h2>
+<p>通过 CocoaPods 集成：</p>
+<pre><code class="language-ruby">pod 'DBAudioSDK/DBVoiceEngraverKit', 'SDK_VERSION'</code></pre>
+<p><code>SDK_VERSION</code> 为实际接入版本号。接入后在业务文件中导入头文件：</p>
+<pre><code class="language-objectivec">#import "DBVoiceEngraverManager.h"
+#import "DBVoiceDetectionUtil.h"</code></pre>
+
+<h2 id="vc-custom-ios-flow">接入流程</h2>
+<ol>
+<li>实例化 <code>DBVoiceDetectionUtil</code> 并实现噪声检测代理。</li>
+<li>初始化 <code>DBVoiceEngraverManager</code>，传入 <code>clientId</code>、<code>clientSecret</code> 和 <code>queryId</code>。</li>
+<li>获取朗读文本列表，进入朗读录音页面。</li>
+<li>按文本开始录音，结束后上传当前音频并接收识别结果。</li>
+<li>全部文本录制完成后，提交训练并等待模型生成。</li>
+<li>通过 <code>queryId</code> 或 <code>modelId</code> 查询训练状态。</li>
+<li>训练成功后，将 <code>modelId</code> 作为合成接口或合成 SDK 的 <code>voice_name</code>。</li>
+</ol>
+
+<h2 id="vc-custom-ios-detect">噪声检测</h2>
+<p>录音前建议先检测环境噪声，并在 <code>DBVoiceDetectionDelegate</code> 中接收检测过程音量、检测结果和试听结束等回调。</p>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>代理方法</th><th>说明</th></tr>
+<tr><td><code>dbDetecting</code></td><td>检测进行中，可用于展示实时音量。</td></tr>
+<tr><td><code>dbDetectionResult</code></td><td>检测完成，返回当前环境是否适合录音。</td></tr>
+<tr><td><code>dbVoiceRecognizeError</code></td><td>检测或识别过程中出现错误。</td></tr>
+<tr><td><code>playToEnd</code></td><td>试听音频播放完成。</td></tr>
+</table>
+</div>
+
+<h2 id="vc-custom-ios-init">初始化 SDK</h2>
+<pre><code class="language-objectivec">[[DBVoiceEngraverManager sharedInstance] setupWithClientId:@"CLIENT_ID"
+                                             clientSecret:@"CLIENT_SECRET"
+                                                  queryId:@"QUERY_ID"
+                                           SuccessHandler:^{
+  // 初始化成功
+} failureHander:^(DBErrorState errorState, NSString *message) {
+  // 初始化失败
+}];</code></pre>
+<p>如需切换用户标识，可调用：</p>
+<pre><code class="language-objectivec">[[DBVoiceEngraverManager sharedInstance] setupQueryId:@"QUERY_ID"];</code></pre>
+
+<h2 id="vc-custom-ios-record">朗读与录音</h2>
+<p>先获取朗读文本，再按文本开始录音。录音异常中断时，建议调用异常停止接口释放本次会话资源。</p>
+<pre><code class="language-objectivec">[[DBVoiceEngraverManager sharedInstance] getRecordTextArrayTextHandler:^(NSArray *textArray) {
+  // 展示朗读文本
+} failure:^(DBErrorState errorState, NSString *message) {
+  // 获取失败
+}];
+
+[[DBVoiceEngraverManager sharedInstance] startRecordWithText:text
+                                              failureHander:^(DBErrorState errorState, NSString *message) {
+  // 开始录音失败
+}];
+
+[[DBVoiceEngraverManager sharedInstance] pauseRecord];</code></pre>
+<pre><code class="language-objectivec">[[DBVoiceEngraverManager sharedInstance] unNormalStopRecordSeesionSuccessHandler:^{
+  // 已释放异常会话
+} failureHandler:^(DBErrorState errorState, NSString *message) {
+  // 释放失败
+}];</code></pre>
+
+<h2 id="vc-custom-ios-upload">上传识别与提交训练</h2>
+<p>单条朗读结束后上传当前音频并接收识别结果；全部文本完成后提交模型训练。<code>notifyUrl</code> 需为外网可访问地址且不携带参数。</p>
+<pre><code class="language-objectivec">[[DBVoiceEngraverManager sharedInstance] uploadRecordVoiceRecogizeHandler:^(DBVoiceRecognizeModel *model) {
+  // 当前音频识别结果
+}];
+
+[[DBVoiceEngraverManager sharedInstance] startModelTrainRecordVoiceWithPhoneNumber:@"13800000000"
+                                                                         notifyUrl:@"https://example.com/voice/callback"
+                                                                    successHandler:^(DBVoiceModel *model) {
+  // 提交训练成功
+} failureHander:^(DBErrorState errorState, NSString *message) {
+  // 提交训练失败
+}];</code></pre>
+
+<h2 id="vc-custom-ios-query">查询模型状态</h2>
+<pre><code class="language-objectivec">[[DBVoiceEngraverManager sharedInstance] batchQueryModelStatusByQueryId:@"QUERY_ID"
+                                                         SuccessHandler:^(NSArray&lt;DBVoiceModel *&gt; *models) {
+  // 模型列表
+} failureHander:^(DBErrorState errorState, NSString *message) {
+  // 查询失败
+}];
+
+[[DBVoiceEngraverManager sharedInstance] queryModelStatusByModelId:@"MODEL_ID"
+                                                    SuccessHandler:^(DBVoiceModel *model) {
+  // 单个模型状态
+} failureHander:^(DBErrorState errorState, NSString *message) {
+  // 查询失败
+}];</code></pre>
+
+<h2 id="vc-custom-ios-classes">关键类与回调</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>类 / 回调</th><th>说明</th></tr>
+<tr><td><code>DBVoiceDetectionUtil</code></td><td>环境噪声检测工具。</td></tr>
+<tr><td><code>DBVoiceDetectionDelegate</code></td><td>噪声检测、音量和试听状态回调。</td></tr>
+<tr><td><code>DBVoiceEngraverManager</code></td><td>声音复刻主入口，提供初始化、录音、上传、训练和查询能力。</td></tr>
+<tr><td><code>DBVoiceModel</code></td><td>训练成功或查询返回的声音模型对象。</td></tr>
+<tr><td><code>DBVoiceRecognizeModel</code></td><td>单条录音上传后的识别结果对象。</td></tr>
+<tr><td><code>DBSuccessHandler</code></td><td>通用成功回调。</td></tr>
+<tr><td><code>DBVoiceRecogizeHandler</code></td><td>录音识别结果回调。</td></tr>
+<tr><td><code>DBTextBlock</code></td><td>朗读文本列表回调。</td></tr>
+<tr><td><code>DBSuccessModelHandler</code></td><td>模型列表回调。</td></tr>
+<tr><td><code>DBSuccessOneModelHandler</code></td><td>单个模型回调。</td></tr>
+<tr><td><code>DBFailureHandler</code></td><td>通用失败回调。</td></tr>
+</table>
+</div>
+
+<h2 id="vc-custom-ios-errors">常见错误码</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>错误码</th><th>枚举</th><th>说明</th></tr>
+<tr><td><code>0</code></td><td><code>DBErrorStateNOError</code></td><td>无错误。</td></tr>
+<tr><td><code>1000</code></td><td><code>DBErrorStateMircropho-neNotPermission</code></td><td>未获得麦克风权限。</td></tr>
+<tr><td><code>1001</code></td><td><code>DBErrorStateInitlizeSDK</code></td><td>SDK 初始化失败或尚未初始化。</td></tr>
+<tr><td><code>1002</code></td><td><code>DBErrorStateFailureToAccessToken</code></td><td>获取访问令牌失败。</td></tr>
+<tr><td><code>1003</code></td><td><code>DBErrorStateFailureToGetSession</code></td><td>获取录音会话失败。</td></tr>
+<tr><td><code>1004</code></td><td><code>DBErrorStateFailureIn-validParams</code></td><td>参数无效。</td></tr>
+<tr><td><code>99999</code></td><td><code>DBErrorStateNetwork-DataError</code></td><td>网络或数据异常。</td></tr>
+<tr><td><code>00011</code></td><td><code>DBErrorStateTokenInvaild</code></td><td>访问令牌无效。</td></tr>
+<tr><td><code>10003</code></td><td><code>DBErrorStateFailureEr-rorParams</code></td><td>参数错误。</td></tr>
+<tr><td><code>10004</code></td><td><code>DBErrorStateUpload-Failed</code></td><td>上传失败。</td></tr>
+<tr><td><code>10005</code></td><td><code>DBErrorStateEmptyfile</code></td><td>上传文件为空。</td></tr>
+<tr><td><code>10008</code></td><td><code>DBErrorStateModuleI-dInvailid</code></td><td>模型 ID 无效。</td></tr>
+<tr><td><code>10009</code></td><td><code>DBErrorStateModelSyns</code></td><td>模型合成异常。</td></tr>
+</table>
+</div>
+
+<h2 id="vc-custom-ios-synthesis">体验合成</h2>
+<p>训练成功后，<code>DBVoiceModel</code> 中的 <code>modelId</code> 可作为 <code>voice_name</code> 用于短文本合成 RESTful API 或语音合成 iOS SDK。体验文本长度和并发限制请以当前授权与合成接口说明为准。</p>

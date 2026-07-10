@@ -481,27 +481,44 @@
 /* honors · 证书图片卡（取自原官网） */
 .honor-card {
   flex: 0 0 auto;            /* 宽度由内联 style 控制：纵向 200px / 横向 270px */
-  align-self: flex-start;    /* 高度按各自图片自适应，顶部对齐 */
+  align-self: flex-start;
   position: relative; padding: 14px 14px 16px;
   border: 1px solid var(--line); border-radius: var(--r-lg);
   background: linear-gradient(180deg, rgba(20,36,72,0.7), rgba(10,20,46,0.7));
   transition: all 240ms ease;
-  display: flex; flex-direction: column; gap: 12px;
+  display: grid;
+  grid-template-rows: var(--honor-img-h, 240px) minmax(68px, auto);
+  gap: 12px;
+  min-height: calc(var(--honor-img-h, 240px) + 112px);
 }
 .honor-card:hover { border-color: rgba(76,201,240,0.5); transform: translateY(-4px); }
 .honor-img {
-  width: 100%; border-radius: 8px; overflow: hidden;
+  width: 100%; height: var(--honor-img-h, 240px); border-radius: 8px; overflow: hidden;
   background: #fff; border: 1px solid var(--line-strong);
+  display: flex; align-items: flex-start; justify-content: center;
 }
-.honor-img img { width: 100%; height: auto; display: block; }
-.honor-meta { display: grid; gap: 5px; }
+.honor-img img { width: 100%; height: auto; display: block; object-fit: contain; object-position: top center; }
+.honor-meta {
+  display: grid;
+  grid-template-rows: 40px 34px;
+  gap: 5px;
+  align-content: start;
+  min-height: 79px;
+}
 .honor-card h4 {
   font-family: var(--font-cn); font-size: 0.92rem; font-weight: 600;
   color: var(--text-hi); margin: 0; line-height: 1.4;
+  align-self: start;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 .honor-card small {
   display: block; color: var(--text-mute); font-family: var(--font-cn);
   font-size: 11.5px; line-height: 1.45; letter-spacing: 0.02em;
+  align-self: start;
+  overflow: hidden;
 }
 
 /* partners · 四条 logo 图横向轮播 */
@@ -741,7 +758,7 @@
         <div class="intro-tags">
           <span class="pill pill-accent">技术驱动</span>
           <span class="pill pill-violet">全模态覆盖</span>
-          <span class="pill pill-green">国家专精特新「小巨人」</span>
+          <span class="pill pill-green">专精特新「小巨人」</span>
         </div>
       </div>
 
@@ -773,8 +790,8 @@
       </div>
       <div class="stat-cell">
         <div class="stat-mono">Speech</div>
-        <div class="stat-num">500<sup>+ 万小时</sup></div>
-        <div class="stat-label">语音数据集累计交付</div>
+        <div class="stat-num">500万<sup>+ 小时</sup></div>
+        <div class="stat-label">数据集累计交付</div>
       </div>
       <div class="stat-cell">
         <div class="stat-mono">Multimodal</div>
@@ -823,7 +840,7 @@
           </div>
           <div class="tl-event">
             <span class="tl-when">2017 · 11</span>
-            <ul><li>获 Pre-A 轮千万级融资</li><li>获国家高新技术企业认定</li></ul>
+            <ul><li>获 Pre-A 轮千万级融资</li><li>获高新技术企业认定</li></ul>
           </div>
         </div>
       </div>
@@ -951,7 +968,7 @@
           </div>
           <div class="tl-event">
             <span class="tl-when">2024 · 12</span>
-            <ul><li>入选国家数据局首批数据标注优秀案例</li><li>荣获国家专精特新「小巨人」</li></ul>
+            <ul><li>入选数据局首批数据标注优秀案例</li><li>荣获专精特新「小巨人」</li></ul>
           </div>
           <div class="tl-event">
             <span class="tl-when">2025 · 04</span>
@@ -963,7 +980,7 @@
           </div>
           <div class="tl-event">
             <span class="tl-when">2025 · 10</span>
-            <ul><li>入选国家数据局首批高质量数据集典型案例</li></ul>
+            <ul><li>入选数据局首批高质量数据集典型案例</li></ul>
           </div>
         </div>
       </div>
@@ -1073,7 +1090,7 @@
     <div class="section-head" data-reveal>
       <span class="eyebrow">04 · HONORS &amp; CERTIFICATIONS</span>
       <h2 class="display">荣誉<span class="glow-text">资质</span></h2>
-      <p>200+ 项资质认证，国家级、行业级与体系认证并行，持续以专业能力获得认可。</p>
+      <p>200+ 项资质认证，行业级与体系认证并行，持续以专业能力获得认可。</p>
     </div>
 
     <!-- 曾获科技奖项 · 纵向一行 + 横向一行 -->
@@ -1172,7 +1189,6 @@
       <div class="cta-inner">
         <span class="eyebrow">CONTACT US · 获取专业服务</span>
         <h2>获取高质量数据服务</h2>
-        <p>无论是大模型训练数据、垂直场景数据集，还是 AI 数据平台与工具，标贝团队全力为您响应。</p>
         <div class="cta-actions">
           <a href="javascript:void(0)" onclick="openTrialModal()" class="btn btn-primary" data-magnetic>立即咨询 <span class="btn-arrow">→</span></a>
           <a href="tel:4001688833" class="btn btn-ghost">
@@ -1202,12 +1218,11 @@
     { img: 'list4-10', w: 200, name: '2024语解风云榜·中国Top10',          en: '大模型语料数据联盟' },
     { img: 'list4-11', w: 200, name: '2024金融科技竞争力百强企业',         en: '中关村互联网金融研究院' },
     { img: 'list4-1',  w: 200, name: '核心竞争力评价',                      en: '2020年获得创新创业型评价' },
-    { img: 'list4-2',  w: 200, name: '光合组织',                           en: '2021年成为海光产业生态合作组织成员' },
     { img: 'list4-3',  w: 200, name: '华为技术认证',                       en: '2020年与华为云鲲鹏云服务完成兼容性认证' },
     { img: 'list4-8',  w: 270, name: '优秀服务机器人企业奖',               en: '2019年荣获RFC联盟优秀服务机器人企业奖' },
     { img: 'list4-9',  w: 270, name: '“专精特新”中小企业',                 en: '2021获得北京市“专精特新”中小企业' },
     { img: 'list4-12', w: 270, name: '青岛市创新型中小企业',               en: '青岛市民营经济发展局' },
-    { img: 'list4-13', w: 270, name: '人工智能融合发展和安全应用典型案例', en: '国家工业信息安全发展研究中心' },
+    { img: 'list4-13', w: 270, name: '人工智能融合发展和安全应用典型案例', en: '工业信息安全发展研究中心' },
     { img: 'list4-4',  w: 200, name: '最具商业价值奖',                     en: '' },
     { img: 'list4-5',  w: 200, name: '科创产业新锐TOP50',                  en: '2020年获得中国科创产业TOP50' },
     { img: 'list4-6',  w: 200, name: '最佳交互系统奖',                     en: '2020年获得最佳交互系统奖' },
@@ -1228,12 +1243,13 @@
   const CERTS = [
     { img: 'list2-1', w: 270, name: '软件企业证书',         en: '2025年获得中国软件协会颁发软件企业证书' },
     { img: 'list2-2', w: 270, name: '软件产品证书',         en: '2024年获得中国软件协会颁发语音识别软件产品证书' },
-    { img: 'list3-1', w: 270, name: '国家高新技术企业',     en: '2023年获得高新技术企业认定' },
+    { img: 'list3-1', w: 270, name: '高新技术企业',     en: '2023年获得高新技术企业认定' },
     { img: 'list3-2', w: 270, name: '信息系统安全等级保护', en: '2023年获得信息系统安全等级保护备案证明' },
   ];
 
   function honorCard(h) {
-    return `<div class="honor-card" style="flex-basis:${h.w}px;width:${h.w}px;">
+    const imgHeight = h.w === 200 ? 240 : 188;
+    return `<div class="honor-card" style="flex-basis:${h.w}px;width:${h.w}px;--honor-img-h:${imgHeight}px;">
       <div class="honor-img"><img src="images/honors/${h.img}.png" alt="${h.name}" loading="lazy"></div>
       <div class="honor-meta">
         <h4>${h.name}</h4>
@@ -1252,14 +1268,15 @@
   fillTrack('isoTrack',  ISO);
   fillTrack('certTrack', CERTS);
 
-  // ── 新闻资讯：复用旧官网列表接口，按旧站 40 页分页拉完整列表 ─────
+  // ── 新闻资讯：复用旧官网列表接口，按当前页请求并缓存 ─────
   const NEWS_API = 'https://www.data-baker.com/official-website/v1/about-us/baker-news/list';
-  const NEWS_PAGE_SIZE = 8;
   const NEWS_ITEMS_PER_PAGE = 4;
-  const NEWS_CACHE_KEY = 'databaker:about-news:v1';
+  const NEWS_CACHE_KEY = 'databaker:about-news-pages:v2';
   const NEWS_CACHE_MAX_AGE = 6 * 60 * 60 * 1000;
   let aboutNewsRecords = [];
   let aboutNewsPage = 1;
+  let aboutNewsTotalPages = 1;
+  let aboutNewsRequestId = 0;
   function escapeHTML(value) {
     return String(value || '').replace(/[&<>"']/g, char => ({
       '&': '&amp;',
@@ -1294,41 +1311,21 @@
   function setNewsState(grid, html) {
     grid.innerHTML = '<div class="news-state">' + html + '</div>';
   }
-  function newsProgressHTML(loadedPages, totalPages) {
-    const total = Math.max(Number(totalPages) || 1, 1);
-    const loaded = Math.min(Math.max(Number(loadedPages) || 0, 0), total);
-    const percent = Math.round((loaded / total) * 100);
-    return `
-      <div class="news-progress">
-        <div class="news-progress-text">正在拉取完整新闻列表：<b>${percent}%</b></div>
-        <div class="news-progress-track" aria-hidden="true">
-          <div class="news-progress-bar" style="--progress:${percent}%"></div>
-        </div>
-      </div>
-    `;
-  }
   function readNewsCache() {
     try {
       const raw = localStorage.getItem(NEWS_CACHE_KEY);
       if (!raw) return null;
       const cache = JSON.parse(raw);
-      if (!cache || !Array.isArray(cache.records) || !cache.records.length) return null;
-      return {
-        records: cache.records,
-        createdAt: Number(cache.createdAt) || 0,
-        total: Number(cache.total) || cache.records.length
-      };
+      if (!cache || !cache.pages || cache.pageSize !== NEWS_ITEMS_PER_PAGE) return null;
+      if (!isNewsCacheFresh(cache)) return null;
+      return cache;
     } catch (error) {
       return null;
     }
   }
-  function writeNewsCache(records, total) {
+  function writeNewsCache(cache) {
     try {
-      localStorage.setItem(NEWS_CACHE_KEY, JSON.stringify({
-        createdAt: Date.now(),
-        total: total || records.length,
-        records
-      }));
+      localStorage.setItem(NEWS_CACHE_KEY, JSON.stringify(cache));
     } catch (error) {
       // localStorage may be unavailable or full; the page can still use in-memory data.
     }
@@ -1336,42 +1333,40 @@
   function isNewsCacheFresh(cache) {
     return cache && Date.now() - cache.createdAt < NEWS_CACHE_MAX_AGE;
   }
+  function createNewsCache() {
+    return {
+      createdAt: Date.now(),
+      pageSize: NEWS_ITEMS_PER_PAGE,
+      total: 0,
+      totalPages: 1,
+      pages: {}
+    };
+  }
+  function getCachedNewsPage(page) {
+    const cache = readNewsCache();
+    return cache && cache.pages ? cache.pages[String(page)] : null;
+  }
+  function cacheNewsPage(page, data) {
+    const cache = readNewsCache() || createNewsCache();
+    cache.createdAt = cache.createdAt || Date.now();
+    cache.pageSize = NEWS_ITEMS_PER_PAGE;
+    cache.total = Number(data.total) || cache.total || 0;
+    cache.totalPages = Number(data.pages) || cache.totalPages || 1;
+    cache.pages[String(page)] = {
+      records: data.records || [],
+      total: cache.total,
+      pages: cache.totalPages
+    };
+    writeNewsCache(cache);
+  }
   function fetchNewsPage(page) {
     return fetch(NEWS_API, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ limit: NEWS_PAGE_SIZE, page })
+      body: JSON.stringify({ limit: NEWS_ITEMS_PER_PAGE, page })
     })
       .then(res => res.ok ? res.json() : Promise.reject(new Error('news api failed')))
       .then(json => json && json.data ? json.data : {});
-  }
-  function fetchRemainingNews(totalPages, onProgress) {
-    const recordsByPage = [];
-    const concurrency = 4;
-    let nextPage = 2;
-    let loadedPages = 1;
-
-    function worker() {
-      if (nextPage > totalPages) return Promise.resolve();
-      const page = nextPage;
-      nextPage += 1;
-
-      return fetchNewsPage(page).then(data => {
-        recordsByPage[page] = data.records || [];
-        loadedPages += 1;
-        onProgress(loadedPages);
-        return worker();
-      });
-    }
-
-    const workerCount = Math.min(concurrency, Math.max(totalPages - 1, 0));
-    return Promise.all(Array.from({ length: workerCount }, worker)).then(() => {
-      const rest = [];
-      for (let page = 2; page <= totalPages; page++) {
-        rest.push(...(recordsByPage[page] || []));
-      }
-      return rest;
-    });
   }
   function compactNewsPages(current, total) {
     const pages = new Set([1, total, current, current - 1, current + 1]);
@@ -1395,16 +1390,14 @@
     const pager = document.getElementById('aboutNewsPager');
     if (!grid || !pager) return;
 
-    const totalPages = Math.max(1, Math.ceil(aboutNewsRecords.length / NEWS_ITEMS_PER_PAGE));
+    const totalPages = Math.max(1, Number(aboutNewsTotalPages) || 1);
     aboutNewsPage = Math.min(Math.max(aboutNewsPage, 1), totalPages);
 
-    const start = (aboutNewsPage - 1) * NEWS_ITEMS_PER_PAGE;
-    const pageList = aboutNewsRecords.slice(start, start + NEWS_ITEMS_PER_PAGE);
-    grid.innerHTML = pageList.length
-      ? pageList.map(newsCard).join('')
+    grid.innerHTML = aboutNewsRecords.length
+      ? aboutNewsRecords.map(newsCard).join('')
       : '<div class="news-state">暂无新闻资讯</div>';
 
-    if (!pageList.length || totalPages <= 1) {
+    if (!aboutNewsRecords.length || totalPages <= 1) {
       pager.innerHTML = '';
       return;
     }
@@ -1427,61 +1420,41 @@
     pager.addEventListener('click', event => {
       const btn = event.target.closest('[data-news-page]');
       if (!btn || btn.disabled) return;
-      aboutNewsPage = Number(btn.dataset.newsPage) || 1;
-      renderAboutNewsPage();
+      loadAboutNewsPage(Number(btn.dataset.newsPage) || 1);
       if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   }
-  function fetchAllAboutNews(options) {
-    const opts = options || {};
-    const grid = document.getElementById('aboutNewsGrid');
-    if (grid && opts.showProgress) setNewsState(grid, '新闻加载中...');
-
-    return fetchNewsPage(1)
-      .then(firstPage => {
-        const totalPages = Number(firstPage.pages) || 1;
-        const total = Number(firstPage.total) || 0;
-
-        if (grid && opts.showProgress) {
-          setNewsState(grid, newsProgressHTML(1, totalPages));
-        }
-        return fetchRemainingNews(totalPages, loadedPages => {
-          if (grid && opts.showProgress) {
-            setNewsState(grid, newsProgressHTML(loadedPages, totalPages));
-          }
-        }).then(rest => ({
-          total,
-          list: (firstPage.records || []).concat(rest)
-        }));
-      });
+  function applyNewsPage(page, data) {
+    aboutNewsPage = page;
+    aboutNewsRecords = data.records || [];
+    aboutNewsTotalPages = Number(data.pages) || Math.ceil((Number(data.total) || aboutNewsRecords.length) / NEWS_ITEMS_PER_PAGE) || 1;
+    renderAboutNewsPage();
   }
-  function loadAboutNews() {
+  function loadAboutNewsPage(page) {
     const grid = document.getElementById('aboutNewsGrid');
-    if (!grid) return;
-    const cache = readNewsCache();
+    const requestId = ++aboutNewsRequestId;
+    const nextPage = Math.max(1, Number(page) || 1);
+    const cachedPage = getCachedNewsPage(nextPage);
 
-    if (cache) {
-      aboutNewsRecords = cache.records;
-      aboutNewsPage = 1;
-      renderAboutNewsPage();
-      if (isNewsCacheFresh(cache)) return;
-    } else {
-      setNewsState(grid, '新闻加载中...');
+    if (cachedPage) {
+      applyNewsPage(nextPage, cachedPage);
+      return;
     }
 
-    fetchAllAboutNews({ showProgress: !cache })
-      .then(result => {
-        aboutNewsRecords = result.list || [];
-        aboutNewsPage = 1;
-        writeNewsCache(aboutNewsRecords, result.total);
-        renderAboutNewsPage();
+    if (grid) setNewsState(grid, '新闻加载中...');
+    fetchNewsPage(nextPage)
+      .then(data => {
+        if (requestId !== aboutNewsRequestId) return;
+        cacheNewsPage(nextPage, data);
+        applyNewsPage(nextPage, data);
       })
       .catch(() => {
-        if (!cache) setNewsState(grid, '新闻暂时无法完整加载，请稍后再试。');
+        if (requestId !== aboutNewsRequestId) return;
+        if (grid) setNewsState(grid, '新闻暂时无法加载，请稍后再试。');
       });
   }
   bindAboutNewsPager();
-  loadAboutNews();
+  loadAboutNewsPage(1);
 
   // ── 合作伙伴 改为四条 logo 图横向轮播（静态 PNG，无需 JS 渲染）──
 

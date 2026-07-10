@@ -1,0 +1,126 @@
+<h1>声音转换 Websocket API</h1>
+<p class="doc-lead">声音转换 Websocket API 面向实时声音转换场景。客户端以音频流形式输入原始声音，服务端以流式方式返回转换后的音频，可实现边说话边转换。</p>
+
+<h2 id="voice-convert-ws-audio">音频要求</h2>
+<ul>
+<li>音频编码：<code>pcm</code>。</li>
+<li>采样率 / 位深：<code>16000Hz</code> / <code>16bit</code>。</li>
+<li>声道：单声道。</li>
+<li>语言：中文普通话。</li>
+<li>有效时长：不超过 <code>180</code> 分钟。</li>
+</ul>
+
+<h2 id="voice-convert-ws-endpoint">服务地址</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>访问类型</th><th>说明</th><th>URL</th><th>Host</th></tr>
+<tr><td>外网访问</td><td>WebSocket 协议</td><td><code>wss://openapi.data-baker.com/ws/voice_conversion</code></td><td><code>openapi.data-baker.com</code></td></tr>
+</table>
+</div>
+
+<h2 id="voice-convert-ws-flow">使用流程</h2>
+<ol>
+<li>创建账号和应用，获取 <code>client_id</code> 与 <code>client_secret</code>。</li>
+<li>调用授权服务获取 <code>access_token</code>。</li>
+<li>建立 WebSocket 连接。</li>
+<li>按数据包格式实时发送待转换音频。</li>
+<li>接收转换后的音频数据。</li>
+<li>最后一包发送或接收完成后关闭连接。</li>
+</ol>
+
+<h2 id="voice-convert-ws-params">请求参数</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>参数名</th><th>参数格式</th><th>是否必填</th><th>说明</th></tr>
+<tr><td><code>access_token</code></td><td>string</td><td>是</td><td>通过 <code>client_id</code>、<code>client_secret</code> 调用授权服务获得。</td></tr>
+<tr><td><code>voice_name</code></td><td>string</td><td>是</td><td>目标声音参数，例如 <code>Vc_jiaojiao</code>。</td></tr>
+<tr><td><code>lastpkg</code></td><td>bool</td><td>是</td><td>是否为最后一包。发送最后一包数据时设置为 <code>true</code>，表示输入完成。</td></tr>
+<tr><td><code>enable_vad</code></td><td>bool</td><td>否</td><td><code>true</code> 表示启动服务端 VAD，默认 <code>false</code>。开启后会根据输入音频检测并过滤环境噪音。</td></tr>
+<tr><td><code>align_input</code></td><td>bool</td><td>否</td><td><code>true</code> 表示输出音频与输入音频对齐，默认 <code>false</code>。开启 VAD 时可保留静音部分。</td></tr>
+</table>
+</div>
+
+<h2 id="voice-convert-ws-packet">WS 数据包格式</h2>
+<p>每个二进制数据包由三部分组成：</p>
+<ol>
+<li><strong>HEAD</strong>：4 字节大端 32 位整数，表示第二部分 JSON 字符串的字节长度。</li>
+<li><strong>JSON</strong>：请求参数 JSON 字符串。</li>
+<li><strong>Audio</strong>：音频二进制数据；若数据包不包含音频，该部分可以为空。</li>
+</ol>
+<pre><code class="language-c">// length 转 byte[]
+int32_t length = 123;
+unsigned char B[4];
+B[0] = length >> 24 & 0xFF;
+B[1] = length >> 16 & 0xFF;
+B[2] = length >> 8 & 0xFF;
+B[3] = length & 0xFF;
+
+// byte[] 转 length
+length = (B[0] << 24) + (B[1] << 16) + (B[2] << 8) + B[3];</code></pre>
+
+<h2 id="voice-convert-ws-example">Python 示例</h2>
+<pre><code class="language-python">import json
+import requests
+import websocket
+
+def make_packet(params, audio):
+    body = json.dumps(params).encode("utf-8")
+    return len(body).to_bytes(4, byteorder="big") + body + audio
+
+params = {
+    "access_token": "ACCESS_TOKEN",
+    "voice_name": "Vc_jiaojiao",
+    "enable_vad": True,
+    "align_input": True,
+    "lastpkg": False
+}
+
+ws = websocket.create_connection("wss://openapi.data-baker.com/ws/voice_conversion")
+with open("origin.pcm", "rb") as f:
+    chunks = iter(lambda: f.read(32000), b"")
+    for chunk in chunks:
+        params["lastpkg"] = len(chunk) < 32000
+        ws.send_binary(make_packet(params, chunk))
+
+converted = bytearray()
+while True:
+    message = ws.recv()
+    length = int.from_bytes(message[:4], byteorder="big")
+    result = json.loads(message[4:4 + length].decode("utf-8"))
+    converted.extend(message[4 + length:])
+    if result.get("lastpkg") or result.get("errcode") != 0:
+        break
+ws.close()
+open("result.pcm", "wb").write(converted)</code></pre>
+
+<h2 id="voice-convert-ws-response">响应结果</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>参数名</th><th>类型</th><th>说明</th></tr>
+<tr><td><code>errcode</code></td><td>int</td><td><code>0</code> 表示当前包处理成功，非 <code>0</code> 表示出现错误。</td></tr>
+<tr><td><code>errmsg</code></td><td>string</td><td>错误信息。</td></tr>
+<tr><td><code>traceid</code></td><td>string</td><td>链路追踪 ID，可用于问题排查。</td></tr>
+<tr><td><code>lastpkg</code></td><td>bool</td><td>是否为最后一包。为 <code>true</code> 时，表示转换数据已返回完毕。</td></tr>
+<tr><td>音频数据</td><td>binary</td><td>JSON 之后的二进制部分为转换后的音频数据。</td></tr>
+</table>
+</div>
+
+<h2 id="voice-convert-ws-errors">常见错误码</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>错误码</th><th>说明</th><th>类别</th></tr>
+<tr><td><code>10000</code></td><td>WS 数据包解析错误。</td><td>请求参数错误</td></tr>
+<tr><td><code>10001</code></td><td>WS 数据包 JSON 解析错误。</td><td>请求参数错误</td></tr>
+<tr><td><code>10002</code></td><td>请求参数缺少 <code>access_token</code>。</td><td>请求参数错误</td></tr>
+<tr><td><code>10003</code></td><td><code>access_token</code> 过期或不合法。</td><td>请求参数错误</td></tr>
+<tr><td><code>10004</code></td><td>请求参数缺少 <code>voice_name</code>。</td><td>请求参数错误</td></tr>
+<tr><td><code>10005</code></td><td><code>voice_name</code> 不存在。</td><td>请求参数错误</td></tr>
+<tr><td><code>20000</code></td><td>引擎资源不足，拒绝新建会话。</td><td>服务端错误</td></tr>
+<tr><td><code>20001</code></td><td>声音转换出错。</td><td>服务端错误</td></tr>
+<tr><td><code>20002</code></td><td>动态内存申请失败。</td><td>服务端错误</td></tr>
+<tr><td><code>20003</code></td><td>向客户端推送响应失败。</td><td>服务端错误</td></tr>
+<tr><td><code>20004</code></td><td>其他未定义的内部错误。</td><td>服务端错误</td></tr>
+<tr><td><code>30000</code></td><td>会话进行时客户端主动关闭。</td><td>客户端错误</td></tr>
+<tr><td><code>30001</code></td><td>会话空闲超时，超过一定时间没有数据传输导致主动断开连接。</td><td>客户端错误</td></tr>
+</table>
+</div>

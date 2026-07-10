@@ -1,0 +1,141 @@
+<h1>定制声音合成 Websocket API</h1>
+<p class="doc-lead">定制声音合成 Websocket API 适用于较长文本的流式合成。客户端建立 WebSocket 连接后发送合成参数，服务端分片返回 base64 编码的音频数据，最后通过 <code>end_flag</code> 标记任务结束。</p>
+
+<h2 id="vc-synth-long-intro">功能介绍</h2>
+<ul>
+<li>支持长连接流式返回音频，适合长文本或需要边合成边接收的场景。</li>
+<li>合成文本需要使用 UTF-8 编码后再进行 base64 编码。</li>
+<li>单次请求最多不超过 <code>20000</code> 个汉字。</li>
+<li>支持 16K、8K PCM 音频输出，以及语速、音量、音调、时间戳等参数。</li>
+<li><code>voice_name</code> 填写训练成功后的定制模型 <code>modelId</code>。</li>
+</ul>
+
+<h2 id="vc-synth-long-endpoint">服务地址</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>访问类型</th><th>说明</th><th>URL</th><th>Host</th></tr>
+<tr><td>外网访问</td><td>定制声音长文本合成接口</td><td><code>wss://openapi.data-baker.com/tts_personal/wsapi</code></td><td><code>openapi.data-baker.com</code></td></tr>
+</table>
+</div>
+
+<h2 id="vc-synth-long-flow">交互流程</h2>
+<ol>
+<li>创建应用并获取 <code>client_id</code>、<code>client_secret</code>。</li>
+<li>调用授权服务获取 <code>access_token</code>。</li>
+<li>建立 WebSocket 连接。</li>
+<li>发送 JSON 请求，文本字段放在 <code>tts_params.text</code>，值为 base64 后的 UTF-8 文本。</li>
+<li>持续接收响应分片，解码 <code>data.audio_data</code> 并按 <code>idx</code> 顺序写入音频文件或播放器。</li>
+<li>收到 <code>data.end_flag=1</code> 后关闭连接并释放资源。</li>
+</ol>
+
+<h2 id="vc-synth-long-params">请求参数</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>参数名称</th><th>类型</th><th>是否必填</th><th>说明</th></tr>
+<tr><td><code>access_token</code></td><td>string</td><td>是</td><td>用户访问令牌。</td></tr>
+<tr><td><code>version</code></td><td>string</td><td>是</td><td>版本信息，当前为 <code>1.0</code>。</td></tr>
+<tr><td><code>tts_params</code></td><td>object</td><td>是</td><td>合成参数对象，内部字段均按字符串传递，其中 <code>text</code> 必填并需 base64 编码。</td></tr>
+</table>
+</div>
+
+<h3>tts_params 字段</h3>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>参数名称</th><th>类型</th><th>是否必填</th><th>说明</th></tr>
+<tr><td><code>text</code></td><td>string</td><td>是</td><td>合成文本，UTF-8 编码后进行 base64 编码，单次请求最多不超过 <code>20000</code> 个汉字。</td></tr>
+<tr><td><code>domain</code></td><td>string</td><td>是</td><td>应用领域编码，目前固定为 <code>1</code>。</td></tr>
+<tr><td><code>language</code></td><td>string</td><td>是</td><td>合成请求文本语言，中文及中英混合文本使用 <code>ZH</code>。</td></tr>
+<tr><td><code>voice_name</code></td><td>string</td><td>是</td><td>模型名称，填写定制模型训练成功后返回的 <code>modelId</code>。</td></tr>
+<tr><td><code>speed</code></td><td>string</td><td>否</td><td>语速，取值 <code>0-9</code>，支持浮点值，默认 <code>5</code>。</td></tr>
+<tr><td><code>volume</code></td><td>string</td><td>否</td><td>音量，取值 <code>0-9</code>，仅支持整数，默认 <code>5</code>。</td></tr>
+<tr><td><code>pitch</code></td><td>string</td><td>否</td><td>音调，取值 <code>0-9</code>，支持浮点值，默认 <code>5</code>。</td></tr>
+<tr><td><code>audiotype</code></td><td>string</td><td>否</td><td>音频类型。<code>4</code> 返回 16K pcm，默认值；<code>5</code> 返回 8K pcm。</td></tr>
+<tr><td><code>rate</code></td><td>string</td><td>否</td><td>采样率相关参数，按音频类型配合使用。</td></tr>
+<tr><td><code>interval</code></td><td>string</td><td>否</td><td>音子级时间戳开关：<code>0</code> 关闭，<code>1</code> 开启。</td></tr>
+<tr><td><code>spectrum</code></td><td>string</td><td>否</td><td>高频频谱调节，取值 <code>1-20</code>，默认 <code>1</code> 表示不调整。</td></tr>
+<tr><td><code>spectrum_8k</code></td><td>string</td><td>否</td><td>低频频谱调节，取值 <code>0-20</code>，默认 <code>0</code>，仅针对 8K 音频生效。</td></tr>
+<tr><td><code>silence</code></td><td>string</td><td>否</td><td>标点静音时长：<code>0</code> 默认，<code>1</code> 句中标点停顿较短，<code>2</code> 句中标点停顿较长。</td></tr>
+</table>
+</div>
+
+<h2 id="vc-synth-long-example">请求示例</h2>
+<pre><code class="language-json">{
+  "access_token": "ACCESS_TOKEN",
+  "version": "1.0",
+  "tts_params": {
+    "domain": "1",
+    "interval": "1",
+    "language": "ZH",
+    "voice_name": "MODEL_ID",
+    "audiotype": "4",
+    "text": "5qCH6LSd56eR5oqA77yM5LiT5rOo5LqO5pm66IO96K+t6Z+z5oqA5pyv"
+  }
+}</code></pre>
+<pre><code class="language-python">import base64
+import json
+import websocket
+
+uri = "wss://openapi.data-baker.com/tts_personal/wsapi"
+text = "标贝科技，专注于智能语音技术"
+payload = {
+    "access_token": "ACCESS_TOKEN",
+    "version": "1.0",
+    "tts_params": {
+        "domain": "1",
+        "language": "ZH",
+        "voice_name": "MODEL_ID",
+        "audiotype": "4",
+        "text": base64.b64encode(text.encode("utf-8")).decode("utf-8")
+    }
+}
+
+audio = bytearray()
+ws = websocket.create_connection(uri)
+ws.send(json.dumps(payload))
+while True:
+    message = json.loads(ws.recv())
+    if message.get("code") != 90000:
+        print(message)
+        break
+    data = message.get("data") or {}
+    if data.get("audio_data"):
+        audio.extend(base64.b64decode(data["audio_data"]))
+    if data.get("end_flag") == 1:
+        break
+ws.close()
+open("result.pcm", "wb").write(audio)</code></pre>
+<p>更多示例参考：<a href="https://github.com/data-baker/BakerSpeechApiDemo/tree/main/tts-websocket-api/online_tts" target="_blank" rel="noopener">tts-websocket-api/online_tts</a>、<a href="https://github.com/data-baker/BakerSpeechApiDemo/tree/main/tts-websocket-api/online_tts/JS" target="_blank" rel="noopener">online_tts/JS</a></p>
+
+<h2 id="vc-synth-long-response">响应结果</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>参数名称</th><th>类型</th><th>说明</th></tr>
+<tr><td><code>code</code></td><td>int</td><td>状态码。<code>90000</code> 表示成功；<code>4xxxx</code> 多为客户端参数错误；<code>5xxxx</code> 多为服务端内部错误。</td></tr>
+<tr><td><code>message</code></td><td>string</td><td>状态描述或错误描述。</td></tr>
+<tr><td><code>trace_id</code></td><td>string</td><td>链路跟踪 ID，排查问题时可提供给技术支持。</td></tr>
+<tr><td><code>data.idx</code></td><td>int</td><td>音频分片序号。</td></tr>
+<tr><td><code>data.audio_data</code></td><td>string</td><td>base64 编码的音频分片数据。</td></tr>
+<tr><td><code>data.audio_type</code></td><td>string</td><td>返回音频类型。</td></tr>
+<tr><td><code>data.interval</code></td><td>string</td><td>时间戳信息，仅开启 <code>interval</code> 时关注。</td></tr>
+<tr><td><code>data.interval_x</code></td><td>string</td><td>扩展时间戳信息，仅开启 <code>interval</code> 时关注。</td></tr>
+<tr><td><code>data.end_flag</code></td><td>int</td><td>结束标记。<code>1</code> 表示本次合成结果已全部返回，可关闭连接。</td></tr>
+</table>
+</div>
+
+<h2 id="vc-synth-long-errors">常见错误码</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>错误码</th><th>说明</th></tr>
+<tr><td><code>90000</code></td><td>合成成功。</td></tr>
+<tr><td><code>10001</code></td><td><code>access_token</code> 获取失败或未传输。</td></tr>
+<tr><td><code>10002</code></td><td><code>domain</code> 参数值错误。</td></tr>
+<tr><td><code>10003</code></td><td><code>language</code> 参数错误。</td></tr>
+<tr><td><code>10004</code></td><td><code>voice_name</code> 参数错误，需确认模型 ID 已训练成功且具备合成授权。</td></tr>
+<tr><td><code>10005</code></td><td><code>audiotype</code> 参数错误。</td></tr>
+<tr><td><code>10009</code></td><td><code>text</code> 参数错误。</td></tr>
+<tr><td><code>10010</code></td><td>文本过长。</td></tr>
+<tr><td><code>20000</code></td><td>获取资源错误。</td></tr>
+<tr><td><code>20001</code></td><td>断句失败。</td></tr>
+<tr><td><code>20002</code></td><td>分段数错误。</td></tr>
+</table>
+</div>

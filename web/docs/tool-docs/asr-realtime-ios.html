@@ -1,0 +1,126 @@
+<h1>长语音识别 iOS SDK</h1>
+<p class="doc-lead">长语音识别 iOS SDK 用于实时长语音流识别，支持 SDK 调用设备麦克风录音识别，也支持接收音频字节流并上传识别。单次识别时长不超过 3 小时。</p>
+
+<h2 id="asr-realtime-ios-download">下载安装</h2>
+<p>SDK 及示例 Demo 下载地址：<a href="https://github.com/data-baker/BakerIosSdks" target="_blank" rel="noopener">https://github.com/data-baker/BakerIosSdks</a></p>
+<ul>
+<li>项目说明：<code>bakerIosSdks</code> 是标贝科技语音相关的 iOS SDK 服务，长语音识别使用 <code>DBLongASRKit</code>。</li>
+<li>兼容系统：iOS 9.0 及以上。</li>
+<li>硬件架构：<code>arm64</code>、<code>i386</code>。</li>
+<li>权限说明：需要 <code>Privacy - Microphone Usage Description</code> 麦克风权限，并确保应用可访问网络。</li>
+</ul>
+
+<h2 id="asr-realtime-ios-integrate">集成说明</h2>
+<p>通过 CocoaPods 集成：</p>
+<pre><code class="language-ruby">pod 'DBAudioSDK/DBLongASRKit'</code></pre>
+<p>可通过 <code>pod search</code> 查询并更新到需要的版本。也可以手动下载项目文件，并导入长语音识别相关代码，核心文件包括 <code>DBFASRClient</code>、<code>DBResponseModel</code> 和长语音响应模型。</p>
+
+<h2 id="asr-realtime-ios-classes">SDK 关键类</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>类名</th><th>说明</th></tr>
+<tr><td><code>DBFASRClient</code></td><td>长语音识别业务处理类，全局只需一个实例。</td></tr>
+<tr><td><code>DBFASRClientDelegate</code></td><td>实时识别结果、状态和错误信息回调协议。</td></tr>
+<tr><td><code>DBLongResponseModel</code></td><td>长语音识别结果模型。</td></tr>
+</table>
+</div>
+
+<h2 id="asr-realtime-ios-init">初始化 SDK</h2>
+<p>实例化 <code>DBFASRClient</code>：</p>
+<pre><code class="language-objectivec">DBFASRClient *longTimeAsr = [DBFASRClient shareInstance];</code></pre>
+<p>调用公共识别服务时，传入授权邮件中的 <code>clientId</code> 与 <code>clientSecret</code>：</p>
+<pre><code class="language-objectivec">[longTimeAsr setupClientId:clientID clientSecret:clientSecret];</code></pre>
+<p>私有化部署时，设置识别服务器地址：</p>
+<pre><code class="language-objectivec">[longTimeAsr setupURL:privateServerUrl];</code></pre>
+
+<h2 id="asr-realtime-ios-scenes">识别场景</h2>
+<h3>麦克风录音识别</h3>
+<ol>
+<li>应用先取得录音权限。</li>
+<li>通过 <code>longTimeAsr</code> 实例设置识别参数。</li>
+<li>调用 <code>[longTimeAsr startLongASR]</code> 开始识别。</li>
+<li>在 <code>DBFASRClientDelegate</code> 回调中接收状态、识别结果或错误信息。</li>
+<li>调用 <code>[longTimeAsr endLongASR]</code> 结束识别。</li>
+</ol>
+<h3>音频字节流识别</h3>
+<ol>
+<li>调用 <code>[longTimeAsr startLongASR]</code> 通知 SDK 准备识别。</li>
+<li>在 <code>onReady</code> 回调后，多次调用 <code>[longTimeAsr websocketPostData:data]</code> 输入待识别音频字节流。</li>
+<li>单次数据建议固定为 <code>5120</code> 字节，最后一片可以为其他长度。</li>
+<li>前后两次 <code>websocketPostData:</code> 的间隔不要超过 60 秒；私有化部署以服务端配置为准。</li>
+<li>调用 <code>[longTimeAsr endLongASR]</code> 结束识别并释放本次任务。</li>
+</ol>
+
+<h2 id="asr-realtime-ios-params">参数与方法</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>方法 / 参数</th><th>是否必填</th><th>说明</th></tr>
+<tr><td><code>setupClientId:clientSecret:</code></td><td>是</td><td>初始化 SDK 并设置授权信息。</td></tr>
+<tr><td><code>setupURL:</code></td><td>否</td><td>设置识别服务器地址，仅私有化部署需要。</td></tr>
+<tr><td><code>setSampleRate</code></td><td>否</td><td>设置采样率，支持 <code>16000</code>、<code>8000</code>，默认 <code>16000</code>。</td></tr>
+<tr><td><code>setAddPct</code></td><td>否</td><td>设置是否返回标点，默认 <code>true</code>。</td></tr>
+<tr><td><code>setDomain</code></td><td>否</td><td>设置模型名称，默认 <code>common</code>。</td></tr>
+<tr><td><code>setAudioFormat</code></td><td>否</td><td>输入字节流识别时设置音频编码格式，支持 <code>pcm</code>、<code>wav</code>。</td></tr>
+<tr><td><code>setHotwordid</code></td><td>否</td><td>配置热词组 ID。</td></tr>
+<tr><td><code>setDiylmid</code></td><td>否</td><td>配置 ASR 个性化模型 ID。</td></tr>
+<tr><td><code>startLongASR</code></td><td>场景相关</td><td>开始长语音识别。</td></tr>
+<tr><td><code>websocketPostData:</code></td><td>场景相关</td><td>发送音频字节流分片。</td></tr>
+<tr><td><code>endLongASR</code></td><td>场景相关</td><td>结束长语音识别并释放本次任务。</td></tr>
+</table>
+</div>
+
+<h2 id="asr-realtime-ios-callback">DBFASRClientDelegate 回调</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>方法</th><th>说明</th></tr>
+<tr><td><code>- (void)onReady</code></td><td>授权验证通过且与服务器连接成功，识别准备就绪。</td></tr>
+<tr><td><code>- (void)identifyTheCallback:(NSString *)message sentenceEnd:(BOOL)sentenceEnd</code></td><td>实时识别文本回调。识别过程中可能多次返回，<code>sentenceEnd=true</code> 时表示当前句最终结果。</td></tr>
+<tr><td><code>- (void)onError:(NSInteger)code message:(NSString *)message</code></td><td>识别出错回调。一旦出现错误，本次识别任务中断。</td></tr>
+<tr><td><code>- (void)resultTraceId:(NSString *)traceId</code></td><td>返回每句话识别的 TraceID，用于问题追踪。</td></tr>
+<tr><td><code>- (void)onResult:(DBLongResponseModel *)model</code></td><td>返回完整长语音识别数据模型。</td></tr>
+</table>
+</div>
+
+<h2 id="asr-realtime-ios-response">响应结果结构</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>字段</th><th>类型</th><th>说明</th></tr>
+<tr><td><code>code</code></td><td>int</td><td>错误码，<code>9000</code> 表示包含有效识别数据。</td></tr>
+<tr><td><code>message</code></td><td>string</td><td>错误描述。</td></tr>
+<tr><td><code>trace_id</code></td><td>string</td><td>任务 ID，用于定位错误和日志。</td></tr>
+<tr><td><code>asr_text</code></td><td>string</td><td>识别结果文本。</td></tr>
+<tr><td><code>sentence_id</code></td><td>int</td><td>句子 ID，从 <code>1</code> 递增。</td></tr>
+<tr><td><code>sentence_end</code></td><td>boolean</td><td>当前句子是否结束。</td></tr>
+<tr><td><code>end_flag</code></td><td>int</td><td>是否最后一个数据块，<code>0</code> 否，<code>1</code> 是。</td></tr>
+<tr><td><code>sos</code></td><td>float</td><td>句子在音频中的开始时间点，单位秒。</td></tr>
+<tr><td><code>eos</code></td><td>float</td><td>句子在音频中的结束时间点，单位秒。</td></tr>
+<tr><td><code>confidence</code></td><td>int</td><td>整句置信度，范围 <code>0-100</code>。</td></tr>
+<tr><td><code>speed</code></td><td>int</td><td>语速，范围 <code>0-2000</code>。</td></tr>
+<tr><td><code>speed_label</code></td><td>string</td><td>语速标签：<code>FAST</code>、<code>MEDIUM</code>、<code>SLOW</code>。</td></tr>
+<tr><td><code>volume</code></td><td>int</td><td>音量，范围 <code>0-100</code>。</td></tr>
+<tr><td><code>volume_label</code></td><td>string</td><td>音量标签：<code>SILENT</code>、<code>XSOFT</code>、<code>SOFT</code>、<code>MEDIUM</code>、<code>LOUD</code>、<code>XLOUD</code>。</td></tr>
+<tr><td><code>bWords</code></td><td>array</td><td>词级别识别结果，包含 <code>confidence</code>、<code>sos</code>、<code>eos</code>、<code>word</code>。</td></tr>
+</table>
+</div>
+
+<h2 id="asr-realtime-ios-errors">错误码说明</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>错误码</th><th>含义</th><th>处理建议</th></tr>
+<tr><td><code>14190001</code></td><td>缺少 ClientId</td><td>检查初始化参数。</td></tr>
+<tr><td><code>14190002</code></td><td>缺少 Secret</td><td>检查初始化参数。</td></tr>
+<tr><td><code>14190003</code></td><td>Token 获取失败</td><td>检查授权信息和网络。</td></tr>
+<tr><td><code>14190004</code></td><td>没有录音权限</td><td>检查麦克风权限。</td></tr>
+<tr><td><code>14190005</code></td><td>本地网络不可用</td><td>检查设备网络。</td></tr>
+<tr><td><code>14190006</code></td><td>麦克风启动失败</td><td>检查录音设备和权限。</td></tr>
+<tr><td><code>14190007</code></td><td>数据长度错误</td><td>检查音频分片长度。</td></tr>
+<tr><td><code>14190008</code></td><td>服务器返回数据解析失败</td><td>保留 TraceID 并排查响应内容。</td></tr>
+<tr><td><code>40006</code></td><td>idx 超时</td><td>相邻分片间隔超过超时时间，默认 60 秒。</td></tr>
+<tr><td><code>40007</code></td><td>idx 顺序错误</td><td>检查音频分片序号。</td></tr>
+<tr><td><code>40008</code></td><td>Token 校验失败</td><td>重新获取或检查 <code>access_token</code>。</td></tr>
+<tr><td><code>40016</code></td><td>错误的音频格式</td><td>检查 <code>audio_format</code>。</td></tr>
+<tr><td><code>40017</code></td><td>错误的采样率</td><td>检查 <code>sample_rate</code>。</td></tr>
+<tr><td><code>50001</code></td><td>处理超时</td><td>稍后重试或缩短音频。</td></tr>
+<tr><td><code>50003</code></td><td>服务端繁忙</td><td>稍后重试。</td></tr>
+</table>
+</div>

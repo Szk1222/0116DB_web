@@ -73,7 +73,7 @@ import { SectionDock } from "@/components/SectionDock";
     </span>
     ...
     <MagneticButton as="a" href="#contact" className="primaryButton">
-      预约试用 →
+      联系我们 →
     </MagneticButton>
   </div>
 

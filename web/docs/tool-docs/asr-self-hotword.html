@@ -1,0 +1,64 @@
+<h1>自学习 - 热词</h1>
+<p class="doc-lead">热词用于优化语音识别中专有词汇的识别效果。创建并发布热词组后，在语音识别 API 或 SDK 请求中传入热词组 ID，即可让识别服务优先参考该词表。</p>
+
+<h2 id="asr-self-hotword-intro">功能介绍</h2>
+<p>在语音识别 ASR 服务中，通用词汇通常识别效果较好；但在部分专有业务领域中，人名、地名、公司名、领域专有词等可能默认识别效果不佳。通过 ASR 自学习引擎配置热词，可提升这些词汇在识别结果中的准确率。</p>
+<p>热词适合处理短词、专名、术语等词级别优化需求。如果词条过长、接近句子或段落，建议使用个性化模型。</p>
+
+<h2 id="asr-self-hotword-limits">使用限制</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>项目</th><th>说明</th></tr>
+<tr><td>生效时间</td><td>保存发布后通常秒级生效。</td></tr>
+<tr><td>词组数量</td><td>单个应用的语音识别服务下最多可创建 <code>10</code> 个词组。</td></tr>
+<tr><td>词条数量</td><td>每个词组最多 <code>300</code> 个词。</td></tr>
+<tr><td>词条格式</td><td>每行一个热词，以回车键区分。</td></tr>
+<tr><td>词条长度</td><td>单个词长度不超过 <code>10</code> 个字；超出限制建议使用个性化模型。</td></tr>
+<tr><td>文件格式</td><td><code>UTF-8</code> 编码的 <code>txt</code> 文件，不能包含标点和特殊字符。</td></tr>
+<tr><td>适用服务</td><td>一句话识别、实时长语音识别、录音文件识别。</td></tr>
+<tr><td>语言类型</td><td>中文普通话、粤语、英文。</td></tr>
+<tr><td>采样率模型</td><td><code>8K</code>、<code>16K</code> 采样率。</td></tr>
+<tr><td>创建方式</td><td>通过开放平台控制台创建和修改。</td></tr>
+</table>
+</div>
+
+<h2 id="asr-self-hotword-notes">特别注意</h2>
+<ul>
+<li>常见通用词汇不建议加入热词，加入过多通用词可能降低专有词汇识别率。</li>
+<li>使用热词前，请先确认音频清晰度和质量达标；普通人听一遍音频应能正确辨识内容。</li>
+<li>热词不建议过长，不支持标点符号。</li>
+<li>中文语言类型中的数字需要用汉字代替，例如 <code>9.8元</code> 写作 <code>九点八元</code>。</li>
+<li>英文语言类型中的数字需要用英文代替，例如 <code>9.8 meters</code> 写作 <code>nine point eight meters</code>。</li>
+</ul>
+
+<h2 id="asr-self-hotword-usage">使用方法</h2>
+<ol>
+<li>登录开放平台并创建应用。</li>
+<li>进入语音识别下的自学习工具页面。</li>
+<li>点击新增热词组，上传热词 <code>TXT</code> 文件并保存发布。</li>
+<li>获取热词组 ID。</li>
+<li>调用语音识别 API 或 SDK 时传入该热词组 ID，测试识别效果。</li>
+</ol>
+
+<h2 id="asr-self-hotword-call">识别调用传参</h2>
+<p>控制台完成热词创建后，在后续语音识别请求中传入 <code>hotwordid</code> 即可使用该热词组。</p>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>参数</th><th>类型</th><th>说明</th></tr>
+<tr><td><code>hotwordid</code></td><td>string</td><td>热词组 ID。适用于一句话识别、实时长语音识别、录音文件识别等支持热词的请求。</td></tr>
+</table>
+</div>
+<pre><code class="language-json">{
+  "asr_params": {
+    "audio_format": "wav",
+    "sample_rate": 16000,
+    "hotwordid": "HOTWORD_GROUP_ID"
+  }
+}</code></pre>
+
+<h2 id="asr-self-hotword-example">热词文件示例</h2>
+<pre><code class="language-text">标贝科技
+开放平台
+李禾
+九点八元
+nine point eight meters</code></pre>

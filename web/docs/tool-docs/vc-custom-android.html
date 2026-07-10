@@ -1,0 +1,122 @@
+<h1>定制模型 Android SDK</h1>
+<p class="doc-lead">定制模型 Android SDK 用于在移动端完成声音复刻流程，包括环境噪声检测、获取朗读文本、录音、上传识别、提交训练、查询模型状态以及体验合成效果。</p>
+
+<h2 id="vc-custom-android-download">下载与依赖</h2>
+<p>SDK 与示例 Demo 下载地址：<a href="https://github.com/data-baker/BakerAndroidSdks" target="_blank" rel="noopener">https://github.com/data-baker/BakerAndroidSdks</a></p>
+<p>在项目根目录的 <code>build.gradle</code> 中加入 JitPack 仓库：</p>
+<pre><code class="language-gradle">allprojects {
+  repositories {
+    maven { url 'https://jitpack.io' }
+  }
+}</code></pre>
+<p>在业务 Module 中加入依赖：</p>
+<pre><code class="language-gradle">dependencies {
+  implementation 'com.github.data-baker.BakerAndroidSdks:engravelib:2.0.13'
+  implementation 'com.squareup.okhttp3:okhttp:4.2.2'
+  implementation 'com.google.code.gson:gson:2.8.6'
+  implementation 'com.kailashdabhi:om-recorder:1.1.5'
+}</code></pre>
+
+<h2 id="vc-custom-android-permission">权限配置</h2>
+<p>在 <code>AndroidManifest.xml</code> 中声明网络、录音和存储权限；Android 6.0 及以上还需要动态申请录音和存储权限。</p>
+<pre><code class="language-xml">&lt;uses-permission android:name="android.permission.INTERNET" /&gt;
+&lt;uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /&gt;
+&lt;uses-permission android:name="android.permission.RECORD_AUDIO" /&gt;
+&lt;uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /&gt;</code></pre>
+<p>如项目需要允许明文网络访问，在 <code>application</code> 节点增加：</p>
+<pre><code class="language-xml">android:usesCleartextTraffic="true"</code></pre>
+
+<h2 id="vc-custom-android-proguard">混淆配置</h2>
+<pre><code class="language-text">-keep class com.baker.engrave.lib.bean.** { *; }
+-keep public class com.baker.engrave.lib.BakerVoiceEngraver{*;}
+-keep public class com.baker.engrave.lib.util.HLogger{*;}
+-keep public class com.baker.engrave.lib.net.WebSocketClient{*;}
+-keep public class com.baker.engrave.lib.callback.DetectCallback{*;}
+-keep public class com.baker.engrave.lib.callback.PlayListener{*;}
+-keep public class com.baker.engrave.lib.callback.InitListener{*;}
+-keep public class com.baker.engrave.lib.callback.MouldCallback{*;}
+-keep public class com.baker.engrave.lib.callback.RecordCallback{*;}
+-keep public class com.baker.engrave.lib.callback.UploadRecordsCallback{*;}
+-keep public class com.baker.engrave.lib.callback.ContentTextCallback{*;}
+-keep public class com.baker.engrave.lib.callback.BaseMouldCallback{*;}</code></pre>
+
+<h2 id="vc-custom-android-flow">接入流程</h2>
+<ol>
+<li>初始化 SDK，传入 <code>clientId</code>、<code>clientSecret</code> 和用于区分用户的 <code>queryID</code>。</li>
+<li>动态申请 <code>RECORD_AUDIO</code> 等权限，并进行环境噪声检测。</li>
+<li>获取朗读文本列表，引导用户逐条朗读。</li>
+<li>获取 <code>mouldId</code>，开始录音并上传每条朗读音频。</li>
+<li>全部音频上传完成后，调用训练接口提交手机号码和回调地址。</li>
+<li>通过 <code>queryId</code> 或 <code>mouldId</code> 查询模型状态；训练成功后得到 <code>modelId</code>。</li>
+<li>将 <code>modelId</code> 作为合成接口或合成 SDK 中的 <code>voice_name</code> 使用。</li>
+</ol>
+
+<h2 id="vc-custom-android-init">初始化 SDK</h2>
+<pre><code class="language-java">BakerVoiceEngraver.getInstance().initSDK(
+    context,
+    "CLIENT_ID",
+    "CLIENT_SECRET",
+    "QUERY_ID"
+);</code></pre>
+<p>如果初始化后需要切换用户标识，可在获取模型前调用：</p>
+<pre><code class="language-java">BakerVoiceEngraver.getInstance().setQueryId("QUERY_ID");</code></pre>
+
+<h2 id="vc-custom-android-record">噪声检测与录音</h2>
+<p>录音前建议先检测环境噪声。检测过程约 3 秒，最终音量值大于 70 时建议提示用户更换安静环境后重新录制。</p>
+<pre><code class="language-java">BakerVoiceEngraver.getInstance().setDetectCallback(detectCallback);
+BakerVoiceEngraver.getInstance().startDBDetection();</code></pre>
+<p>获取朗读文本并开始录音：</p>
+<pre><code class="language-java">BakerVoiceEngraver.getInstance().setContentTextCallback(contentTextCallback);
+BakerVoiceEngraver.getInstance().getTextList();
+
+String mouldId = BakerVoiceEngraver.getInstance().getVoiceMouldId();
+BakerVoiceEngraver.getInstance().setRecordCallback(recordCallback);
+int startCode = BakerVoiceEngraver.getInstance().startRecord(contentText);</code></pre>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>返回值</th><th>说明</th></tr>
+<tr><td><code>0</code></td><td><code>mouldId</code> 为空，需先获取声音复刻任务 ID。</td></tr>
+<tr><td><code>1</code></td><td>没有录音权限。</td></tr>
+<tr><td><code>2</code></td><td>开始录音成功。</td></tr>
+</table>
+</div>
+
+<h2 id="vc-custom-android-upload">上传与提交训练</h2>
+<p>每条朗读结束后上传当前音频；如上传失败，可调用重传接口。</p>
+<pre><code class="language-java">BakerVoiceEngraver.getInstance().setUploadRecordsCallback(uploadRecordsCallback);
+BakerVoiceEngraver.getInstance().uploadRecords(contentText);
+BakerVoiceEngraver.getInstance().reUploadRecords(contentText);</code></pre>
+<p>全部文本完成后，提交模型训练。<code>phone</code> 与 <code>notifyUrl</code> 均可按业务需要传入；<code>notifyUrl</code> 需为外网可访问地址且不携带参数。</p>
+<pre><code class="language-java">String mouldId = BakerVoiceEngraver.getInstance()
+    .finishRecords("13800000000", "https://example.com/voice/callback");</code></pre>
+<p>如用户中途退出，应调用 <code>recordInterrupt()</code> 释放本次录音和模型任务资源。</p>
+
+<h2 id="vc-custom-android-query">查询模型状态</h2>
+<pre><code class="language-java">BakerVoiceEngraver.getInstance().setMouldCallback(mouldCallback);
+BakerVoiceEngraver.getInstance().getMouldList(1, 20, "QUERY_ID");
+BakerVoiceEngraver.getInstance().getMouldInfo("MOULD_ID");</code></pre>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>字段</th><th>说明</th></tr>
+<tr><td><code>modelId</code></td><td>训练成功后生成的声音模型 ID，可作为 <code>voice_name</code> 使用。</td></tr>
+<tr><td><code>modelStatus</code></td><td>模型状态：<code>1</code> 默认、<code>2</code> 录制中、<code>3</code> 开启训练失败、<code>4</code> 训练中、<code>5</code> 训练失败、<code>6</code> 训练成功。</td></tr>
+<tr><td><code>statusName</code></td><td>模型状态展示名称。</td></tr>
+</table>
+</div>
+
+<h2 id="vc-custom-android-classes">关键类与回调</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>类 / 回调</th><th>说明</th></tr>
+<tr><td><code>BakerVoiceEngraver</code></td><td>声音复刻主入口，提供初始化、录音、上传、训练和查询能力。</td></tr>
+<tr><td><code>DetectCallback</code></td><td>环境噪声检测结果回调。</td></tr>
+<tr><td><code>ContentTextCallback</code></td><td>朗读文本列表回调。</td></tr>
+<tr><td><code>RecordCallback</code></td><td>录音状态、音量和错误回调。</td></tr>
+<tr><td><code>UploadRecordsCallback</code></td><td>单条音频上传和识别结果回调。</td></tr>
+<tr><td><code>MouldCallback</code></td><td>模型列表、模型详情和训练状态回调。</td></tr>
+<tr><td><code>Mould</code></td><td>声音模型数据对象。</td></tr>
+</table>
+</div>
+
+<h2 id="vc-custom-android-synthesis">体验合成</h2>
+<p>模型训练成功后，可通过两种方式体验合成效果：一是调用短文本合成 RESTful API 并把 <code>modelId</code> 作为 <code>voice_name</code>；二是在语音合成 Android SDK 中使用同一模型 ID。体验接口通常限制文本长度，正式项目请以当前授权和接口说明为准。</p>

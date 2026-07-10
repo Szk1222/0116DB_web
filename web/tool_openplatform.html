@@ -30,10 +30,26 @@
 .op-try { display:inline-flex; align-items:center; gap:6px; margin-top:16px; color:var(--brand-hi); font-family:var(--font-display); font-weight:600; font-size:0.86rem; text-decoration:none; }
 .op-try svg { width:14px; height:14px; transition:transform .2s ease; }
 .op-card:hover .op-try svg { transform:translateX(4px); }
-.op-scene-img { position:relative; border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; background:linear-gradient(150deg,rgba(13,26,58,0.85),rgba(7,13,32,0.92)); min-height:120px; }
-.op-scene-img img { display:block; width:100%; height:auto; position:relative; z-index:1; }   /* 按原始比例满宽显示，不裁切不变形 */
-.op-scene-img .ph { position:absolute; inset:0; z-index:0; display:grid; place-items:center; color:var(--brand-hi); opacity:0.35; }
-.op-scene-img .ph svg { width:54px; height:54px; }
+.op-scene-map { position:relative; overflow:hidden; padding:34px 36px 30px; border:1px solid var(--line); border-radius:var(--r-lg); background:linear-gradient(150deg,rgba(13,26,58,0.85),rgba(7,13,32,0.94)); box-shadow:var(--shadow-card); }
+.op-scene-map::before { content:""; position:absolute; inset:0; background:linear-gradient(90deg,rgba(76,201,240,0.04) 1px,transparent 1px),linear-gradient(180deg,rgba(76,201,240,0.04) 1px,transparent 1px); background-size:44px 44px; opacity:0.55; pointer-events:none; }
+.op-scene-inner { position:relative; z-index:1; min-width:0; }
+.op-node { position:relative; display:inline-flex; align-items:center; justify-content:center; gap:10px; min-height:42px; padding:10px 28px; border:1px solid rgba(76,201,240,0.78); border-radius:7px; background:rgba(4,11,28,0.88); color:var(--text-hi); font-family:var(--font-display); font-weight:700; box-shadow:0 0 0 1px rgba(76,201,240,0.18), 0 0 20px rgba(76,201,240,0.12); }
+.op-node svg { width:18px; height:18px; color:var(--brand-hi); flex:0 0 auto; }
+.op-node-root { left:50%; transform:translateX(-50%); min-width:260px; font-size:1.36rem; }
+.op-node-root::after { content:""; position:absolute; left:50%; top:100%; width:1px; height:24px; background:rgba(220,236,255,0.78); }
+.op-dev-row { position:relative; display:grid; grid-template-columns:repeat(2,minmax(180px,1fr)); gap:min(34vw,340px); max-width:760px; margin:38px auto 40px; }
+.op-dev-row::before { content:""; position:absolute; left:50%; top:-14px; width:68%; height:14px; border-top:1px solid rgba(220,236,255,0.72); border-left:1px solid rgba(220,236,255,0.72); border-right:1px solid rgba(220,236,255,0.72); transform:translateX(-50%); }
+.op-dev-row::after { content:""; position:absolute; left:50%; top:100%; width:1px; height:40px; background:rgba(220,236,255,0.78); }
+.op-node-dev { justify-self:center; min-width:174px; }
+.op-node-dev::before { content:""; position:absolute; left:50%; bottom:100%; width:1px; height:14px; background:rgba(220,236,255,0.72); }
+.op-node-dev::after { content:""; position:absolute; left:50%; top:100%; width:1px; height:26px; background:rgba(220,236,255,0.72); }
+.op-scene-row { position:relative; display:grid; grid-template-columns:repeat(8,minmax(72px,1fr)); gap:16px; padding-top:30px; }
+.op-scene-row::before { content:""; position:absolute; left:0; right:0; top:0; height:1px; background:rgba(220,236,255,0.72); }
+.op-scene-item { position:relative; display:grid; justify-items:center; gap:9px; min-width:0; color:var(--text-hi); text-align:center; font-family:var(--font-display); font-weight:700; font-size:0.9rem; line-height:1.25; }
+.op-scene-item::before { content:""; position:absolute; left:50%; top:-30px; width:1px; height:18px; background:rgba(220,236,255,0.72); }
+.op-scene-item::after { content:""; position:absolute; left:50%; top:-13px; width:7px; height:7px; border-right:1px solid rgba(220,236,255,0.72); border-bottom:1px solid rgba(220,236,255,0.72); transform:translateX(-50%) rotate(45deg); }
+.op-scene-icon { width:36px; height:36px; display:grid; place-items:center; color:#ffc850; }
+.op-scene-icon svg { width:28px; height:28px; color:var(--brand-hi); filter:drop-shadow(0 0 8px rgba(76,201,240,0.35)); }
 .op-guide { display:flex; align-items:stretch; gap:14px; flex-wrap:wrap; justify-content:center; }
 .op-step { flex:1; min-width:180px; padding:30px 22px; border:1px solid var(--line); border-radius:var(--r-lg); background:linear-gradient(180deg,rgba(13,26,58,0.55),rgba(10,20,46,0.55)); text-align:center; transition:all 240ms ease; }
 .op-step:hover { transform:translateY(-4px); border-color:rgba(76,201,240,0.4); }
@@ -43,8 +59,8 @@
 .op-arrow svg { width:24px; height:24px; }
 .op-guide-link { text-align:center; margin-bottom:26px; }
 .op-guide-link a { display:inline-flex; align-items:center; gap:6px; color:var(--brand-hi); font-family:var(--font-display); font-weight:600; font-size:0.92rem; text-decoration:none; }
-@media(max-width:1100px){ .op-grid4{ grid-template-columns:1fr 1fr; } .op-grid3{ grid-template-columns:1fr 1fr; } }
-@media(max-width:680px){ .op-grid4,.op-grid3{ grid-template-columns:1fr; } .op-arrow{ transform:rotate(90deg); } .op-step{ min-width:0; } }
+@media(max-width:1100px){ .op-grid4{ grid-template-columns:1fr 1fr; } .op-grid3{ grid-template-columns:1fr 1fr; } .op-scene-row{ grid-template-columns:repeat(4,1fr); row-gap:26px; } .op-scene-row::before,.op-scene-item::before,.op-scene-item::after{ display:none; } }
+@media(max-width:680px){ .op-grid4,.op-grid3{ grid-template-columns:1fr; } .op-arrow{ transform:rotate(90deg); } .op-step{ min-width:0; } .op-scene-map{ padding:26px 18px; } .op-node-root{ min-width:0; width:100%; font-size:1.12rem; } .op-dev-row{ grid-template-columns:1fr; gap:14px; margin:22px 0 24px; } .op-dev-row::before,.op-dev-row::after,.op-node-root::after,.op-node-dev::before,.op-node-dev::after{ display:none; } .op-scene-row{ grid-template-columns:repeat(2,1fr); padding-top:0; } }
 
 </style>
 </head>
@@ -52,21 +68,14 @@
 <div id="nav-placeholder"></div>
 <section class="page-hero">
   <div class="container">
-    <nav class="crumbs">
-      <a href="homepage.html">首页</a>
-      <span class="sep">/</span>
-      <a href="tool_annotation.html">工具平台</a>
-      <span class="sep">/</span>
-      <span class="cur">开放平台</span>
-    </nav>
     <span class="eyebrow">Open Platform · 开放平台</span>
     <h1 class="display" style="font-size:clamp(2.2rem,4.8vw,4rem);margin:16px 0 20px;">
       <span style="display:block;">标贝智能语音<span class="glow-text">开放平台</span></span>
     </h1>
-    <p class="lead">自上线以来，成为 10000+ 企业 &amp; 个人开发者的首选 AI 平台 —— 优质 AI 语音开放能力 · 新人即享千元礼包 · 海量数据沉淀积累。</p>
+    <p class="lead">优质 AI 语音开放能力· 海量数据沉淀积累</p>
     <div class="htag-row"><span class="htag">ASR</span><span class="htag">TTS</span><span class="htag">声音复刻</span><span class="htag">声纹识别</span><span class="htag">定制音库</span></div>
     <div class="page-actions">
-      <a href="https://ai.data-baker.com/" target="_blank" rel="noopener" class="btn btn-primary">立即免费试用<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      <a href="https://ai.data-baker.com/" target="_blank" rel="noopener" class="btn btn-primary">立即试用<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
     </div>
   </div>
 </section>
@@ -77,7 +86,7 @@
       <span class="eyebrow">Our Strengths</span>
       <h2 class="display">我们的<span class="glow-text">优势</span></h2>
     </div>
-    <div class="op-grid4" data-reveal><div class="op-card"><div class="icb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div><h4>高识别准确率</h4><p>基于先进的深度学习算法，安静环境下近场语音识别，中文普通话字准确率超过 97%。</p></div><div class="op-card"><div class="icb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 7V2M15 7V2M7 7h10v4a5 5 0 0 1-10 0z"/><path d="M12 16v6"/></svg></div><h4>便捷接入</h4><p>基于 B/S 架构的管理平台，开发者可按需创建多个应用，独立可视化的数据统计，方便实时、精确地监测服务调用情况。</p></div><div class="op-card"><div class="icb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h2M6 7v10M10 4v16M14 8v8M18 6v12M22 12h-2"/></svg></div><h4>TTS 3.0 合成技术</h4><p>全新的非自回归声学模型，情感表达更准确，输出音质更稳定、清晰、顺畅，极大提升合成声音的真实质感。</p></div><div class="op-card"><div class="icb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10a7 7 0 0 1-14 0M12 19v3M8 22h8"/></svg></div><h4>全音库开放</h4><p>近 60 个音色，声音真实饱满、富有表现力，涵盖老人、儿童、青年男女音，支持中文、英文、中英混合、方言和多语种发音。</p></div></div>
+    <div class="op-grid4" data-reveal><div class="op-card"><div class="icb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div><h4>高识别准确率</h4><p>基于先进的深度学习算法，安静环境下近场语音识别，中文普通话字准确率表现稳定。</p></div><div class="op-card"><div class="icb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 7V2M15 7V2M7 7h10v4a5 5 0 0 1-10 0z"/><path d="M12 16v6"/></svg></div><h4>便捷接入</h4><p>基于 B/S 架构的管理平台，开发者可按需创建多个应用，独立可视化的数据统计，方便实时、精确地监测服务调用情况。</p></div><div class="op-card"><div class="icb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h2M6 7v10M10 4v16M14 8v8M18 6v12M22 12h-2"/></svg></div><h4>TTS 3.0 合成技术</h4><p>全新的非自回归声学模型，情感表达更准确，输出音质更稳定、清晰、顺畅，极大提升合成声音的真实质感。</p></div><div class="op-card"><div class="icb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10a7 7 0 0 1-14 0M12 19v3M8 22h8"/></svg></div><h4>全音库开放</h4><p>近 60 个音色，声音真实饱满、富有表现力，涵盖老人、儿童、青年男女音，支持中文、英文、中英混合、方言和多语种发音。</p></div></div>
   </div>
 </section>
 
@@ -99,9 +108,54 @@
       <span class="eyebrow">Scenarios</span>
       <h2 class="display">持续赋能更多的<span class="glow-text">垂直化场景</span></h2>
     </div>
-    <div class="op-scene-img" data-reveal>
-      <img src="images/tool/dev/openplatform/scenes.png" alt="垂直化场景" loading="lazy" onerror="this.style.display='none'">
-      <span class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></span>
+    <div class="op-scene-map" data-reveal aria-label="AI开放平台垂直化场景结构图">
+      <div class="op-scene-inner">
+        <div class="op-node op-node-root">AI开放平台</div>
+        <div class="op-dev-row" aria-label="开发者类型">
+          <div class="op-node op-node-dev">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+            <span>个人开发</span>
+          </div>
+          <div class="op-node op-node-dev">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 9h.01M11 9h.01M15 9h.01M7 13h10"/></svg>
+            <span>企业开发</span>
+          </div>
+        </div>
+        <div class="op-scene-row" aria-label="垂直化场景">
+          <div class="op-scene-item">
+            <span class="op-scene-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M13 4a4 4 0 0 1 4 4v5a4 4 0 0 1-8 0V8a4 4 0 0 1 4-4z"/><path d="M7 10H4M20 10h-3M7 16l-2 2M19 18l-2-2"/></svg></span>
+            <span>智能穿戴</span>
+          </div>
+          <div class="op-scene-item">
+            <span class="op-scene-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="7" width="14" height="11" rx="2"/><path d="M12 7V4M8 12h.01M16 12h.01M9 18v2M15 18v2"/></svg></span>
+            <span>小机器人</span>
+          </div>
+          <div class="op-scene-item">
+            <span class="op-scene-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M8 12h1M11 8v8M14 6v12M17 10v4"/></svg></span>
+            <span>录音笔</span>
+          </div>
+          <div class="op-scene-item">
+            <span class="op-scene-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14l2-5h12l2 5"/><path d="M5 14h14v5H5z"/><circle cx="8" cy="17" r="1"/><circle cx="16" cy="17" r="1"/></svg></span>
+            <span>智能驾驶</span>
+          </div>
+          <div class="op-scene-item">
+            <span class="op-scene-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="3" width="8" height="18" rx="3"/><path d="M11 7h2M10 17h4"/></svg></span>
+            <span>智能音响</span>
+          </div>
+          <div class="op-scene-item">
+            <span class="op-scene-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg></span>
+            <span>智能家居</span>
+          </div>
+          <div class="op-scene-item">
+            <span class="op-scene-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V8h6v13M14 21V3h6v18M2 21h20"/><path d="M7 12h.01M7 16h.01M17 7h.01M17 11h.01M17 15h.01"/></svg></span>
+            <span>智能城市</span>
+          </div>
+          <div class="op-scene-item">
+            <span class="op-scene-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="14" rx="2"/><path d="M12 8v8M8 12h8"/></svg></span>
+            <span>智能医疗</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -135,7 +189,6 @@
       <div class="cta-inner">
         <span class="eyebrow">Next Step</span>
         <h2>获取开放平台试用方案</h2>
-        <p>填写需求表单，我们将在 1 个工作日内回复并提供免费样本或演示账号</p>
         <div class="cta-actions">
           <a href="javascript:void(0)" onclick="openTrialModal()" class="btn btn-primary">预约试用<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
           <a href="tool_docs.html" class="btn btn-ghost">开发文档</a>

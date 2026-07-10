@@ -1,0 +1,124 @@
+<h1>定制声音合成 RESTful API</h1>
+<p class="doc-lead">定制声音合成 RESTful API 用于调用声音复刻训练后的音色模型进行短文本合成。接入方式与在线合成类似，核心差异是 <code>voice_name</code> 需要填写定制模型训练成功后返回的 <code>modelId</code>。</p>
+
+<h2 id="vc-synth-short-intro">功能介绍</h2>
+<ul>
+<li>支持 HTTPS <code>GET</code> 和 <code>POST</code> 请求。</li>
+<li>支持返回 <code>pcm</code>、<code>wav</code>、<code>mp3</code>、<code>alaw</code>、<code>ulaw</code> 等音频格式。</li>
+<li>支持设置音量、语速、语调、音子级时间戳和标点静音时长。</li>
+<li>当前复刻音色合成文本语言按中文及中英混合文本接入。</li>
+<li>支持普通音质、精品音质等声音模型类型，具体以模型授权为准。</li>
+</ul>
+
+<h2 id="vc-synth-short-endpoint">服务地址</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>访问类型</th><th>说明</th><th>URL</th><th>Host</th></tr>
+<tr><td>外网访问</td><td>定制声音短文本合成接口</td><td><code>https://openapi.data-baker.com/tts_personal?</code></td><td><code>openapi.data-baker.com</code></td></tr>
+</table>
+</div>
+
+<h2 id="vc-synth-short-flow">使用流程</h2>
+<ol>
+<li>在开放平台创建账号和应用，获取 <code>client_id</code> 与 <code>client_secret</code>。</li>
+<li>调用授权服务获取 <code>access_token</code>。</li>
+<li>准备待合成文本，并确认定制模型已训练成功。</li>
+<li>请求 <code>/tts_personal</code>，将模型 ID 填入 <code>voice_name</code>。</li>
+<li>根据响应头 <code>Content-Type</code> 判断请求是否成功：以 <code>audio/</code> 开头表示返回音频；<code>application/json</code> 表示返回错误信息。</li>
+</ol>
+
+<h2 id="vc-synth-short-params">请求参数</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>参数名称</th><th>是否必填</th><th>说明</th></tr>
+<tr><td><code>text</code></td><td>是</td><td>合成文本，UTF-8 编码。单次 <code>GET</code> 或 <code>POST</code> 请求最多不超过 <code>300</code> 个汉字。</td></tr>
+<tr><td><code>access_token</code></td><td>是</td><td>用户访问令牌，通过 <code>client_id</code>、<code>client_secret</code> 调用授权服务获得。</td></tr>
+<tr><td><code>domain</code></td><td>是</td><td>应用领域编码，目前固定为 <code>1</code>。</td></tr>
+<tr><td><code>language</code></td><td>是</td><td>合成文本语言，中文及中英混合文本使用 <code>ZH</code> 或 <code>zh</code>。</td></tr>
+<tr><td><code>voice_name</code></td><td>是</td><td>模型名称，填写定制模型训练成功后返回的 <code>modelId</code>。</td></tr>
+<tr><td><code>speed</code></td><td>否</td><td>语速，取值 <code>0-9</code>，支持浮点值，默认 <code>5</code>。</td></tr>
+<tr><td><code>volume</code></td><td>否</td><td>音量，取值 <code>0-9</code>，仅支持整数，默认 <code>5</code>。</td></tr>
+<tr><td><code>pitch</code></td><td>否</td><td>音调，取值 <code>0-9</code>，默认 <code>5</code>。</td></tr>
+<tr><td><code>audiotype</code></td><td>否</td><td>音频类型。常用值：<code>3</code> 为 16K mp3，<code>4</code> 为 16K pcm，<code>5</code> 为 8K pcm，<code>6</code> 为 16K wav，<code>7</code> 为 8K alaw，<code>8</code> 为 8K ulaw，<code>9</code> 可配合 <code>rate=1</code> 返回 8K mp3。</td></tr>
+<tr><td><code>rate</code></td><td>否</td><td>采样率或码率相关参数。示例：<code>audiotype=6&amp;rate=1</code> 返回 8K wav。</td></tr>
+<tr><td><code>spectrum</code></td><td>否</td><td>高频频谱调节，取值 <code>1-20</code>，默认 <code>1</code> 表示不调整；值越大高频能量增强越多。</td></tr>
+<tr><td><code>spectrum_8k</code></td><td>否</td><td>低频频谱调节，取值 <code>0-20</code>，默认 <code>0</code>，仅针对 <code>audiotype=5</code> 的 8K 音频生效。</td></tr>
+<tr><td><code>interval</code></td><td>否</td><td>音子级时间戳开关：<code>0</code> 关闭，<code>1</code> 开启。</td></tr>
+<tr><td><code>silence</code></td><td>否</td><td>标点静音时长：<code>0</code> 默认，<code>1</code> 句中标点停顿较短，<code>2</code> 句中标点停顿较长。</td></tr>
+</table>
+</div>
+
+<h2 id="vc-synth-short-example">请求示例</h2>
+<pre><code class="language-bash">curl -X POST "https://openapi.data-baker.com/tts_personal" \
+  -d "access_token=ACCESS_TOKEN" \
+  -d "domain=1" \
+  -d "language=ZH" \
+  -d "voice_name=MODEL_ID" \
+  -d "text=欢迎使用标贝定制声音合成服务" \
+  -d "audiotype=6" \
+  --output result.wav</code></pre>
+<pre><code class="language-python">import requests
+
+url = "https://openapi.data-baker.com/tts_personal"
+data = {
+    "access_token": "ACCESS_TOKEN",
+    "domain": "1",
+    "language": "ZH",
+    "voice_name": "MODEL_ID",
+    "text": "欢迎使用标贝定制声音合成服务",
+    "audiotype": "6",
+    "speed": "5",
+    "volume": "5",
+    "pitch": "5"
+}
+
+response = requests.post(url, data=data)
+content_type = response.headers.get("Content-Type", "")
+if content_type.startswith("audio/"):
+    open("result.wav", "wb").write(response.content)
+else:
+    print(response.text)</code></pre>
+
+<h2 id="vc-synth-short-response">响应结果</h2>
+<ul>
+<li>合成成功时，响应体为音频二进制数据。</li>
+<li>合成失败时，响应头通常为 <code>Content-Type: application/json</code>，响应体为错误 JSON。</li>
+<li>当 <code>interval=1</code> 时，响应头会增加 <code>interval-info</code>，用于返回音子边界时间戳。</li>
+</ul>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>示例</th><th>说明</th></tr>
+<tr><td><code>audiotype=3</code></td><td>返回 16K mp3，<code>Content-Type: audio/mp3</code>。</td></tr>
+<tr><td><code>audiotype=4</code></td><td>返回 16K pcm，<code>Content-Type: audio/pcm</code>。</td></tr>
+<tr><td><code>audiotype=5</code></td><td>返回 8K pcm，<code>Content-Type: audio/pcm</code>。</td></tr>
+<tr><td><code>audiotype=6</code></td><td>返回 16K wav，<code>Content-Type: audio/wav</code>。</td></tr>
+<tr><td><code>audiotype=6&amp;rate=1</code></td><td>返回 8K wav，<code>Content-Type: audio/wav</code>。</td></tr>
+<tr><td><code>audiotype=7</code></td><td>返回 8K alaw，<code>Content-Type: audio/alaw</code>。</td></tr>
+<tr><td><code>audiotype=8</code></td><td>返回 8K ulaw，<code>Content-Type: audio/ulaw</code>。</td></tr>
+<tr><td><code>audiotype=9&amp;rate=1</code></td><td>返回 8K mp3，<code>Content-Type: audio/mp3</code>。</td></tr>
+</table>
+</div>
+<pre><code class="language-json">{
+  "err_msg": "parameter error",
+  "err_no": -6101,
+  "log_id": 955891560,
+  "sn": "914313d3-c9cf-493d-820d-b0e81fdb8bd4"
+}</code></pre>
+
+<h2 id="vc-synth-short-errors">常见错误码</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>错误码</th><th>说明</th></tr>
+<tr><td><code>10001</code></td><td><code>access_token</code> 获取失败或未传输。</td></tr>
+<tr><td><code>10002</code></td><td><code>domain</code> 参数值错误。</td></tr>
+<tr><td><code>10003</code></td><td><code>language</code> 参数错误。</td></tr>
+<tr><td><code>10004</code></td><td><code>voice_name</code> 参数错误，需确认模型 ID 已训练成功且具备合成授权。</td></tr>
+<tr><td><code>10005</code></td><td><code>audiotype</code> 参数错误。</td></tr>
+<tr><td><code>10006</code></td><td><code>rate</code> 参数错误。</td></tr>
+<tr><td><code>10009</code></td><td><code>text</code> 参数错误。</td></tr>
+<tr><td><code>10010</code></td><td>文本过长。</td></tr>
+<tr><td><code>20000</code></td><td>获取资源错误。</td></tr>
+<tr><td><code>20001</code></td><td>断句失败。</td></tr>
+<tr><td><code>20002</code></td><td>分段数错误。</td></tr>
+</table>
+</div>

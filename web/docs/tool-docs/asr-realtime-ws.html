@@ -1,0 +1,131 @@
+<h1>实时长语音识别 Websocket API</h1>
+<p class="doc-lead">实时长语音识别 Websocket API 用于对长时间持续输入的语音流进行实时识别，适用于视频直播字幕、会议记录、实时演讲字幕等场景。</p>
+
+<h2 id="asr-realtime-ws-intro">功能介绍</h2>
+<ul>
+<li>支持语言：中文普通话、英文、粤语、维语。</li>
+<li>支持添加标点，支持将中文数字转换为阿拉伯数字输出。</li>
+<li>支持连续返回中间识别结果，实现连续上屏效果。</li>
+<li>单次识别时长不超过 3 小时。</li>
+</ul>
+
+<h2 id="asr-realtime-ws-audio">音频要求</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>项目</th><th>要求</th></tr>
+<tr><td>音频格式</td><td><code>wav</code>、<code>pcm</code>（Linear PCM）</td></tr>
+<tr><td>采样率</td><td><code>8000Hz</code>、<code>16000Hz</code></td></tr>
+<tr><td>位深</td><td><code>16bits</code></td></tr>
+<tr><td>声道</td><td>单声道</td></tr>
+<tr><td>时长</td><td>不超过 3 小时</td></tr>
+</table>
+</div>
+
+<h2 id="asr-realtime-ws-usage">使用方法</h2>
+<ol>
+<li>创建账号和应用，在开放平台应用服务中获取 <code>client_id</code> 与 <code>client_secret</code>。</li>
+<li>调用授权服务获取 <code>access_token</code>。</li>
+<li>建立 WebSocket 连接。</li>
+<li>实时发送需要识别的音频分片。</li>
+<li>接收中间识别结果和最终识别结果。</li>
+<li>收到最终包后关闭连接。</li>
+</ol>
+<ul>
+<li>WebSocket 握手会受网络环境影响产生延迟，接入方需要结合实际测试处理。</li>
+<li>结束识别时不要立即关闭麦克风，可延迟数百毫秒保留部分环境静音，有助于 VAD 快速结束。</li>
+<li>最后一个数据包发送后，需要等待最终识别结果返回；响应参数 <code>end_flag=1</code> 表示最后一个包。</li>
+</ul>
+
+<h2 id="asr-realtime-ws-endpoint">服务地址</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>访问类型</th><th>说明</th><th>URL</th><th>Host</th></tr>
+<tr><td>外网访问</td><td>支持中文普通话、中英自由说、英文、粤语、维语</td><td><code>wss://openapi.data-baker.com/asr/realtime</code></td><td><code>openapi.data-baker.com</code></td></tr>
+</table>
+</div>
+
+<h2 id="asr-realtime-ws-message">请求消息</h2>
+<p>请求消息和响应消息均序列化为 JSON 格式。请求顶层包含 <code>access_token</code>、<code>version</code> 和 <code>asr_params</code>。</p>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>参数名称</th><th>类型</th><th>是否必填</th><th>说明</th></tr>
+<tr><td><code>access_token</code></td><td>string</td><td>是</td><td>通过 <code>client_id</code>、<code>client_secret</code> 调用授权服务获得。</td></tr>
+<tr><td><code>version</code></td><td>string</td><td>是</td><td>版本信息，当前为 <code>1.0</code>。</td></tr>
+<tr><td><code>asr_params</code></td><td>object</td><td>是</td><td>ASR 识别参数对象。</td></tr>
+</table>
+</div>
+
+<h2 id="asr-realtime-ws-asr-params">asr_params 参数</h2>
+<p>流式接口需要将音频分包发送。除最后一包外，每包长度固定为 <code>5120</code> 字节；最后一包不足 <code>5120</code> 字节时，发送剩余全部数据。每包音频需要进行 Base64 编码。</p>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>参数名称</th><th>类型</th><th>是否必填</th><th>说明</th></tr>
+<tr><td><code>audio_data</code></td><td>string</td><td>是</td><td>Base64 编码后的音频分片。</td></tr>
+<tr><td><code>audio_format</code></td><td>string</td><td>是</td><td>音频编码格式，支持 <code>pcm</code>、<code>wav</code>。</td></tr>
+<tr><td><code>sample_rate</code></td><td>int</td><td>是</td><td>音频采样率，支持 <code>8000</code>、<code>16000</code>。</td></tr>
+<tr><td><code>req_idx</code></td><td>int</td><td>是</td><td>音频序号索引，步长为 1 递增。<code>0</code> 为起始帧，正数为中间帧，负数为结束帧。</td></tr>
+<tr><td><code>domain</code></td><td>string</td><td>否</td><td>模型名称，默认 <code>common</code>。</td></tr>
+<tr><td><code>add_pct</code></td><td>boolean</td><td>否</td><td>是否添加标点，<code>true</code> 添加，<code>false</code> 不添加。</td></tr>
+<tr><td><code>hotwordid</code></td><td>string</td><td>否</td><td>配置的热词组 ID。</td></tr>
+<tr><td><code>diylmid</code></td><td>string</td><td>否</td><td>ASR 个性化模型 ID。</td></tr>
+<tr><td><code>enable_itn</code></td><td>boolean</td><td>否</td><td>是否将中文数字转换为阿拉伯数字。</td></tr>
+</table>
+</div>
+
+<h2 id="asr-realtime-ws-example">请求示例</h2>
+<pre><code class="language-json">{
+  "access_token": "ACCESS_TOKEN",
+  "version": "1.0",
+  "asr_params": {
+    "audio_format": "pcm",
+    "sample_rate": 16000,
+    "req_idx": 0,
+    "audio_data": "BASE64_AUDIO_CHUNK",
+    "add_pct": true,
+    "enable_itn": true
+  }
+}</code></pre>
+<p>示例代码参考：<a href="https://github.com/data-baker/BakerSpeechApiDemo/tree/main/asr-websoket-api/real_time_audio_recognition" target="_blank" rel="noopener">real_time_audio_recognition</a></p>
+
+<h2 id="asr-realtime-ws-response">响应结果参数</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>字段</th><th>类型</th><th>说明</th></tr>
+<tr><td><code>code</code></td><td>int</td><td>结果码，<code>9000</code> 表示包含有效识别数据。</td></tr>
+<tr><td><code>message</code></td><td>string</td><td>错误描述或结果描述。</td></tr>
+<tr><td><code>trace_id</code></td><td>string</td><td>任务 ID，用于定位错误和日志。</td></tr>
+<tr><td><code>asr_text</code></td><td>string</td><td>识别结果文本。</td></tr>
+<tr><td><code>sentence_id</code></td><td>int</td><td>句子 ID，从 <code>1</code> 递增。</td></tr>
+<tr><td><code>sentence_end</code></td><td>boolean</td><td>当前句子是否结束。<code>true</code> 表示当前句最终结果。</td></tr>
+<tr><td><code>end_flag</code></td><td>int</td><td>是否最后一个数据块，<code>0</code> 否，<code>1</code> 是。</td></tr>
+<tr><td><code>sos</code></td><td>float</td><td>句子在音频中的开始时间点，单位秒。</td></tr>
+<tr><td><code>eos</code></td><td>float</td><td>句子在音频中的结束时间点，单位秒。</td></tr>
+<tr><td><code>confidence</code></td><td>int</td><td>整句置信度，范围 <code>0-100</code>。</td></tr>
+<tr><td><code>speed</code></td><td>int</td><td>语速，范围 <code>0-2000</code>。</td></tr>
+<tr><td><code>speed_label</code></td><td>string</td><td>语速标签：<code>FAST</code>、<code>MEDIUM</code>、<code>SLOW</code>。</td></tr>
+<tr><td><code>volume</code></td><td>int</td><td>音量，范围 <code>0-100</code>。</td></tr>
+<tr><td><code>volume_label</code></td><td>string</td><td>音量标签：<code>SILENT</code>、<code>XSOFT</code>、<code>SOFT</code>、<code>MEDIUM</code>、<code>LOUD</code>、<code>XLOUD</code>。</td></tr>
+<tr><td><code>words</code></td><td>array</td><td>词级别识别结果，包含 <code>confidence</code>、<code>sos</code>、<code>eos</code>、<code>word</code>。</td></tr>
+</table>
+</div>
+
+<h2 id="asr-realtime-ws-errors">错误码</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>错误码</th><th>含义</th><th>处理建议</th></tr>
+<tr><td><code>30001</code></td><td>HTTP 请求参数错误</td><td>检查请求参数。</td></tr>
+<tr><td><code>30002</code></td><td>服务内部错误</td><td>保留 TraceID 并排查。</td></tr>
+<tr><td><code>30005</code></td><td>语音质量问题</td><td>检查音频质量。</td></tr>
+<tr><td><code>30006</code></td><td>输入语音过长</td><td>控制单次识别时长。</td></tr>
+<tr><td><code>40002</code></td><td>JSON 字段不全</td><td>检查必填字段。</td></tr>
+<tr><td><code>40006</code></td><td>idx 超时</td><td>相邻分片间隔超过超时时间，默认 60 秒。</td></tr>
+<tr><td><code>40007</code></td><td>idx 顺序错误</td><td>检查音频分片序号。</td></tr>
+<tr><td><code>40008</code></td><td>Token 校验失败</td><td>重新获取或检查 <code>access_token</code>。</td></tr>
+<tr><td><code>40010</code></td><td>Token 已过期</td><td>重新获取 Token。</td></tr>
+<tr><td><code>40013</code></td><td>音频包长度错误</td><td>检查音频分片长度。</td></tr>
+<tr><td><code>40016</code></td><td>错误的音频格式</td><td>检查 <code>audio_format</code>。</td></tr>
+<tr><td><code>40017</code></td><td>错误的采样率</td><td>检查 <code>sample_rate</code>。</td></tr>
+<tr><td><code>50001</code></td><td>处理超时</td><td>稍后重试或缩短音频。</td></tr>
+<tr><td><code>50003</code></td><td>服务端繁忙</td><td>稍后重试。</td></tr>
+</table>
+</div>

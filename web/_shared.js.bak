@@ -199,7 +199,7 @@
               400 898 2016
             </a>
             <a class="btn btn-primary btn-sm" onclick="openTrialModal()" href="javascript:void(0)">
-              预约试用
+              联系我们
               <svg class="btn-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </a>
           </div>
@@ -317,7 +317,7 @@
           <p>扫码添加企业微信</p>
         </div>
       </button>
-      <button class="sidebar-btn" onclick="openTrialModal()" title="预约试用">
+      <button class="sidebar-btn" onclick="openTrialModal()" title="联系我们">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><path d="M8 21h8M12 17v4"/></svg>
         <span class="sb-label">试用</span>
       </button>

@@ -8,7 +8,7 @@
  * - 支持渲染为任意标签（默认 button；可传 as="a" 当链接）
  *
  * 用法：
- *   <MagneticButton className="btn btn-primary" href="#contact">预约试用</MagneticButton>
+ *   <MagneticButton className="btn btn-primary" href="#contact">联系我们</MagneticButton>
  */
 import {
   forwardRef,

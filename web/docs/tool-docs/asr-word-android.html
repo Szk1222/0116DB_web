@@ -1,0 +1,139 @@
+<h1>一句话识别 Android SDK</h1>
+<p class="doc-lead">一句话识别 Android SDK 适用于 60 秒以内短语音识别，支持 SDK 调用麦克风录音识别，也支持接收音频字节流并上传识别。</p>
+
+<h2 id="asr-word-android-download">下载安装</h2>
+<p>SDK 及示例 Demo 下载地址：<a href="https://github.com/data-baker/BakerAndroidSdks" target="_blank" rel="noopener">https://github.com/data-baker/BakerAndroidSdks</a></p>
+<p>项目中使用一句话识别能力时，将以下 AAR 包复制到主 Module 的 <code>libs</code> 目录：</p>
+<pre><code class="language-text">basecomponent-release.aar
+bakerasr-release.aar
+bakerhttp-release.aar</code></pre>
+
+<h2 id="asr-word-android-integrate">Android Studio 集成</h2>
+<pre><code class="language-gradle">dependencies {
+  implementation fileTree(dir: 'libs', include: ['*.aar'])
+  implementation 'com.squareup.okhttp3:okhttp:4.2.2'
+  implementation 'com.google.code.gson:gson:2.8.6'
+}</code></pre>
+<p>在 <code>AndroidManifest.xml</code> 中声明网络和录音相关权限；Android 6.0 及以上还需要动态申请 <code>READ_PHONE_STATE</code> 与 <code>RECORD_AUDIO</code>。</p>
+<pre><code class="language-xml">&lt;uses-permission android:name="android.permission.INTERNET" /&gt;
+&lt;uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /&gt;
+&lt;uses-permission android:name="android.permission.READ_PHONE_STATE" /&gt;
+&lt;uses-permission android:name="android.permission.RECORD_AUDIO" /&gt;</code></pre>
+<p>如需允许明文网络访问，在 <code>application</code> 节点增加：</p>
+<pre><code class="language-xml">android:usesCleartextTraffic="true"</code></pre>
+
+<h2 id="asr-word-android-proguard">混淆配置</h2>
+<pre><code class="language-text">-keep class com.baker.speech.asr.basic.**{*;}
+-keep class com.baker.speech.asr.bean.**{*;}
+-keep class com.baker.speech.asr.utils.**{*;}
+-keep public class com.baker.speech.asr.AsrConstants{*;}
+-keep public class com.baker.speech.asr.AsrErrorConstants{*;}
+-keep public class com.baker.speech.asr.BakerRecognizer{ public &lt;methods&gt;; }
+-keep public class com.baker.speech.asr.vadJni{*;}
+-keep public class com.baker.speech.asr.event.EventManagerMultiNet$BakerWebSocketListener{*;}</code></pre>
+
+<h2 id="asr-word-android-classes">SDK 关键类</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>类名</th><th>说明</th></tr>
+<tr><td><code>BakerRecognizer</code></td><td>一句话识别业务处理类，全局只需一个实例。</td></tr>
+<tr><td><code>BakerRecognizerCallback</code></td><td>实时识别结果、状态和错误信息回调类。</td></tr>
+</table>
+</div>
+
+<h2 id="asr-word-android-init">初始化 SDK</h2>
+<p>调用公共识别服务时，传入授权邮件中的 <code>clientId</code> 与 <code>clientSecret</code>：</p>
+<pre><code class="language-java">BakerRecognizer bakerRecognizer = new BakerRecognizer();
+bakerRecognizer.initSdk(context, clientId, clientSecret, bakerRecognizerCallback);</code></pre>
+<p>私有化部署时，先初始化回调，再设置识别服务器地址：</p>
+<pre><code class="language-java">bakerRecognizer.initSdk(context, bakerRecognizerCallback);
+bakerRecognizer.setUrl("ws://xxxx");</code></pre>
+
+<h2 id="asr-word-android-scenes">识别场景</h2>
+<h3>麦克风录音识别</h3>
+<ol>
+<li>初始化 <code>BakerRecognizer</code> 并配置参数。</li>
+<li>调用 <code>startAsr()</code> 开始录音识别。</li>
+<li>在 <code>BakerRecognizerCallback</code> 中接收状态、识别结果或错误信息。</li>
+<li>开启 VAD 时可由服务端自动结束；未开启时调用 <code>stopAsr()</code> 主动结束。</li>
+</ol>
+<h3>音频字节流识别</h3>
+<ol>
+<li>调用 <code>start()</code> 通知 SDK 准备识别。</li>
+<li>多次调用 <code>send(byte[] data)</code> 输入待识别音频数据。除最后一片外，单次建议固定为 <code>5120</code> 字节。</li>
+<li>最后一片可以小于 <code>5120</code> 字节，也可以发送空包。</li>
+<li>调用 <code>end()</code> 结束识别并释放本次任务。</li>
+</ol>
+
+<h2 id="asr-word-android-params">参数与方法</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>方法</th><th>是否必填</th><th>说明</th></tr>
+<tr><td><code>initSdk</code></td><td>是</td><td>初始化 SDK，设置授权信息和回调。</td></tr>
+<tr><td><code>setUrl</code></td><td>否</td><td>设置识别服务器地址，仅私有化部署需要。</td></tr>
+<tr><td><code>setSampleRate</code></td><td>否</td><td>设置采样率，支持 <code>8000</code>、<code>16000</code>，默认 <code>16000</code>。</td></tr>
+<tr><td><code>setAudioFormat</code></td><td>否</td><td>输入字节流识别时设置音频编码格式，支持 <code>pcm</code>、<code>wav</code>。</td></tr>
+<tr><td><code>setDomain</code></td><td>否</td><td>设置模型名称，默认 <code>common</code>。</td></tr>
+<tr><td><code>setAddPct</code></td><td>否</td><td>设置是否返回标点，默认 <code>true</code>。</td></tr>
+<tr><td><code>setHotwordid</code></td><td>否</td><td>配置热词组 ID。</td></tr>
+<tr><td><code>setDiylmid</code></td><td>否</td><td>配置 ASR 个性化模型 ID。</td></tr>
+<tr><td><code>setEnable_vad</code></td><td>否</td><td>设置是否开启静音检测，默认关闭。</td></tr>
+<tr><td><code>setMax_begin_silence</code></td><td>否</td><td>开启 VAD 后有效，允许的最大开始静音时长，单位毫秒，范围 <code>200-60000</code>。</td></tr>
+<tr><td><code>setMax_end_silence</code></td><td>否</td><td>开启 VAD 后有效，允许的最大结束静音时长，单位毫秒，范围 <code>200-5000</code>。</td></tr>
+<tr><td><code>startAsr</code></td><td>场景相关</td><td>启动麦克风录音识别。</td></tr>
+<tr><td><code>stopAsr</code></td><td>场景相关</td><td>结束麦克风录音识别。</td></tr>
+<tr><td><code>start</code></td><td>场景相关</td><td>启动字节流识别任务。</td></tr>
+<tr><td><code>send(byte[] data)</code></td><td>场景相关</td><td>发送音频字节流分片。</td></tr>
+<tr><td><code>end</code></td><td>场景相关</td><td>结束字节流识别任务。</td></tr>
+</table>
+</div>
+
+<h2 id="asr-word-android-callback">BakerRecognizerCallback 回调</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>方法</th><th>说明</th></tr>
+<tr><td><code>onReadyOfSpeech</code></td><td>授权通过并与服务器连接成功，识别准备就绪。</td></tr>
+<tr><td><code>onBeginOfSpeech</code></td><td>检测到开始说话。</td></tr>
+<tr><td><code>onEndOfSpeech</code></td><td>检测到说话结束。</td></tr>
+<tr><td><code>onVolumeChanged(int volume)</code></td><td>音量变化回调。</td></tr>
+<tr><td><code>onResult(BakerResponse response)</code></td><td>识别结果回调，可能多次返回。可读取 <code>nbest</code>、<code>uncertain</code>、<code>isLast</code> 等信息。</td></tr>
+<tr><td><code>onError</code></td><td>识别出错回调，任务会中断。</td></tr>
+</table>
+</div>
+
+<h2 id="asr-word-android-response">响应结果结构</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>字段</th><th>类型</th><th>说明</th></tr>
+<tr><td><code>res_idx</code></td><td>int</td><td>数据块序列号，从 <code>1</code> 递增。</td></tr>
+<tr><td><code>nbest</code></td><td>array</td><td>识别候选结果。</td></tr>
+<tr><td><code>end_flag</code></td><td>int</td><td>是否最后一个数据块，<code>0</code> 否，<code>1</code> 是。</td></tr>
+<tr><td><code>text</code></td><td>string</td><td>语音识别结果，失败时为空。</td></tr>
+<tr><td><code>confidence</code></td><td>int</td><td>整句置信度，范围 <code>0-100</code>。</td></tr>
+<tr><td><code>speed</code></td><td>int</td><td>语速，范围 <code>0-2000</code>。</td></tr>
+<tr><td><code>speed_label</code></td><td>string</td><td>语速标签：<code>FAST</code>、<code>MEDIUM</code>、<code>SLOW</code>。</td></tr>
+<tr><td><code>volume</code></td><td>int</td><td>音量，范围 <code>0-100</code>。</td></tr>
+<tr><td><code>volume_label</code></td><td>string</td><td>音量标签：<code>SILENT</code>、<code>XSOFT</code>、<code>SOFT</code>、<code>MEDIUM</code>、<code>LOUD</code>、<code>XLOUD</code>。</td></tr>
+<tr><td><code>words</code></td><td>array</td><td>词级别识别结果，包含 <code>confidence</code>、<code>sos</code>、<code>eos</code>、<code>word</code>。</td></tr>
+</table>
+</div>
+
+<h2 id="asr-word-android-errors">错误码说明</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>错误码</th><th>含义</th><th>处理建议</th></tr>
+<tr><td><code>13180001</code></td><td>缺少 ClientId</td><td>检查初始化参数。</td></tr>
+<tr><td><code>13180002</code></td><td>缺少 Secret</td><td>检查初始化参数。</td></tr>
+<tr><td><code>13180003</code></td><td>Token 获取失败</td><td>检查授权信息和网络。</td></tr>
+<tr><td><code>13180004</code></td><td>没有录音权限</td><td>检查 Manifest 和动态权限申请。</td></tr>
+<tr><td><code>13180005</code></td><td>本地网络不可用</td><td>检查设备网络。</td></tr>
+<tr><td><code>13180009</code></td><td>发送数据为空</td><td>检查音频分片输入。</td></tr>
+<tr><td><code>13180012</code></td><td>WebSocket 发送错误</td><td>检查连接状态并重试。</td></tr>
+<tr><td><code>90000</code></td><td>文本数据</td><td>按响应结果解析。</td></tr>
+<tr><td><code>30001</code></td><td>HTTP 请求参数错误</td><td>检查请求参数。</td></tr>
+<tr><td><code>40008</code></td><td>Token 校验失败</td><td>重新获取或检查 <code>access_token</code>。</td></tr>
+<tr><td><code>40016</code></td><td>错误的音频格式</td><td>检查 <code>audio_format</code>。</td></tr>
+<tr><td><code>40017</code></td><td>错误的采样率</td><td>检查 <code>sample_rate</code>。</td></tr>
+<tr><td><code>50003</code></td><td>服务端繁忙</td><td>稍后重试。</td></tr>
+</table>
+</div>

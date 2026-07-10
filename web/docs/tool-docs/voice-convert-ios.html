@@ -1,0 +1,102 @@
+<h1>声音转换 iOS SDK</h1>
+<p class="doc-lead">声音转换 iOS SDK 用于在 iOS 端接入实时声音转换和文件声音转换能力，支持麦克风录音转换，也支持传入音频文件路径进行转换。</p>
+
+<h2 id="voice-convert-ios-download">下载与兼容</h2>
+<p>SDK 与示例 Demo 下载地址：<a href="https://github.com/data-baker/BakerIosSdks" target="_blank" rel="noopener">https://github.com/data-baker/BakerIosSdks</a></p>
+<ul>
+<li>系统版本：iOS 9.0 及以上。</li>
+<li>CPU 架构：<code>arm64</code>、<code>arm64e</code>、<code>armv7</code>、<code>armv7s</code>。</li>
+<li>权限配置：在 <code>Info.plist</code> 中添加 <code>Privacy - Microphone Usage Description</code>。</li>
+</ul>
+
+<h2 id="voice-convert-ios-audio">音频要求</h2>
+<ul>
+<li>音频编码：<code>pcm</code>。</li>
+<li>采样率 / 位深：<code>16000Hz</code> / <code>16bit</code>。</li>
+<li>声道：单声道。</li>
+<li>语言：中文普通话。</li>
+</ul>
+
+<h2 id="voice-convert-ios-integrate">集成 SDK</h2>
+<p>通过 CocoaPods 集成：</p>
+<pre><code class="language-ruby">pod 'DBAudioSDK/DBVoiceTransferKit', 'SDK_VERSION'</code></pre>
+<p><code>SDK_VERSION</code> 为实际接入版本号。接入后导入声音转换类头文件：</p>
+<pre><code class="language-objectivec">#import "DBVoiceTransferUtil.h"</code></pre>
+
+<h2 id="voice-convert-ios-flow">调用流程</h2>
+<h3>实时声音转换</h3>
+<ol>
+<li>实例化 <code>DBVoiceTransferUtil</code>，调用 <code>setupClientId:clientSecret:block:</code> 完成鉴权。</li>
+<li>配置目标音色、播放开关、回调代理等转换参数。</li>
+<li>调用 <code>startTransferNeedPlay:</code> 开始转换，SDK 会使用麦克风录音。</li>
+<li>通过 <code>DBTransferProtocol</code> 接收转换结果。</li>
+<li>调用结束方法关闭麦克风和服务端连接。</li>
+</ol>
+<h3>声音文件转换</h3>
+<ol>
+<li>鉴权流程同实时声音转换。</li>
+<li>配置声音转换参数。</li>
+<li>调用文件转换方法，传入声音文件路径，并指定是否需要播放。</li>
+<li>转换完成或取消时，关闭服务端连接。</li>
+</ol>
+
+<h2 id="voice-convert-ios-example">调用代码示例</h2>
+<pre><code class="language-objectivec">[[DBVoiceTransferUtil shareInstance] setupClientId:clientId
+                                    clientSecret:clientSecret
+                                           block:^(NSString * _Nullable token, NSError * _Nullable error) {
+  if (error) {
+    NSLog(@"获取 token 失败:%@", error);
+    return;
+  }
+}];
+
+DBVoiceTransferUtil *transfer = [DBVoiceTransferUtil shareInstance];
+transfer.log = YES;
+transfer.voiceName = @"Vc_jiaojiao";
+transfer.delegate = self;
+
+// 开始实时转换
+[transfer startTransferNeedPlay:YES];</code></pre>
+
+<h2 id="voice-convert-ios-params">参数说明</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>参数 / 属性</th><th>说明</th></tr>
+<tr><td><code>clientId</code></td><td>应用授权 ID。</td></tr>
+<tr><td><code>clientSecret</code></td><td>应用授权密钥。</td></tr>
+<tr><td><code>voiceName</code></td><td>目标声音模型名称，例如 <code>Vc_jiaojiao</code>。</td></tr>
+<tr><td><code>delegate</code></td><td>设置 <code>DBTransferProtocol</code> 回调代理。</td></tr>
+<tr><td><code>log</code></td><td>是否开启 SDK 日志。</td></tr>
+<tr><td><code>needPlay</code></td><td>是否需要 SDK 内部播放转换后的音频。</td></tr>
+</table>
+</div>
+
+<h2 id="voice-convert-ios-callback">DBTransferProtocol 回调</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>回调</th><th>说明</th></tr>
+<tr><td>转换状态回调</td><td>返回当前转换流程状态。</td></tr>
+<tr><td>音频数据回调</td><td>返回转换后的音频数据，可用于播放或写入文件。</td></tr>
+<tr><td>结束回调</td><td>提示本次转换已结束，可释放相关资源。</td></tr>
+<tr><td>错误回调</td><td>返回错误码、错误信息和追踪信息，本次转换任务中断。</td></tr>
+</table>
+</div>
+
+<h2 id="voice-convert-ios-errors">常见错误码</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<tr><th>错误码</th><th>说明</th></tr>
+<tr><td><code>19180001</code></td><td>没有 token，请先完成鉴权初始化。</td></tr>
+<tr><td><code>19180002</code></td><td>网络请求出现错误。</td></tr>
+<tr><td><code>19180003</code></td><td>没有录音权限。</td></tr>
+<tr><td><code>10000</code></td><td>WS 数据包解析错误。</td></tr>
+<tr><td><code>10001</code></td><td>WS 数据包 JSON 解析错误。</td></tr>
+<tr><td><code>10002</code></td><td>请求参数缺少 <code>access_token</code>。</td></tr>
+<tr><td><code>10003</code></td><td><code>access_token</code> 过期或不合法。</td></tr>
+<tr><td><code>10004</code></td><td>请求参数缺少 <code>voice_name</code>。</td></tr>
+<tr><td><code>10005</code></td><td><code>voice_name</code> 不存在。</td></tr>
+<tr><td><code>20000</code></td><td>引擎资源不足，拒绝新建会话。</td></tr>
+<tr><td><code>20001</code></td><td>声音转换出错。</td></tr>
+<tr><td><code>30001</code></td><td>会话空闲超时。</td></tr>
+</table>
+</div>
