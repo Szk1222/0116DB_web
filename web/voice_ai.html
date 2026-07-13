@@ -33,11 +33,11 @@
 
 .pc-name { font-family: var(--font-display); font-size: 1.06rem; font-weight: 600; color: var(--text-hi); line-height: 1.3; }
 .pc-desc { color: var(--text-mute); font-size: 0.86rem; line-height: 1.68; flex: 1; }
-.pc-badge-row { display: flex; gap: 6px; flex-wrap: wrap; }
-.pc-badge { padding: 2px 7px; border-radius: 3px; font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; border: 1px solid var(--line); color: var(--text-dim); }
-.pc-badge.hot  { background: rgba(255,107,107,0.12); color: #ff6b6b; border-color: rgba(255,107,107,0.3); }
-.pc-badge.free { background: rgba(76,201,240,0.08);  color: var(--brand-hi); border-color: rgba(76,201,240,0.25); }
-.pc-badge.new  { background: rgba(68,224,138,0.10);  color: #44e08a; border-color: rgba(68,224,138,0.3); }
+.pc-badge-row { display: flex; gap: 7px; flex-wrap: wrap; }
+.pc-badge { padding: 3px 8px; border-radius: 3px; font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.24); color: #fff; background: rgba(255,255,255,0.06); text-shadow: 0 0 10px rgba(255,255,255,0.24); }
+.pc-badge.hot  { background: rgba(255,107,107,0.16); color: #fff; border-color: rgba(255,107,107,0.45); }
+.pc-badge.free { background: rgba(76,201,240,0.14);  color: #fff; border-color: rgba(76,201,240,0.42); }
+.pc-badge.new  { background: rgba(68,224,138,0.14);  color: #fff; border-color: rgba(68,224,138,0.42); }
 
 
 /* ── 应用场景 ── */
@@ -302,25 +302,29 @@
           <div class="pc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3zm-7 9a7 7 0 0 0 14 0M12 19v3" stroke-linecap="round"/></svg></div>
           <div class="pc-name">一句话识别</div>
           <div class="pc-desc">对时长较短的语音进行实时转写识别，让机器能够听懂人类的语言。适合实时语音交互、语音命令等场景</div>
-          <div class="pc-badge-row"><span class="pc-badge">实时</span><span class="pc-badge">短音</span><span class="pc-badge">低延迟</span></div>        </article>
+          <div class="pc-badge-row"><span class="pc-badge">实时</span><span class="pc-badge">短音</span><span class="pc-badge">低延迟</span></div>
+        </article>
 
         <article class="product-card">
           <div class="pc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 10l3-6 4 8 3-4 4 8" stroke-linecap="round"/></svg></div>
           <div class="pc-name">长语音识别</div>
           <div class="pc-desc">对不限时长的语音输入进行实时转写，可根据用户预期进行自动断句和标点符号添加</div>
-          <div class="pc-badge-row"><span class="pc-badge">长音</span><span class="pc-badge">实时流式</span><span class="pc-badge">自动断句</span></div>        </article>
+          <div class="pc-badge-row"><span class="pc-badge">长音</span><span class="pc-badge">实时流式</span><span class="pc-badge">自动断句</span></div>
+        </article>
 
         <article class="product-card">
           <div class="pc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="8" width="4" height="12" rx="1"/><rect x="9" y="4" width="4" height="16" rx="1"/><rect x="16" y="10" width="4" height="10" rx="1"/></svg></div>
           <div class="pc-name">录音文件识别</div>
           <div class="pc-desc">对用户录制的语音文件进行非实时的转写处理，支持WAV、MP3、M4A 等多种音频格式批量识别</div>
-          <div class="pc-badge-row"><span class="pc-badge">离线</span><span class="pc-badge">批量处理</span><span class="pc-badge">多种格式</span></div>        </article>
+          <div class="pc-badge-row"><span class="pc-badge">离线</span><span class="pc-badge">批量处理</span><span class="pc-badge">多种格式</span></div>
+        </article>
 
         <article class="product-card">
           <div class="pc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
           <div class="pc-name">自学习工具</div>
           <div class="pc-desc">通过本工具可有效提高专有领域场景下的语音识别准确率，达到定制训练、自助优化的效果</div>
-          <div class="pc-badge-row"><span class="pc-badge">定制训练</span><span class="pc-badge">领域优化</span><span class="pc-badge">自助</span></div>        </article>
+          <div class="pc-badge-row"><span class="pc-badge">定制训练</span><span class="pc-badge">领域优化</span><span class="pc-badge">自助</span></div>
+        </article>
 
       </div>
     </div>
@@ -338,25 +342,29 @@
           <div class="pc-icon violet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2a10 10 0 1 0 10 10M22 2 12 12" stroke-linecap="round"/></svg></div>
           <div class="pc-name">大模型声音复刻</div>
           <div class="pc-desc">深度学习合规声线复刻能力，仅支持持有完整书面授权的自有音色，5秒授权录音即可高精度还原声纹，秒级完成克隆；全流程留存操作日志，输出音频自动嵌入AI合成溯源水印，严禁冒用、伪造他人声音。</div>
-          <div class="pc-badge-row"><span class="pc-badge">声音克隆</span><span class="pc-badge">秒级</span><span class="pc-badge">深度学习</span></div>        </article>
+          <div class="pc-badge-row"><span class="pc-badge">声音克隆</span><span class="pc-badge">秒级</span><span class="pc-badge">深度学习</span></div>
+        </article>
 
         <article class="product-card" style="border-color:rgba(76,201,240,0.15);">
           <div class="pc-icon violet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2" stroke-linecap="round"/></svg></div>
           <div class="pc-name">在线合成</div>
           <div class="pc-desc">高音质AI实时语音合成，内置合规商用音色库，毫秒级响应适配实时内容生产；所有输出音频自动标注AI合成属性，区分真人原声，合规用于短视频、播报、导播等场景。</div>
-          <div class="pc-badge-row"><span class="pc-badge">实时</span><span class="pc-badge">多音</span><span class="pc-badge">高音</span></div>        </article>
+          <div class="pc-badge-row"><span class="pc-badge">实时</span><span class="pc-badge">多音</span><span class="pc-badge">高音</span></div>
+        </article>
 
         <article class="product-card" style="border-color:rgba(76,201,240,0.15);">
           <div class="pc-icon violet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18.36 6.64A9 9 0 1 1 5.64 17.36M12 2v4M12 18v4" stroke-linecap="round"/></svg></div>
           <div class="pc-name">离线合成</div>
           <div class="pc-desc">无需联网，在设备端直接将文字转换为声音，合成音色自然、饱满，适合隐私敏感与边缘计算场景</div>
-          <div class="pc-badge-row"><span class="pc-badge">离线</span><span class="pc-badge">端侧</span><span class="pc-badge">隐私安全</span></div>        </article>
+          <div class="pc-badge-row"><span class="pc-badge">离线</span><span class="pc-badge">端侧</span><span class="pc-badge">隐私安全</span></div>
+        </article>
 
         <article class="product-card" style="border-color:rgba(76,201,240,0.15);">
           <div class="pc-icon violet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18V5l12-2v13M6 15a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm12-2a3 3 0 1 1 0 6 3 3 0 0 1 0-6z" stroke-linecap="round"/></svg></div>
           <div class="pc-name">定制音库</div>
           <div class="pc-desc">专业的数据采集团队和语音合成技术团队，提供一站式声音定制服务，打造品牌专属声音形象</div>
-          <div class="pc-badge-row"><span class="pc-badge">企业专属</span><span class="pc-badge">一站式</span><span class="pc-badge">声音复刻</span></div>        </article>
+          <div class="pc-badge-row"><span class="pc-badge">企业专属</span><span class="pc-badge">一站式</span><span class="pc-badge">声音复刻</span></div>
+        </article>
 
       </div>
     </div>
@@ -374,25 +382,29 @@
           <div class="pc-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 20.5c-1.3.5-2.8.8-4.5.8a10 10 0 1 1 8.3-15.7M22 22l-5-5" stroke-linecap="round"/></svg></div>
           <div class="pc-name">声音转换</div>
           <div class="pc-desc">将原说话人的声音转换为目标说话人并保留其风格特色。适合配音、内容创作与娱乐互动场景</div>
-          <div class="pc-badge-row"><span class="pc-badge">声音转换</span><span class="pc-badge">实时</span><span class="pc-badge">风格保留</span></div>        </article>
+          <div class="pc-badge-row"><span class="pc-badge">声音转换</span><span class="pc-badge">实时</span><span class="pc-badge">风格保留</span></div>
+        </article>
 
         <article class="product-card" style="border-color:rgba(68,224,138,0.15);">
           <div class="pc-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18.36 6.64A9 9 0 1 1 5.64 17.36M17 20.5c-1.3.5-2.8.8-4.5.8" stroke-linecap="round"/></svg></div>
           <div class="pc-name">离线声音转换</div>
           <div class="pc-desc">无需联网，将原说话人的声音转换为目标说话人并保留风格特色，适合隐私保护与边缘计算部署</div>
-          <div class="pc-badge-row"><span class="pc-badge">离线</span><span class="pc-badge">端侧</span><span class="pc-badge">隐私</span></div>        </article>
+          <div class="pc-badge-row"><span class="pc-badge">离线</span><span class="pc-badge">端侧</span><span class="pc-badge">隐私</span></div>
+        </article>
 
         <article class="product-card" style="border-color:rgba(68,224,138,0.15);">
           <div class="pc-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
           <div class="pc-name">声纹识别</div>
           <div class="pc-desc">基于强大的算法引擎，通过声音识别说话人身份，适用于智能安防、身份核验与个性化服务</div>
-          <div class="pc-badge-row"><span class="pc-badge">身份验证</span><span class="pc-badge">安防</span><span class="pc-badge">个性化</span></div>        </article>
+          <div class="pc-badge-row"><span class="pc-badge">身份验证</span><span class="pc-badge">安防</span><span class="pc-badge">个性化</span></div>
+        </article>
 
         <article class="product-card" style="border-color:rgba(68,224,138,0.15);">
           <div class="pc-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" stroke-linecap="round"/></svg></div>
           <div class="pc-name">合成系统评测</div>
           <div class="pc-desc">为多个语种和方言提供文本到语音（TTS）的合成系统评测服务，覆盖MOS 分、自然度与清晰度评估</div>
-          <div class="pc-badge-row"><span class="pc-badge">MOS 评测</span><span class="pc-badge">多语</span><span class="pc-badge">方言</span></div>        </article>
+          <div class="pc-badge-row"><span class="pc-badge">MOS 评测</span><span class="pc-badge">多语</span><span class="pc-badge">方言</span></div>
+        </article>
 
       </div>
     </div>
@@ -564,4 +576,3 @@
 <script src="_shared.js"></script>
 </body>
 </html>
-

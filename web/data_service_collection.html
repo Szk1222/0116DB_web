@@ -84,9 +84,10 @@
 
 /* ===== 采集类型 · 交替图文 ===== */
 .dc-types { display:grid; gap:46px; }
-.dc-type { display:grid; grid-template-columns:0.82fr 1.18fr; gap:46px; align-items:center; }
+.dc-type { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:52px; align-items:center; }
+.dc-type > * { min-width:0; }
 .dc-type.rev .dc-media { order:2; }
-.dc-media { position:relative; border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; aspect-ratio:4/3; background:linear-gradient(150deg, rgba(13,26,58,0.85), rgba(7,13,32,0.92)); display:grid; place-items:center; }
+.dc-media { position:relative; width:min(100%, 520px); justify-self:center; border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; aspect-ratio:4/3; background:linear-gradient(150deg, rgba(13,26,58,0.85), rgba(7,13,32,0.92)); display:grid; place-items:center; }
 .dc-media img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:1; }
 .dc-media .ph { display:flex; flex-direction:column; align-items:center; gap:10px; color:var(--brand-hi); opacity:0.42; }
 .dc-media .ph svg { width:50px; height:50px; }
@@ -143,6 +144,7 @@
 @media (max-width:900px){
   .dc-type { grid-template-columns:1fr; gap:22px; }
   .dc-type.rev .dc-media { order:0; }
+  .dc-media { width:100%; max-width:520px; }
   .scene-acc { flex-direction:column; height:auto; }
   .sa-item { flex:none; height:120px; }
   .sa-item.is-active { flex:none; height:300px; }
