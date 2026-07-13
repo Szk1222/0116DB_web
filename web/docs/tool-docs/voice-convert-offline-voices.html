@@ -1,0 +1,26 @@
+<h1>离线声音转换发音人列表</h1>
+<p class="doc-lead">离线声音转换支持在设备端使用的目标音色，所有音色支持 16K 采样率。</p>
+
+<div class="table-wrap">
+<table class="doc-table">
+<thead>
+<tr><th>名称</th><th>voice name 参数（首字母大写）</th><th>支持采样率（Hz）</th></tr>
+</thead>
+<tbody>
+<tr><td>萝莉音</td><td><code>Vc_luoli</code></td><td>16K</td></tr>
+<tr><td>大叔</td><td><code>Vc_dashu</code></td><td>16K</td></tr>
+<tr><td>搞怪</td><td><code>Vc_gaoguai</code></td><td>16K</td></tr>
+<tr><td>空灵</td><td><code>Vc_kongling</code></td><td>16K</td></tr>
+<tr><td>霸王龙</td><td><code>Vc_bawanglong</code></td><td>16K</td></tr>
+<tr><td>重金属</td><td><code>Vc_zhongjinshu</code></td><td>16K</td></tr>
+<tr><td>机械音</td><td><code>Vc_jixieyin</code></td><td>16K</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2>使用说明</h2>
+<ul>
+<li>调用 SDK 前先完成授权和初始化。</li>
+<li>每次转换前设置目标音色名称；未设置时默认使用 <code>Vc_luoli</code>。</li>
+<li>输入音频使用 PCM 格式时，应使用 16KHz、单声道、16bit 参数。</li>
+</ul>

@@ -1,0 +1,120 @@
+<h1>离线声音转换 Android SDK</h1>
+<p class="doc-lead">离线声音转换 Android SDK 无需持续联网即可在设备端完成声音转换。首次授权激活需要联网，后续转换可在无网络环境中进行。</p>
+
+<h2>下载安装</h2>
+<p>SDK 与示例 Demo 地址：<a href="https://github.com/data-baker/VoiceConvertOffLine" target="_blank" rel="noopener">https://github.com/data-baker/VoiceConvertOffLine</a></p>
+<p>将 <code>voiceconvertoffline-release.aar</code> 放入业务 Module 的 <code>libs</code> 目录，并在 Module 的 Gradle 文件中加入：</p>
+<pre><code class="language-gradle">dependencies {
+  implementation fileTree(dir: 'libs', include: ['*.aar'])
+  implementation 'com.squareup.okhttp3:okhttp:4.2.2'
+  implementation 'com.google.code.gson:gson:2.8.6'
+}</code></pre>
+<p>如果项目已经引入 OkHttp 或 Gson，请确认版本兼容，避免重复引入。</p>
+
+<h2>权限与混淆</h2>
+<p>在 <code>AndroidManifest.xml</code> 中加入以下权限。Android 6.0 及以上还需要动态申请录音和存储权限。</p>
+<pre><code class="language-xml">&lt;uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /&gt;
+&lt;uses-permission android:name="android.permission.RECORD_AUDIO" /&gt;
+&lt;uses-permission android:name="android.permission.INTERNET" /&gt;
+&lt;uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /&gt;</code></pre>
+<p>使用 R8 或 ProGuard 时加入：</p>
+<pre><code class="language-text">-keep class com.baker.voiceconvert.offline.bean.** { *; }
+-keep public class com.baker.voiceconvert.offline.VoiceConvertOffLineManager { *; }
+-keep public class com.baker.jni.voice.convert.VoiceConvertEngine { *; }
+-keep public class com.baker.voiceconvert.offline.callback.OffLineConvertCallBack { *; }
+-keep public class com.baker.voiceconvert.offline.util.WriteLog { *; }
+-keep public class com.baker.voiceconvert.offline.callback.ConvertInnerCallBack { *; }
+-keep public class com.baker.voiceconvert.offline.util.ThreadPoolUtil { *; }
+-keep public class com.baker.voiceconvert.offline.util.HLogger { *; }</code></pre>
+
+<h2>关键类</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<thead><tr><th>类名</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td><code>VoiceConvertOffLineManager</code></td><td>声音转换业务处理类，应用内保留一个实例即可。</td></tr>
+<tr><td><code>OffLineConvertCallBack</code></td><td>返回准备状态、转换数据、播放状态和错误信息。回调方法运行在子线程。</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2>初始化</h2>
+<pre><code class="language-java">VoiceConvertOffLineManager manager = new VoiceConvertOffLineManager();
+manager.initVoiceConvertSDK(context, clientId, secret, callback);
+manager.setSpeakerId("Vc_luoli");</code></pre>
+<p><code>initVoiceConvertSDK</code> 会执行授权请求。建议尽早调用，以便预留授权时间。设备首次激活需要联网，激活后可离线使用。</p>
+
+<h2>转换场景</h2>
+<h3>麦克风录音转换</h3>
+<ol>
+<li>取得录音和存储权限。</li>
+<li>调用 <code>startRecordAndConvert()</code> 开启录音转换。</li>
+<li>收到 <code>onReadyForConvert()</code> 后开始处理返回数据。</li>
+<li>通过 <code>onResult(byte[] audioData, int endFlag)</code> 实时获取转换结果，<code>endFlag == 1</code> 表示结束。</li>
+<li>调用 <code>stopRecord()</code> 结束录音，完成后触发 <code>onConvertCompleted()</code>。</li>
+</ol>
+<h3>PCM 文件转换</h3>
+<ol>
+<li>调用 <code>startConvertByPCM()</code> 初始化文件转换。</li>
+<li>收到 <code>onReadyForConvert()</code> 后调用 <code>convert(path)</code>。</li>
+<li>在回调中接收转换数据，完成后调用 <code>play()</code> 播放，或自行处理音频数据。</li>
+</ol>
+<h3>PCM 字节流转换</h3>
+<ol>
+<li>调用 <code>startConvertByPCM()</code> 并等待 <code>onReadyForConvert()</code>。</li>
+<li>多次调用 <code>sendData(byte[] audioData, int index)</code> 发送 PCM 数据，序号从 0 开始递增。</li>
+<li>最后一包将序号乘以 -1；也可以发送空包并使用负数序号结束输入。</li>
+<li>通过 <code>onResult</code> 接收转换数据，完成后触发 <code>onConvertCompleted()</code>。</li>
+</ol>
+<p>三种方式都会实时返回结果，并将原始录音和转换结果缓存为 PCM 文件。后一次任务会覆盖前一次任务生成的文件。</p>
+
+<h2>方法说明</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<thead><tr><th>方法</th><th>作用</th></tr></thead>
+<tbody>
+<tr><td><code>initVoiceConvertSDK(context, clientId, secret, callback)</code></td><td>初始化并授权 SDK。</td></tr>
+<tr><td><code>startRecordAndConvert()</code></td><td>开启麦克风录音转换。</td></tr>
+<tr><td><code>stopRecord()</code></td><td>结束录音转换。</td></tr>
+<tr><td><code>startConvertByPCM()</code></td><td>开启 PCM 文件或字节流转换。</td></tr>
+<tr><td><code>convert(String path)</code></td><td>转换指定 PCM 文件。</td></tr>
+<tr><td><code>sendData(byte[] audioData, int index)</code></td><td>发送 PCM 字节流，负数序号表示最后一包。</td></tr>
+<tr><td><code>setSpeakerId(String speakerId)</code></td><td>设置目标音色名称，默认值为 <code>Vc_luoli</code>。</td></tr>
+<tr><td><code>setVadEnable()</code></td><td>设置是否启用 VAD。</td></tr>
+<tr><td><code>play()</code> / <code>pause()</code> / <code>stopPlay()</code></td><td>控制 SDK 内置播放器。</td></tr>
+<tr><td><code>getOriginRecordFile()</code></td><td>获取 SDK 录制的原始文件路径。</td></tr>
+<tr><td><code>getConvertResultFile()</code></td><td>获取转换结果文件路径。</td></tr>
+<tr><td><code>release()</code></td><td>释放 SDK 资源。</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2>回调说明</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<thead><tr><th>回调</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td><code>onReadyForConvert()</code></td><td>授权通过并准备完成，三种转换方式都会触发。</td></tr>
+<tr><td><code>onResult(byte[] audioData, int endFlag)</code></td><td>实时返回转换后的音频数据，<code>endFlag == 1</code> 表示转换结束。</td></tr>
+<tr><td><code>onConvertCompleted()</code></td><td>本次转换完成。</td></tr>
+<tr><td><code>volumeChange(int volume)</code></td><td>返回 SDK 录音过程中的音量分贝值，约每 100ms 回调一次。</td></tr>
+<tr><td><code>onPlaying()</code> / <code>onPaused()</code> / <code>onPlayCompleted()</code> / <code>onStopped()</code></td><td>播放器状态回调。</td></tr>
+<tr><td><code>onError(String errorCode, String errorMessage)</code></td><td>返回错误码和错误信息。</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2>错误码</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<thead><tr><th>错误码</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td><code>22180001</code></td><td>没有 SD 卡读写权限。</td></tr>
+<tr><td><code>22180002</code></td><td>离线 SDK 授权错误。</td></tr>
+<tr><td><code>22180003</code></td><td>离线 SDK 初始化错误。</td></tr>
+<tr><td><code>22180004</code></td><td>开始转换后激活授权失败。</td></tr>
+<tr><td><code>22180005</code></td><td>SDK 录音模块错误。</td></tr>
+<tr><td><code>22180006</code></td><td>SDK 播放器错误。</td></tr>
+</tbody>
+</table>
+</div>

@@ -19,8 +19,8 @@
   --line-strong: rgba(143, 214, 255, 0.22);
 
   --text-hi: #f7faff;
-  --text: rgba(231, 240, 255, 0.86);
-  --text-mute: rgba(180, 200, 230, 0.62);
+  --text: rgba(246, 250, 255, 0.92);
+  --text-mute: rgba(238, 246, 255, 0.80);
   --text-dim: rgba(140, 165, 200, 0.42);
 
   --grad-cyber: linear-gradient(120deg, #4cc9f0 0%, #67e8f9 35%, #b14dff 100%);
@@ -111,10 +111,9 @@ body::after {
 }
 /* 指针移出窗口时隐藏自定义光标，避免停滞在边缘 */
 .cursor-dot { transition: opacity 200ms ease; }
-html.cursor-out .cursor-glow,
-html.cursor-out .cursor-dot { opacity: 0; }
-@media (hover: none) { .cursor-glow, .cursor-dot { display: none; } body { cursor: auto; } }
-@media (hover: hover) { body, a, button { cursor: none; } }
+html.cursor-out .cursor-glow { opacity: 0; }
+@media (hover: none) { .cursor-glow { display: none; } body { cursor: auto; } }
+@media (hover: hover) { body, a, button { cursor: auto; } }
 
 /* 滚动进度 */
 .scroll-progress { position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 60; background: linear-gradient(90deg, var(--brand) 0%, var(--cyan-hi) 50%, var(--violet-hi) 100%); transform-origin: left; transform: scaleX(0); transition: transform 80ms linear; }
@@ -144,6 +143,7 @@ html.cursor-out .cursor-dot { opacity: 0; }
 .eyebrow { display: none !important; }
 @keyframes blink { 50% { opacity: 0.3; } }
 
+p { color: var(--text); }
 h1, h2, h3, h4 { color: var(--text-hi); margin: 0; text-wrap: balance; }
 .display { font-family: var(--font-display); font-weight: 600; letter-spacing: -0.01em; line-height: 1.05; }
 .glow-text {

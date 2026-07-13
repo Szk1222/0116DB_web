@@ -1,0 +1,173 @@
+<h1>声纹识别 RESTful API</h1>
+<p class="doc-lead">通过三段说话人音频完成声纹注册，再使用 1:1 或 1:N 接口进行身份验证和检索。</p>
+
+<h2>音频要求</h2>
+<ul>
+<li>推荐音频时长约 10 秒，最短 1 秒，最长 30 秒。</li>
+<li>格式：PCM。</li>
+<li>采样率：16000Hz。</li>
+<li>位深：16bit。</li>
+<li>声道：单声道。</li>
+<li>请求中的音频需要先进行 Base64 编码。</li>
+</ul>
+
+<h2>鉴权与调用流程</h2>
+<ol>
+<li>在开放平台创建账号和应用，获取 <code>client_id</code> 与 <code>client_secret</code>。</li>
+<li>调用访问令牌接口获取 <code>access_token</code>。</li>
+<li>调用创建接口获取 <code>registerId</code>。</li>
+<li>至少提交三段音频完成声纹注册。</li>
+<li>根据业务需要调用 1:1 验证或 1:N 检索。</li>
+</ol>
+<p>所有接口均使用 <code>POST</code>，请求头为 <code>Content-Type: application/json</code>。</p>
+
+<h2>接口总览</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<thead><tr><th>功能</th><th>接口</th></tr></thead>
+<tbody>
+<tr><td>创建声纹特征 ID</td><td><code>https://openapi.data-baker.com/vpr/createid</code></td></tr>
+<tr><td>声纹注册</td><td><code>https://openapi.data-baker.com/vpr/register</code></td></tr>
+<tr><td>1:1 声纹验证</td><td><code>https://openapi.data-baker.com/vpr/match</code></td></tr>
+<tr><td>查询注册状态</td><td><code>https://openapi.data-baker.com/vpr/status</code></td></tr>
+<tr><td>删除声纹</td><td><code>https://openapi.data-baker.com/vpr/delete</code></td></tr>
+<tr><td>1:N 声纹检索</td><td><code>https://openapi.data-baker.com/vpr/search</code></td></tr>
+</tbody>
+</table>
+</div>
+
+<h2 id="createid">创建声纹特征 ID</h2>
+<p>创建一个可用于注册声纹的 <code>registerId</code>。</p>
+<pre><code class="language-bash">curl -X POST \
+  -H "Content-Type: application/json" \
+  https://openapi.data-baker.com/vpr/createid \
+  -d '{"access_token":"your_access_token"}'</code></pre>
+<pre><code class="language-json">{
+  "err_msg": "SUCCESS",
+  "log_id": "1637151763693260",
+  "err_no": 90000,
+  "registerid": "1760157933973465631"
+}</code></pre>
+
+<h2 id="register">声纹注册</h2>
+<p>使用同一个 <code>registerId</code> 至少提交三段音频。当某次注册失败时，需要重新提交，直到达到注册要求。</p>
+<h3>请求参数</h3>
+<div class="table-wrap">
+<table class="doc-table">
+<thead><tr><th>参数</th><th>类型</th><th>必填</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td><code>access_token</code></td><td>String</td><td>是</td><td>访问令牌。</td></tr>
+<tr><td><code>format</code></td><td>String</td><td>是</td><td>音频格式，例如 <code>pcm</code>。</td></tr>
+<tr><td><code>audio</code></td><td>String</td><td>是</td><td>Base64 编码后的音频数据。</td></tr>
+<tr><td><code>registerId</code></td><td>String</td><td>是</td><td>创建声纹特征 ID 接口返回的 ID。</td></tr>
+<tr><td><code>name</code></td><td>String</td><td>是</td><td>声纹关联名称。</td></tr>
+<tr><td><code>scoreThreshold</code></td><td>Float</td><td>是</td><td>比对分数阈值，不能低于系统默认值。</td></tr>
+</tbody>
+</table>
+</div>
+<pre><code class="language-json">{
+  "access_token": "your_access_token",
+  "format": "pcm",
+  "audio": "BASE64_AUDIO",
+  "registerId": "1760157933973465631",
+  "name": "demo",
+  "scoreThreshold": 65.0
+}</code></pre>
+<pre><code class="language-json">{
+  "err_msg": "SUCCESS",
+  "log_id": "1637152591998223",
+  "err_no": 90000,
+  "suc_num": 1
+}</code></pre>
+
+<h2 id="match">声纹验证（1:1）</h2>
+<p>上传待验证音频，与指定的声纹特征进行比对，返回是否匹配和比对分数。</p>
+<pre><code class="language-json">{
+  "access_token": "your_access_token",
+  "format": "pcm",
+  "audio": "BASE64_AUDIO",
+  "scoreThreshold": 60.0,
+  "matchId": "register_id"
+}</code></pre>
+<pre><code class="language-json">{
+  "matchStatus": 0,
+  "err_msg": "SUCCESS",
+  "log_id": "1639473151396592",
+  "err_no": 90000,
+  "score": 1.5
+}</code></pre>
+<p><code>matchStatus</code> 为 <code>1</code> 表示比对成功，<code>0</code> 表示比对失败。</p>
+
+<h2 id="status">查询声纹状态</h2>
+<pre><code class="language-json">{
+  "access_token": "your_access_token",
+  "registerId": "register_id"
+}</code></pre>
+<pre><code class="language-json">{
+  "err_msg": "SUCCESS",
+  "log_id": "1637152702700241",
+  "err_no": 90000,
+  "status": 3
+}</code></pre>
+<p><code>status</code> 为 <code>3</code> 表示注册成功，<code>0</code> 表示尚未注册完成。</p>
+
+<h2 id="delete">删除声纹</h2>
+<p>传入 <code>registerId</code> 删除对应声纹。</p>
+<pre><code class="language-bash">curl -X POST \
+  -H "Content-Type: application/json" \
+  https://openapi.data-baker.com/vpr/delete \
+  -d '{"access_token":"your_access_token","registerId":"register_id"}'</code></pre>
+<pre><code class="language-json">{
+  "err_msg": "SUCCESS",
+  "log_id": "1639473151396592",
+  "err_no": 90000,
+  "status": 1
+}</code></pre>
+
+<h2 id="search">声纹检索（1:N）</h2>
+<p>上传待检索音频，与声纹库中的全部特征进行比对并返回匹配列表。</p>
+<h3>请求参数</h3>
+<div class="table-wrap">
+<table class="doc-table">
+<thead><tr><th>参数</th><th>类型</th><th>必填</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td><code>access_token</code></td><td>String</td><td>是</td><td>访问令牌。</td></tr>
+<tr><td><code>format</code></td><td>String</td><td>是</td><td>音频格式，例如 <code>pcm</code>。</td></tr>
+<tr><td><code>audio</code></td><td>String</td><td>是</td><td>Base64 编码后的音频，最长 60 秒。</td></tr>
+<tr><td><code>scoreThreshold</code></td><td>Float</td><td>是</td><td>比对分数阈值，系统默认值为 15.0，推荐使用 30.0。</td></tr>
+<tr><td><code>listNum</code></td><td>Int</td><td>是</td><td>返回的匹配条数。</td></tr>
+<tr><td><code>vad</code></td><td>Int</td><td>否</td><td>是否开启语音端点检测，<code>1</code> 开启，<code>0</code> 关闭，默认关闭。</td></tr>
+</tbody>
+</table>
+</div>
+<pre><code class="language-json">{
+  "access_token": "your_access_token",
+  "format": "pcm",
+  "audio": "BASE64_AUDIO",
+  "scoreThreshold": 30.0,
+  "listNum": 5
+}</code></pre>
+<pre><code class="language-json">{
+  "log_id": "1637153028866860",
+  "err_msg": "SUCCESS",
+  "matchList": [
+    {"spkid": "3bc084c0-a0ea-4fe2-9b1b-358c74b21c8b", "score": 63.93, "name": "1"},
+    {"spkid": "70532bab-0cce-4d23-af07-4f18bb94b928", "score": 61.93, "name": "2"}
+  ],
+  "err_no": 90000
+}</code></pre>
+
+<h2>错误码</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<thead><tr><th>错误码</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td><code>90000</code></td><td>成功。</td></tr>
+<tr><td><code>10001</code> - <code>10003</code></td><td>请求参数、请求体或请求头错误。</td></tr>
+<tr><td><code>20001</code> - <code>20003</code></td><td>数据库、资源或缓存服务错误。</td></tr>
+<tr><td><code>30001</code> - <code>30005</code></td><td>音频过长、过短、数据错误、调用次数或并发超限。</td></tr>
+<tr><td><code>40001</code></td><td>引擎内部错误。</td></tr>
+<tr><td><code>50001</code> - <code>50002</code></td><td>访问令牌校验失败或无效。</td></tr>
+</tbody>
+</table>
+</div>

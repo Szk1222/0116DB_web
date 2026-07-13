@@ -27,8 +27,8 @@
   --line-strong: rgba(143, 214, 255, 0.22);
 
   --text-hi: #f7faff;
-  --text: rgba(231, 240, 255, 0.86);
-  --text-mute: rgba(180, 200, 230, 0.62);
+  --text: rgba(246, 250, 255, 0.92);
+  --text-mute: rgba(238, 246, 255, 0.80);
   --text-dim: rgba(140, 165, 200, 0.42);
 
   --grad-cyber: linear-gradient(120deg, #4cc9f0 0%, #67e8f9 35%, #b14dff 100%);
@@ -376,16 +376,6 @@ h2.display, h1.display {
 .hv-pulse.d1 { animation-delay: 0.9s; }
 .hv-pulse.d2 { animation-delay: 1.8s; }
 @keyframes pulseRing { from { opacity: 0.7; transform: translate(-50%,-50%) scale(0.5);} to { opacity: 0; transform: translate(-50%,-50%) scale(1.8);} }
-
-.hv-chip { position: absolute; min-width: 140px; padding: 12px 14px; border: 1px solid var(--line-strong); border-radius: var(--r); background: rgba(13,26,58,0.78); backdrop-filter: blur(12px); box-shadow: var(--shadow-card); font-family: var(--font-mono); font-size: 11px; color: var(--text); animation: chipFloat 4s ease-in-out infinite; }
-.hv-chip .ch-head { display: flex; align-items: center; gap: 6px; color: var(--brand-hi); margin-bottom: 6px; letter-spacing: 0.12em; }
-.hv-chip .ch-head .led { width: 6px; height: 6px; border-radius: 50%; background: #44e08a; box-shadow: 0 0 8px #44e08a; }
-.hv-chip .ch-row { display: flex; justify-content: space-between; color: var(--text-mute); margin: 3px 0; }
-.hv-chip .ch-row b { color: var(--text-hi); font-weight: 500; }
-.hv-chip.c1 { top: 4%; right: 60%; }
-.hv-chip.c2 { bottom: 10%; left: -8%; animation-delay: 1.2s; }
-.hv-chip.c3 { top: 60%; right: -8%; animation-delay: 2s; }
-@keyframes chipFloat { 50% { transform: translateY(-8px); } }
 
 /* Scroll hint */
 .scroll-hint { position: absolute; left: 50%; bottom: 28px; transform: translateX(-50%); z-index: 10; display: flex; flex-direction: column; align-items: center; gap: 8px; color: var(--text-dim); font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.32em; }
@@ -764,22 +754,6 @@ h2.display, h1.display {
       <div class="hv-pulse" aria-hidden="true"></div>
       <div class="hv-pulse d1" aria-hidden="true"></div>
       <div class="hv-pulse d2" aria-hidden="true"></div>
-
-      <div class="hv-chip c1">
-        <div class="ch-head"><span class="led"></span> LIVE · ASR / TTS</div>
-        <div class="ch-row"><span>样本</span><b>150w h+</b></div>
-        <div class="ch-row"><span>准确率</span><b>稳定</b></div>
-      </div>
-      <div class="hv-chip c2">
-        <div class="ch-head"><span class="led"></span> QC · IMAGE</div>
-        <div class="ch-row"><span>已质检</span><b>700w +</b></div>
-        <div class="ch-row"><span>通过率</span><b>99.2%</b></div>
-      </div>
-      <div class="hv-chip c3">
-        <div class="ch-head"><span class="led"></span> LLM · SFT</div>
-        <div class="ch-row"><span>指令对</span><b>30w +</b></div>
-        <div class="ch-row"><span>偏好对齐</span><b>就绪</b></div>
-      </div>
     </div>
   </div>
 
@@ -1585,7 +1559,7 @@ h2.display, h1.display {
   }
 
   function init() {
-    const count = Math.min(95, Math.max(36, Math.floor((W * H) / 17000)));
+    const count = Math.min(100, Math.max(36, Math.floor((W * H) / 10000)));
     particles = [];
     for (let i = 0; i < count; i++) {
       const p = {};
@@ -1595,7 +1569,7 @@ h2.display, h1.display {
       p.y = Math.random() * H;
       const dx = target.x - p.x, dy = target.y - p.y;
       const d  = Math.hypot(dx, dy) || 1;
-      const speed = 0.5 + Math.random() * 0.9;
+      const speed = 0.5 + Math.random() * 1.0;
       const tangentSign = Math.random() < 0.5 ? -1 : 1;
       p.vx = (dx / d) * speed + (-dy / d) * tangentSign * 0.15;
       p.vy = (dy / d) * speed + ( dx / d) * tangentSign * 0.15;

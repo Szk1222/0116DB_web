@@ -1,0 +1,82 @@
+<h1>声音理解 RESTful API</h1>
+<p class="doc-lead">声音理解接口根据音频数据分析说话人的性别、年龄和音频类别，返回结构化结果。</p>
+
+<h2>音频要求</h2>
+<ul>
+<li>格式：PCM。</li>
+<li>采样率：16000Hz。</li>
+<li>位深：16bit。</li>
+<li>声道：单声道。</li>
+<li>时长：最短 1 秒，最长 30 秒。</li>
+<li>音频需要先进行 Base64 编码。</li>
+</ul>
+
+<h2>调用流程</h2>
+<ol>
+<li>在开放平台创建账号和应用，获取 <code>client_id</code> 与 <code>client_secret</code>。</li>
+<li>调用访问令牌接口获取 <code>access_token</code>。</li>
+<li>向声音理解接口提交 JSON 请求。</li>
+</ol>
+
+<h2 id="request">请求说明</h2>
+<p>接口类型：REST API。</p>
+<p>服务接口：<a href="https://openapi.data-baker.com/vcf/voiceClassification" target="_blank" rel="noopener">https://openapi.data-baker.com/vcf/voiceClassification</a></p>
+<p>请求方法：<code>POST</code>。请求头：<code>Content-Type: application/json</code>。</p>
+
+<h3>请求参数</h3>
+<div class="table-wrap">
+<table class="doc-table">
+<thead><tr><th>参数</th><th>类型</th><th>必填</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td><code>access_token</code></td><td>String</td><td>是</td><td>访问令牌。</td></tr>
+<tr><td><code>format</code></td><td>String</td><td>是</td><td>固定为 <code>pcm</code>。</td></tr>
+<tr><td><code>audio</code></td><td>String</td><td>是</td><td>Base64 编码后的音频数据，需满足音频要求。</td></tr>
+<tr><td><code>request_type</code></td><td>String</td><td>是</td><td><code>gender</code> 性别，<code>age</code> 年龄，<code>category</code> 类别，<code>all</code> 全部返回。</td></tr>
+</tbody>
+</table>
+</div>
+<pre><code class="language-json">{
+  "access_token": "your_access_token",
+  "format": "pcm",
+  "audio": "BASE64_AUDIO",
+  "request_type": "all"
+}</code></pre>
+
+<h2>返回结果</h2>
+<p>返回数据为 JSON 格式，<code>err_msg</code> 为 <code>SUCCESS</code> 表示调用成功。</p>
+<pre><code class="language-json">{
+  "err_msg": "SUCCESS",
+  "log_id": "1637549378324843",
+  "err_no": 90000,
+  "result": {
+    "age": "middle",
+    "category": "speech",
+    "gender": "male"
+  }
+}</code></pre>
+<div class="table-wrap">
+<table class="doc-table">
+<thead><tr><th>字段</th><th>类型</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td><code>gender</code></td><td>String</td><td><code>male</code> 或 <code>female</code>。</td></tr>
+<tr><td><code>age</code></td><td>String</td><td><code>child</code>、<code>middle</code> 或 <code>old</code>。</td></tr>
+<tr><td><code>category</code></td><td>String</td><td><code>speech</code> 或 <code>noise</code>。</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2>错误码</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<thead><tr><th>错误码</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td><code>90000</code></td><td>成功。</td></tr>
+<tr><td><code>10001</code> - <code>10003</code></td><td>请求参数、请求体或请求头错误。</td></tr>
+<tr><td><code>20001</code> - <code>20003</code></td><td>数据库、资源或缓存服务错误。</td></tr>
+<tr><td><code>30001</code> - <code>30005</code></td><td>音频过长、过短、数据错误、调用次数或并发超限。</td></tr>
+<tr><td><code>30006</code></td><td>请求类型错误。</td></tr>
+<tr><td><code>40001</code></td><td>引擎内部错误。</td></tr>
+<tr><td><code>50001</code> - <code>50002</code></td><td>访问令牌校验失败或无效。</td></tr>
+</tbody>
+</table>
+</div>

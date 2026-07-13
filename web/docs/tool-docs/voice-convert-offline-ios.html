@@ -1,0 +1,107 @@
+<h1>离线声音转换 iOS SDK</h1>
+<p class="doc-lead">离线声音转换 iOS SDK 支持在设备端完成麦克风录音、PCM 文件和 PCM 字节流转换。首次授权激活需要联网，后续转换可在无网络环境中进行。</p>
+
+<h2>下载安装与兼容性</h2>
+<p>SDK 与示例 Demo 地址：<a href="https://github.com/data-baker/BakerIosSdks" target="_blank" rel="noopener">https://github.com/data-baker/BakerIosSdks</a></p>
+<ul>
+<li>系统版本：iOS 9.0 及以上。</li>
+<li>CPU 架构：<code>arm64</code>、<code>arm64e</code>、<code>armv7</code>、<code>armv7s</code>。</li>
+<li>在 <code>Info.plist</code> 中加入 <code>Privacy - Microphone Usage Description</code> 麦克风权限说明。</li>
+</ul>
+
+<h2>关键类</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<thead><tr><th>类名</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td><code>DBOfflineConvertVoiceClient</code></td><td>离线声音转换业务处理类，应用内使用一个共享实例。</td></tr>
+<tr><td><code>DBOfflineVoiceConvertDelegate</code></td><td>返回准备状态、转换数据、播放状态和错误信息，回调在子线程执行。</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2>初始化</h2>
+<pre><code class="language-objectivec">DBOfflineConvertVoiceClient *convertClient =
+    [DBOfflineConvertVoiceClient shareInstance];
+
+[convertClient setupVoiceConvertSDKClientId:clientId
+                               clientSecret:clientSecret
+                              messageHander:^(NSInteger ret, NSString *message) {
+  if (ret == 0) {
+    NSLog(@"授权成功");
+  } else {
+    NSLog(@"授权失败 code:%@ message:%@", @(ret), message);
+  }
+}];</code></pre>
+<p>初始化会执行授权请求，建议在业务开始前尽早调用。设备首次激活需要联网，激活完成后不需要持续联网。</p>
+
+<h2>转换场景</h2>
+<h3>麦克风录音转换</h3>
+<ol>
+<li>取得录音权限。</li>
+<li>调用 <code>startAndRecord</code> 开启 SDK 录音。</li>
+<li>在 <code>onReadyForConvert</code> 后通过 <code>onResultData:data endflag:</code> 接收实时转换数据。</li>
+<li>调用 <code>stopRecord</code> 结束录音，完成后触发 <code>onConvertComplete</code>。</li>
+<li>需要播放时调用 <code>play</code>，也可以自行处理回调中的音频数据。</li>
+</ol>
+<h3>PCM 文件转换</h3>
+<ol>
+<li>调用 <code>startFileConvertPCMPath:</code> 开启文件转换。</li>
+<li>收到 <code>onReadyForConvert</code> 后，通过回调接收转换数据。</li>
+<li>转换完成后触发 <code>onConvertComplete</code>，需要播放时调用 <code>play</code>。</li>
+</ol>
+<h3>PCM 字节流转换</h3>
+<ol>
+<li>调用 <code>startConvertByPCM</code> 并等待 <code>onReadyForConvert</code>。</li>
+<li>多次调用 <code>sendData:index:</code> 发送音频数据，序号从 0 开始递增。</li>
+<li>最后一包将序号乘以 -1，转换结果通过 <code>onResultData:data endflag:</code> 实时返回。</li>
+</ol>
+<p>输入数据使用 PCM 格式时，应使用 16KHz、单声道、16bit 参数。每次转换的原始录音和结果文件会覆盖上一次任务生成的对应文件。</p>
+
+<h2>方法说明</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<thead><tr><th>方法</th><th>作用</th></tr></thead>
+<tbody>
+<tr><td><code>setupVoiceConvertSDKClientId:clientSecret:messageHander:</code></td><td>初始化并授权 SDK。</td></tr>
+<tr><td><code>startAndRecord</code></td><td>开启麦克风录音转换。</td></tr>
+<tr><td><code>stopRecord</code></td><td>结束录音转换。</td></tr>
+<tr><td><code>startFileConvertPCMPath:</code></td><td>使用指定 PCM 文件进行转换。</td></tr>
+<tr><td><code>startConvertByPCM</code></td><td>开启 PCM 字节流转换。</td></tr>
+<tr><td><code>sendData:index:</code></td><td>发送 PCM 字节流，负数序号表示最后一包。</td></tr>
+<tr><td><code>setupVoiceName:</code></td><td>设置目标音色名称，默认值为 <code>Vc_luoli</code>。</td></tr>
+<tr><td><code>play</code> / <code>pause</code> / <code>stopPlay</code></td><td>控制 SDK 内置播放器。</td></tr>
+<tr><td><code>getOriginRecordFile</code></td><td>获取原始录音文件路径。</td></tr>
+<tr><td><code>getConvertResultFile</code></td><td>获取转换结果文件路径。</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2>回调说明</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<thead><tr><th>回调</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td><code>onReadyForConvert</code></td><td>授权通过并准备完成，三种转换方式都会触发。</td></tr>
+<tr><td><code>onResultData:data endflag:</code></td><td>实时返回转换后的音频数据，<code>endFlag == YES</code> 表示转换结束。</td></tr>
+<tr><td><code>onConvertComplete</code></td><td>本次转换完成。</td></tr>
+<tr><td><code>dbValues:</code></td><td>返回 SDK 录音过程中的音量分贝值。</td></tr>
+<tr><td><code>onPlaying</code> / <code>onPaused</code> / <code>onPlayCompleted</code> / <code>onStopped</code></td><td>播放器状态回调。</td></tr>
+<tr><td><code>onError:msg:</code></td><td>返回错误码和错误信息。</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2>错误码</h2>
+<div class="table-wrap">
+<table class="doc-table">
+<thead><tr><th>错误码</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td><code>22190010</code></td><td>请求授权参数错误。</td></tr>
+<tr><td><code>22190011</code></td><td>获取 token 错误。</td></tr>
+<tr><td><code>22190012</code></td><td>授权无效。</td></tr>
+<tr><td><code>22190013</code></td><td>设备信息鉴权失败。</td></tr>
+<tr><td><code>22180006</code></td><td>SDK 播放器错误。</td></tr>
+</tbody>
+</table>
+</div>

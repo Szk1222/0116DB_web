@@ -598,24 +598,16 @@
   /* ── Cursor ─────────────────────────────────────── */
   function cursor() {
     if (!matchMedia('(hover: hover)').matches) return;
-    if (document.querySelector('.cursor-dot')) return;
+    if (document.querySelector('.cursor-glow')) return;
     const wrap = document.createElement('div'); wrap.innerHTML = `
-      <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
-      <div class="cursor-dot" id="cursorDot" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M4 3l9 18 2.6-6 5.4-2.1L4 3z"/>
-        </svg>
-      </div>`;
+      <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>`;
     [...wrap.children].forEach(c => document.body.appendChild(c));
     const cg = document.getElementById('cursorGlow');
-    const cd = document.getElementById('cursorDot');
     const root = document.documentElement;
     addEventListener('mousemove', e => {
       if (root.classList.contains('cursor-out')) root.classList.remove('cursor-out');
       const x = e.clientX;
       const y = e.clientY;
-      cd.style.left = x + 'px';
-      cd.style.top = y + 'px';
       cg.style.left = x + 'px';
       cg.style.top = y + 'px';
     });
