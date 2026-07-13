@@ -372,6 +372,32 @@ a.mega-section-title:hover .mst-arrow { opacity: 1; transform: translateX(0); }
 .page-hero.has-hero-img { min-height: 100vh; min-height: 100svh; background: #0a1530 var(--hero-img) right center/cover no-repeat; }
 .page-hero.has-hero-img::before { z-index: 0; background: linear-gradient(90deg, rgba(5,8,19,0.94) 0%, rgba(5,8,19,0.72) 40%, rgba(5,8,19,0.3) 70%, rgba(5,8,19,0.08) 100%); pointer-events: none; }
 .page-hero.has-hero-img > .container { position: relative; z-index: 1; }
+/* 保持 Hero 全屏尺寸，仅将横幅画面缩至 Hero 高度的一半，并柔化画面边缘。 */
+.page-hero.has-hero-img.hero-art-half { background: #0a1530; isolation: isolate; }
+.page-hero.has-hero-img.hero-art-half::before {
+  inset: 0;
+  z-index: 0;
+  background: var(--hero-img) right center / auto 50% no-repeat;
+  -webkit-mask-image: radial-gradient(ellipse 78% 30% at 82% 50%, #000 48%, rgba(0,0,0,0.88) 66%, transparent 100%);
+  mask-image: radial-gradient(ellipse 78% 30% at 82% 50%, #000 48%, rgba(0,0,0,0.88) 66%, transparent 100%);
+  pointer-events: none;
+}
+.page-hero.has-hero-img.hero-art-half::after {
+  inset: 0;
+  z-index: 0;
+  height: auto;
+  background:
+    linear-gradient(90deg, rgba(5,8,19,0.96) 0%, rgba(5,8,19,0.88) 42%, rgba(5,8,19,0.55) 62%, rgba(5,8,19,0.12) 82%, rgba(5,8,19,0.04) 100%),
+    linear-gradient(0deg, var(--grad-line) 0 1px, transparent 1px);
+  pointer-events: none;
+}
+/* 悦读图自身留白更大：校准取景，使手机主体的尺寸与易采 Hero 保持一致。 */
+.page-hero.has-hero-img.hero-art-half.hero-art-reader::before {
+  background-position: 50% center;
+  background-size: auto 60%;
+  -webkit-mask-image: radial-gradient(ellipse 40% 36% at 65% 50%, #000 48%, rgba(0,0,0,0.88) 66%, transparent 100%);
+  mask-image: radial-gradient(ellipse 40% 36% at 65% 50%, #000 48%, rgba(0,0,0,0.88) 66%, transparent 100%);
+}
 .crumbs { display: none !important; align-items: center; gap: 8px; margin-bottom: 22px; color: var(--text-mute); font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; }
 .crumbs a { color: var(--text-mute); transition: color 180ms ease; }
 .crumbs a:hover { color: var(--brand-hi); }
