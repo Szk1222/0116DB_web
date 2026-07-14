@@ -349,8 +349,8 @@
               <a href="data_service_collection.html">数据采集服务</a>
               <a href="data_service_annotation.html">数据标注服务</a>
               <a href="datasets_overview.html">成品数据集</a>
-              <a href="https://yuedu.data-baker.com/" target="_blank" rel="noopener noreferrer">标贝悦读</a>
               <a href="tool_annotation.html">工具平台</a>
+              <a href="https://yuedu.data-baker.com/" target="_blank" rel="noopener noreferrer">标贝悦读</a>
             </div>
             <div class="footer-col">
               <h4>场景解决方案</h4>
@@ -407,9 +407,9 @@
           </div>
           <div class="footer-bottom">
             <div class="fb-links">
-              <a href="javascript:void(0)">标贝科技服务声明</a>
+              <a href="tool_docs.html#agreement">标贝科技服务声明</a>
               <a href="https://www.data-baker.com/m/#/about/personRightFile " target="_blank" rel="noopener noreferrer">个人信息保护政策</a>
-              <a href="javascript:void(0)">意见反馈</a>
+              <a href="javascript:void(0)" onclick="openTrialModal()">意见反馈</a>
               <a href="https://beian.miit.gov.cn/#/Integrated/index" target="_blank" rel="noopener noreferrer">鲁ICP备2023038621号</a>
             </div>
             <span>© 2025 DataBaker Technology · All rights reserved.</span>

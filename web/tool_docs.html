@@ -1768,12 +1768,26 @@ _synthesizerManager.playerDelegate = self;
       return panel;
     });
   }
-  function show(doc,title){
+  function show(doc,title,shouldScroll){
     var panel=panelOf(doc);
+    if(!panel) return;
     panels.forEach(function(p){ p.hidden = p.getAttribute('data-doc')!==doc; });
     if(doc==='todo'){ var t=document.querySelector('[data-todo-title]'); if(t) t.textContent=title||'该章节文档'; }
     loadPanel(panel).then(function(){ buildToc(panel); });
-    window.scrollTo({top:document.querySelector('.docs').offsetTop-80,behavior:'smooth'});
+    if(shouldScroll!==false) window.scrollTo({top:document.querySelector('.docs').offsetTop-80,behavior:'smooth'});
+  }
+  function activateDoc(doc,shouldScroll){
+    var leaf=[].slice.call(nav.querySelectorAll('[data-doc]')).filter(function(x){
+      return x.getAttribute('data-doc')===doc;
+    })[0];
+    if(!leaf || !panelOf(doc)) return false;
+    nav.querySelectorAll('.dn-row.active').forEach(function(x){x.classList.remove('active');});
+    leaf.classList.add('active');
+    for(var parent=leaf.parentElement;parent&&parent!==nav;parent=parent.parentElement){
+      if(parent.classList.contains('dn-item')) parent.classList.add('open');
+    }
+    show(doc,leaf.getAttribute('data-title'),shouldScroll);
+    return true;
   }
   // 父级展开/收起
   nav.addEventListener('click',function(e){
@@ -1781,13 +1795,18 @@ _synthesizerManager.playerDelegate = self;
     if(tog){ tog.parentElement.classList.toggle('open'); return; }
     var leaf=e.target.closest('[data-doc]');
     if(leaf){
-      nav.querySelectorAll('.dn-row.active').forEach(function(x){x.classList.remove('active');});
-      leaf.classList.add('active');
-      show(leaf.getAttribute('data-doc'), leaf.getAttribute('data-title'));
+      var doc=leaf.getAttribute('data-doc');
+      activateDoc(doc,true);
+      if(doc!=='todo') history.replaceState(null,'','#'+encodeURIComponent(doc));
     }
   });
-  // 初始 TOC
-  buildToc(panelOf('intro'));
+  // 支持从页脚等入口深链接到指定文档章节
+  var initialDoc=decodeURIComponent(window.location.hash.slice(1));
+  if(!initialDoc || !activateDoc(initialDoc,false)) buildToc(panelOf('intro'));
+  window.addEventListener('hashchange',function(){
+    var doc=decodeURIComponent(window.location.hash.slice(1));
+    if(doc) activateDoc(doc,true);
+  });
   // 滚动高亮
   var headings=[].slice.call(document.querySelectorAll('.doc-panel:not([hidden]) h2[id]'));
   window.addEventListener('scroll',function(){

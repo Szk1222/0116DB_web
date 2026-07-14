@@ -113,7 +113,10 @@ body::after {
 .cursor-dot { transition: opacity 200ms ease; }
 html.cursor-out .cursor-glow { opacity: 0; }
 @media (hover: none) { .cursor-glow { display: none; } body { cursor: auto; } }
-@media (hover: hover) { body, a, button { cursor: auto; } }
+@media (hover: hover) {
+  body { cursor: default; }
+  a, button { cursor: pointer; }
+}
 
 /* 滚动进度 */
 .scroll-progress { position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 60; background: linear-gradient(90deg, var(--brand) 0%, var(--cyan-hi) 50%, var(--violet-hi) 100%); transform-origin: left; transform: scaleX(0); transition: transform 80ms linear; }
