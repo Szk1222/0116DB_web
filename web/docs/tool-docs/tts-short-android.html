@@ -1,0 +1,111 @@
+<div data-v-20267ce4=""><h2 data-v-20267ce4="">短文本合成Android SDK</h2> <h3 data-v-20267ce4="">下载安装</h3> <section data-v-20267ce4=""><p data-v-20267ce4="">
+        SDK及示例demo下载地址:
+        <a data-v-20267ce4="" target="_blank" href="https://github.com/data-baker/BakerAndroidSdks">https://github.com/data-baker/BakerAndroidSdks</a></p></section> <h3 data-v-20267ce4="">Android Studio集成SDK（参考demo）</h3> <section data-v-20267ce4=""><ul data-v-20267ce4=""><li data-v-20267ce4=""><strong data-v-20267ce4="">将以下2个aar包添加至工程主module下，lib文件夹里。</strong> <pre class="doc-sample doc-code" data-v-20267ce4="">basecomponent-release.aar
+synthesizer-release.aar<button class="copyClass">copy</button></pre></li> <li data-v-20267ce4=""><strong data-v-20267ce4=""><b data-v-20267ce4="">在主module的build.gradle文件里，添加以下代码。</b>注意：SDK内使用了okhttp、gson所以需要开发者添加这两个库，若原本已经存在则无需重复添加。okhttp请使用4.x+版本，以免出现版本兼容bug。</strong> <pre class="doc-sample doc-code" data-v-20267ce4="">dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.aar'])
+    implementation 'com.squareup.okhttp3:okhttp:4.2.2'
+    implementation 'com.google.code.gson:gson:2.8.6'
+}<button class="copyClass">copy</button></pre></li> <li data-v-20267ce4=""><strong data-v-20267ce4="">在主Module的AndroidManifest.xml文件中添加网络权限。</strong> <xmp data-v-20267ce4="" style="color: rgb(0, 101, 163);"><uses-permission
+            android:name="android.permission.INTERNET"></uses-permission></xmp></li> <li data-v-20267ce4=""><strong data-v-20267ce4="">在主Module的AndroidManifest.xml文件中的application节点添加以下属性。</strong> <xmp data-v-20267ce4="" style="color: rgb(0, 101, 163);">android:usesCleartextTraffic="true"</xmp> <p data-v-20267ce4="">Eclipse环境也遵循相关集成jar包的方式即可。</p></li> <li data-v-20267ce4=""><strong data-v-20267ce4="">关于混淆</strong> <p data-v-20267ce4="">
+            SDK中用到了okhttp和gson，所以需要将这两个包的混淆代码添加上。具体混淆代码可以去官方文档上查阅。如果项目中已经有这两个包的混淆代码，不必重复添加。请加上我们SDK其他类的混淆代码，如下：
+          </p> <pre class="doc-sample doc-code" data-v-20267ce4="">-keep class com.databaker.synthesizer.bean.** { *; }
+-keep public class com.databaker.synthesizer.BaseMediaCallback{*;}
+-keep public class com.databaker.synthesizer.BakerSynthesizerErrorConstants{*;}
+-keep public class com.databaker.synthesizer.BakerCallback{*;}
+-keep public class com.databaker.synthesizer.SynthesizerCallback{*;}
+-keep public class com.databaker.synthesizer.BakerMediaCallback{*;}
+-keep public class com.databaker.synthesizer.BaseMediaCallback{*;}<button class="copyClass">copy</button></pre></li></ul></section> <h3 data-v-20267ce4="">SDK关键类</h3> <section data-v-20267ce4=""><ul data-v-20267ce4=""><li data-v-20267ce4="">
+          BakerSynthesizer：语音合成关键业务处理类，全局只需一个实例即可。
+          <pre class="doc-sample doc-code" data-v-20267ce4="">若集成标贝公有云服务，则初始化代码如下：
+BakerSynthesizer bakerSynthesizer = new BakerSynthesizer(Context, clientId, secret);
+
+若属于私有化部署，则初始化代码如下：
+BakerSynthesizer bakerSynthesizer = new BakerSynthesizer(Context);
+bakerSynthesizer.setUrl("ws://xxx");
+bakerSynthesizer.setTtsToken("default");//设置默认token信息<button class="copyClass">copy</button></pre></li> <li data-v-20267ce4="">
+          BakerCallback：合成结果源数据回调类。在获得合成音频源数据，或发生错误等情况发生时会触发此回调。如果您的应用场景中需要直接处理返回的字节类型源数据，您可以实现该类，并在回调方法中加入自己的处理逻辑。设置参数时请将此callback提交给BakerSynthesizer实例。
+        </li> <li data-v-20267ce4="">
+          BakerMediaCallback：如果想直接使用SDK中的播放器来处理文本合成播放任务。您可以实现该类，此回调类中包含了播放器的各种状态回调，您可以在这些回调方法中实现自己的其他业务逻辑。设置参数时请将此callback提交给BakerSynthesizer实例。
+        </li> <li data-v-20267ce4="">BakerConstants：参数、错误码等常量类。</li></ul></section> <h3 data-v-20267ce4="">调用说明</h3> <section data-v-20267ce4=""><ul data-v-20267ce4=""><li data-v-20267ce4="">初始化BakerSynthesizer类，得到BakerSynthesizer的实例。</li> <li data-v-20267ce4="">
+          SDK中提供了2个回调类。如果想要自己处理合成返回的字节类型源数据，则可以定义BakerCallback实现类。如果想直接将合成文本数据交给SDK中的播放器处理，则可以定义BakerMediaCallback实现类。如果选择了定义BakerCallback实现类，SDK中不会执行播放器等一整套业务代码，不用担心由此带来的各类附加资源开销。
+        </li> <li data-v-20267ce4="">设置BakerSynthesizer合成参数，包括必填参数和非必填参数。</li> <li data-v-20267ce4="">调用BakerSynthesizer.start()方法开始与云端服务连接。</li> <li data-v-20267ce4="">
+          callback中的onPrepared()意义是合成的第一帧数据已取得。所以您可以在此回调方法中调用bakerSynthesizer.bakerPlay()开启播放任务。
+        </li> <li data-v-20267ce4="">在callback其他回调方法中按照您的业务需求实现对应逻辑。</li> <li data-v-20267ce4="">如果需要发起新的请求，可以重复第3-6步。</li> <li data-v-20267ce4="">
+          在业务完全处理完毕，或者页面关闭时，调用bakerSynthesizer.onDestroy();结束websocket服务，释放资源。
+        </li></ul> <p data-v-20267ce4="" style="margin: 30px 0px 10px;"><i data-v-20267ce4="" style="font-weight: 700; font-style: normal;">注意：</i>若使用SDK中播放器执行合成音频播放任务，有以下方法可调用。
+      </p> <ul data-v-20267ce4="" class="callback"><li data-v-20267ce4="">
+          bakerSynthesizer.bakerPlay()
+          播放音频，常在onPrepared()回调方法里调用此方法执行播放。
+        </li> <li data-v-20267ce4="">bakerSynthesizer.bakerPause() 暂停播放。</li> <li data-v-20267ce4="">bakerSynthesizer.bakerStop() 停止播放。</li> <li data-v-20267ce4="">
+          bakerSynthesizer.isPlaying()
+          当前播放状态，boolean型，true=正在播放中，false=暂停或停止播放。
+        </li> <li data-v-20267ce4="">bakerSynthesizer.getCurrentPosition() 当前播放进度。</li> <li data-v-20267ce4="">bakerSynthesizer.getDuration()文本合成音频的总长度。</li></ul></section> <h3 data-v-20267ce4="">参数说明</h3> <section data-v-20267ce4=""><p data-v-20267ce4="" style="margin: 20px 0px;">基本参数说明：</p> <div class="table-wrap"><table class="doc-table" data-v-20267ce4="" border="0" cellspacing="0" cellpadding="0"><thead data-v-20267ce4=""><tr data-v-20267ce4=""><th data-v-20267ce4="">参数</th> <th data-v-20267ce4="">参数名称</th> <th data-v-20267ce4="" style="white-space: nowrap;">是否必填</th> <th data-v-20267ce4="">说明</th></tr></thead> <tbody data-v-20267ce4=""><tr data-v-20267ce4=""><td data-v-20267ce4="">setText</td> <td data-v-20267ce4="">合成文本</td> <td data-v-20267ce4="">是</td> <td data-v-20267ce4="">设置要转为语音的合成文本</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">setBakerCallback</td> <td data-v-20267ce4="">数据回调方法</td> <td data-v-20267ce4="">是</td> <td data-v-20267ce4="">设置返回数据的callback</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">setTtsToken</td> <td data-v-20267ce4="">设置默认Token</td> <td data-v-20267ce4="">否</td> <td data-v-20267ce4="">私有化部署后，需要设置默认token值：default，以便不做token验证。</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">setUrl</td> <td data-v-20267ce4="">私有化服务器地址</td> <td data-v-20267ce4="">否</td> <td data-v-20267ce4="">设置私有化部署的服务器地址。</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">setUrl</td> <td data-v-20267ce4="">私有化服务器地址</td> <td data-v-20267ce4="">否</td> <td data-v-20267ce4="">设置私有化部署的服务器地址。</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">setVoice</td> <td data-v-20267ce4="">发音人</td> <td data-v-20267ce4="">否</td> <td data-v-20267ce4="">设置发音人声音名称，默认：Jiaojiao</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">setLanguage</td> <td data-v-20267ce4="">合并文本语言类型</td> <td data-v-20267ce4="">否</td> <td data-v-20267ce4="">
+              合成请求文本的语言 <br data-v-20267ce4="">
+              ZH(中文和中英混) <br data-v-20267ce4="">
+              ENG(纯英文，中文部分不会合成) <br data-v-20267ce4="">
+              CAT(粤语） <br data-v-20267ce4="">
+              SCH(四川话) <br data-v-20267ce4="">
+              TJH(天津话) <br data-v-20267ce4="">
+              TAI(台湾话) <br data-v-20267ce4="">
+              KR(韩语) <br data-v-20267ce4="">
+              BRA(巴葡语) <br data-v-20267ce4="">
+              JP(日语) <br data-v-20267ce4="">
+              ESP(西班牙西语)<br data-v-20267ce4="">
+              MEX(墨西哥西语)<br data-v-20267ce4="">
+              UYG(维吾尔语)<br data-v-20267ce4="">
+              默认：ZH
+            </td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">setSpeed</td> <td data-v-20267ce4="">语速</td> <td data-v-20267ce4="">否</td> <td data-v-20267ce4="">设置播放的语速，在0～9之间（支持浮点数），不传时默认为5</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">setVolume</td> <td data-v-20267ce4="">音量</td> <td data-v-20267ce4="">否</td> <td data-v-20267ce4="">设置语音的音量，在0～9之间（只支持整型值），不传时默认值为5</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">setPitch</td> <td data-v-20267ce4="">音调</td> <td data-v-20267ce4="">否</td> <td data-v-20267ce4="">设置语音的音调，在0～9之间，（支持浮点值），默认值为5</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">setAudioType</td> <td data-v-20267ce4="">返回数据文件格式</td> <td data-v-20267ce4="">否</td> <td data-v-20267ce4="">
+              音频种类：<br data-v-20267ce4="">
+              audiotype = 4，返回16K采样率的pcm格式，默认值<br data-v-20267ce4="">
+              audiotype = 5，返回8K采样率的pcm格式<br data-v-20267ce4=""></td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">spectrum</td> <td data-v-20267ce4="">高频频谱</td> <td data-v-20267ce4="">否</td> <td data-v-20267ce4="">
+              高频频谱：取值范围1~20； 默认值为1，不调整频谱；<br data-v-20267ce4="">
+              1代表不调整频谱；<br data-v-20267ce4="">
+              1以上的值代表高频能量增加幅度， 值越大声音的高频部分增强越多，听起来更亮和尖细<br data-v-20267ce4=""></td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">spectrum_8k</td> <td data-v-20267ce4="">低频部分频谱</td> <td data-v-20267ce4="">否</td> <td data-v-20267ce4="">
+              低频部分频谱：取值范围0~20；默认值为0，仅针对8K音频频谱的调整。 组合形式只有以下1种：<br data-v-20267ce4="">
+              audiotype=5&amp;spectrum_8k=xx
+            </td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">interval</td> <td data-v-20267ce4="">音子级别时间戳功能</td> <td data-v-20267ce4="">否</td> <td data-v-20267ce4="">
+              音子级别时间戳功能：<br data-v-20267ce4="">
+              0:关闭音子级别时间戳功能<br data-v-20267ce4="">
+              1:开启音子级别时间戳功能
+            </td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">enable_subtitles</td> <td data-v-20267ce4="">字级别时间戳功能</td> <td data-v-20267ce4="">否</td> <td data-v-20267ce4="">
+              字级别时间戳功能，同interval=”1”一起使用： <br data-v-20267ce4="">
+              0:关闭字级别时间戳功能 <br data-v-20267ce4="">
+              1:开启字级别时间戳功能 <br data-v-20267ce4="">
+              详细使用方法参考 <a data-v-20267ce4="" href="/specs/file/tts_api_time" class="">语音合成时间戳</a></td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">silence</td> <td data-v-20267ce4="">标点符号静音时长</td> <td data-v-20267ce4="">否</td> <td data-v-20267ce4="">
+              设置标点符号静音时长：<br data-v-20267ce4="">
+              0：默认值<br data-v-20267ce4="">
+              1：句中标点停顿较短，适合直播、配音解说等场景<br data-v-20267ce4="">
+              2：句中标点停顿较长，适合朗诵、教学等场景
+            </td></tr></tbody></table></div> <p data-v-20267ce4="" style="color: rgb(0, 101, 163); margin: 10px 0px;">
+        注意：如果调整了参数中的采样率或码率，记得注意(Demo中示例的)播放器的采样率也要同步调整。
+      </p></section> <h3 data-v-20267ce4="">回调类方法说明</h3> <section data-v-20267ce4=""><p data-v-20267ce4="" style="margin: 20px 0px;">BakerCallback 回调类方法说明：</p> <div class="table-wrap"><table class="doc-table" data-v-20267ce4="" border="0" cellspacing="0" cellpadding="0"><thead data-v-20267ce4=""><tr data-v-20267ce4=""><th data-v-20267ce4="">参数</th> <th data-v-20267ce4="">参数名称</th> <th data-v-20267ce4="">说明</th></tr></thead> <tbody data-v-20267ce4=""><tr data-v-20267ce4=""><td data-v-20267ce4="">onSynthesisStarted</td> <td data-v-20267ce4="">开始合成</td> <td data-v-20267ce4="">开始合成</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">onPrepared</td> <td data-v-20267ce4="">准备就绪</td> <td data-v-20267ce4="">第一帧数据返回时的回调，此时可以使用数据执行播放。</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">onBinaryReceived</td> <td data-v-20267ce4="">流式持续返回数据的接口回调</td> <td data-v-20267ce4="">
+              data 合成的音频数据。已使用base64加密，客户端需进行base64解密。
+              <br data-v-20267ce4="">audioType 音频类型，如audio/pcm。 <br data-v-20267ce4="">interval
+              音频interval信息，可能为空。 <br data-v-20267ce4="">endFlag
+              是否时最后一个数据块，false：否，true：是。<br data-v-20267ce4="">
+              interval_x<br data-v-20267ce4="">
+              interval-info-x: L=1&amp;T=1,L=1&amp;T=2,L=1&amp;T=1,L=1&amp;T=2,L=1&amp;T=5<br data-v-20267ce4="">
+              L表示语言种类，目前支持1：纯中文，5：中英混<br data-v-20267ce4="">
+              T表示interval类型，0：默认值，1：声母，2：韵母，3：儿化韵母，4：英文，5：#3静音<br data-v-20267ce4=""></td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">onSynthesisCompleted</td> <td data-v-20267ce4="">合成完成</td> <td data-v-20267ce4="">
+              当onBinaryReceived方法中endFlag参数=true，即最后一条消息返回后，会回调此方法。
+            </td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">onTaskFailed</td> <td data-v-20267ce4="">合成失败</td> <td data-v-20267ce4="">
+              返回msg内容格式为：{"code":40000,"message":"…","trace_id":"
+              1572234229176271"} trace_id是引擎内部合成任务ID。
+            </td></tr></tbody></table></div> <p data-v-20267ce4="" style="margin-top: 15px;">返回结果参考示例：</p> <pre class="doc-sample doc-code" data-v-20267ce4="">{
+      "code":90000,
+      "message":"Success",
+      "trace_id":" 1572234229176271"
+      "data":{
+        "idx":1,
+        "audio_data":" P8EAPz/AQAGAPf/8v/n/wkAAwD//wsA7f/q/x",
+        "audio_type":"audio/pcm",
+        "interval":" h=0.083746&amp;e=0.175807",
+        "interval_x":"L=1&amp;T=1,L=1&amp;T=2"
+        "end_flag":0
+      }
+}<button class="copyClass">copy</button></pre> <p data-v-20267ce4="" style="margin: 20px 0px;">BakerMediaCallback回调类方法说明</p> <div class="table-wrap"><table class="doc-table" data-v-20267ce4="" border="0" cellspacing="0" cellpadding="0"><thead data-v-20267ce4=""><tr data-v-20267ce4=""><th data-v-20267ce4="">参数</th> <th data-v-20267ce4="">参数名称</th> <th data-v-20267ce4="">说明</th></tr></thead> <tbody data-v-20267ce4=""><tr data-v-20267ce4=""><td data-v-20267ce4="">onPrepared</td> <td data-v-20267ce4="">准备就绪</td> <td data-v-20267ce4="">第一帧数据返回时的回调，此时可以使用数据执行播放。</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">onCacheAvailable</td> <td data-v-20267ce4="">数据缓存进度回调</td> <td data-v-20267ce4="">percentsAvailable 已缓存的百分比，整数型，取值范围0-100</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">playing</td> <td data-v-20267ce4="">开始播放回调</td> <td data-v-20267ce4="">播放状态切换：开始播放时的回调。</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">noPlay</td> <td data-v-20267ce4="">暂停或停止播放回调</td> <td data-v-20267ce4="">播放状态切换：暂停或停止播放时的回调。</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">onCompletion</td> <td data-v-20267ce4="">播放结束</td> <td data-v-20267ce4="">当数据播放完成时的回调。</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">onError</td> <td data-v-20267ce4="">各类失败时的回调</td> <td data-v-20267ce4="">
+              返回msg内容格式为：{"code":40000,"message":"…","trace_id":"
+              1572234229176271"} trace_id是引擎内部合成任务ID。
+            </td></tr></tbody></table></div></section> <h3 data-v-20267ce4="">错误码</h3> <section data-v-20267ce4=""><p data-v-20267ce4="" style="color: rgb(0, 101, 163); margin: 10px 0px;">
+        若使用2.2.3以前版本的jar包，无需升级校正为最新的错误码。使用2.2.3及以后的版本，需要参考以下最新版错误码执行。
+      </p> <p data-v-20267ce4="" style="margin: 20px 0px;">失败时返回的msg格式:</p> <div class="table-wrap"><table class="doc-table" data-v-20267ce4="" border="0" cellspacing="0" cellpadding="0"><thead data-v-20267ce4=""><tr data-v-20267ce4=""><th data-v-20267ce4="">参数名称</th> <th data-v-20267ce4="">类型</th> <th data-v-20267ce4="">描述</th></tr></thead> <tbody data-v-20267ce4=""><tr data-v-20267ce4=""><td data-v-20267ce4="">code</td> <td data-v-20267ce4="">int</td> <td data-v-20267ce4="">错误码10xxxxx表示服务端相关错误，20xxxxx、30xxxxx表示SDK相关错误</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">message</td> <td data-v-20267ce4="">string</td> <td data-v-20267ce4="">错误描述</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">trace_id</td> <td data-v-20267ce4="">string</td> <td data-v-20267ce4="">引擎内部合成任务id</td></tr></tbody></table></div> <p data-v-20267ce4="" style="margin: 20px 0px;">对应code值:</p> <div class="table-wrap"><table class="doc-table" data-v-20267ce4="" border="0" cellspacing="0" cellpadding="0"><thead data-v-20267ce4=""><tr data-v-20267ce4=""><th data-v-20267ce4="">错误码</th> <th data-v-20267ce4="">含义</th></tr></thead> <tbody data-v-20267ce4=""><tr data-v-20267ce4=""><td data-v-20267ce4="">11180001</td> <td data-v-20267ce4="">缺少ClientId</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">11180002</td> <td data-v-20267ce4="">缺少Secret</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">11180003</td> <td data-v-20267ce4="">token获取失败</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">11180004</td> <td data-v-20267ce4="">合成文本内容为空</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">11180005</td> <td data-v-20267ce4="">发音人参数错误</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">11180006</td> <td data-v-20267ce4="">返回结果解析错误</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">11180007</td> <td data-v-20267ce4="">合成失败，失败信息相关错误</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">11180008</td> <td data-v-20267ce4="">播放器相关错误</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">11180009</td> <td data-v-20267ce4="">合成文本内容转码错误</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">11180010</td> <td data-v-20267ce4="">返回结果解析错误;返回null</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">10001</td> <td data-v-20267ce4="">access_token参数获取失败或未传输</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">10002</td> <td data-v-20267ce4="">domain参数值错误</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">10003</td> <td data-v-20267ce4="">language参数错误</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">10004</td> <td data-v-20267ce4="">voice_name参数错误</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">10005</td> <td data-v-20267ce4="">audiotype参数错误</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">10006</td> <td data-v-20267ce4="">rate参数错误</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">10007</td> <td data-v-20267ce4="">idx错误</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">10008</td> <td data-v-20267ce4="">single错误</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">10009</td> <td data-v-20267ce4="">text参数错误</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">10010</td> <td data-v-20267ce4="">文本太长</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">20000</td> <td data-v-20267ce4="">获取资源错误</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">20001</td> <td data-v-20267ce4="">断句失败</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">20002</td> <td data-v-20267ce4="">分段数错误</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">20003</td> <td data-v-20267ce4="">分段后的文本长度错误</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">20004</td> <td data-v-20267ce4="">获取引擎链接错误</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">20005</td> <td data-v-20267ce4="">RPC链接失败错误</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">20006</td> <td data-v-20267ce4="">引擎内部错误</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">20007</td> <td data-v-20267ce4="">操作redis错误</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">20008</td> <td data-v-20267ce4="">音频编码错误</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">30000</td> <td data-v-20267ce4="">鉴权错误（access_token值不正确或已经失效）</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">30001</td> <td data-v-20267ce4="">并发错误</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">30002</td> <td data-v-20267ce4="">内部配置错误</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">30003</td> <td data-v-20267ce4="">json串解析错误</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">30004</td> <td data-v-20267ce4="">获取url失败</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">30005</td> <td data-v-20267ce4="">获取客户IP地址失败</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">30006</td> <td data-v-20267ce4="">任务队列错误</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">40001</td> <td data-v-20267ce4="">请求不是json结构</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">40002</td> <td data-v-20267ce4="">缺少必须字段</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">40003</td> <td data-v-20267ce4="">版本错误</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">40004</td> <td data-v-20267ce4="">字段值类型错误</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">40005</td> <td data-v-20267ce4="">参数错误</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">50001</td> <td data-v-20267ce4="">处理超时</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">50002</td> <td data-v-20267ce4="">内部rpc调用失败</td></tr> <tr data-v-20267ce4=""><td data-v-20267ce4="">50004</td> <td data-v-20267ce4="">其他内部错误</td></tr></tbody></table></div></section></div>

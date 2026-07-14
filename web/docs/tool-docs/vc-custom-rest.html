@@ -1,96 +1,291 @@
-<h1>定制模型 RESTful API</h1>
-<p class="doc-lead">定制模型 RESTful API 用于提交声音复刻训练任务。接口接收多段复刻音频和回调地址，初步校验成功后返回 <code>modelId</code>，并异步完成模型训练。</p>
+<div data-v-46dc787a=""><h2 data-v-46dc787a="">定制模型RESTful API</h2> <h3 data-v-46dc787a="">功能介绍</h3> <section data-v-46dc787a=""><p data-v-46dc787a="">
+        声音复刻API接收到用户上传的音频列表（须由同一人录制且满足总有效时长要求）后，先对音频数据进行预校验，通过后即返回与训练相关的modelId。预校验成功后自动开启与modelId关联的训练任务。需要注意的是，用户调用该接口上传音频的同时需要额外提供一个回调url，当模型训练完成后，通过事先提供的回调url通知模型训练结果（成功或失败）。
+        训练结束且成功后用户就可使用modelId直接调用语音合成接口合成音频。
+      </p></section> <h3 data-v-46dc787a="">参数设置</h3> <section data-v-46dc787a=""><ul data-v-46dc787a=""><li data-v-46dc787a="">支持音频文件的编码格式及文件名的后缀: wav，pcm</li> <li data-v-46dc787a="">支持音频文件的采样率: 16000Hz</li> <li data-v-46dc787a="">支持音频文件的位深：16bits</li> <li data-v-46dc787a="">支持的语言:中文</li> <li data-v-46dc787a="">音频有效时长：不小于3分钟</li> <li data-v-46dc787a="">音频的音质、音量均对模型效果有直接影响，请保证音频的录音环境相对安静、音频人声音量不能太小。</li></ul></section> <h3 data-v-46dc787a="">使用方法</h3> <section data-v-46dc787a=""><p data-v-46dc787a="">1. 创建账号和应用，详见<a data-v-46dc787a="" href="https://www.data-baker.com/specs/file/guide">平台新手指引</a>，通过<a data-v-46dc787a="" href="https://ai.data-baker.com/">标贝开放平台</a>/应用/服务获取client_id，client_secret</p> <p data-v-46dc787a="">2. 发送请求获取access_token，详见<a data-v-46dc787a="" href="https://www.data-baker.com/specs/file/access_token">获取访问令牌</a></p> <p data-v-46dc787a="">3. 调用定制模型接口，具体参数详见<a data-v-46dc787a="" href="/specs/file/reprint_api_restful#reprint-word1">请求说明</a>。</p> <p data-v-46dc787a="">4. 接收模型ID，具体参数详见<a data-v-46dc787a="" href="/specs/file/reprint_api_restful#reprint-word2">响应结果</a>。</p></section> <h3 data-v-46dc787a="">服务地址</h3> <section data-v-46dc787a=""><div class="table-wrap"><table class="doc-table" data-v-46dc787a="" border="0" cellspacing="0" cellpadding="0"><thead data-v-46dc787a=""><tr data-v-46dc787a=""><th data-v-46dc787a="">访问类型</th> <th data-v-46dc787a="">说明</th> <th data-v-46dc787a="">URL</th> <th data-v-46dc787a="">Host</th></tr></thead> <tbody data-v-46dc787a=""><tr data-v-46dc787a=""><td data-v-46dc787a="">外网访问</td> <td data-v-46dc787a="">提交复刻任务接口，只支持POST调用</td> <td data-v-46dc787a="">https://openapi.data-baker.com/gramophone/v1/submit</td> <td data-v-46dc787a="">openapi.data-baker.com</td></tr></tbody></table></div></section> <h3 data-v-46dc787a="">交互流程</h3> <section data-v-46dc787a=""><img data-v-46dc787a="" src="https://databaker-gw-static.oss-accelerate.aliyuncs.com/assets/images/specs/document19.png" alt="" style="display: block; width: 600px; height: 545px;"></section> <h3 data-v-46dc787a="" id="reprint-word1">请求说明</h3> <section data-v-46dc787a=""><div class="table-wrap"><table class="doc-table" data-v-46dc787a="" border="0" cellspacing="0" cellpadding="0"><thead data-v-46dc787a=""><tr data-v-46dc787a=""><th data-v-46dc787a="">参数名称</th> <th data-v-46dc787a="">参数格式</th> <th data-v-46dc787a="" style="white-space: nowrap;">是否必填</th> <th data-v-46dc787a="">说明</th></tr></thead> <tbody data-v-46dc787a=""><tr data-v-46dc787a=""><td data-v-46dc787a="">access_token</td> <td data-v-46dc787a="">String</td> <td data-v-46dc787a="">是</td> <td data-v-46dc787a="">
+              通过client_id，client_secret调用授权服务获得见<a data-v-46dc787a="" href="/specs/file/access_token" class="">获取访问令牌
+              </a></td></tr> <tr data-v-46dc787a=""><td data-v-46dc787a="">originFiles</td> <td data-v-46dc787a="">MultipartFile[]</td> <td data-v-46dc787a="">是</td> <td data-v-46dc787a="">
+              音频列表，需满足一定条件：<br data-v-46dc787a="">
+              1.格式为pcm或wav<br data-v-46dc787a="">
+              2. 采样率为16000hz,位深为16bit，单声道<br data-v-46dc787a="">
+              3. 有效时长最好不小于3分钟（接口实际是以识别出的字数作为判定标准）
+            </td></tr> <tr data-v-46dc787a=""><td data-v-46dc787a="">mobile</td> <td data-v-46dc787a="">String</td> <td data-v-46dc787a="">否</td> <td data-v-46dc787a="">手机号，用于接收短信提醒</td></tr> <tr data-v-46dc787a=""><td data-v-46dc787a="">notifyUrl</td> <td data-v-46dc787a="">String</td> <td data-v-46dc787a="">是</td> <td data-v-46dc787a="">
+              该地址用于接收合成结果，该地址必须为外网可访问的url，不能携带参数。
+            </td></tr></tbody></table></div></section> <h3 data-v-46dc787a="">请求示例</h3> <section data-v-46dc787a=""><pre class="doc-sample doc-code" data-v-46dc787a="">curl -L -X POST 'https://openapi.data-baker.com/gramophone/v1/submit' \
+-F 'access_token=64c16f14-ac37-4dd8-9d56-a82e32b2d8d1' \
+-F 'notifyUrl=https://openapi.data-baker.com/gramophone/v1/api/notify' \
+-F 'originFiles=@/C:/Users/xxx/Desktop/0baf0cb3fdc14a049c9f615c69c1c50b/origin/1597222394369.wav' \
+-F 'originFiles=@/C:/Users/xxx/Desktop/0baf0cb3fdc14a049c9f615c69c1c50b/origin/1597222451867.wav' \
+-F 'originFiles=@/C:/Users/xxx/Desktop/0baf0cb3fdc14a049c9f615c69c1c50b/origin/1597222475643.wav' \
+-F 'originFiles=@/C:/Users/xxx/Desktop/0baf0cb3fdc14a049c9f615c69c1c50b/origin/1597222497181.wav' \<button class="copyClass">copy</button></pre></section> <h3 data-v-46dc787a="">Python示例代码</h3> <section data-v-46dc787a=""><p data-v-46dc787a="">代码地址：<a data-v-46dc787a="" href="https://github.com/data-baker/BakerSpeechApiDemo/tree/main/voice_clone/create_custom_model/Python" target="_blank">Github</a></p> <p data-v-46dc787a="">Python3示例如下：</p> <pre class="doc-sample doc-code" data-v-46dc787a="">import requests
+import json
+import argparse
 
-<h2 id="vc-custom-rest-intro">功能介绍</h2>
-<ul>
-<li>支持上传 <code>wav</code>、<code>pcm</code> 音频文件。</li>
-<li>音频采样率要求 <code>16000Hz</code>，位深 <code>16bits</code>，单声道。</li>
-<li>支持中文声音复刻训练。</li>
-<li>有效音频时长建议不小于 <code>3</code> 分钟；实际会结合识别出的字数进行判定。</li>
-<li>训练结果通过 <code>notifyUrl</code> 异步回调返回。</li>
-</ul>
 
-<h2 id="vc-custom-rest-endpoint">服务地址</h2>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>访问类型</th><th>说明</th><th>URL</th><th>Host</th></tr>
-<tr><td>外网访问</td><td>提交复刻任务接口，仅支持 <code>POST</code></td><td><code>https://openapi.data-baker.com/gramophone/v1/submit</code></td><td><code>openapi.data-baker.com</code></td></tr>
-</table>
-</div>
+# 获取access_token用于鉴权
+def get_access_token(client_secret, client_id):
+    grant_type = "client_credentials"
+    url = "https://openapi.data-baker.com/oauth/2.0/token?grant_type={}&amp;client_secret={}&amp;client_id={}".format(grant_type, client_secret, client_id)
+    response = requests.post(url)
+    access_token = json.loads(response.text).get('access_token')
 
-<h2 id="vc-custom-rest-params">请求参数</h2>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>参数名称</th><th>类型</th><th>是否必填</th><th>说明</th></tr>
-<tr><td><code>access_token</code></td><td>string</td><td>是</td><td>通过 <code>client_id</code>、<code>client_secret</code> 调用授权服务获得。</td></tr>
-<tr><td><code>originFiles</code></td><td>MultipartFile[]</td><td>是</td><td>音频列表。格式为 <code>pcm</code> 或 <code>wav</code>，采样率 <code>16000Hz</code>，位深 <code>16bits</code>，单声道。</td></tr>
-<tr><td><code>notifyUrl</code></td><td>string</td><td>是</td><td>用于接收训练结果的回调地址，必须外网可访问，不能携带参数。</td></tr>
-<tr><td><code>mobile</code></td><td>string</td><td>否</td><td>手机号，用于接收短信提醒。正式项目中可按业务需要决定是否传入。</td></tr>
-</table>
-</div>
+    return access_token
 
-<h2 id="vc-custom-rest-example">请求示例</h2>
-<pre><code class="language-python">import json
-import requests
 
-url = "https://openapi.data-baker.com/gramophone/v1/submit"
-data = {
-    "access_token": "ACCESS_TOKEN",
-    "notifyUrl": "https://example.com/voice/callback"
+# 创建模型
+def create_model(data, files):
+    url = "https://openapi.data-baker.com/gramophone/v1/submit"
+    response = requests.post(url, data=data, files=files)
+    code = json.loads(response.text).get("code")
+    if code != "20000":
+        raise Exception(response.text)
+    else:
+        model = json.loads(response.text).get("data")["modelId"]
+        print(model)
+
+
+# 获取命令行输入参数
+def get_args():
+    parser = argparse.ArgumentParser(description='ASR')
+    parser.add_argument('-client_secret', type=str, required=True)
+    parser.add_argument('-client_id', type=str, required=True)
+    parser.add_argument('-file_path', type=str, required=True)
+    parser.add_argument('-notifyUrl', type=str, required=True)
+    parser.add_argument('--mobile', type=str)
+
+    args = parser.parse_args()
+
+    return args
+
+
+if __name__ == '__main__':
+    try:
+        args = get_args()
+
+        # 获取access_token
+        client_secret = args.client_secret
+        client_id = args.client_id
+        access_token = get_access_token(client_secret, client_id)
+
+        files = [
+            ('originFiles', (
+            '101.wav', open('101.wav', 'rb'),
+            'audio/wav')),
+            ('originFiles', (
+            '201.wav', open('201.wav', 'rb'),
+            'audio/wav')),
+            ('originFiles', (
+            '301.wav', open('301.wav', 'rb'),
+            'audio/wav')),
+            ('originFiles', (
+            '401.wav', open('401.wav', 'rb'),
+            'audio/wav'))
+        ]
+        # 读取参数
+        notifyUrl = args.notifyUrl
+        mobile = args.mobile
+        data = {'access_token': access_token, 'notifyUrl': notifyUrl, 'mobile': mobile}
+        create_model(data, files)
+        print("task finished successfully")
+    except Exception as e:
+        print(e)<button class="copyClass">copy</button></pre> <p data-v-46dc787a="">命令行执行</p> <pre class="doc-sample doc-code" data-v-46dc787a="">python audio_file_recognition.py -client_secret=您的client_secret -client_id=您的client_id -notifyUrl=您的回调地址<button class="copyClass">copy</button></pre></section> <h3 data-v-46dc787a="">JAVA示例代码</h3> <section data-v-46dc787a=""><pre class="doc-sample doc-code" data-v-46dc787a="">package com.databaker.web.tts;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import okhttp3.*;
+import org.apache.commons.lang3.StringUtils;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+
+/**
+ * 声音复刻RESTFUL API接口调用示例
+ * 附：声音复刻RESTFUL API文档 【https://www.data-baker.com/specs/file/reprint_api_restful】
+ *
+ * 注意：仅作为demo示例,失败重试、token过期重新获取、日志打印等优化工作需要开发者自行完成
+ *
+ * @author data-baker
+ */
+public class TtsSoundReproductionApiDemo {
+
+    /**
+     * 授权：需要在开放平台获取【https://ai.data-baker.com/】
+     */
+    private static final String clientId = "YOUR_CLIENT_ID";
+    private static final String clientSecret = "YOUR_CLIENT_SECRET";
+
+    /**
+     * 获取token的地址信息
+     */
+    public static String tokenUrl = "https://openapi.data-baker.com/oauth/2.0/token?grant_type=client_credentials&amp;client_secret=%s&amp;client_id=%s";
+    /**
+     * 声音复刻API地址
+     */
+    public static String soundReproductionUrl = "https://openapi.data-baker.com/gramophone/v1/submit";
+
+    /**
+     * 音频列表，需满足一定条件：
+     * 1.格式为pcm或wav
+     * 2.采样率为16000hz,位深为16bit，单声道
+     * 3.有效时长最好不小于3分钟（接口实际是以识别出的字数作为判定标准）
+     */
+    public static List&lt;File&gt; originFiles = new ArrayList&lt;&gt;();
+
+    public static void main(String[] args) {
+        String accessToken = getAccessToken();
+        if (StringUtils.isNotEmpty(accessToken)) {
+            doSoundReproduction(accessToken, originFiles, "mobile", "https://openapi.data-baker.com/gramophone/v1/api/notify");
+        }
+    }
+
+    /**
+     * 提交复刻任务
+     *
+     * 开发者需开发一个回调接口，接口地址作为参数notifyUrl，用来接收模型训练的结果,具体写法可参考接口文档【https://www.data-baker.com/specs/file/reprint_api_restful】中的回调部分
+     */
+    private static void doSoundReproduction(String accessToken, List&lt;File&gt; originFiles, String mobile, String notifyUrl) {
+        //创建连接
+        OkHttpClient client = new OkHttpClient();
+        //构建requestBody,传入参数
+        MultipartBody.Builder requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM);
+        for (File file : originFiles) {
+            RequestBody body = RequestBody.create(file, MediaType.parse("multipart/form-data"));
+            String filename = file.getName();
+            requestBody.addFormDataPart("originFiles", filename, body);
+        }
+        requestBody.addFormDataPart("access_token", accessToken);
+        requestBody.addFormDataPart("mobile", mobile);
+        requestBody.addFormDataPart("notifyUrl", notifyUrl);
+
+        //构造request
+        Request request = new Request.Builder()
+                .url(soundReproductionUrl)
+                .method("POST", requestBody.build())
+                .build();
+        try {
+            Response response = client.newCall(request).execute();
+            if (response.isSuccessful()) {
+                System.out.println("调用成功，返回结果：" + response.body().string());
+            } else {
+                System.out.println("调用失败，返回结果：" + response.body().string());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static String getAccessToken() {
+        String accessToken = "";
+        OkHttpClient client = new OkHttpClient();
+        //request 默认是get请求
+        String url = String.format(tokenUrl, clientSecret, clientId);
+        Request request = new Request.Builder().url(url).build();
+        JSONObject jsonObject;
+        try {
+            Response response = client.newCall(request).execute();
+            if (response.isSuccessful()) {
+                //解析
+                String resultJson = response.body().string();
+                jsonObject = JSON.parseObject(resultJson);
+                accessToken = jsonObject.getString("access_token");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return accessToken;
+    }
 }
-files = [
-    ("originFiles", ("101.wav", open("101.wav", "rb"), "audio/wav")),
-    ("originFiles", ("201.wav", open("201.wav", "rb"), "audio/wav")),
-    ("originFiles", ("301.wav", open("301.wav", "rb"), "audio/wav"))
-]
-
-response = requests.post(url, data=data, files=files)
-print(json.dumps(response.json(), ensure_ascii=False, indent=2))</code></pre>
-<p>示例代码参考：<a href="https://github.com/data-baker/BakerSpeechApiDemo/tree/main/voice_clone/create_custom_model/Python" target="_blank" rel="noopener">create_custom_model/Python</a></p>
-
-<h2 id="vc-custom-rest-response">响应结果</h2>
-<p>接口收到请求后会先进行参数校验并立即返回。校验成功后进入异步训练和回调流程；校验失败时返回错误码并放弃本次训练。</p>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>字段</th><th>类型</th><th>说明</th></tr>
-<tr><td><code>code</code></td><td>string</td><td>请求结果码，<code>20000</code> 表示请求成功。</td></tr>
-<tr><td><code>data.modelId</code></td><td>string</td><td>声音模型 ID。训练成功后可作为 <code>voice_name</code> 调用语音合成。</td></tr>
-<tr><td><code>message</code></td><td>string</td><td>请求结果描述。</td></tr>
-</table>
-</div>
-
-<h2 id="vc-custom-rest-callback">回调说明</h2>
-<p>训练进度或结果会通过 <code>notifyUrl</code> 回调。请求体中包含 <code>modelId</code>、<code>modelStatus</code> 和 <code>reason</code> 字段；<code>modelStatus=success</code> 表示训练成功，<code>modelStatus=fail</code> 表示训练失败。</p>
-<p>建议回调服务收到请求后提取业务所需字段，并在响应体中返回固定字符串 <code>SUCCESSOK</code>。旧站文档标注：回调失败时会每隔 5 秒重试一次，最多重试 4 次，该策略可能调整。</p>
-<pre><code class="language-python">from flask import Flask, request
+<button class="copyClass">copy</button></pre></section> <h3 data-v-46dc787a="" id="reprint-word2">响应结果</h3> <section data-v-46dc787a=""><p data-v-46dc787a="" style="margin: 20px 0px;">
+        正确结果示例：modelId可以唯一标志一个模型，通过notifyUrl回调推送合成结果时，会同时返回这个modelId和训练的结果及原因。如果训练成功，可以使用该modelId作为voice_name进一步进行tts功能的调用（参考：
+        <a data-v-46dc787a="" href="/specs/file/tts_api_restful" class="" target="_blank">
+          https://www.data-baker.com/specs/file/tts_api_restful</a>）。
+      </p> <pre class="doc-sample doc-code" data-v-46dc787a="">{
+  "code": 20000,
+  "message": "成功",
+  "data": {
+    "modelId": "714bef4b24****************8e68ballpx3"
+  }
+}<button class="copyClass">copy</button></pre> <p data-v-46dc787a="" style="margin: 20px 0px;">错误结果示例</p> <pre class="doc-sample doc-code" data-v-46dc787a="">{
+  "code": 30000,
+  "message": "鉴权错误（access_token值不正确或已经失效）",
+  "data": null
+}<button class="copyClass">copy</button></pre></section> <h3 data-v-46dc787a="">回调说明</h3> <section data-v-46dc787a=""><ul data-v-46dc787a=""><li data-v-46dc787a="">
+          声音复刻接口收到请求后，首先对请求参数进行初步校验，并马上返回。如果成功，返回的结果“code”是0，会同时返回此次模型对应的modelId，然后进入异步训练和回调逻辑；如果校验失败，返回的错误码提示错误，丢弃当前音频数据放弃训练。
+        </li> <li data-v-46dc787a=""><p data-v-46dc787a="">
+            请求的body中会包含modelId、modelStatus和reason字段。modelStatus =
+            “success”表示成功，modelStatus =
+            “fail”表示失败，reason说明具体原因。回调的请求方式示例如下
+          </p> <pre class="doc-sample doc-code" data-v-46dc787a="">curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{
+  "modelStatus": "fail",
+  "modelId": "714bef4b24****************8e68ballpx3",
+  "reason":"音频有效时长不足（识别出的字数不足500字）"
+}' 'https://openapi.data-baker.com/gramophone/v1/api/notify'<button class="copyClass">copy</button></pre></li> <li data-v-46dc787a=""><p data-v-46dc787a="">
+            建议处理方式：收到回调请求后，提取需要的信息，并在body中返回固定字符串
+          </p> <pre class="doc-sample doc-code" data-v-46dc787a="">&lt;xml&gt;&lt;return_code&gt;SUCCESS&lt;/return_code&gt;&lt;return_msg&gt;OK&lt;/return_msg&gt;&lt;/xml&gt;<button class="copyClass">copy</button></pre></li> <li data-v-46dc787a="">
+          回调如果不成功，目前每隔5秒重试一次，重试4次（该策略可能会有变动）
+        </li></ul></section> <h3 data-v-46dc787a="">Python回调示例代码</h3> <section data-v-46dc787a=""><pre class="doc-sample doc-code" data-v-46dc787a="">from flask import Flask, request
+import json
 
 app = Flask(__name__)
 
-@app.route("/voice/callback", methods=["POST"])
-def callback():
-    payload = request.get_json(force=True)
-    model_id = payload.get("modelId")
-    status = payload.get("modelStatus")
-    reason = payload.get("reason")
-    print(model_id, status, reason)
-    return "SUCCESSOK"</code></pre>
 
-<h2 id="vc-custom-rest-errors">错误码</h2>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>错误码</th><th>含义</th><th>处理建议</th></tr>
-<tr><td><code>20000</code></td><td>请求成功</td><td>保存返回的 <code>modelId</code> 并等待回调。</td></tr>
-<tr><td><code>30000</code></td><td>鉴权错误，<code>access_token</code> 不正确或已失效</td><td>重新获取 Token。</td></tr>
-<tr><td><code>30008</code></td><td>授权禁用</td><td>检查服务授权。</td></tr>
-<tr><td><code>30009</code></td><td>授权到期</td><td>续期或重新开通服务。</td></tr>
-<tr><td><code>30010</code></td><td>调用次数超过限制</td><td>检查用量和配额。</td></tr>
-<tr><td><code>30013</code></td><td>授权不支持声音复刻</td><td>确认应用已开通声音复刻能力。</td></tr>
-<tr><td><code>40000</code></td><td>参数获取失败或未传输</td><td>检查必填参数。</td></tr>
-<tr><td><code>40002</code></td><td>提交次数已达到最大限制</td><td>减少重复提交或联系服务人员。</td></tr>
-<tr><td><code>40003</code></td><td>接口请在有效期内使用</td><td>检查接口有效期。</td></tr>
-<tr><td><code>40006</code></td><td>文件大小或音频时长不符合要求</td><td>检查音频格式、大小和有效时长。</td></tr>
-<tr><td><code>50000</code></td><td>系统内部错误</td><td>稍后重试或保留请求信息排查。</td></tr>
-<tr><td><code>50001</code></td><td>Redis 操作错误</td><td>稍后重试。</td></tr>
-<tr><td><code>50002</code></td><td>引擎下载失败</td><td>稍后重试或联系服务人员。</td></tr>
-</table>
-</div>
+@app.route("/", methods=['GET', 'POST'])
+def get_audio():
+    data = str(json.loads(request.get_data()))
+    with open('clong.log', 'w') as f:
+        f.write(data)
+
+    return "finished"<button class="copyClass">copy</button></pre></section> <h3 data-v-46dc787a="">JAVA回调示例代码</h3> <section data-v-46dc787a=""><pre class="doc-sample doc-code" data-v-46dc787a="">@ApiOperation(value = "测试用回调接口", notes = "该链接由参数notifyUrl设置，如果链接无法访问，将无法接收到回调的push信息。")
+@PostMapping("/notify")
+public void synthesisNotify(HttpServletRequest request, HttpServletResponse response) {
+    String resXml = "";
+    InputStream inStream;
+    try {
+        inStream = request.getInputStream();
+        ByteArrayOutputStream outSteam = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int len;
+        while ((len = inStream.read(buffer)) != -1) {
+            outSteam.write(buffer, 0, len);
+        }
+        // 获取声音复刻api调用notifyUrl的返回信息
+        String result = new String(outSteam.toByteArray(), "utf-8");
+        log.info("dataBaker:声音复刻api返回结果 ----result---- =" + result);
+        // 关闭流
+        outSteam.close();
+        inStream.close();
+        // String转换为json对象，然后业务处理
+        JSONObject jsonObject = JSON.parseObject(result);
+        //该参数表示模型id
+        String modelId = jsonObject == null ? "" : jsonObject.getString("modelId");
+        //该参数表示模型当前状态：可能的值为success/fail, 其中,success=训练成功 fail=训练失败
+        String modelStatus = jsonObject == null ? "" : jsonObject.getString("modelStatus");
+        //该参数表示原因（文案可能会有变动），成功时为空字符串，失败时为失败原因说明
+        String reason = jsonObject == null ? "" : jsonObject.getString("reason");
+        //具体业务处理，例如尝试tts调用等（可先返回结果，然后异步去完成业务逻辑）
+        //todo
+        //根据情况，向结果中赋值：正常情况下，选择下面的resSuccess;如果选择resFail,将会视为推送失败，标贝服务端将重新推送一次相同的内容
+        //     * 返回成功xml
+        //     */
+        //    String resSuccess = "&lt;xml&gt;&lt;return_code&gt;SUCCESS&lt;/return_code&gt;&lt;return_msg&gt;OK&lt;/return_msg&gt;&lt;/xml&gt;";
+        //    /**
+        //     * 返回失败xml
+        //     */
+        //    String resFail = "&lt;xml&gt;&lt;return_code&gt;FAIL&lt;/return_code&gt;&lt;return_msg&gt;报文为空&lt;/return_msg&gt;&lt;/xml&gt;";resXml = Constant.resSuccess;
+        //记录日志
+        log.info("dataBaker:声音复刻api回调返回模型  {}  的状态为：---&gt;{}", modelId , modelStatus);
+        } catch (Exception e) {
+            log.error("dataBaker:声音复刻api回调异常：", e);
+        } finally {
+            try {
+                // 处理业务完毕
+                BufferedOutputStream out = new BufferedOutputStream(response.getOutputStream());
+                out.write(resXml.getBytes());
+                out.flush();
+                out.close();
+            } catch (IOException e) {
+                log.error("dataBaker:声音复刻api回调异常:out：", e);
+            }
+        }
+    }<button class="copyClass">copy</button></pre></section> <h3 data-v-46dc787a="">错误码</h3> <section data-v-46dc787a=""><div class="table-wrap"><table class="doc-table" data-v-46dc787a="" border="0" cellspacing="0" cellpadding="0"><thead data-v-46dc787a=""><tr data-v-46dc787a=""><th data-v-46dc787a="">错误码</th> <th data-v-46dc787a="">含义</th> <th data-v-46dc787a=""></th></tr></thead> <tbody data-v-46dc787a=""><tr data-v-46dc787a=""><td data-v-46dc787a="">20000</td> <td data-v-46dc787a="">请求成功</td> <td data-v-46dc787a=""></td></tr> <tr data-v-46dc787a=""><td data-v-46dc787a="">30000</td> <td data-v-46dc787a="">鉴权错误（access_token值不正确或已经失效）</td> <td data-v-46dc787a="" rowspan="5">授权相关错误（鉴权未通过、qps超限、授权到期等）</td></tr> <tr data-v-46dc787a=""><td data-v-46dc787a="">30008</td> <td data-v-46dc787a="">授权禁用</td></tr> <tr data-v-46dc787a=""><td data-v-46dc787a="">30009</td> <td data-v-46dc787a="">授权到期</td></tr> <tr data-v-46dc787a=""><td data-v-46dc787a="">30010</td> <td data-v-46dc787a="">调用次数超过限制</td></tr> <tr data-v-46dc787a=""><td data-v-46dc787a="">30013</td> <td data-v-46dc787a="">授权不支持声音复刻</td></tr> <tr data-v-46dc787a=""><td data-v-46dc787a="">40000</td> <td data-v-46dc787a="">参数获取失败或未传输</td> <td data-v-46dc787a="" rowspan="4">客户端参数错误</td></tr> <tr data-v-46dc787a=""><td data-v-46dc787a="">40002</td> <td data-v-46dc787a="">提交次数已达到最大限制</td></tr> <tr data-v-46dc787a=""><td data-v-46dc787a="">40003</td> <td data-v-46dc787a="">接口请在有效期内使用</td></tr> <tr data-v-46dc787a=""><td data-v-46dc787a="">40006</td> <td data-v-46dc787a="">文件大小或音频时长不符合要求</td></tr> <tr data-v-46dc787a=""><td data-v-46dc787a="">50000</td> <td data-v-46dc787a="">系统内部错误</td> <td data-v-46dc787a="" rowspan="3">服务端错误信息</td></tr> <tr data-v-46dc787a=""><td data-v-46dc787a="">50001</td> <td data-v-46dc787a="">操作redis错误</td></tr> <tr data-v-46dc787a=""><td data-v-46dc787a="">50002</td> <td data-v-46dc787a="">引擎下载失败</td></tr></tbody></table></div></section></div>

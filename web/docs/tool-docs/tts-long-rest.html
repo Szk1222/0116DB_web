@@ -1,0 +1,605 @@
+<div data-v-36ae4d07=""><h2 data-v-36ae4d07="">长文本合成RESTful API</h2> <h3 data-v-36ae4d07="">功能介绍</h3> <section data-v-36ae4d07=""><p data-v-36ae4d07="">
+        长文本语音合成API满足用户希望一次性合成较长文本的需求，例如一篇新闻稿，一篇短篇小说。长文本合成API采用异步方式支持调用，提供两种获取数据的方式：轮询方式和回调方式。如果采用回调方式，用户调用接口上传文本的同时需要额外提供一个回调url，当文本上传完成后合成服务立刻响应，释放连接，当完成合成后通过事先提供的回调url将合成结果（音频链接）返回。用户亦可选择通过轮询作品合成结果接口来获取音频链接（轮训频率不应过高，建议10秒或更长时间执行一次即可）。
+      </p> <p data-v-36ae4d07="">
+        长文本语音合成采用异步调用（非实时），文本上传成功后进入等待队列，合成成功后通过回调的方式返回音频，返回结果时间受文本长度以及排队任务量的影响。<b data-v-36ae4d07="">如遇合成耗时比平时延长，大概率表示当前时间段出现合成高峰，请耐心等待。</b></p></section> <h3 data-v-36ae4d07="">参数设置</h3> <section data-v-36ae4d07=""><ul data-v-36ae4d07=""><li data-v-36ae4d07="">支持设置合成音频的格式: wav, pcm, mp3</li> <li data-v-36ae4d07="">支持设置合成音频的采样率:8000Hz、16000Hz、24000Hz</li> <li data-v-36ae4d07="">支持设置多种发音人</li> <li data-v-36ae4d07="">支持设置音量、语速、语调</li> <li data-v-36ae4d07="">支持返回时间戳信息</li> <li data-v-36ae4d07="">支持设置多种语言:中文(zh)，英文(eng)，粤语(cat)，四川话(sch)，天津话(tjh)，台湾话(tai)，韩语(kr)，巴葡语(bra)，日语(jp)，西班牙西语(ESP)，墨西哥西语(MEX)，维吾尔语(UYG)</li></ul></section> <h3 data-v-36ae4d07="">使用方法</h3> <section data-v-36ae4d07=""><p data-v-36ae4d07="">1. 创建账号和应用，详见<a data-v-36ae4d07="" href="https://www.data-baker.com/specs/file/guide">平台新手指引</a>，通过<a data-v-36ae4d07="" href="https://ai.data-baker.com/">标贝开放平台</a>/应用/服务获取client_id，client_secret</p> <p data-v-36ae4d07="">2. 发送请求获取access_token，详见<a data-v-36ae4d07="" href="https://www.data-baker.com/specs/file/access_token">获取访问令牌</a></p> <p data-v-36ae4d07="">3. 发送请求：发送语音合成请求，具体参数详见<a data-v-36ae4d07="" href="/specs/file/tts_api_long_text#ttsApiLong1">请求参数</a>。</p> <p data-v-36ae4d07="">4. 接收回调请求（可选）：语音生成后，会将生成音频的下载地址发送到回到地址，具体详见<a data-v-36ae4d07="" href="/specs/file/tts_api_long_text#ttsApiLong2">回调说明。</a></p> <p data-v-36ae4d07="">5.主动轮询作品合成结果接口（可选）：根据workId查询对应作品的合成状态和合成结果，具体详见 <a data-v-36ae4d07="" href="/specs/file/tts_api_long_text#ttsApiLong3">轮询说明</a>。</p></section> <h3 data-v-36ae4d07="">服务地址</h3> <section data-v-36ae4d07=""><div class="table-wrap"><table class="doc-table" data-v-36ae4d07="" border="0" cellspacing="0" cellpadding="0"><thead data-v-36ae4d07=""><tr data-v-36ae4d07=""><th data-v-36ae4d07="" style="white-space: nowrap;">访问类型</th> <th data-v-36ae4d07="">说明</th> <th data-v-36ae4d07="">URL</th> <th data-v-36ae4d07="">Host</th></tr></thead> <tbody data-v-36ae4d07=""><tr data-v-36ae4d07=""><td data-v-36ae4d07="">外网访问</td> <td data-v-36ae4d07="">
+              支持全部音色及语言
+              <br data-v-36ae4d07="">只支持POST调用
+            </td> <td data-v-36ae4d07="">https://openapi.data-baker.com/asynctts/synthesis/work</td> <td data-v-36ae4d07="">openapi.data-baker.com</td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">外网访问</td> <td data-v-36ae4d07="">
+              根据workId主动查询合成结果 <br data-v-36ae4d07="">
+              只支持GET调用
+            </td> <td data-v-36ae4d07="">https://openapi.data-baker.com/asynctts/synthesis/query</td> <td data-v-36ae4d07="">openapi.data-baker.com</td></tr></tbody></table></div></section> <h3 data-v-36ae4d07="">交互流程</h3> <section data-v-36ae4d07=""><p data-v-36ae4d07="">
+        提供两种获取音频链接的方式：<br data-v-36ae4d07="">
+        1）通过提供回调Url的方式，由服务端在合成任务完成后，推送音频数据
+      </p> <img data-v-36ae4d07="" src="https://databaker-gw-static.oss-accelerate.aliyuncs.com/assets/images/specs/document4.png" alt="" style="width: 600px; height: 425px;"> <p data-v-36ae4d07="">
+        2）通过轮询的方式，查询合成任务对应的音频数据，轮询频率建议为10秒一次
+      </p> <img data-v-36ae4d07="" src="https://databaker-gw-static.oss-accelerate.aliyuncs.com/assets/images/specs/document5.png" alt="" style="width: 600px; height: 725px;"></section> <h3 data-v-36ae4d07="" id="ttsApiLong1">请求参数</h3> <section data-v-36ae4d07=""><p data-v-36ae4d07="" style="margin-bottom: 10px;"><b data-v-36ae4d07="">长文本语音合成的请求参数如下表所示。发送HTTPS请求时需要将这些参数设置到请求体（Body）中。</b></p> <div class="table-wrap"><table class="doc-table" data-v-36ae4d07="" border="0" cellspacing="0" cellpadding="0"><thead data-v-36ae4d07=""><tr data-v-36ae4d07=""><th data-v-36ae4d07="" style="width: 150px;">参数名称</th> <th data-v-36ae4d07="" style="white-space: nowrap;">参数格式</th> <th data-v-36ae4d07="" style="white-space: nowrap;">是否必填</th> <th data-v-36ae4d07="">说明</th></tr></thead> <tbody data-v-36ae4d07=""><tr data-v-36ae4d07=""><td data-v-36ae4d07="">access_token</td> <td data-v-36ae4d07="">String</td> <td data-v-36ae4d07="">是</td> <td data-v-36ae4d07="">通过client_id，client_secret调用授权服务获得见<a data-v-36ae4d07="" href="/specs/file/access_token" class="">获取访问令牌
+              </a></td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">text</td> <td data-v-36ae4d07="">String</td> <td data-v-36ae4d07="">是</td> <td data-v-36ae4d07="">需要合成的文本（UTF8编码）支持一次性上传不超过10万个字节。</td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">voiceName</td> <td data-v-36ae4d07="">String</td> <td data-v-36ae4d07="">是</td> <td data-v-36ae4d07="">设置发音人声音名称，详见 <a data-v-36ae4d07="" href="/specs/file/tts_voice_list" class="">发音人列表</a></td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">notifyUrl</td> <td data-v-36ae4d07="">String</td> <td data-v-36ae4d07="">否</td> <td data-v-36ae4d07="">该地址用于接收合成结果，该地址必须为外网可访问的url，不能携带参数。<br data-v-36ae4d07="">如果选择轮询方式获取音频数据，此参数可以不传。</td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">speed</td> <td data-v-36ae4d07="">String</td> <td data-v-36ae4d07="">否</td> <td data-v-36ae4d07="">设置播放的语速，在0～9之间（支持一位浮点值），不传时<b data-v-36ae4d07="">默认为5</b></td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">volume</td> <td data-v-36ae4d07="">String</td> <td data-v-36ae4d07="">否</td> <td data-v-36ae4d07="">设置语音的音量，在0～9之间（只支持整型值），不传时 <b data-v-36ae4d07="">默认值为5</b></td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">audiotype</td> <td data-v-36ae4d07="">Integer</td> <td data-v-36ae4d07="">否</td> <td data-v-36ae4d07="">
+              设置音频格式，可不填<br data-v-36ae4d07="">
+              audiotype=3 ：默认值 返回mp3格式 <br data-v-36ae4d07="">
+              audiotype=4 ：返回pcm格式 <br data-v-36ae4d07="">
+              audiotype=6 ：返回wav格式
+            </td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">sampleRate</td> <td data-v-36ae4d07="">Integer</td> <td data-v-36ae4d07="">否</td> <td data-v-36ae4d07="">
+              设置采样率，可不填，<br data-v-36ae4d07="">
+              普通音色默认16000 Hz，<br data-v-36ae4d07="">
+              电话信道音色默认8000Hz， <br data-v-36ae4d07="">
+              目前可选参数值：8000、16000、24000.
+            </td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">pitch</td> <td data-v-36ae4d07="">Integer</td> <td data-v-36ae4d07="">否</td> <td data-v-36ae4d07="">
+              设置语音的音调，取值0-9，不传时默认为5中语调
+            </td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">language</td> <td data-v-36ae4d07="">String</td> <td data-v-36ae4d07="">否</td> <td data-v-36ae4d07="">
+              合成请求文本的语言：<br data-v-36ae4d07="">
+              ZH(中文和中英混，默认值)<br data-v-36ae4d07="">
+              ENG(纯英文，中文部分不会合成)<br data-v-36ae4d07="">
+              CAT(粤语）<br data-v-36ae4d07="">
+              SCH(四川话)<br data-v-36ae4d07="">
+              TJH(天津话)<br data-v-36ae4d07="">
+              TAI(台湾话)<br data-v-36ae4d07="">
+              KR(韩语)<br data-v-36ae4d07="">
+              BRA(巴葡语)<br data-v-36ae4d07="">
+              JP(日语)<br data-v-36ae4d07="">
+              ESP(西班牙西语) <br data-v-36ae4d07="">
+              MEX(墨西哥西语)<br data-v-36ae4d07="">
+              UYG(维吾尔语)
+            </td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">spectrum</td> <td data-v-36ae4d07="">Integer</td> <td data-v-36ae4d07="">否</td> <td data-v-36ae4d07="">
+              频谱，取值范围0~20；不传时默认为不调整频谱；<br data-v-36ae4d07="">
+              值为0代表使用配置文件tts_attention.conf中spec_adjust_d的值；<br data-v-36ae4d07="">
+              1代表不调整频谱；<br data-v-36ae4d07="">
+              1以上的值代表高频能量增加幅度，值越大声音的高频部分增强越多，听起来更亮和尖细
+            </td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">spectrum_8k</td> <td data-v-36ae4d07="">Integer</td> <td data-v-36ae4d07="">否</td> <td data-v-36ae4d07="">
+              低频部分频谱，取值范围0~20；不传时默认为0，仅针对8K音频频谱的调整。
+            </td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">silence</td> <td data-v-36ae4d07="">string</td> <td data-v-36ae4d07="">否</td> <td data-v-36ae4d07="">
+              设置标点符号静音时长：<br data-v-36ae4d07=""> <b data-v-36ae4d07="">'0'：默认值</b><br data-v-36ae4d07="">
+              '1'：句中标点停顿较短，适合直播、配音解说等场景<br data-v-36ae4d07="">
+              '2'：句中标点停顿较长，适合朗诵、教学等场景<br data-v-36ae4d07=""></td></tr></tbody></table></div></section> <h3 data-v-36ae4d07="">请求示例</h3> <section data-v-36ae4d07=""><pre class="doc-sample doc-code" data-v-36ae4d07="">curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json'
+ '{ \
+   "access_token": "b939b1b7-624b-4bee-b249-c1870576297c", \
+   "audiotype": "3", \
+   "notifyUrl": "https://openapi.data-baker.com/asynctts/synthesis/notify", \
+   "speed": "5", \
+   "text": "请求数据", \
+   "voiceName": "Jiaojiao", \
+   "volume": "5" \
+ }' 'https://openapi.data-baker.com/asynctts/synthesis/work'<button class="copyClass">copy</button></pre></section> <h3 data-v-36ae4d07="">Python示例代码</h3> <section data-v-36ae4d07=""><p data-v-36ae4d07="">代码地址：<a data-v-36ae4d07="" href="https://github.com/data-baker/BakerSpeechApiDemo/tree/main/tts-rest-api/long_tts" target="_blank">Github</a></p> <p data-v-36ae4d07="">Python3示例：</p> <pre class="doc-sample doc-code" data-v-36ae4d07="">import argparse
+import requests
+import json
+import time
+
+
+# 获取access_token用于鉴权
+def get_access_token(client_secret, client_id):
+    grant_type = "client_credentials"
+    url = "https://openapi.data-baker.com/oauth/2.0/token?grant_type={}&amp;client_secret={}&amp;client_id={}".format(
+        grant_type, client_secret, client_id)
+    response = requests.post(url)
+    access_token = json.loads(response.text).get('access_token')
+
+    return access_token
+
+
+# 创建任务，发送文字
+def send_text(data):
+    url = "https://openapi.data-baker.com/asynctts/synthesis/work"
+    headers = {'content-type': 'application/json'}
+    response = requests.post(url, data=data, headers=headers)
+    code = json.loads(response.text).get("code")
+    if code != 0:
+        raise Exception(response.text)
+    else:
+        return json.loads(response.text).get("data")['workId']
+
+
+# 查询合成结果
+def get_audio(params):
+    url = "https://openapi.data-baker.com/asynctts/synthesis/query"
+    response = requests.get(url, params=params)
+    code = json.loads(response.text).get("code")
+    if code == 0:
+        audio_url = json.loads(response.text).get("data")["audioUrl"]
+        return audio_url
+    else:
+        return None
+
+# 获取命令行输入参数
+def get_args():
+    text = '欢迎使用标贝开发平台。'
+    parser = argparse.ArgumentParser(description='ASR')
+    parser.add_argument('-client_secret', type=str, required=True)
+    parser.add_argument('-client_id', type=str, required=True)
+    parser.add_argument('--notify_url', type=str)
+    parser.add_argument('--text', type=str, default=text)
+    parser.add_argument('--voice_name', type=str, default='Jiaojiao')
+    parser.add_argument('--audiotype', type=str, default='3')
+    parser.add_argument('--sampleRate', type=str, default='16000')
+    args = parser.parse_args()
+
+    return args
+
+
+def main(args):
+    # 获取access_token
+    client_secret = args.client_secret
+    client_id = args.client_id
+    access_token = get_access_token(client_secret, client_id)
+
+    # 新建合成任务
+    voice_name = args.voice_name
+    text = args.text
+    data = {'access_token': access_token, 'text': text, 'voiceName': voice_name, 'audiotype': 3, 'language': 'zh',
+            'sampleRate': 16000}
+    workId = send_text(json.dumps(data))
+    print("send text successfully!", '  ', workId)
+
+    # 查询合成结果
+    query_params = {'client_id': client_id, 'access_token': access_token, 'work_id': workId}
+    while True:
+        audio_url = get_audio(query_params)
+        if audio_url:
+            break
+        else:
+            time.sleep(2)
+            print('task is processing')
+
+    audio_data = requests.get(audio_url)
+    with open("test.mp3", "wb") as f:
+        f.write(audio_data.content)
+    print('task finished')
+
+
+if __name__ == '__main__':
+    try:
+        args = get_args()
+        main(args)
+    except Exception as e:
+        print(e)<button class="copyClass">copy</button></pre> <p data-v-36ae4d07=""><b data-v-36ae4d07="">命令行执行</b></p> <pre class="doc-sample doc-code" data-v-36ae4d07="">python long_tts.py -client_secret=您的client_secret -client_id=您的client_id --text=欢迎使用标贝开放平台<button class="copyClass">copy</button></pre></section> <h3 data-v-36ae4d07="">PHP示例代码</h3> <section data-v-36ae4d07=""><pre class="doc-sample doc-code" data-v-36ae4d07="">&lt;?php
+//获取访问令牌
+$client_secret = '***'; //应用secret
+$client_id = '***'; //应用id
+$grant_type = 'client_credentials'; //固定格式
+
+//1.获取token
+$url = 'https://openapi.data-baker.com/oauth/2.0/token?grant_type='.$grant_type.'&amp;client_id='.$client_id.'&amp;client_secret='.$client_secret;
+
+//curl get请求
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); //信任任何证书
+curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0); // 检查证书中是否设置域名,0不验证
+$token_res = curl_exec($ch);
+
+//如果错误 查看错误信息
+if(curl_errno($ch))
+{
+    print curl_error($ch);
+}
+curl_close($ch);
+
+//进行token信息解析
+$token_info = json_decode($token_res,1);
+$access_token = $token_info['access_token'];    //获取到的token信息
+//var_dump($access_token);die;
+//$access_token = '***';
+
+//2.长文本语音合成
+$url = 'https://openapi.data-baker.com/asynctts/synthesis/work';
+
+$file_path = './test.txt';
+$text = file_get_contents($file_path);
+$notify_url = '***/tts_async';
+
+$post_data['access_token'] = $access_token;
+$post_data['text'] = $text;
+$post_data['notifyUrl'] = $notify_url;
+$post_data['voiceName'] = 'Jiaojiao';
+$post_data =json_encode($post_data);
+
+$Content_Type = 'application/json; charset=utf-8';
+$headers = array(
+    'Content-Type:'.$Content_Type
+);
+$ch = curl_init();
+curl_setopt($ch, CURLINFO_HEADER_OUT, true);
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+curl_setopt($ch, CURLOPT_POST, true);
+curl_setopt($ch, CURLOPT_TIMEOUT, 60); // 识别时长不超过原始音频
+curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+$res = curl_exec($ch);
+if(curl_errno($ch))
+{
+    print curl_error($ch);
+}
+curl_close($ch);
+//var_dump($res);die;
+echo(json_decode($res,1)['message']);<button class="copyClass">copy</button></pre></section> <h3 data-v-36ae4d07="">C示例代码</h3> <section data-v-36ae4d07=""><p data-v-36ae4d07="">代码地址：<a data-v-36ae4d07="" href="https://github.com/data-baker/BakerSpeechApiDemo/tree/main/tts-rest-api/long_tts" target="_blank">Github</a></p></section> <h3 data-v-36ae4d07="">JAVA示例代码</h3> <section data-v-36ae4d07=""><pre class="doc-sample doc-code" data-v-36ae4d07="">package com.databaker.web.tts;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import okhttp3.*;
+import org.apache.commons.lang3.StringUtils;
+
+/**
+ * 长文本语音合成RESTFUL API接口调用示例
+ * 附：长文本语音合成RESTFUL API文档 【https://www.data-baker.com/specs/file/tts_api_long_text】
+ * 注意：仅作为demo示例,失败重试、token过期重新获取、日志打印等优化工作需要开发者自行完成
+ *
+ * @author data-baker
+ */
+public class TtsLongTextRestApiDemo {
+    /**
+     * 授权：需要在开放平台获取【https://ai.data-baker.com/】
+     */
+    private static final String clientId = "YOUR_CLIENT_ID";
+    private static final String clientSecret = "YOUR_CLIENT_SECRET";
+
+    /**
+     * 获取token的地址信息
+     */
+    public static String tokenUrl = "https://openapi.data-baker.com/oauth/2.0/token?grant_type=client_credentials&amp;client_secret=%s&amp;client_id=%s";
+    /**
+     * 长文本合成API地址
+     */
+    public static String ttsLongTextUrl = "https://openapi.data-baker.com/asynctts/synthesis/work";
+
+    /**
+     * 轮询结果的API接口地址
+     * 轮询操作非必须
+     * 轮询频率不宜过高，一般5s或10s轮询一次即可
+     *
+     * @param args
+     */
+    public static String queryResultUrl = "https://openapi.data-baker.com/asynctts/synthesis/query";
+
+    public static void main(String[] args) {
+        String accessToken = getAccessToken();
+        if (StringUtils.isNotEmpty(accessToken)) {
+            doSynthesis(accessToken, "Nannan", "测试文本", 6, 5.0, 5.0, "https://openapi.data-baker.com/asynctts/synthesis/notify");
+        }
+    }
+
+    /**
+     * 实际合成逻辑
+     * 1.如果选择通过回调的方式获取音频数据，开发者需开发一个回调接口，接口地址作为参数notifyUrl，用来接收合成的音频链接,具体写法可参考接口文档【https://www.data-baker.com/specs/file/tts_api_long_text】中的回调部分
+     * 2.如果选择通过轮询的方式获取音频数据，可不提供回调地址notifyUrl,设置该参数为空字符串即可
+     */
+    public static String doSynthesis(String accessToken, String voiceName, String text, Integer audioType, Double speed, Double volume, String notifyUrl) {
+        OkHttpClient client = new OkHttpClient();
+        MediaType mediaType = MediaType.parse("application/json");
+        //构造requestBody
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("access_token", accessToken);
+        jsonObject.put("voiceName", voiceName);
+        jsonObject.put("text", text);
+        jsonObject.put("volume", volume);
+        jsonObject.put("speed", speed);
+        jsonObject.put("audiotype", audioType);
+        jsonObject.put("notifyUrl", notifyUrl);
+        RequestBody body = RequestBody.create(mediaType, jsonObject.toJSONString());
+        //构造request
+        Request request = new Request.Builder()
+                .url(ttsLongTextUrl)
+                .method("POST", body)
+                .addHeader("Content-Type", "application/json")
+                .build();
+        try {
+            Response response = client.newCall(request).execute();
+            // 获取结果，并根据返回进一步进行处理。
+            String result = response.body().string();
+            response.close();
+            System.out.println("result = " + result);
+            JSONObject resultJson = JSON.parseObject(result);
+
+            if (resultJson.containsKey("code") &amp;&amp; resultJson.getIntValue("code") == 0) {
+                // 如果请求正常，会返回作品id
+                System.out.println("Request Success! task_id = " + resultJson.getJSONObject("data").getString("workId"));
+                String workId = resultJson.getJSONObject("data").getString("workId");
+
+                // 定时查询合成结果，如果已完成，获取音频数据
+                // 该轮询操作非必须，如果设置了回调URL,服务端会在合成完成后主动推送音频数据，可跳过此操作。
+                if (StringUtils.isNotEmpty(workId) &amp;&amp; StringUtils.isEmpty(notifyUrl)) {
+                    waitForSynthesisCompleting(queryResultUrl, clientId, accessToken, workId);
+                }
+            } else {
+                //处理错误，主要的错误类别：Token失效、文本长度过长、使用了授权范围外的音色等
+                System.out.println("Request Error: code=" + resultJson.getIntValue("code")
+                        + ", message=" + resultJson.getString("message"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    /**
+     * 根据workID轮询作品在服务端的合成状态
+     * 轮询操作非必须，如果设置了回调url，则服务端会在合成完成后主动回调
+     */
+    private static void waitForSynthesisCompleting(String url, String clientId, String token, String workId) {
+        String fullUrl = url + "?workId=" + workId + "&amp;client_id=" + clientId + "&amp;access_token=" + token;
+        System.out.println("query url = " + fullUrl);
+        while (true) {
+            Request request = new Request.Builder().url(fullUrl).get().build();
+            try {
+                OkHttpClient client = new OkHttpClient();
+                Response response = client.newCall(request).execute();
+                String result = response.body().string();
+                response.close();
+                System.out.println("waitForSynthesisCompleting result = " + result);
+                JSONObject resultJson = JSON.parseObject(result);
+                if (resultJson.containsKey("code")
+                        &amp;&amp; resultJson.getIntValue("code") == 0
+                        &amp;&amp; resultJson.containsKey("data")
+                        &amp;&amp; resultJson.getJSONObject("data").getString("audioUrl") != null) {
+                    System.out.println("Tts Synthesis Finished! workId = " + resultJson.getJSONObject("data").getString("workId"));
+                    System.out.println("Tts Synthesis Finished! audioUrl = " + resultJson.getJSONObject("data").getString("audioUrl"));
+                    break;
+                } else {
+                    System.out.println("Tts synthesis still working...");
+                }
+                // 每隔10秒钟轮询一次状态。
+                Thread.sleep(10000);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static String getAccessToken() {
+        String accessToken = "";
+        OkHttpClient client = new OkHttpClient();
+        //request 默认是get请求
+        String url = String.format(tokenUrl, clientSecret, clientId);
+        Request request = new Request.Builder().url(url).build();
+        JSONObject jsonObject;
+        try {
+            Response response = client.newCall(request).execute();
+            if (response.isSuccessful()) {
+                //解析
+                String resultJson = response.body().string();
+                jsonObject = JSON.parseObject(resultJson);
+                accessToken = jsonObject.getString("access_token");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return accessToken;
+    }
+}
+<button class="copyClass">copy</button></pre></section> <h3 data-v-36ae4d07="">GO示例代码</h3> <section data-v-36ae4d07=""><pre class="doc-sample doc-code" data-v-36ae4d07="">package main
+
+import (
+	"bytes"
+	"encoding/json"
+	"errors"
+	"flag"
+	"fmt"
+	"io/ioutil"
+	"net/http"
+	"net/url"
+	"os"
+	"time"
+)
+
+type AuthInfo struct {
+	AccessToken string `json:"access_token"`
+	ExpiresIn   int    `json:"expires_in"`
+	Scope       string `json:"scope"`
+}
+type ReqTtsParams struct {
+	AccessToken string `json:"access_token"`
+	Text        string `json:"text"`
+	VoiceName   string `json:"voiceName"`
+	NotifyUrl   string `json:"notifyUrl"`
+	Speed       string `json:"speed,omitempty"`
+	Volume      string `json:"volume,omitempty"`
+	AudioType   int    `json:"audiotype"`
+}
+
+const grantType string = "client_credentials"
+
+func GetToken(reqUrl, clientId, clientSecret string) (string, error) {
+	// 超时时间：60秒
+	client := &amp;http.Client{Timeout: 60 * time.Second}
+	urlParams := url.Values{}
+	urlParams.Add("grant_type", grantType)
+	urlParams.Add("client_id", clientId)
+	urlParams.Add("client_secret", clientSecret)
+	httpUrl := reqUrl
+	httpUrl += "?"
+	httpUrl += urlParams.Encode()
+	fmt.Printf("httpUrl: %s\n\n", httpUrl)
+	resp, err := client.Get(httpUrl)
+	if err != nil {
+		fmt.Printf("send http get token request failed, err: %s\n", err)
+		return "", err
+	}
+	defer resp.Body.Close()
+	result, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Printf("http get token request, readall body failed, err: %s\n", err)
+		return "", err
+	}
+	authInfo := AuthInfo{}
+	err = json.Unmarshal(result, &amp;authInfo)
+	if err != nil {
+		fmt.Printf("auth info json.Unmarshal err: %s \n", err)
+		return "", err
+	}
+	if len(authInfo.AccessToken) &lt;= 0 {
+		return "", errors.New("access token is null")
+	}
+	fmt.Printf("get token success. info: %#v \n", authInfo)
+	return authInfo.AccessToken, nil
+}
+
+func SendTts(URL string, reqParam ReqTtsParams) (string, error) {
+	// 超时时间：60秒
+	client := &amp;http.Client{Timeout: 60 * time.Second}
+	reqUrl := URL
+	fmt.Printf("reqUrl: %s\n\n", reqUrl)
+	var resp *http.Response
+	var err error
+	jsonData, _ := json.Marshal(&amp;reqParam)
+	resp, err = client.Post(reqUrl, "application/json", bytes.NewReader(jsonData))
+	if err != nil {
+		fmt.Printf("send http tts request failed, err: %s \n", err)
+		return "", err
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != 200 {
+		fmt.Printf("send http tts request return status code != 200\n")
+		return "", errors.New("status code is not 200")
+	}
+	result, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Printf("readall http body failed, err: %s \n", err)
+		return "", err
+	}
+	return string(result), nil
+}
+
+func main() {
+	var (
+		clientId, clientSecret, text, voiceName, notifyUrl, speed, volume string
+		audioType                                                         int
+	)
+	flag.StringVar(&amp;clientId, "cid", "", "client id")
+	flag.StringVar(&amp;clientSecret, "cs", "", "client secret")
+	flag.StringVar(&amp;notifyUrl, "notify_url", "", "接收合成后的结果url")
+	flag.StringVar(&amp;text, "t", "标贝科技", "合成文本")
+	flag.StringVar(&amp;voiceName, "v", "jingjing", "发音人")
+	flag.IntVar(&amp;audioType, "audiotype", 6, "audiotype")
+	flag.StringVar(&amp;speed, "speed", "", "合成speed")
+	flag.StringVar(&amp;volume, "volume", "", "合成volume")
+	flag.Parse()
+	if len(os.Args) &lt; 2 {
+		flag.Usage()
+		return
+	}
+	if len(clientId) &lt;= 0 || len(clientSecret) &lt;= 0 || len(text) &lt;= 0 || len(voiceName) &lt;= 0 || len(notifyUrl) &lt;= 0 {
+		fmt.Println("parameter error!!!")
+		return
+	}
+	accessToken, err := GetToken("https://openapi.data-baker.com/oauth/2.0/token",
+		clientId,
+		clientSecret,
+	)
+	if err != nil {
+		fmt.Println("get access token failed!!!! please check your client_id and client_secret.")
+		return
+	}
+	param := ReqTtsParams{
+		AccessToken: accessToken,
+		Text:        text,
+		VoiceName:   voiceName,
+		AudioType:   audioType,
+		NotifyUrl:   notifyUrl,
+		Speed:       speed,
+		Volume:      volume,
+	}
+	body, err := SendTts("https://openapi.data-baker.com/asynctts/synthesis/work", param)
+	if err != nil {
+		fmt.Printf("send tts http request failed. result: %s \n", body)
+		return
+	}
+	fmt.Printf("send http request success. result: %s \n", body)
+}
+<button class="copyClass">copy</button></pre></section> <h3 data-v-36ae4d07="">响应结果</h3> <section data-v-36ae4d07=""><ul data-v-36ae4d07="" class="callback"><li data-v-36ae4d07="">正确结果示例：workId可以唯一标志一次成功的调用，通过notifyUrl回调推送合成结果时，会同时返回这个序列号以及音频下载地址。</li> <pre class="doc-sample doc-code" data-v-36ae4d07="">{
+  "code": 0,
+  "message": "成功",
+  "data": {
+    "workId": "L0191129150400644602680"
+  }
+}<button class="copyClass">copy</button></pre> <li data-v-36ae4d07="">错误结果示例</li> <pre class="doc-sample doc-code" data-v-36ae4d07="">{
+  "code": 30000,
+  "message": "鉴权错误（access_token值不正确或已经失效）",
+  "data": null
+}<button class="copyClass">copy</button></pre></ul></section> <h3 data-v-36ae4d07="" id="ttsApiLong2">回调说明</h3> <section data-v-36ae4d07=""><ul data-v-36ae4d07="" class="callback"><li data-v-36ae4d07="">
+          长文本异步合成接口收到请求后，首先对请求参数进行初步校验，并马上返回。如果成功，返回的结果“code”是0，会同时返回此次合成对应的workId，然后进入异步合成和回调逻辑；如果校验失败，返回的错误码提示错误，丢弃当前合成文本放弃合成。
+        </li> <li data-v-36ae4d07="">
+          长文本异步合成接口在回调时，请求的body中会包含workId和audioUrl字段。回调的请求方式示例如下
+        </li> <pre class="doc-sample doc-code" data-v-36ae4d07="">curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{
+   "audioUrl": "string",
+   "workId": "3",
+ }' 'https://openapi.data-baker.com/asynctts/synthesis/notify'<button class="copyClass">copy</button></pre> <li data-v-36ae4d07="">建议处理方式：收到回调请求后，提取需要的信息，并在body中返回固定字符串</li> <pre class="doc-sample doc-code" data-v-36ae4d07="">&lt;xml&gt;&lt;return_code&gt;SUCCESS&lt;/return_code&gt;&lt;return_msg&gt;OK&lt;/return_msg&gt;&lt;/xml&gt;<button class="copyClass">copy</button></pre> <li data-v-36ae4d07="">回调如果不成功，目前每隔5秒重试一次，总共重试4次（该策略可能会有变动）</li></ul></section> <h3 data-v-36ae4d07="">回调示例代码</h3> <section data-v-36ae4d07=""><p data-v-36ae4d07=""><b data-v-36ae4d07="">Python3示例</b></p> <pre class="doc-sample doc-code" data-v-36ae4d07="">from flask import Flask, request
+import json
+import wget
+
+app = Flask(__name__)
+
+
+@app.route("/", methods=['GET', 'POST'])
+def get_audio():
+    url = json.loads(request.get_data())['audioUrl']
+    wget.download(url)
+    print("task finished successfully")
+
+    return "finished"<button class="copyClass">copy</button></pre> <p data-v-36ae4d07="">将上述代码保存为server.py</p> <p data-v-36ae4d07=""><b data-v-36ae4d07="">命令行执行</b></p> <pre class="doc-sample doc-code" data-v-36ae4d07="">export FLASK_APP=server
+flask run -p 端口号 --host=服务器IP<button class="copyClass">copy</button></pre> <p data-v-36ae4d07=""><b data-v-36ae4d07="">Java示例</b></p> <pre class="doc-sample doc-code" data-v-36ae4d07="">@ApiOperation(value = "测试用回调接口", notes = "该链接由参数notifyUrl设置，如果链接无法访问，将无法接收到回调的push信息。")
+@PostMapping("/notify")
+public void synthesisNotify(HttpServletRequest request, HttpServletResponse response) {
+    String resXml = "";
+    InputStream inStream;
+    try {
+        inStream = request.getInputStream();
+        ByteArrayOutputStream outSteam = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int len;
+        while ((len = inStream.read(buffer)) != -1) {
+            outSteam.write(buffer, 0, len);
+        }
+        // 获取asyncTts调用notifyUrl的返回信息
+        String result = new String(outSteam.toByteArray(), "utf-8");
+        log.info("dataBaker:长文本tts返回结果 ----result---- =" + result);
+        // 关闭流
+        outSteam.close();
+        inStream.close();
+        // String转换为json对象，然后业务处理
+        JSONObject jsonObject = JSON.parseObject(result);
+        String workId = jsonObject.getString("workId");
+        String audioUrl = jsonObject.getString("audioUrl");
+        //具体业务处理，例如转存音频等（可先返回结果，然后异步去完成业务逻辑）
+        //todo
+        //根据情况，向结果中赋值：正常情况下，选择下面的resSuccess;如果选择resFail,将会视为推送失败，标贝服务端将重新推送一次相同的内容
+        //     * 返回成功xml
+        //     */
+        //    String resSuccess = "&lt;xml$gt;&lt;return_code&gt;SUCCESS&lt;/return_code&gt;&lt;return_msg&gt;OK&lt;/return_msg&gt;&lt;/xml&gt;";
+        //    /**
+        //     * 返回失败xml
+        //     */
+        //    String resFail = "&lt;xml&gt;&lt;return_code&gt;FAIL&lt;/return_code&gt;&lt;return_msg&gt;报文为空&lt;/return_msg&gt;&lt;/xml&gt;";resXml = Constant.resSuccess;
+        //记录日志
+        log.info("dataBaker:长文本tts回调返回作品  {}  的下载链接为：---&gt;{}", workId, audioUrl);
+        } catch (Exception e) {
+            log.error("dataBaker:长文本tts回调异常：", e);
+        } finally {
+            try {
+                // 处理业务完毕
+                BufferedOutputStream out = new BufferedOutputStream(response.getOutputStream());
+                out.write(resXml.getBytes());
+                out.flush();
+                out.close();
+            } catch (IOException e) {
+                log.error("dataBaker:长文本tts回调异常:out：", e);
+            }
+        }
+    }<button class="copyClass">copy</button></pre> <p data-v-36ae4d07=""><b data-v-36ae4d07="">PHP示例</b></p> <pre class="doc-sample doc-code" data-v-36ae4d07="">&lt;?php
+//官网在线合成长文本语音合成API SDK 回调接口
+public function tts_async(){
+    $audio_info = file_get_contents("php://input");
+    $audio_arr = json_decode($audio_info,1);
+    //对返回结果进行判断
+    if(isset($audio_arr['audioUrl'])){
+        //1.建议返回信息存储到日志文件 或者 本地文件，自行完成
+        //2.对音频链接进行读取写入文件操作，自行完成（请求合成接口不设置audiotype参数，默认返回mp3格式）
+        //3.对回调接口返回成功信息 return "&lt;xml&gt;&lt;return_code&gt;SUCCESS&lt;/return_code&gt;&lt;return_msg&gt;OK&lt;/return_msg&gt;&lt;/xml&gt;";
+    }
+}<button class="copyClass">copy</button></pre></section> <h3 data-v-36ae4d07="" id="ttsApiLong3">轮询获取结果说明</h3> <section data-v-36ae4d07=""><p data-v-36ae4d07="">1.轮询接口采用GET请求方式，通过query参数传参，具体参数含义如下：</p> <div class="table-wrap"><table class="doc-table" data-v-36ae4d07="" border="0" cellspacing="0" cellpadding="0"><thead data-v-36ae4d07=""><tr data-v-36ae4d07=""><th data-v-36ae4d07="" style="white-space: nowrap;">参数名称</th> <th data-v-36ae4d07="">参数格式</th> <th data-v-36ae4d07="">是否必填</th> <th data-v-36ae4d07="">说明</th></tr></thead> <tbody data-v-36ae4d07=""><tr data-v-36ae4d07=""><td data-v-36ae4d07="">client_id</td> <td data-v-36ae4d07="">String</td> <td data-v-36ae4d07="">是</td> <td data-v-36ae4d07="">授权对应的appKey或client_id</td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">access_token</td> <td data-v-36ae4d07="">String</td> <td data-v-36ae4d07="">是</td> <td data-v-36ae4d07="">通过client_id，client_secret调用授权服务获得见获取访问令牌</td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">work_id</td> <td data-v-36ae4d07="">String</td> <td data-v-36ae4d07="">是</td> <td data-v-36ae4d07="">作品id,用于获取对应作品的合成状态和结果数据</td></tr></tbody></table></div> <p data-v-36ae4d07="">2.轮询的请求示例如下，建议10秒左右轮询一次：</p> <pre class="doc-sample doc-code" data-v-36ae4d07="">curl -X GET 'https://openapi.data-baker.com/asynctts/synthesis/query?client_id=a4800cdd51184c29aeca390d78ff57f6&amp;work_id=L0220512155058739224607&amp;access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsiKiJdLCJzY29wZSI6WyJ0dHMtbG9uZ3RleHQiXSwiZXhwIjoxNjUyNTA4NTEwLCJhdXRob3JpdGllcyI6WyIqIl0sImp0aSI6IjU2MDg2NjEyLTYyMzYtNDY1ZS04Njc4LWVhNWE1MGUxOGQwMSIsImNsaWVudF9pZCI6ImE0ODAwY2RkNTExODRjMjlhZWNhMzkwZDc4ZmY1N2Y2In0.8aYkauZ0mpOg5gPLj0D_q3efsMrCLVOW7pWnrUZAGSw'<button class="copyClass">copy</button></pre> <p data-v-36ae4d07="">3.轮询接口返回结果示例：</p> <pre class="doc-sample doc-code" data-v-36ae4d07="">{
+&nbsp;&nbsp;&nbsp;&nbsp;"code":&nbsp;0,
+&nbsp;&nbsp;&nbsp;&nbsp;"message":&nbsp;"成功",
+&nbsp;&nbsp;&nbsp;&nbsp;"data":&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"audioUrl":&nbsp;"https://databaker-of-yuedu.oss-cn-huhehaote.aliyuncs.com/static_tts_file/c26c5dbf38b946dc8d187cfdf3b4f87e.wav?Expires=1652946664&amp;OSSAccessKeyId=LTAI4Fktx2ckBLU3ZJizYTuW&amp;Signature=6FXh%2FkCOPbuZqfTJEfNmtXGUFLU%3D",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"workId":&nbsp;"L0220512155058739224607",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"status":&nbsp;"已完成"
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}<button class="copyClass">copy</button></pre></section> <h3 data-v-36ae4d07="">错误码</h3> <section data-v-36ae4d07=""><div class="table-wrap"><table class="doc-table" data-v-36ae4d07="" border="0" cellspacing="0" cellpadding="0"><thead data-v-36ae4d07=""><tr data-v-36ae4d07=""><th data-v-36ae4d07="">错误码</th> <th data-v-36ae4d07="">含义</th></tr></thead> <tbody data-v-36ae4d07=""><tr data-v-36ae4d07=""><td data-v-36ae4d07="">10001</td> <td data-v-36ae4d07="">access_token参数获取失败</td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">10002</td> <td data-v-36ae4d07="">domain参数值错误</td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">10003</td> <td data-v-36ae4d07="">language参数错误或不支持</td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">10004</td> <td data-v-36ae4d07="">voice_name参数错误</td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">10005</td> <td data-v-36ae4d07="">请对照音色表，检查sampleRare或audiotype参数是否正确</td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">10009</td> <td data-v-36ae4d07="">text参数错误</td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">10010</td> <td data-v-36ae4d07="">文本太长</td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">20000</td> <td data-v-36ae4d07="">获取资源错误</td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">20001</td> <td data-v-36ae4d07="">断句失败</td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">20002</td> <td data-v-36ae4d07="">分段数错误</td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">20003</td> <td data-v-36ae4d07="">分段后的文本长度错误</td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">20004</td> <td data-v-36ae4d07="">获取引擎链接错误</td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">20005</td> <td data-v-36ae4d07="">RPC链接失败错误</td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">20006</td> <td data-v-36ae4d07="">引擎内部错误</td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">20007</td> <td data-v-36ae4d07="">操作redis错误</td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">20008</td> <td data-v-36ae4d07="">音频编码错误</td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">30000</td> <td data-v-36ae4d07="">鉴权错误（access_token值不正确或已经失效）</td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">30001</td> <td data-v-36ae4d07="">并发错误</td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">30002</td> <td data-v-36ae4d07="">内部配置错误</td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">30003</td> <td data-v-36ae4d07="">json串解析错误</td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">30004</td> <td data-v-36ae4d07="">获取url失败</td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">30005</td> <td data-v-36ae4d07="">获取客户IP地址失败</td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">30006</td> <td data-v-36ae4d07="">任务队列错误</td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">30007</td> <td data-v-36ae4d07="">用量不足</td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">30008</td> <td data-v-36ae4d07="">授权已过期</td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">40001</td> <td data-v-36ae4d07="">请求不是json结构</td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">40002</td> <td data-v-36ae4d07="">缺少必须字段</td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">40003</td> <td data-v-36ae4d07="">版本错误</td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">40004</td> <td data-v-36ae4d07="">字段值类型错误</td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">40005</td> <td data-v-36ae4d07="">参数错误</td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">50001</td> <td data-v-36ae4d07="">处理超时</td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">50002</td> <td data-v-36ae4d07="">内部rpc调用失败</td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">50003</td> <td data-v-36ae4d07="">合成任务正在处理 ，请稍后再查</td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">50004</td> <td data-v-36ae4d07="">合成失败，请检查参数或文本</td></tr> <tr data-v-36ae4d07=""><td data-v-36ae4d07="">50005</td> <td data-v-36ae4d07="">作品不存在，请确保clientId和workId填写正确</td></tr></tbody></table></div></section></div>

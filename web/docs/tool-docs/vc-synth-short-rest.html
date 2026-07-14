@@ -1,124 +1,218 @@
-<h1>定制声音合成 RESTful API</h1>
-<p class="doc-lead">定制声音合成 RESTful API 用于调用声音复刻训练后的音色模型进行短文本合成。接入方式与在线合成类似，核心差异是 <code>voice_name</code> 需要填写定制模型训练成功后返回的 <code>modelId</code>。</p>
+<div data-v-6f1bf638=""><h2 data-v-6f1bf638="">定制声音合成RESTful API</h2> <h3 data-v-6f1bf638="">功能介绍</h3> <section data-v-6f1bf638=""><p data-v-6f1bf638="">
+        定制声音合成RESTful API支持HTTPS
+        GET和POST两种方法的请求，将待合成的文本上传到服务端，服务端返回语音合成结果。与标准音色合成类似，声音复刻的音色模型可以直接调用在线API进行语音合成，只需将发音人参数替换为对应的modelid。
+      </p></section> <h3 data-v-6f1bf638="">参数设置</h3> <section data-v-6f1bf638=""><ul data-v-6f1bf638=""><li data-v-6f1bf638=""></li> <li data-v-6f1bf638="">支持设置合成音频的格式: pcm，wav，mp3，alaw，ulaw</li> <li data-v-6f1bf638="">支持设置合成音频的采样率: 16000Hz</li> <li data-v-6f1bf638="">支持设置音量、语速、语调</li> <li data-v-6f1bf638="">支持语言: 中文(zh)</li> <li data-v-6f1bf638="">支持声音模型类型：普通音质、精品音质</li></ul></section> <h3 data-v-6f1bf638="">服务地址</h3> <section data-v-6f1bf638=""><div class="table-wrap"><table class="doc-table" data-v-6f1bf638="" border="0" cellspacing="0" cellpadding="0"><thead data-v-6f1bf638=""><tr data-v-6f1bf638=""><th data-v-6f1bf638="">访问类型</th> <th data-v-6f1bf638="">说明</th> <th data-v-6f1bf638="">URL</th> <th data-v-6f1bf638="">Host</th></tr></thead> <tbody data-v-6f1bf638=""><tr data-v-6f1bf638=""><td data-v-6f1bf638="">外网访问</td> <td data-v-6f1bf638="">支持中文普通话</td> <td data-v-6f1bf638="">https://openapi.data-baker.com/tts_personal?</td> <td data-v-6f1bf638="">openapi.data-baker.com</td></tr></tbody></table></div></section> <h3 data-v-6f1bf638="">交互流程</h3> <section data-v-6f1bf638=""><img data-v-6f1bf638="" src="https://databaker-gw-static.oss-accelerate.aliyuncs.com/assets/images/specs/document1.png" alt="" style="width: 467px; height: 312px;"></section> <h3 data-v-6f1bf638="">使用方法</h3> <section data-v-6f1bf638=""><p data-v-6f1bf638="">1. 创建账号和应用，详见<a data-v-6f1bf638="" href="https://www.data-baker.com/specs/file/guide">平台新手指引</a>，通过<a data-v-6f1bf638="" href="https://ai.data-baker.com/">标贝开放平台</a>/应用/服务获取client_id，client_secret</p> <p data-v-6f1bf638="">2. 发送请求获取access_token，详见<a data-v-6f1bf638="" href="https://www.data-baker.com/specs/file/access_token">获取访问令牌</a></p> <p data-v-6f1bf638="">3. 发送请求：发送语音合成请求，具体参数详见<a data-v-6f1bf638="" href="/specs/file/reprint_api_compose#reprint-word3">请求参数</a>。
+      </p> <p data-v-6f1bf638="">6. 接收返回结果：检查http
+        响应头Content-Type判断合成请求是否成功，如返回Content-Type以audio开头说明合成成功，响应体为音频数据。如返回Content-Type:
+        application/json说明合成出现错误，响应体为json，具体参数定义详见<a data-v-6f1bf638="" href="/specs/file/reprint_api_compose#reprint-word4">响应结果</a>。</p></section> <h3 data-v-6f1bf638="" id="reprint-word3">请求参数</h3> <section data-v-6f1bf638=""><div class="table-wrap"><table class="doc-table" data-v-6f1bf638="" border="0" cellspacing="0" cellpadding="0"><thead data-v-6f1bf638=""><tr data-v-6f1bf638=""><th data-v-6f1bf638="">参数名称</th> <th data-v-6f1bf638="" style="white-space: nowrap;">是否必填</th> <th data-v-6f1bf638="">名称</th> <th data-v-6f1bf638="">说明</th></tr></thead> <tbody data-v-6f1bf638=""><tr data-v-6f1bf638=""><td data-v-6f1bf638="">text</td> <td data-v-6f1bf638="">是</td> <td data-v-6f1bf638="">合成文本</td> <td data-v-6f1bf638="">
+              合成的文本，使用UTF-8编码，如果用户在非浏览器上操作，则需要把合成文本转化为utf-8格式。
+              <br data-v-6f1bf638="">GET 方法一次请求最多不超过300个汉字<br data-v-6f1bf638="">POST 方法一次请求最多不超过300个汉字
+            </td></tr> <tr data-v-6f1bf638=""><td data-v-6f1bf638="">access_token</td> <td data-v-6f1bf638="">是</td> <td data-v-6f1bf638="">用户访问token</td> <td data-v-6f1bf638="">
+              通过client_id，client_secret调用授权服务获得见<a data-v-6f1bf638="" href="/specs/file/access_token" class="">获取访问令牌
+              </a></td></tr> <tr data-v-6f1bf638=""><td data-v-6f1bf638="">domain</td> <td data-v-6f1bf638="">是</td> <td data-v-6f1bf638="">领域</td> <td data-v-6f1bf638="">
+              应用所属领域如导航、客服等，以数字进行编码，目前值固定为1，必填
+            </td></tr> <tr data-v-6f1bf638=""><td data-v-6f1bf638="">language</td> <td data-v-6f1bf638="">是</td> <td data-v-6f1bf638="">文本语言</td> <td data-v-6f1bf638="">合成请求文本的语言，目前支持ZH(中文和中英混)</td></tr> <tr data-v-6f1bf638=""><td data-v-6f1bf638="">speed</td> <td data-v-6f1bf638="">否</td> <td data-v-6f1bf638="">语速</td> <td data-v-6f1bf638="">设置播放的语速，在0～9之间（支持浮点值），不传时默认为5</td></tr> <tr data-v-6f1bf638=""><td data-v-6f1bf638="">volume</td> <td data-v-6f1bf638="">否</td> <td data-v-6f1bf638="">音量</td> <td data-v-6f1bf638="">设置语音的音量，在0～9之间（只支持整型值），不传时默认为5</td></tr> <tr data-v-6f1bf638=""><td data-v-6f1bf638="">pitch</td> <td data-v-6f1bf638="">否</td> <td data-v-6f1bf638="">音调</td> <td data-v-6f1bf638="">设置语音的音调，取值0-9，不传时默认为5中语调</td></tr> <tr data-v-6f1bf638=""><td data-v-6f1bf638="">audiotype</td> <td data-v-6f1bf638="">否</td> <td data-v-6f1bf638="">音频种类</td> <td data-v-6f1bf638="">
+              可不填，不填时默认为3，表示mp3格式 <br data-v-6f1bf638="">
+              audiotype=3 ：返回16K采样率的mp3格式 <br data-v-6f1bf638="">
+              audiotype=4 ：返回16K采样率的pcm格式 <br data-v-6f1bf638="">
+              audiotype=5 ：返回8K采样率的pcm格式 <br data-v-6f1bf638="">
+              audiotype=6 ：返回16K采样率的wav格式 <br data-v-6f1bf638="">
+              audiotype=6&amp;rate=1 ：返回8K采样率的wav格式 <br data-v-6f1bf638="">
+              audiotype=7 ：返回8K8bit的alaw格式文件 <br data-v-6f1bf638="">
+              audiotype=8 ：返回8K8bit的ulaw格式文件 <br data-v-6f1bf638="">
+              audiotype=9&amp;rate=1 ：返回8K采样率的mp3 <br data-v-6f1bf638=""></td></tr> <tr data-v-6f1bf638=""><td data-v-6f1bf638="">rate</td> <td data-v-6f1bf638="">否</td> <td data-v-6f1bf638="">码率</td> <td data-v-6f1bf638="">
+              可不填，不填时默认为2，取值范围2-8，2以上的值仅针对返回MP3格式，对应的码率为：<br data-v-6f1bf638="">
+              2 —— 16kbps<br data-v-6f1bf638="">
+              3 —— 24kbps<br data-v-6f1bf638="">
+              4 —— 32kbps<br data-v-6f1bf638="">
+              5 —— 40kbps<br data-v-6f1bf638="">
+              6 —— 48kbps<br data-v-6f1bf638="">
+              7 —— 56kbps<br data-v-6f1bf638="">
+              8 —— 64kbps
+            </td></tr> <tr data-v-6f1bf638=""><td data-v-6f1bf638="">voice_name</td> <td data-v-6f1bf638="">是</td> <td data-v-6f1bf638="">模型名称</td> <td data-v-6f1bf638="">
+              模型名称选择，直接输入返回的modelId
+              例如：714bef4b24****************8e68ballpx3。
+            </td></tr></tbody></table></div></section> <h3 data-v-6f1bf638="">请求举例</h3> <section data-v-6f1bf638=""><strong data-v-6f1bf638="">1. GET方法</strong> <pre class="doc-sample doc-code" data-v-6f1bf638="">curl  –get  --data-urlencode "text=标贝科技" https://openapi.data-baker.com/tts_personal?access_token=your_access_token&amp;domain=1&amp;language=zh&amp;voice_name=714bef4b24****************8e68ballpx3<button class="copyClass">copy</button></pre> <strong data-v-6f1bf638="">2. POST方法</strong> <pre class="doc-sample doc-code" data-v-6f1bf638="">curl -X POST http://openapi.data-baker.com/tts_personal -d "access_token=default&amp;domain=1&amp;language=zh&amp;voice_name=714bef4b24****************8e68ballpx3&amp;text=标贝科技"<button class="copyClass">copy</button></pre></section> <h3 data-v-6f1bf638="">Python示例代码</h3> <section data-v-6f1bf638=""><pre class="doc-sample doc-code" data-v-6f1bf638="">import requests
+import json
+import argparse
 
-<h2 id="vc-synth-short-intro">功能介绍</h2>
-<ul>
-<li>支持 HTTPS <code>GET</code> 和 <code>POST</code> 请求。</li>
-<li>支持返回 <code>pcm</code>、<code>wav</code>、<code>mp3</code>、<code>alaw</code>、<code>ulaw</code> 等音频格式。</li>
-<li>支持设置音量、语速、语调、音子级时间戳和标点静音时长。</li>
-<li>当前复刻音色合成文本语言按中文及中英混合文本接入。</li>
-<li>支持普通音质、精品音质等声音模型类型，具体以模型授权为准。</li>
-</ul>
 
-<h2 id="vc-synth-short-endpoint">服务地址</h2>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>访问类型</th><th>说明</th><th>URL</th><th>Host</th></tr>
-<tr><td>外网访问</td><td>定制声音短文本合成接口</td><td><code>https://openapi.data-baker.com/tts_personal?</code></td><td><code>openapi.data-baker.com</code></td></tr>
-</table>
-</div>
+# 获取access_token用于鉴权
+def get_access_token(client_secret, client_id):
+    grant_type = "client_credentials"
+    url = "https://openapi.data-baker.com/oauth/2.0/token?grant_type={}&amp;client_secret={}&amp;client_id={}".format(grant_type, client_secret, client_id)
+    response = requests.post(url)
+    access_token = json.loads(response.text).get('access_token')
 
-<h2 id="vc-synth-short-flow">使用流程</h2>
-<ol>
-<li>在开放平台创建账号和应用，获取 <code>client_id</code> 与 <code>client_secret</code>。</li>
-<li>调用授权服务获取 <code>access_token</code>。</li>
-<li>准备待合成文本，并确认定制模型已训练成功。</li>
-<li>请求 <code>/tts_personal</code>，将模型 ID 填入 <code>voice_name</code>。</li>
-<li>根据响应头 <code>Content-Type</code> 判断请求是否成功：以 <code>audio/</code> 开头表示返回音频；<code>application/json</code> 表示返回错误信息。</li>
-</ol>
+    return access_token
 
-<h2 id="vc-synth-short-params">请求参数</h2>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>参数名称</th><th>是否必填</th><th>说明</th></tr>
-<tr><td><code>text</code></td><td>是</td><td>合成文本，UTF-8 编码。单次 <code>GET</code> 或 <code>POST</code> 请求最多不超过 <code>300</code> 个汉字。</td></tr>
-<tr><td><code>access_token</code></td><td>是</td><td>用户访问令牌，通过 <code>client_id</code>、<code>client_secret</code> 调用授权服务获得。</td></tr>
-<tr><td><code>domain</code></td><td>是</td><td>应用领域编码，目前固定为 <code>1</code>。</td></tr>
-<tr><td><code>language</code></td><td>是</td><td>合成文本语言，中文及中英混合文本使用 <code>ZH</code> 或 <code>zh</code>。</td></tr>
-<tr><td><code>voice_name</code></td><td>是</td><td>模型名称，填写定制模型训练成功后返回的 <code>modelId</code>。</td></tr>
-<tr><td><code>speed</code></td><td>否</td><td>语速，取值 <code>0-9</code>，支持浮点值，默认 <code>5</code>。</td></tr>
-<tr><td><code>volume</code></td><td>否</td><td>音量，取值 <code>0-9</code>，仅支持整数，默认 <code>5</code>。</td></tr>
-<tr><td><code>pitch</code></td><td>否</td><td>音调，取值 <code>0-9</code>，默认 <code>5</code>。</td></tr>
-<tr><td><code>audiotype</code></td><td>否</td><td>音频类型。常用值：<code>3</code> 为 16K mp3，<code>4</code> 为 16K pcm，<code>5</code> 为 8K pcm，<code>6</code> 为 16K wav，<code>7</code> 为 8K alaw，<code>8</code> 为 8K ulaw，<code>9</code> 可配合 <code>rate=1</code> 返回 8K mp3。</td></tr>
-<tr><td><code>rate</code></td><td>否</td><td>采样率或码率相关参数。示例：<code>audiotype=6&amp;rate=1</code> 返回 8K wav。</td></tr>
-<tr><td><code>spectrum</code></td><td>否</td><td>高频频谱调节，取值 <code>1-20</code>，默认 <code>1</code> 表示不调整；值越大高频能量增强越多。</td></tr>
-<tr><td><code>spectrum_8k</code></td><td>否</td><td>低频频谱调节，取值 <code>0-20</code>，默认 <code>0</code>，仅针对 <code>audiotype=5</code> 的 8K 音频生效。</td></tr>
-<tr><td><code>interval</code></td><td>否</td><td>音子级时间戳开关：<code>0</code> 关闭，<code>1</code> 开启。</td></tr>
-<tr><td><code>silence</code></td><td>否</td><td>标点静音时长：<code>0</code> 默认，<code>1</code> 句中标点停顿较短，<code>2</code> 句中标点停顿较长。</td></tr>
-</table>
-</div>
 
-<h2 id="vc-synth-short-example">请求示例</h2>
-<pre><code class="language-bash">curl -X POST "https://openapi.data-baker.com/tts_personal" \
-  -d "access_token=ACCESS_TOKEN" \
-  -d "domain=1" \
-  -d "language=ZH" \
-  -d "voice_name=MODEL_ID" \
-  -d "text=欢迎使用标贝定制声音合成服务" \
-  -d "audiotype=6" \
-  --output result.wav</code></pre>
-<pre><code class="language-python">import requests
+# 获取转换后音频
+def get_audio(data):
+    url = "https://openapi.data-baker.com/tts_personal?access_token={}&amp;domain={}&amp;language={}&amp;voice_name={}&amp;text={}&amp;audiotype={}".format(data['access_domain'], data['domain'], data['language'], data['voice_name'], data['text'], data['audiotype'])
+    response = requests.post(url)
+    content_type = response.headers['Content-Type']
+    if 'audio' not in content_type:
+        raise Exception(response.text)
+    return response.content
 
-url = "https://openapi.data-baker.com/tts_personal"
-data = {
-    "access_token": "ACCESS_TOKEN",
-    "domain": "1",
-    "language": "ZH",
-    "voice_name": "MODEL_ID",
-    "text": "欢迎使用标贝定制声音合成服务",
-    "audiotype": "6",
-    "speed": "5",
-    "volume": "5",
-    "pitch": "5"
+# 获取命令行输入参数
+def get_args():
+    text = '欢迎使用标贝开发平台。'
+    parser = argparse.ArgumentParser(description='TTS')
+    parser.add_argument('-client_secret', type=str, required=True)
+    parser.add_argument('-client_id', type=str, required=True)
+    parser.add_argument('-file_save_path', type=str, required=True)
+    parser.add_argument('-voice_name', type=str)
+    parser.add_argument('--text', type=str, default=text)
+    parser.add_argument('--audiotype', type=str, default='6')
+    parser.add_argument('--domain', type=str, default='1')
+    parser.add_argument('--language', type=str, default='zh')
+    args = parser.parse_args()
+
+    return args
+
+
+if __name__ == '__main__':
+    try:
+        args = get_args()
+
+        # 获取access_token
+        client_secret = args.client_secret
+        client_id = args.client_id
+        access_token = get_access_token(client_secret, client_id)
+
+        # 读取参数
+        audiotype = args.audiotype
+        domain = args.domain
+        language = args.language
+        voice_name = args.voice_name
+        text = args.text
+        data = {'access_domain': access_token, 'audiotype': audiotype, 'domain': domain, 'language': language,
+                'voice_name': voice_name, 'text': text}
+        content = get_audio(data)
+
+        #保存音频文件
+        with open('test.wav', 'wb') as audio:
+            audio.write(content)
+        print("task finished successfully")
+    except Exception as e:
+        print(e)<button class="copyClass">copy</button></pre> <p data-v-6f1bf638=""><b data-v-6f1bf638="">命令行执行</b></p> <pre class="doc-sample doc-code" data-v-6f1bf638="">python tts.py -client_secret=您的client_secret -client_id=您的client_secret -file_save_path=test.wav -voice_name=您的模型ID --text=今天天气不错哦<button class="copyClass">copy</button></pre></section> <h3 data-v-6f1bf638="">JAVA示例代码</h3> <section data-v-6f1bf638=""><pre class="doc-sample doc-code" data-v-6f1bf638="">package com.databaker.web.tts;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import org.apache.commons.lang3.StringUtils;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.file.Files;
+
+/**
+ * 语音合成（个性化音色）RESTFUL API接口调用示例
+ * 附：语音合成（个性化音色）RESTFUL API文档 【https://www.data-baker.com/specs/file/reprint_api_compose】
+ *
+ * 注意：仅作为demo示例,失败重试、token过期重新获取、日志打印等优化工作需要开发者自行完成
+ *
+ * @author data-baker
+ */
+public class TtsPersonalRestApiDemo {
+    /**
+     * 授权：需要在开放平台获取【https://ai.data-baker.com/】
+     */
+    private static final String clientId = "YOUR_CLIENT_ID";
+    private static final String clientSecret = "YOUR_CLIENT_SECRET";
+
+    /**
+     * 获取token的地址信息
+     */
+    public static String tokenUrl = "https://openapi.data-baker.com/oauth/2.0/token?grant_type=client_credentials&amp;client_secret=%s&amp;client_id=%s";
+    /**
+     * 合成使用的地址信息，rate、language等参数在本demo固定，开发者如需调整，参考https://www.data-baker.com/specs/file/reprint_api_compose
+     */
+    public static String ttsUrl = "https://openapi.data-baker.com/tts_personal?access_token=%s&amp;domain=1&amp;audiotype=%s&amp;language=zh&amp;voice_name=%s&amp;speed=%s&amp;volume=%s&amp;text=%s";
+
+    /**
+     * 仅作为demo示例
+     * 失败重试、token过期重新获取、日志打印等优化工作需要开发者自行完成
+     **/
+    public static void main(String[] args) {
+        String accessToken = getAccessToken();
+        if (StringUtils.isNotEmpty(accessToken)) {
+            //此处voiceName应传入已成功完成复刻过程的modelId(示例：YOUR_MODEL_ID = 5c97a06ce40cf69e33d2d05c25d4807f9f657)
+            doSynthesis(accessToken, "YOUR_MODEL_ID", "测试文本", 6, 5.0, 5.0, "/home/tts/test.wav");
+        }
+    }
+
+    public static void doSynthesis(String accessToken, String voiceName, String originText, Integer audioType, Double speed, Double volume, String filePath) {
+        //在非浏览器上操作，需要把合成文本转化为utf-8格式
+        try {
+            originText = URLEncoder.encode(originText, "utf-8");
+            String synthesisUrl = String.format(ttsUrl, accessToken, audioType, voiceName, speed, volume, originText);
+            fetchTtsResponse(synthesisUrl, filePath);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 请求并获取音频流保存至本地文件：这里filePath为全路径
+     *
+     * @param url
+     * @param filePath
+     * @throws IOException
+     */
+    public static void fetchTtsResponse(String url, String filePath) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+        //request 默认是get请求
+        Request request = new Request.Builder().url(url).build();
+        try {
+            Response response = client.newCall(request).execute();
+            if (response.isSuccessful()) {
+                if (response.body() != null
+                        &amp;&amp; response.body().contentType().toString().startsWith("audio")) {
+                    //写入文件
+                    File targetFile = new File(filePath);
+                    Files.write(targetFile.toPath(), response.body().bytes());
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static String getAccessToken() {
+        String accessToken = "";
+        OkHttpClient client = new OkHttpClient();
+        //request 默认是get请求
+        String url = String.format(tokenUrl, clientSecret, clientId);
+        Request request = new Request.Builder().url(url).build();
+        JSONObject jsonObject;
+        try {
+            Response response = client.newCall(request).execute();
+            if (response.isSuccessful()) {
+                //解析
+                String resultJson = response.body().string();
+                jsonObject = JSON.parseObject(resultJson);
+                accessToken = jsonObject.getString("access_token");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return accessToken;
+    }
 }
-
-response = requests.post(url, data=data)
-content_type = response.headers.get("Content-Type", "")
-if content_type.startswith("audio/"):
-    open("result.wav", "wb").write(response.content)
-else:
-    print(response.text)</code></pre>
-
-<h2 id="vc-synth-short-response">响应结果</h2>
-<ul>
-<li>合成成功时，响应体为音频二进制数据。</li>
-<li>合成失败时，响应头通常为 <code>Content-Type: application/json</code>，响应体为错误 JSON。</li>
-<li>当 <code>interval=1</code> 时，响应头会增加 <code>interval-info</code>，用于返回音子边界时间戳。</li>
-</ul>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>示例</th><th>说明</th></tr>
-<tr><td><code>audiotype=3</code></td><td>返回 16K mp3，<code>Content-Type: audio/mp3</code>。</td></tr>
-<tr><td><code>audiotype=4</code></td><td>返回 16K pcm，<code>Content-Type: audio/pcm</code>。</td></tr>
-<tr><td><code>audiotype=5</code></td><td>返回 8K pcm，<code>Content-Type: audio/pcm</code>。</td></tr>
-<tr><td><code>audiotype=6</code></td><td>返回 16K wav，<code>Content-Type: audio/wav</code>。</td></tr>
-<tr><td><code>audiotype=6&amp;rate=1</code></td><td>返回 8K wav，<code>Content-Type: audio/wav</code>。</td></tr>
-<tr><td><code>audiotype=7</code></td><td>返回 8K alaw，<code>Content-Type: audio/alaw</code>。</td></tr>
-<tr><td><code>audiotype=8</code></td><td>返回 8K ulaw，<code>Content-Type: audio/ulaw</code>。</td></tr>
-<tr><td><code>audiotype=9&amp;rate=1</code></td><td>返回 8K mp3，<code>Content-Type: audio/mp3</code>。</td></tr>
-</table>
-</div>
-<pre><code class="language-json">{
-  "err_msg": "parameter error",
-  "err_no": -6101,
-  "log_id": 955891560,
-  "sn": "914313d3-c9cf-493d-820d-b0e81fdb8bd4"
-}</code></pre>
-
-<h2 id="vc-synth-short-errors">常见错误码</h2>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>错误码</th><th>说明</th></tr>
-<tr><td><code>10001</code></td><td><code>access_token</code> 获取失败或未传输。</td></tr>
-<tr><td><code>10002</code></td><td><code>domain</code> 参数值错误。</td></tr>
-<tr><td><code>10003</code></td><td><code>language</code> 参数错误。</td></tr>
-<tr><td><code>10004</code></td><td><code>voice_name</code> 参数错误，需确认模型 ID 已训练成功且具备合成授权。</td></tr>
-<tr><td><code>10005</code></td><td><code>audiotype</code> 参数错误。</td></tr>
-<tr><td><code>10006</code></td><td><code>rate</code> 参数错误。</td></tr>
-<tr><td><code>10009</code></td><td><code>text</code> 参数错误。</td></tr>
-<tr><td><code>10010</code></td><td>文本过长。</td></tr>
-<tr><td><code>20000</code></td><td>获取资源错误。</td></tr>
-<tr><td><code>20001</code></td><td>断句失败。</td></tr>
-<tr><td><code>20002</code></td><td>分段数错误。</td></tr>
-</table>
-</div>
+<button class="copyClass">copy</button></pre></section> <h3 data-v-6f1bf638="" id="reprint-word4">响应结果</h3> <section data-v-6f1bf638=""><p data-v-6f1bf638="">
+        检查http
+        响应头Content-Type判断合成请求是否成功，如返回Content-Type以audio开头说明合成成功，响应体为音频数据。如返回Content-Type:application/json说明合成出现错误，响应体为json。
+      </p> <strong data-v-6f1bf638="">1. 成功请求Content-Type示例</strong> <p data-v-6f1bf638="">a) audiotype=3，返回16K采样率的mp3格式的音频字符串，可根据参数表中的rate参数设置返回的码率，具体header信息 Content-Type:
+        audio/mp3；</p> <p data-v-6f1bf638="">b) audiotype=4，返回16K采样率的PCM格式音频，Content-Type: audio/pcm；</p> <p data-v-6f1bf638="">c) audiotype=5，返回8K采样率的PCM格式音频，Content-Type: audio/pcm；</p> <p data-v-6f1bf638="">d) audiotype=6，返回16K采样率的wav格式音频，Content-Type: audio/wav；</p> <p data-v-6f1bf638="">e) audiotype=6&amp;rate=1，返回为8K采样率的wav格式的音频，Content-Type: audio/wav；</p> <p data-v-6f1bf638="">f) audiotype=7，返回8K采样率的alaw格式音频，Content-Type: audio/alaw；</p> <p data-v-6f1bf638="">g) audiotype=8，返回8K采样率的ulaw格式音频， Content-Type: audio/ulaw；</p> <p data-v-6f1bf638="">h) audiotype=9&amp;rate=1，返回8K采样率的mp3格式音频， Content-Type: audio/mp3；</p> <strong data-v-6f1bf638="">2. interval=1时返回响应头增加interval-info 返回边界音子时间戳</strong> <img data-v-6f1bf638="" src="https://databaker-gw-static.oss-accelerate.aliyuncs.com/assets/images/specs/document2.png" alt="" style="width: 780px; height: 158px;"> <strong data-v-6f1bf638="">3. 合成出错请求Content-Type示例：</strong> <pre class="doc-sample doc-code" data-v-6f1bf638="">Content-Type: application/json
+{
+	"err_msg": "parameter error",
+	"err_no": -6101,
+	"log_id": 955891560,
+	"sn": "914313d3-c9cf-493d-820d-b0e81fdb8bd4"
+}<button class="copyClass">copy</button></pre></section> <h3 data-v-6f1bf638="">错误码</h3> <section data-v-6f1bf638=""><div class="table-wrap"><table class="doc-table" data-v-6f1bf638="" border="0" cellspacing="0" cellpadding="0"><thead data-v-6f1bf638=""><tr data-v-6f1bf638=""><th data-v-6f1bf638="">错误码</th> <th data-v-6f1bf638="">含义</th></tr></thead> <tbody data-v-6f1bf638=""><tr data-v-6f1bf638=""><td data-v-6f1bf638="">10001</td> <td data-v-6f1bf638="">access_token参数获取失败或未传输</td></tr> <tr data-v-6f1bf638=""><td data-v-6f1bf638="">10002</td> <td data-v-6f1bf638="">domain参数值错误</td></tr> <tr data-v-6f1bf638=""><td data-v-6f1bf638="">10003</td> <td data-v-6f1bf638="">language参数错误</td></tr> <tr data-v-6f1bf638=""><td data-v-6f1bf638="">10004</td> <td data-v-6f1bf638="">voice_name参数错误</td></tr> <tr data-v-6f1bf638=""><td data-v-6f1bf638="">10005</td> <td data-v-6f1bf638="">audiotype参数错误</td></tr> <tr data-v-6f1bf638=""><td data-v-6f1bf638="">10006</td> <td data-v-6f1bf638="">rate参数错误</td></tr> <tr data-v-6f1bf638=""><td data-v-6f1bf638="">10007</td> <td data-v-6f1bf638="">idx错误</td></tr> <tr data-v-6f1bf638=""><td data-v-6f1bf638="">10008</td> <td data-v-6f1bf638="">single错误</td></tr> <tr data-v-6f1bf638=""><td data-v-6f1bf638="">10009</td> <td data-v-6f1bf638="">text参数错误</td></tr> <tr data-v-6f1bf638=""><td data-v-6f1bf638="">10010</td> <td data-v-6f1bf638="">文本太长</td></tr> <tr data-v-6f1bf638=""><td data-v-6f1bf638="">20000</td> <td data-v-6f1bf638="">获取资源错误</td></tr> <tr data-v-6f1bf638=""><td data-v-6f1bf638="">20001</td> <td data-v-6f1bf638="">断句失败</td></tr> <tr data-v-6f1bf638=""><td data-v-6f1bf638="">20002</td> <td data-v-6f1bf638="">分段数错误</td></tr> <tr data-v-6f1bf638=""><td data-v-6f1bf638="">20003</td> <td data-v-6f1bf638="">分段后的文本长度错误</td></tr> <tr data-v-6f1bf638=""><td data-v-6f1bf638="">20004</td> <td data-v-6f1bf638="">获取引擎链接错误</td></tr> <tr data-v-6f1bf638=""><td data-v-6f1bf638="">20005</td> <td data-v-6f1bf638="">RPC链接失败错误</td></tr> <tr data-v-6f1bf638=""><td data-v-6f1bf638="">20006</td> <td data-v-6f1bf638="">引擎内部错误</td></tr> <tr data-v-6f1bf638=""><td data-v-6f1bf638="">20007</td> <td data-v-6f1bf638="">操作redis错误</td></tr> <tr data-v-6f1bf638=""><td data-v-6f1bf638="">20008</td> <td data-v-6f1bf638="">音频编码错误</td></tr> <tr data-v-6f1bf638=""><td data-v-6f1bf638="">30000</td> <td data-v-6f1bf638="">鉴权错误（access_token值不正确或已经失效）</td></tr> <tr data-v-6f1bf638=""><td data-v-6f1bf638="">30001</td> <td data-v-6f1bf638="">并发错误</td></tr> <tr data-v-6f1bf638=""><td data-v-6f1bf638="">30002</td> <td data-v-6f1bf638="">内部配置错误</td></tr> <tr data-v-6f1bf638=""><td data-v-6f1bf638="">30003</td> <td data-v-6f1bf638="">json串解析错误</td></tr> <tr data-v-6f1bf638=""><td data-v-6f1bf638="">30004</td> <td data-v-6f1bf638="">获取url失败</td></tr> <tr data-v-6f1bf638=""><td data-v-6f1bf638="">30005</td> <td data-v-6f1bf638="">获取客户IP地址失败</td></tr> <tr data-v-6f1bf638=""><td data-v-6f1bf638="">30006</td> <td data-v-6f1bf638="">任务队列错误</td></tr></tbody></table></div></section></div>

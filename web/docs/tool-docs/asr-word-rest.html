@@ -1,117 +1,492 @@
-<h1>一句话识别 RESTful API</h1>
-<p class="doc-lead">一句话识别 RESTful API 用于识别不超过 60 秒的短语音，适用于语音交互、控制口令、对话聊天等场景。请求体直接上传二进制音频数据，接口返回 JSON 格式识别结果。</p>
+<div data-v-e7446148=""><h2 data-v-e7446148="">一句话识别Restful API</h2> <h3 data-v-e7446148="">功能介绍</h3> <section data-v-e7446148=""><p data-v-e7446148="">识别不超过60s的语音，适用于语音交互、控制口令、对话聊天等场景。</p></section> <h3 data-v-e7446148="">音频要求</h3> <section data-v-e7446148=""><ul data-v-e7446148=""><li data-v-e7446148="">时长限制：60秒以内</li> <li data-v-e7446148="">支持音频格式：wav，pcm</li> <li data-v-e7446148="">音频采样率：8000Hz，16000Hz</li> <li data-v-e7446148="">位深：16bits</li> <li data-v-e7446148="">声道：单声道</li></ul></section> <h3 data-v-e7446148="">使用方法</h3> <section data-v-e7446148=""><p data-v-e7446148="">1. 创建账号和应用，详见<a data-v-e7446148="" href="https://www.data-baker.com/specs/file/guide">平台新手指引</a>，通过<a data-v-e7446148="" href="https://ai.data-baker.com/">标贝开放平台</a>/应用/服务获取client_id，client_secret</p> <p data-v-e7446148="">2. 发送请求获取access_token，详见<a data-v-e7446148="" href="https://www.data-baker.com/specs/file/access_token">获取访问令牌</a></p> <p data-v-e7446148="">3. 发送识别请求：按照请求说明发送请求，具体参数详见<a data-v-e7446148="" href="/specs/file/asr_word_api_restful#asr-word1">请求参数</a>。
+      </p> <p data-v-e7446148="">6. 接收返回结果：发送请求成功后会立即收到返回响应，采用JSON格式封装，识别结果在“text"字段内，具体参数定义详见<a data-v-e7446148="" href="/specs/file/asr_word_api_restful#asr-word2">响应识别结果</a>。</p></section> <h3 data-v-e7446148="">服务地址</h3> <section data-v-e7446148=""><div class="table-wrap"><table class="doc-table" data-v-e7446148="" border="0" cellspacing="0" cellpadding="0"><thead data-v-e7446148=""><tr data-v-e7446148=""><th data-v-e7446148="">访问类型</th> <th data-v-e7446148="">说明</th> <th data-v-e7446148="">URL</th> <th data-v-e7446148="">Host</th></tr></thead> <tbody data-v-e7446148=""><tr data-v-e7446148=""><td data-v-e7446148="">外网访问</td> <td data-v-e7446148="">支持中文普通话、中英自由说、英文、粤语、维语</td> <td data-v-e7446148="">https://openapi.data-baker.com/asr/api?</td> <td data-v-e7446148="">openapi.data-baker.com</td></tr></tbody></table></div></section> <h3 data-v-e7446148="">交互流程</h3> <section data-v-e7446148=""><img data-v-e7446148="" src="https://databaker-gw-static.oss-accelerate.aliyuncs.com/assets/images/specs/document1.png" alt="" style="width: 467px; height: 312px;"></section> <h3 data-v-e7446148="" id="asr-word1">请求参数</h3> <section data-v-e7446148=""><strong data-v-e7446148="">1. 请求方法: POST</strong> <br data-v-e7446148=""> <strong data-v-e7446148="">2. 请求headers</strong> <div class="table-wrap"><table class="doc-table" data-v-e7446148="" border="0" cellspacing="0" cellpadding="0" style="margin: 20px 0px;"><thead data-v-e7446148=""><tr data-v-e7446148=""><th data-v-e7446148="">参数名称</th> <th data-v-e7446148="">名称</th> <th data-v-e7446148="" style="white-space: nowrap;">是否必填项</th> <th data-v-e7446148="">说明</th></tr></thead> <tbody data-v-e7446148=""><tr data-v-e7446148=""><td data-v-e7446148="">access_token</td> <td data-v-e7446148="">string</td> <td data-v-e7446148="">yes</td> <td data-v-e7446148="">
+              通过client_id，client_secret调用授权服务获得见<a data-v-e7446148="" href="/specs/file/access_token" class="">获取访问令牌
+              </a></td></tr> <tr data-v-e7446148=""><td data-v-e7446148="">audio_format</td> <td data-v-e7446148="">string</td> <td data-v-e7446148="">yes</td> <td data-v-e7446148="">音频编码格式<br data-v-e7446148="">wav<br data-v-e7446148="">pcm</td></tr> <tr data-v-e7446148=""><td data-v-e7446148="">sample_rate</td> <td data-v-e7446148="">integer</td> <td data-v-e7446148="">yes</td> <td data-v-e7446148="">音频采样率<br data-v-e7446148="">8000<br data-v-e7446148="">16000</td></tr> <tr data-v-e7446148=""><td data-v-e7446148="">domain</td> <td data-v-e7446148="">string</td> <td data-v-e7446148="">no</td> <td data-v-e7446148="">
+              模型名称 <br data-v-e7446148=""> <b data-v-e7446148="">16k采样率支持模型：</b><br data-v-e7446148="">
+              中文通用模型 "common"，<b data-v-e7446148="">默认值</b><br data-v-e7446148="">
+              中英自由说模型 "cn-en-mixed" <br data-v-e7446148="">
+              英文模型 "english"，<br data-v-e7446148="">
+              粤语模型 "cantonese"，<br data-v-e7446148="">
+              维语模型 "uighur"，<br data-v-e7446148=""> <b data-v-e7446148="">8k采样率支持模型：</b><br data-v-e7446148="">
+              中文客服模型 "kefu"<br data-v-e7446148=""></td></tr> <tr data-v-e7446148=""><td data-v-e7446148="">add_pct</td> <td data-v-e7446148="">string</td> <td data-v-e7446148="">no</td> <td data-v-e7446148="">true: 加标点，<b data-v-e7446148="">默认值</b><br data-v-e7446148="">false：不添加标点</td></tr> <tr data-v-e7446148=""><td data-v-e7446148="">hotwordid</td> <td data-v-e7446148="">string</td> <td data-v-e7446148="">no</td> <td data-v-e7446148="">配置的热词组的id</td></tr> <tr data-v-e7446148=""><td data-v-e7446148="">diylmid</td> <td data-v-e7446148="">string</td> <td data-v-e7446148="">no</td> <td data-v-e7446148="">asr个性化模型的id</td></tr> <tr data-v-e7446148=""><td data-v-e7446148="">enable_itn</td> <td data-v-e7446148="">string</td> <td data-v-e7446148="">no</td> <td data-v-e7446148="">
+              中文数字转换为阿拉伯数字（仅支持3位及以上数字串）<br data-v-e7446148="">
+              ‘true’: 开启<br data-v-e7446148="">
+              ‘false’: 关闭
+            </td></tr></tbody></table></div> <strong data-v-e7446148="">3. 请求体</strong> <p data-v-e7446148="" style="padding-left: 20px;">HTTP请求体为二进制音频数据</p></section> <h3 data-v-e7446148="">测试音频</h3> <section data-v-e7446148=""><a data-v-e7446148="" href="https://databaker-of-yuedu.oss-cn-huhehaote.aliyuncs.com/gw/test.wav?OSSAccessKeyId=LTAI4Fktx2ckBLU3ZJizYTuW&amp;Expires=5286041033&amp;Signature=f3%2FFOHDp37Kw8XM%2BGqOXlB7M7IY%3D" target="_blank">测试音频</a></section> <h3 data-v-e7446148="">请求示例</h3> <section data-v-e7446148=""><pre class="doc-sample doc-code" data-v-e7446148="">curl -X POST \
+-H "access_token:xxxxxxxxxx" \
+-H "audio_format:wav" \
+-H "sample_rate:16000" \
+--data-binary "@wav_16k.wav" \
+"https://openapi.data-baker.com/asr/api?"<button class="copyClass">copy</button></pre></section> <h3 data-v-e7446148="">Python示例代码</h3> <section data-v-e7446148=""><p data-v-e7446148="">代码地址：<a data-v-e7446148="" href="https://github.com/data-baker/BakerSpeechApiDemo/tree/main/asr-rest-api/single_sentence_recognition" target="_blank">Github</a></p> <p data-v-e7446148="">Python3示例：</p> <pre class="doc-sample doc-code" data-v-e7446148="">#!/usr/bin/env python
+# coding: utf-8
 
-<h2 id="asr-word-rest-intro">功能介绍</h2>
-<ul>
-<li>时长限制：60 秒以内。</li>
-<li>支持音频格式：<code>wav</code>、<code>pcm</code>。</li>
-<li>音频采样率：<code>8000Hz</code>、<code>16000Hz</code>。</li>
-<li>位深：<code>16bits</code>。</li>
-<li>声道：单声道。</li>
-</ul>
-
-<h2 id="asr-word-rest-usage">使用方法</h2>
-<ol>
-<li>创建账号和应用，在开放平台应用服务中获取 <code>client_id</code> 与 <code>client_secret</code>。</li>
-<li>调用授权服务获取 <code>access_token</code>。</li>
-<li>按请求参数说明发送识别请求，请求体为二进制音频数据。</li>
-<li>接收 JSON 响应，识别文本在 <code>text</code> 字段中。</li>
-</ol>
-
-<h2 id="asr-word-rest-endpoint">服务地址</h2>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>访问类型</th><th>说明</th><th>URL</th><th>Host</th></tr>
-<tr><td>外网访问</td><td>支持中文普通话、中英自由说、英文、粤语、维语。</td><td><code>https://openapi.data-baker.com/asr/api?</code></td><td><code>openapi.data-baker.com</code></td></tr>
-</table>
-</div>
-
-<h2 id="asr-word-rest-request">请求参数</h2>
-<p>请求方法为 <code>POST</code>，Header 中传入鉴权与识别参数，请求体为音频二进制数据。</p>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>参数名称</th><th>类型</th><th>是否必填</th><th>说明</th></tr>
-<tr><td><code>access_token</code></td><td>string</td><td>是</td><td>通过 <code>client_id</code>、<code>client_secret</code> 调用授权服务获得。</td></tr>
-<tr><td><code>audio_format</code></td><td>string</td><td>是</td><td>音频编码格式，支持 <code>wav</code>、<code>pcm</code>。</td></tr>
-<tr><td><code>sample_rate</code></td><td>integer</td><td>是</td><td>音频采样率，支持 <code>8000</code>、<code>16000</code>。</td></tr>
-<tr><td><code>domain</code></td><td>string</td><td>否</td><td>模型名称。16k 支持 <code>common</code>、<code>cn-en-mixed</code>、<code>english</code>、<code>cantonese</code>、<code>uighur</code>；8k 支持 <code>kefu</code>。</td></tr>
-<tr><td><code>add_pct</code></td><td>boolean</td><td>否</td><td>是否添加标点：<code>true</code> 添加，<code>false</code> 不添加。</td></tr>
-<tr><td><code>hotwordid</code></td><td>string</td><td>否</td><td>配置的热词组 ID。</td></tr>
-<tr><td><code>diylmid</code></td><td>string</td><td>否</td><td>ASR 个性化模型 ID。</td></tr>
-<tr><td><code>enable_itn</code></td><td>boolean</td><td>否</td><td>中文数字转阿拉伯数字，仅支持 3 位及以上数字串：<code>true</code> 开启，<code>false</code> 关闭。</td></tr>
-</table>
-</div>
-
-<h2 id="asr-word-rest-example">请求示例</h2>
-<pre><code class="language-python">import json
 import requests
+import json
+import argparse
 
-url = "https://openapi.data-baker.com/asr/api?"
-headers = {
-    "access_token": "ACCESS_TOKEN",
-    "audio_format": "wav",
-    "sample_rate": "16000",
-    "add_pct": "true"
+
+# 获取access_token用于鉴权
+def get_access_token(client_secret, client_id):
+    grant_type = "client_credentials"
+    url = "https://openapi.data-baker.com/oauth/2.0/token?grant_type={}&amp;client_secret={}&amp;client_id={}"\
+        .format(grant_type, client_secret, client_id)
+
+    try:
+        response = requests.post(url)
+        response.raise_for_status()
+    except Exception as e:
+        print(e)
+        return
+    else:
+        access_token = json.loads(response.text).get('access_token')
+
+    return access_token
+
+
+# 获取识别后文本
+def get_text(file, headers):
+    url = "https://openapi.data-baker.com/asr/api?"
+    response = requests.post(url, data=file, headers=headers)
+    code = json.loads(response.text).get("code")
+    text = json.loads(response.text).get("text")
+    if code != 20000:
+        print(response.text)
+
+    return text
+
+
+# 获取命令行输入参数
+def get_args():
+    parser = argparse.ArgumentParser(description='ASR')
+    parser.add_argument('-client_secret', type=str, required=True)
+    parser.add_argument('-client_id', type=str, required=True)
+    parser.add_argument('-file_path', type=str, required=True)
+    parser.add_argument('--audio_format', type=str, default='wav')
+    parser.add_argument('--sample_rate', type=str, default='16000')
+    parser.add_argument('--add_pct', type=str, default='true')
+    args = parser.parse_args()
+
+    return args
+
+
+if __name__ == '__main__':
+    args = get_args()
+
+    # 获取access_token
+    client_secret = args.client_secret
+    client_id = args.client_id
+    access_token = get_access_token(client_secret, client_id)
+
+    # 读取音频文件
+    with open(args.file_path, 'rb') as f:
+        file = f.read()
+
+    # 填写Header信息
+    audio_format = args.audio_format
+    sample_rate = args.sample_rate
+    add_pct = args.add_pct
+    headers = {'access_token': access_token, 'audio_format': audio_format, 'sample_rate': sample_rate, 'add_pct': add_pct}
+    text = get_text(file, headers)
+    print(text)<button class="copyClass">copy</button></pre> <p data-v-e7446148="">命令行执行： 默认wav格式，16000采样率</p> <pre class="doc-sample doc-code" data-v-e7446148="">python single_sentence_recognition.py -client_secret=你的client_secret -client_id=你的client_id -file_path=test.wav<button class="copyClass">copy</button></pre> <p data-v-e7446148="">如有需要可自行修改参数</p> <pre class="doc-sample doc-code" data-v-e7446148="">python single_sentence_recognition.py -client_secret=你的client_secret -client_id=你的client_id -file_path=test.wav --audio_format=wav --sample_rate=16000<button class="copyClass">copy</button></pre></section> <h3 data-v-e7446148="">PHP示例代码</h3> <section data-v-e7446148=""><pre class="doc-sample doc-code" data-v-e7446148="">&lt;?php
+//获取访问令牌
+$client_secret = '***'; //应用secret
+$client_id = '***'; //应用id
+$grant_type = 'client_credentials'; //固定格式
+
+//1.获取token
+$url = 'https://openapi.data-baker.com/oauth/2.0/token?grant_type='.$grant_type.'&amp;client_id='.$client_id.'&amp;client_secret='.$client_secret;
+
+//curl get请求
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); //信任任何证书
+curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0); // 检查证书中是否设置域名,0不验证
+$token_res = curl_exec($ch);
+
+//如果错误 查看错误信息
+if(curl_errno($ch))
+{
+    print curl_error($ch);
+}
+curl_close($ch);
+
+//进行token信息解析
+$token_info = json_decode($token_res,1);
+$access_token = $token_info['access_token'];    //获取到的token信息
+//var_dump($access_token);die;
+//$access_token = '***';
+
+//2.一句话识别请求
+$url = 'https://openapi.data-baker.com/asr/api?';
+
+//curl post请求
+$audio_format = 'wav';  //音频格式
+$sample_rate = 16000;   //采样率
+$Content_Type = 'application/json; charset=utf-8';
+$headers = array(
+    'access_token:'.$access_token,
+    'audio_format:'.$audio_format,
+    'sample_rate:'.$sample_rate,
+    'Content-Type:'.$Content_Type
+);
+
+$file_path = './test.wav';
+//第一种方式读取
+$post_audio = file_get_contents($file_path);
+
+//第二种方式读取
+//$file_size = filesize($file_path);
+//$post_audio = fread(fopen($file_path, "r"), $file_size);
+
+$ch = curl_init();
+curl_setopt($ch, CURLINFO_HEADER_OUT, true);
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+curl_setopt($ch, CURLOPT_POST, true);
+curl_setopt($ch, CURLOPT_TIMEOUT, 60); // 识别时长不超过原始音频
+curl_setopt($ch, CURLOPT_POSTFIELDS, $post_audio);
+$audio_res = curl_exec($ch);
+
+//$request_header = curl_getinfo($ch, CURLINFO_HEADER_OUT);
+
+if(curl_errno($ch))
+{
+    print curl_error($ch);
+}
+curl_close($ch);
+
+$audio_info = json_decode($audio_res,1);
+$text = $audio_info['text'];    //获取识别出的文本内容
+var_dump($text);die;
+<button class="copyClass">copy</button></pre></section> <h3 data-v-e7446148="">JAVA示例代码</h3> <section data-v-e7446148=""><pre class="doc-sample doc-code" data-v-e7446148="">package com.databaker.web.asr;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import okhttp3.*;
+import org.apache.commons.lang3.StringUtils;
+
+import java.io.File;
+import java.io.FileInputStream;
+
+/**
+ * （一句话）在线识别RESTFUL API接口调用示例
+ * 附：在线识别RESTFUL API文档 【https://www.data-baker.com/specs/file/asr_word_api_restful】
+ * &lt;p&gt;
+ * 注意：仅作为demo示例,失败重试、token过期重新获取、日志打印等优化工作需要开发者自行完成
+ *
+ * @author data-baker
+ */
+public class AsrRestApiDemo {
+    /**
+     * 授权：需要在开放平台获取【https://ai.data-baker.com/】
+     */
+    private static final String clientId = "YOUR_CLIENT_ID";
+    private static final String clientSecret = "YOUR_CLIENT_SECRET";
+
+    /**
+     * 获取token的地址信息
+     */
+    public static String tokenUrl = "https://openapi.data-baker.com/oauth/2.0/token?grant_type=client_credentials&amp;client_secret=%s&amp;client_id=%s";
+    /**
+     * 一句话识别API地址
+     */
+    public static String asrUrl = "https://openapi.data-baker.com/asr/api";
+    /**
+     * 音频文件
+     */
+    public static String audioPath = "/home/asr/16bit_16k.pcm";
+    /**
+     * 文件大小限制：开发者需注意服务端会校验音频时长不超过60S。demo作为示例，简化为只校验文件大小
+     *
+     * @param args
+     */
+    public static Integer MAX_FILE_SIZE = 10 * 1024 * 1024;
+
+    public static void main(String[] args) {
+        String accessToken = getAccessToken();
+        if (StringUtils.isNotEmpty(accessToken)) {
+            File audioFile = new File(audioPath);
+            //一句话在线识别支持的音频长度在60S内，开发者需注意音频流的大小
+            if (audioFile.exists() &amp;&amp; audioFile.length() &lt; MAX_FILE_SIZE) {
+                //支持pcm和wav格式:如果是wav格式，audioFormat设置为"wav";如果是pcm格式，audioFormat设置为"pcm"
+                doSpeechRecognition(accessToken, audioFile, "pcm", 16000);
+            }
+        }
+    }
+
+    public static void doSpeechRecognition(String accessToken, File audioFile, String audioFormat, Integer sampleRate) {
+        try {
+            OkHttpClient client = new OkHttpClient();
+            MediaType mediaType = MediaType.parse("application/octet-stream");
+            FileInputStream in = new FileInputStream(audioFile);
+            byte[] fileByte = new byte[(int) audioFile.length()];
+            int realLen = in.read(fileByte);
+            //确保音频文件内容全部被读取
+            if (realLen == (int) audioFile.length()) {
+                RequestBody body = RequestBody.create(mediaType, fileByte);
+                //构造request
+                Request request = new Request.Builder()
+                        .url(asrUrl)
+                        .addHeader("access_token", accessToken)
+                        .addHeader("audio_format", audioFormat)
+                        .addHeader("sample_rate", String.valueOf(sampleRate))
+                        .addHeader("domain", "common")
+                        .method("POST", body)
+                        .build();
+                Response response = client.newCall(request).execute();
+                if (response.isSuccessful()) {
+                    JSONObject jsonObject = JSON.parseObject(response.body().string());
+                    System.out.println("识别成功,识别结果：" + (jsonObject == null ? "" : jsonObject.getString("text")));
+                } else {
+                    System.out.println("识别失败，错误信息：" + response.body().string());
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static String getAccessToken() {
+        String accessToken = "";
+        OkHttpClient client = new OkHttpClient();
+        //request 默认是get请求
+        String url = String.format(tokenUrl, clientSecret, clientId);
+        Request request = new Request.Builder().url(url).build();
+        JSONObject jsonObject;
+        try {
+            Response response = client.newCall(request).execute();
+            if (response.isSuccessful()) {
+                //解析
+                String resultJson = response.body().string();
+                jsonObject = JSON.parseObject(resultJson);
+                accessToken = jsonObject.getString("access_token");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return accessToken;
+    }
+}
+<button class="copyClass">copy</button></pre></section> <h3 data-v-e7446148="">GO示例代码</h3> <section data-v-e7446148=""><pre class="doc-sample doc-code" data-v-e7446148="">package main
+
+import (
+	"bytes"
+	"encoding/json"
+	"errors"
+	"flag"
+	"fmt"
+	"io/ioutil"
+	"net/http"
+	"net/url"
+	"os"
+	"strconv"
+	"time"
+)
+
+type AuthInfo struct {
+	AccessToken string `json:"access_token"`
+	ExpiresIn   int    `json:"expires_in"`
+	Scope       string `json:"scope"`
+}
+type ReqParams struct {
+	AccessToken string
+	AudioFormat string
+	SampleRate  int
+	domain      string
+	addPct      string
+	hotwordId   string
+	diylmId     string
+}
+type Response struct {
+	Code int    `json:"code"`
+	Text string `json:"text"`
 }
 
-with open("test.wav", "rb") as f:
-    audio = f.read()
+const grantType string = "client_credentials"
 
-response = requests.post(url, data=audio, headers=headers)
-result = response.json()
-print(result.get("text"))</code></pre>
+func GetToken(reqUrl, clientId, clientSecret string) (string, error) {
+	// 超时时间：60秒
+	client := &amp;http.Client{Timeout: 60 * time.Second}
+	urlParams := url.Values{}
+	urlParams.Add("grant_type", grantType)
+	urlParams.Add("client_id", clientId)
+	urlParams.Add("client_secret", clientSecret)
+	httpUrl := reqUrl
+	httpUrl += "?"
+	httpUrl += urlParams.Encode()
+	fmt.Printf("httpUrl: %s\n\n", httpUrl)
+	resp, err := client.Get(httpUrl)
+	if err != nil {
+		fmt.Printf("send http get token request failed, err: %s\n", err)
+		return "", err
+	}
+	defer resp.Body.Close()
+	result, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Printf("http get token request, readall body failed, err: %s\n", err)
+		return "", err
+	}
+	authInfo := AuthInfo{}
+	err = json.Unmarshal(result, &amp;authInfo)
+	if err != nil {
+		fmt.Printf("auth info json.Unmarshal err: %s \n", err)
+		return "", err
+	}
+	if len(authInfo.AccessToken) &lt;= 0 {
+		return "", errors.New("access token is null")
+	}
+	fmt.Printf("get token success. info: %#v \n", authInfo)
+	return authInfo.AccessToken, nil
+}
 
-<h2 id="asr-word-rest-response">响应结果参数</h2>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>字段名</th><th>类型</th><th>描述</th></tr>
-<tr><td><code>trace_id</code></td><td>string</td><td>任务 ID。遇到问题时可反馈该 ID 用于排查。</td></tr>
-<tr><td><code>code</code></td><td>int</td><td>请求结果码，成功为 <code>20000</code>。</td></tr>
-<tr><td><code>sid</code></td><td>string</td><td>会话 ID。</td></tr>
-<tr><td><code>text</code></td><td>string</td><td>语音识别结果，失败时为空。</td></tr>
-<tr><td><code>info</code></td><td>string</td><td>任务结果描述，请求失败时可根据该字段分析问题。</td></tr>
-<tr><td><code>confidence</code></td><td>int</td><td>整句置信度，范围 <code>0-100</code>，值越大表示置信度越高。</td></tr>
-<tr><td><code>speed</code></td><td>int</td><td>语速，范围 <code>0-2000</code>。</td></tr>
-<tr><td><code>speed_label</code></td><td>string</td><td>语速标签：<code>FAST</code>、<code>MEDIUM</code>、<code>SLOW</code>。</td></tr>
-<tr><td><code>volume</code></td><td>int</td><td>音量，范围 <code>0-100</code>。</td></tr>
-<tr><td><code>volume_label</code></td><td>string</td><td>音量标签：<code>SILENT</code>、<code>XSOFT</code>、<code>SOFT</code>、<code>MEDIUM</code>、<code>LOUD</code>、<code>XLOUD</code>。</td></tr>
-<tr><td><code>words</code></td><td>array</td><td>词级别识别结果。</td></tr>
-</table>
-</div>
+func SendAsr(reqUrl, file string, reqParam ReqParams) (string, error) {
+	// 超时时间：60秒
+	client := &amp;http.Client{Timeout: 60 * time.Second}
+	fmt.Printf("reqUrl: %s\n\n", reqUrl)
+	fileContent, err := ioutil.ReadFile(file)
+	if err != nil {
+		return "", err
+	}
+	req, err := http.NewRequest(http.MethodPost, reqUrl, bytes.NewReader(fileContent))
+	if err != nil {
+		return "", err
+	}
+	req.Header.Add("access_token", reqParam.AccessToken)
+	req.Header.Add("audio_format", reqParam.AudioFormat)
+	req.Header.Add("sample_rate", strconv.Itoa(reqParam.SampleRate))
+	if len(reqParam.domain) &gt; 0 {
+		req.Header.Add("domain", reqParam.domain)
+	}
+	if len(reqParam.addPct) &gt; 0 {
+		req.Header.Add("add_pct", reqParam.addPct)
+	}
+	if len(reqParam.hotwordId) &gt; 0 {
+		req.Header.Add("hotwordid", reqParam.hotwordId)
+	}
+	if len(reqParam.diylmId) &gt; 0 {
+		req.Header.Add("diylmid", reqParam.diylmId)
+	}
+	resp, err := client.Do(req)
 
-<h2 id="asr-word-rest-words">words 内部结构</h2>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>字段名</th><th>描述</th></tr>
-<tr><td><code>confidence</code></td><td>词置信度，范围 <code>0-1</code>，值越大表示置信度越高。</td></tr>
-<tr><td><code>sos</code></td><td>词在音频中的绝对开始时间点，单位秒。</td></tr>
-<tr><td><code>eos</code></td><td>词在音频中的绝对结束时间点，单位秒。</td></tr>
-<tr><td><code>word</code></td><td>识别出的词。</td></tr>
-</table>
-</div>
+	if err != nil {
+		fmt.Printf("send http request failed, err: %s \n", err)
+		return "", err
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != 200 {
+		fmt.Printf("send http request return status code != 200\n")
+		return "", errors.New("status code is not 200")
+	}
+	result, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Printf("readall http body failed, err: %s \n", err)
+		return "", err
+	}
+	response := Response{}
+	if err = json.Unmarshal(result, &amp;response); err != nil {
+		return string(result), err
+	}
+	if 20000 == response.Code {
+		return response.Text, nil
+	}
+	return string(result), nil
+}
 
-<h2 id="asr-word-rest-response-example">响应结果示例</h2>
-<pre><code class="language-json">{
-  "code": 20000,
-  "text": "你好标贝科技",
-  "trace_id": "TRACE_ID",
-  "confidence": 92,
-  "words": [
-    {"word": "你好", "sos": 0.12, "eos": 0.48, "confidence": 0.97}
-  ]
-}</code></pre>
-
-<h2 id="asr-word-rest-errors">错误码</h2>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>错误码</th><th>说明</th><th>处理建议</th></tr>
-<tr><td><code>20000</code></td><td>请求成功。</td><td>正常读取 <code>text</code> 等返回字段。</td></tr>
-<tr><td><code>30001</code></td><td>HTTP 请求参数错误。</td><td>检查 Header 参数、音频格式和请求体。</td></tr>
-<tr><td><code>30002</code></td><td>服务内部错误。</td><td>保留 <code>trace_id</code> 并反馈排查。</td></tr>
-<tr><td><code>30005</code></td><td>语音质量问题。</td><td>检查录音质量、噪声、音量和采样参数。</td></tr>
-<tr><td><code>30006</code></td><td>输入语音过长。</td><td>确保单次语音不超过 60 秒。</td></tr>
-<tr><td><code>40001</code></td><td>无效的 token。</td><td>重新获取并传入有效 <code>access_token</code>。</td></tr>
-<tr><td><code>40002</code></td><td>无效的头部参数或未授权。</td><td>检查应用权限和 Header 参数。</td></tr>
-<tr><td><code>40005</code></td><td>不支持的 <code>audio_format</code>。</td><td>确认音频格式为接口支持的 <code>wav</code> 或 <code>pcm</code>。</td></tr>
-</table>
-</div>
+func main() {
+	var (
+		clientId, clientSecret, file string
+	)
+	param := ReqParams{}
+	flag.StringVar(&amp;clientId, "cid", "", "client id")
+	flag.StringVar(&amp;clientSecret, "cs", "", "client secret")
+	flag.IntVar(&amp;param.SampleRate, "sample_rate", 16000, "sample_rate: 8000, 16000")
+	flag.StringVar(&amp;param.domain, "domain", "common", "domain")
+	flag.StringVar(&amp;param.AudioFormat, "audio_format", "wav", "音频编码格式 wav, pcm")
+	flag.StringVar(&amp;param.addPct, "add_pct", "true", "add_pct true: 加标点，默认值. false：不添加标点")
+	flag.StringVar(&amp;param.hotwordId, "hotwordid", "", "配置的热词组的id")
+	flag.StringVar(&amp;param.diylmId, "diylmid", "", "asr个性化模型的id")
+	flag.StringVar(&amp;file, "f", "", "需要识别的音频文件")
+	flag.Parse()
+	if len(os.Args) &lt; 2 {
+		flag.Usage()
+		return
+	}
+	if len(clientId) &lt;= 0 || len(clientSecret) &lt;= 0 || len(file) &lt;= 0 {
+		fmt.Println("parameter error!!!")
+		return
+	}
+	accessToken, err := GetToken("https://openapi.data-baker.com/oauth/2.0/token",
+		clientId,
+		clientSecret,
+	)
+	if err != nil {
+		fmt.Println("get access token failed!!!! please check your client_id and client_secret.")
+		return
+	}
+	param.AccessToken = accessToken
+	result, err := SendAsr("https://openapi.data-baker.com/asr/api?", file, param)
+	if err != nil {
+		fmt.Printf("send http request failed. result: %s \n", result)
+		return
+	}
+	fmt.Printf("send http request success. result: %s\n", result)
+}<button class="copyClass">copy</button></pre></section> <h3 data-v-e7446148="">C示例代码</h3> <section data-v-e7446148=""><p data-v-e7446148="">代码地址：<a data-v-e7446148="" href="https://github.com/data-baker/BakerSpeechApiDemo/tree/main/asr-rest-api/single_sentence_recognition" target="_blank">Github</a></p></section> <h3 data-v-e7446148="" id="asr-word2">响应结果参数</h3> <section data-v-e7446148=""><div class="table-wrap"><table class="doc-table" data-v-e7446148="" border="0" cellspacing="0" cellpadding="0"><thead data-v-e7446148=""><tr data-v-e7446148=""><th data-v-e7446148="">字段名</th> <th data-v-e7446148="">类型</th> <th data-v-e7446148="">描述</th></tr></thead> <tbody data-v-e7446148=""><tr data-v-e7446148=""><td data-v-e7446148="">trace_id</td> <td data-v-e7446148="">string</td> <td data-v-e7446148="">任务id，如遇到问题，可反馈此id给开发，用于跟踪问题</td></tr> <tr data-v-e7446148=""><td data-v-e7446148="">code</td> <td data-v-e7446148="">int</td> <td data-v-e7446148="">请求结果码，请参考错误码一节</td></tr> <tr data-v-e7446148=""><td data-v-e7446148="">sid</td> <td data-v-e7446148="">string</td> <td data-v-e7446148="">会话id</td></tr> <tr data-v-e7446148=""><td data-v-e7446148="">text</td> <td data-v-e7446148="">string</td> <td data-v-e7446148="">语音识别结果，失败时为空</td></tr> <tr data-v-e7446148=""><td data-v-e7446148="">info</td> <td data-v-e7446148="">string</td> <td data-v-e7446148="">任务结果描述，如请求失败请根据该字段内容分析问题</td></tr> <tr data-v-e7446148=""><td data-v-e7446148="">confidence</td> <td data-v-e7446148="">string</td> <td data-v-e7446148="">整句置信度[0-100]，值越大表示置信度越高。</td></tr> <tr data-v-e7446148=""><td data-v-e7446148="">speed</td> <td data-v-e7446148="">int</td> <td data-v-e7446148="">语速，取值[0-2000]</td></tr> <tr data-v-e7446148=""><td data-v-e7446148="">speed_label</td> <td data-v-e7446148="">string</td> <td data-v-e7446148="">
+              语速标签：<br data-v-e7446148="">
+              15以下：FAST 快<br data-v-e7446148="">
+              15-30 : MEDIUM 适中<br data-v-e7446148="">
+              30-2000：SLOW 慢
+            </td></tr> <tr data-v-e7446148=""><td data-v-e7446148="">volume</td> <td data-v-e7446148="">int</td> <td data-v-e7446148="">音量，取值[0-100]</td></tr> <tr data-v-e7446148=""><td data-v-e7446148="">volume_label</td> <td data-v-e7446148="">string</td> <td data-v-e7446148="">
+              音量标签：<br data-v-e7446148="">
+              SILENT：0-15 静音<br data-v-e7446148="">
+              XSOFT：15-30 音量很小<br data-v-e7446148="">
+              SOFT：30-50 音量小<br data-v-e7446148="">
+              MEDIUM：50-70 音量适中<br data-v-e7446148="">
+              LOAD：70-85 音量大<br data-v-e7446148="">
+              XLOUD：85-100 音量很大
+            </td></tr> <tr data-v-e7446148=""><td data-v-e7446148="">words</td> <td data-v-e7446148="">array</td> <td data-v-e7446148="">词级别识别结果</td></tr></tbody></table></div> <p data-v-e7446148="" style="margin: 10px 0px;">words内部结构:</p> <div class="table-wrap"><table class="doc-table" data-v-e7446148="" border="0" cellspacing="0" cellpadding="0"><thead data-v-e7446148=""><tr data-v-e7446148=""><th data-v-e7446148="">字段名</th> <th data-v-e7446148="">类型</th> <th data-v-e7446148="">描述</th></tr></thead> <tbody data-v-e7446148=""><tr data-v-e7446148=""><td data-v-e7446148="">confidence</td> <td data-v-e7446148="">string</td> <td data-v-e7446148="">词置信度[0-1]，值越大表示置信度越高。</td></tr> <tr data-v-e7446148=""><td data-v-e7446148="">sos</td> <td data-v-e7446148="">string</td> <td data-v-e7446148="">词在音频中的绝对开始时间点 单位：秒</td></tr> <tr data-v-e7446148=""><td data-v-e7446148="">eos</td> <td data-v-e7446148="">string</td> <td data-v-e7446148="">词在音频中的绝对结束时间点 单位：秒</td></tr> <tr data-v-e7446148=""><td data-v-e7446148="">word</td> <td data-v-e7446148="">string</td> <td data-v-e7446148="">词</td></tr></tbody></table></div></section> <h3 data-v-e7446148="">响应结果示例</h3> <section data-v-e7446148=""><pre class="doc-sample doc-code" data-v-e7446148="">{
+	"code": 20000,
+	"confidence": "68.31",
+	"info": "Success",
+	"sid": "d0b28d23-49f3-46d8-80f1-b4e1cbfec496",
+	"speed": 26,
+	"speed_label": "MEDIUM",
+	"text": "欢迎使用标贝科技开放平台。",
+	"trace_id": "1652148140911063",
+	"volume": 45,
+	"volume_label": "SOFT",
+	"words": [{
+		"confidence": "0.40",
+		"eos": "0.51",
+		"sos": "0.06",
+		"word": "欢迎"
+	}, {
+		"confidence": "0.80",
+		"eos": "1.05",
+		"sos": "0.51",
+		"word": "使用"
+	}, {
+		"confidence": "0.40",
+		"eos": "1.52",
+		"sos": "1.05",
+		"word": "标贝"
+	}, {
+		"confidence": "1.00",
+		"eos": "1.95",
+		"sos": "1.52",
+		"word": "科技"
+	}, {
+		"confidence": "0.50",
+		"eos": "2.40",
+		"sos": "1.95",
+		"word": "开放"
+	}, {
+		"confidence": "1.00",
+		"eos": "3.12",
+		"sos": "2.40",
+		"word": "平台"
+	}]
+}<button class="copyClass">copy</button></pre></section> <h3 data-v-e7446148="">错误码</h3> <section data-v-e7446148=""><div class="table-wrap"><table class="doc-table" data-v-e7446148="" border="0" cellspacing="0" cellpadding="0"><thead data-v-e7446148=""><tr data-v-e7446148=""><th data-v-e7446148="">code</th> <th data-v-e7446148="">描述</th> <th data-v-e7446148="">处理建议</th></tr></thead> <tbody data-v-e7446148=""><tr data-v-e7446148=""><td data-v-e7446148="">20000</td> <td data-v-e7446148="">请求成功</td> <td data-v-e7446148=""></td></tr> <tr data-v-e7446148=""><td data-v-e7446148="">30001</td> <td data-v-e7446148="">HTTP请求参数错误</td> <td data-v-e7446148="" rowspan="16">
+              服务器内部错误，提交traceid，标贝后台进行排查。
+            </td></tr> <tr data-v-e7446148=""><td data-v-e7446148="">30002</td> <td data-v-e7446148="">服务内部错误</td></tr> <tr data-v-e7446148=""><td data-v-e7446148="">30003</td> <td data-v-e7446148="">识别结果解析出错</td></tr> <tr data-v-e7446148=""><td data-v-e7446148="">30004</td> <td data-v-e7446148="">应用包名未知</td></tr> <tr data-v-e7446148=""><td data-v-e7446148="">30005</td> <td data-v-e7446148="">语音质量问题</td></tr> <tr data-v-e7446148=""><td data-v-e7446148="">30006</td> <td data-v-e7446148="">输入语音过长</td></tr> <tr data-v-e7446148=""><td data-v-e7446148="">30007</td> <td data-v-e7446148="">连接识别引擎失败</td></tr> <tr data-v-e7446148=""><td data-v-e7446148="">30008</td> <td data-v-e7446148="">会话id不存在</td></tr> <tr data-v-e7446148=""><td data-v-e7446148="">30009</td> <td data-v-e7446148="">Rpc调用非法</td></tr> <tr data-v-e7446148=""><td data-v-e7446148="">30010</td> <td data-v-e7446148="">redis rpop操作返回空</td></tr> <tr data-v-e7446148=""><td data-v-e7446148="">30011</td> <td data-v-e7446148="">redis rpop值不合法</td></tr> <tr data-v-e7446148=""><td data-v-e7446148="">30012</td> <td data-v-e7446148="">rpc调用识别引擎失败</td></tr> <tr data-v-e7446148=""><td data-v-e7446148="">30013</td> <td data-v-e7446148="">Redis rpop操作失败</td></tr> <tr data-v-e7446148=""><td data-v-e7446148="">30014</td> <td data-v-e7446148="">redis lpush操作失败</td></tr> <tr data-v-e7446148=""><td data-v-e7446148="">30015</td> <td data-v-e7446148="">单个语音分片过长</td></tr> <tr data-v-e7446148=""><td data-v-e7446148="">30016</td> <td data-v-e7446148="">回调url失败</td></tr> <tr data-v-e7446148=""><td data-v-e7446148="">40001</td> <td data-v-e7446148="">无效的token</td> <td data-v-e7446148="" rowspan="3">检查对应的header参数是否正确</td></tr> <tr data-v-e7446148=""><td data-v-e7446148="">40002</td> <td data-v-e7446148="">无效的头部参数(或未被授权)</td></tr> <tr data-v-e7446148=""><td data-v-e7446148="">40005</td> <td data-v-e7446148="">不支持的audio_format</td></tr> <tr data-v-e7446148=""><td data-v-e7446148="">40006</td> <td data-v-e7446148="">不支持的sample_rate</td></tr> <tr data-v-e7446148=""><td data-v-e7446148="">40007</td> <td data-v-e7446148="">缺少body</td> <td data-v-e7446148="">上传有效的body</td></tr> <tr data-v-e7446148=""><td data-v-e7446148="">40009</td> <td data-v-e7446148="">账号处于未激活状态</td> <td data-v-e7446148="" rowspan="3">检查账号状态</td></tr> <tr data-v-e7446148=""><td data-v-e7446148="">40010</td> <td data-v-e7446148="">账号已过期</td></tr> <tr data-v-e7446148=""><td data-v-e7446148="">40011</td> <td data-v-e7446148="">购买调用量已耗尽</td></tr> <tr data-v-e7446148=""><td data-v-e7446148="">40012</td> <td data-v-e7446148="">超过qps限制</td> <td data-v-e7446148="">升级qps</td></tr> <tr data-v-e7446148=""><td data-v-e7446148="">40015</td> <td data-v-e7446148="">请求体长度过大</td> <td data-v-e7446148="">检查发送音频长度和大小</td></tr> <tr data-v-e7446148=""><td data-v-e7446148="">50002</td> <td data-v-e7446148="">内部rpc调用失败</td> <td data-v-e7446148="" rowspan="2"></td></tr> <tr data-v-e7446148=""><td data-v-e7446148="">50009</td> <td data-v-e7446148="">其他内部错误</td></tr></tbody></table></div></section></div>

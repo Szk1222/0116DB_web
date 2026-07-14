@@ -1,0 +1,706 @@
+<div data-v-99abef30=""><h2 data-v-99abef30="">短文本合成Websocket API</h2> <h3 data-v-99abef30="">功能介绍</h3> <section data-v-99abef30=""><p data-v-99abef30="">
+        语音合成Websocket API满足用户希望尽快获得合成音频的场景，输入文本后音频以流的形式持续返回直至最后一帧成功返回。
+      </p></section> <h3 data-v-99abef30="">参数设置</h3> <section data-v-99abef30=""><ul data-v-99abef30=""><li data-v-99abef30="">支持设置合成音频的格式: PCM</li> <li data-v-99abef30="">支持设置合成音频的采样率: 8000Hz,16000Hz,24000Hz</li> <li data-v-99abef30="">支持设置多种发音人</li> <li data-v-99abef30="">支持设置音量、语速、语调</li> <li data-v-99abef30="">支持返回时间戳信息</li> <li data-v-99abef30="">支持设置多种语言:中文(zh)，英文(eng)，粤语(cat)，四川话(sch)，天津话(tjh)，台湾话(tai)，韩语(kr)，巴葡语(bra)，日语(jp)，西班牙西语(ESP)，墨西哥西语(MEX)，维吾尔语(UYG)</li></ul></section> <h3 data-v-99abef30="">websocket协议简介</h3> <section data-v-99abef30=""><ul data-v-99abef30=""><li data-v-99abef30="">
+          WebSocket （
+          <a data-v-99abef30="" target="_blank" href="https://tools.ietf.org/html/rfc6455">https://tools.ietf.org/html/rfc6455</a>）是HTML5开始提供的一种浏览器与服务器间进行全双工通讯的网络技术。依靠这种技术可以实现客户端和服务器端的长连接，双向实时通信。
+        </li> <li data-v-99abef30="">
+          WebSocket和HTTP一样都是基于TCP的应用层协议。客户端开始建立WebSocket连接时要发送一个header标记了
+          Upgrade的HTTP请求，表示请求协议升级。所以服务器端做出响应是直接在现有的HTTP服务器软件和现有的端口上实现WebSocket协议，然后再回一个状态码为101的HTTP响应完成握手。握手完成后收发数据跟HTTP就没有关系了。
+        </li> <li data-v-99abef30="">
+          握手部分的设计目的就是兼容现有的基于HTTP的服务端组件（web服务器软件）或者中间件（代理服务器软件）。这样一个端口就可以同时接受普通的HTTP请求或则WebSocket请求了。为了这个目的，WebSocket客户端的握手是一个
+          HTTP升级版的请求（HTTP Upgrade request）
+        </li> <li data-v-99abef30="">客户端发送一个请求</li> <pre class="doc-sample doc-code" data-v-99abef30="">GET /tts/wsapi HTTP/1.1
+Host: openapi.data-baker.com
+Upgrade: websocket
+Connection: Upgrade
+Sec-WebSocket-Key: x3JJHMbDL1EzLkh9GBhXDw==
+Sec-WebSocket-Protocol: chat, superchat
+Sec-WebSocket-Version: 13
+Origin: http://example.com<button class="copyClass">copy</button></pre> <li data-v-99abef30="">服务端响应</li> <pre class="doc-sample doc-code" data-v-99abef30="">HTTP/1.1 101 Switching Protocols
+Upgrade: websocket
+Connection: Upgrade
+Sec-WebSocket-Accept: HSmrc0sMlYUkAGmm5OPpG2HaGWk=
+Sec-WebSocket-Protocol: chat<button class="copyClass">copy</button></pre></ul></section> <h3 data-v-99abef30="">使用方法</h3> <section data-v-99abef30=""><p data-v-99abef30="">1. 创建账号和应用，详见<a data-v-99abef30="" href="https://www.data-baker.com/specs/file/guide">平台新手指引</a>，通过<a data-v-99abef30="" href="https://ai.data-baker.com/">标贝开放平台</a>/应用/服务获取client_id，client_secret</p> <p data-v-99abef30="">2. 发送请求获取access_token，详见<a data-v-99abef30="" href="https://www.data-baker.com/specs/file/access_token">获取访问令牌</a></p> <p data-v-99abef30="">3. 建立websocket连接</p> <p data-v-99abef30="">4. 实时发送需要合成的文字，具体参数详见 <a data-v-99abef30="" href="/specs/file/tts_api_websocket#tts-api-1">请求参数</a>。</p> <p data-v-99abef30="">5. 接收返回结果，具体参数定义详见<a data-v-99abef30="" href="/specs/file/tts_api_websocket#tts-api-2">响应结果</a>说明。</p> <p data-v-99abef30="">6. 关闭连接。</p></section> <h3 data-v-99abef30="">服务地址</h3> <section data-v-99abef30=""><div class="table-wrap"><table class="doc-table" data-v-99abef30="" border="0" cellspacing="0" cellpadding="0"><thead data-v-99abef30=""><tr data-v-99abef30=""><th data-v-99abef30="">访问类型</th> <th data-v-99abef30="">说明</th> <th data-v-99abef30="">URL</th> <th data-v-99abef30="">Host</th></tr></thead> <tbody data-v-99abef30=""><tr data-v-99abef30=""><td data-v-99abef30="">外网访问</td> <td data-v-99abef30="">支持全部音色及语言</td> <td data-v-99abef30="">wss://openapi.data-baker.com/tts/wsapi</td> <td data-v-99abef30="">openapi.data-baker.com</td></tr></tbody></table></div></section> <h3 data-v-99abef30="">交互流程</h3> <section data-v-99abef30=""><img data-v-99abef30="" src="https://databaker-gw-static.oss-accelerate.aliyuncs.com/assets/images/specs/document3.png" alt="" style="width: 600px; height: 556px;"></section> <h3 data-v-99abef30="" id="tts-api-1">请求参数</h3> <section data-v-99abef30=""><div class="table-wrap"><table class="doc-table" data-v-99abef30="" border="0" cellspacing="0" cellpadding="0"><thead data-v-99abef30=""><tr data-v-99abef30=""><th data-v-99abef30="">参数名称</th> <th data-v-99abef30="">类型</th> <th data-v-99abef30="" style="white-space: nowrap;">是否必填项</th> <th data-v-99abef30="">说明</th></tr></thead> <tbody data-v-99abef30=""><tr data-v-99abef30=""><td data-v-99abef30="">access_token</td> <td data-v-99abef30="">string</td> <td data-v-99abef30="">yes</td> <td data-v-99abef30="">
+              通过client_id，client_secret调用授权服务获得见
+              <a data-v-99abef30="" href="/specs/file/access_token" class="">获取访问令牌</a></td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">version</td> <td data-v-99abef30="">string</td> <td data-v-99abef30="">yes</td> <td data-v-99abef30="">版本信息，目前为1.0</td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">tts_params</td> <td data-v-99abef30="">jsonObject，且内部的字段均为string数据类型，<b data-v-99abef30="">其中text字段是必需字段且需进行base64编码</b></td> <td data-v-99abef30="">yes</td> <td data-v-99abef30="">tts相关参数</td></tr></tbody></table></div> <p data-v-99abef30="" style="margin: 20px 0px;"><b data-v-99abef30="">tts相关参数如下</b>:</p> <div class="table-wrap"><table class="doc-table" data-v-99abef30="" border="0" cellspacing="0" cellpadding="0"><thead data-v-99abef30=""><tr data-v-99abef30=""><th data-v-99abef30="">参数名称</th> <th data-v-99abef30="" width="80px">类型</th> <th data-v-99abef30="" style="white-space: nowrap;">是否必填项</th> <th data-v-99abef30="">说明</th></tr></thead> <tbody data-v-99abef30=""><tr data-v-99abef30=""><td data-v-99abef30="">text</td> <td data-v-99abef30="">string</td> <td data-v-99abef30="">是</td> <td data-v-99abef30="">合成的文本，<b data-v-99abef30="">使用UTF-8编码，一次请求最多不超过300个汉字，且需进行base64编码。</b></td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">domain</td> <td data-v-99abef30="">string</td> <td data-v-99abef30="">是</td> <td data-v-99abef30="">应用所属领域如导航、客服等，以数字进行编码，<b data-v-99abef30="">目前值固定为1</b></td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">language</td> <td data-v-99abef30="">string</td> <td data-v-99abef30="">是</td> <td data-v-99abef30="">
+              合成请求文本的语言<br data-v-99abef30="">ZH(中文和中英混)<br data-v-99abef30="">ENG(纯英文，中文部分不会合成)<br data-v-99abef30="">CAT(粤语）<br data-v-99abef30="">SCH(四川话)<br data-v-99abef30="">TJH(天津话)<br data-v-99abef30="">TAI(台湾话)<br data-v-99abef30="">KR(韩语)<br data-v-99abef30="">BRA(巴葡语)<br data-v-99abef30="">JP(日语)<br data-v-99abef30="">ESP(西班牙西语)<br data-v-99abef30=""> MEX(墨西哥西语)<br data-v-99abef30="">UYG(维吾尔语)
+            </td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">speed</td> <td data-v-99abef30="">string</td> <td data-v-99abef30="">否</td> <td data-v-99abef30="">设置播放的语速，在0～9之间（支持浮点值），<b data-v-99abef30="">默认值为5</b></td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">volume</td> <td data-v-99abef30="">string</td> <td data-v-99abef30="">否</td> <td data-v-99abef30="">设置语音的音量，在0～9之间（只支持整型值），<b data-v-99abef30="">默认值为5</b></td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">pitch</td> <td data-v-99abef30="">string</td> <td data-v-99abef30="">否</td> <td data-v-99abef30="">设置语音的音调，在0～9之间，（支持浮点值），<b data-v-99abef30="">默认值为5</b></td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">audiotype</td> <td data-v-99abef30="">string</td> <td data-v-99abef30="">否</td> <td data-v-99abef30="">音频种类：
+              <br data-v-99abef30="">audiotype = 4，返回16K采样率的pcm格式，<b data-v-99abef30="">默认值</b> <br data-v-99abef30="">audiotype = 5，返回8K采样率的pcm格式
+              <br data-v-99abef30="">audiotype=5&amp;rate=3，返回24K采样率的pcm格式
+            </td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">rate</td> <td data-v-99abef30="">string</td> <td data-v-99abef30="">否</td> <td data-v-99abef30="">rate=3，请求24k采样率时使用</td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">voice_name</td> <td data-v-99abef30="">string</td> <td data-v-99abef30="">是</td> <td data-v-99abef30="">发音人选择，如“Jiaojiao", 详见 <a data-v-99abef30="" href="/specs/file/tts_voice_list" class="">发音人列表</a></td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">spectrum</td> <td data-v-99abef30="">string</td> <td data-v-99abef30="">否</td> <td data-v-99abef30=""><b data-v-99abef30="">高频频谱：取值范围1~20； 默认值为1，不调整频谱；</b><br data-v-99abef30="">1代表不调整频谱； <br data-v-99abef30="">1以上的值代表高频能量增加幅度，
+              值越大声音的高频部分增强越多，听起来更亮和尖细
+            </td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">spectrum_8k</td> <td data-v-99abef30="">string</td> <td data-v-99abef30="">否</td> <td data-v-99abef30=""><b data-v-99abef30="">低频部分频谱：取值范围0~20；默认值为0，仅针对8K音频频谱的调整</b>。 组合形式只有以下几种：
+              <br data-v-99abef30="">audiotype=5&amp;spectrum_8k=xx
+            </td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">interval</td> <td data-v-99abef30="">string</td> <td data-v-99abef30="">否</td> <td data-v-99abef30="">
+              音子级别时间戳功能：<br data-v-99abef30="">
+              '0':关闭音子级别时间戳功能<br data-v-99abef30="">
+              '1':开启音子级别时间戳功能<br data-v-99abef30=""></td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">enable_subtitles</td> <td data-v-99abef30="">string</td> <td data-v-99abef30="">否</td> <td data-v-99abef30="">
+              字级别时间戳功能，<b data-v-99abef30="">同interval=”1”一起使用：</b> <br data-v-99abef30="">
+              '0':关闭字级别时间戳功能<br data-v-99abef30="">
+              '1':开启字级别时间戳功能<br data-v-99abef30="">
+              详细使用方法参考<a data-v-99abef30="" href="/specs/file/tts_api_time" class="">语音合成时间戳</a><br data-v-99abef30=""></td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">silence</td> <td data-v-99abef30="">string</td> <td data-v-99abef30="">否</td> <td data-v-99abef30="">
+              设置标点符号静音时长：<br data-v-99abef30=""> <b data-v-99abef30="">'0'：默认值</b><br data-v-99abef30="">
+              '1'：句中标点停顿较短，适合直播、配音解说等场景<br data-v-99abef30="">
+              '2'：句中标点停顿较长，适合朗诵、教学等场景<br data-v-99abef30=""></td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">emo_type</td> <td data-v-99abef30="">string</td> <td data-v-99abef30="">是(请求情感音色时)</td> <td data-v-99abef30="">在请求情感音色时，该参数是必填项。请求情感音色不存在的情感会报错。可选值参考 发音人列表-多情感/风格音色，如：sad</td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">emo_intensity</td> <td data-v-99abef30="">string</td> <td data-v-99abef30="">否</td> <td data-v-99abef30="">设置情感强度，在1～5之间（只支持整型值），不传时默认为3。</td></tr></tbody></table></div></section> <h3 data-v-99abef30="">请求示例</h3> <section data-v-99abef30=""><pre class="doc-sample doc-code" data-v-99abef30="" style="width: 780px;">{
+    "access_token":" your_access_token",
+    "version":"1.0",
+    "tts_params":{
+       "domain":"1",
+       "interval":"1",
+       "language":"zh",
+       "voice_name":"Jiaojiao",
+       "text":"5qCH6LSd56eR5oqA77yM5LiT5rOo5LqO5pm66IO96K+t6Z+z5oqA5pyv"//"标贝科技，专注于智能语音技术"
+    }
+}<button class="copyClass">copy</button></pre></section> <h3 data-v-99abef30="">Python示例代码</h3> <section data-v-99abef30=""><p data-v-99abef30="">
+        代码地址：<a data-v-99abef30="" href="https://github.com/data-baker/BakerSpeechApiDemo/tree/main/tts-websocket-api/online_tts" target="_blank">Github</a></p> <p data-v-99abef30="">Python3示例：</p> <pre class="doc-sample doc-code" data-v-99abef30="">import argparse
+import json
+import base64
+from threading import Thread
+import requests
+import websocket
+import wave
+
+
+#websocket客户端
+class Client:
+    def __init__(self, data, uri):
+        self.data = data
+        self.uri = uri
+        self.audio_data = b""
+
+    #建立连接
+    def connect(self):
+        ws_app = websocket.WebSocketApp(uri,
+                                        on_open=self.on_open,
+                                        on_message=self.on_message,
+                                        on_error=self.on_error,
+                                        on_close=self.on_close)
+        ws_app.run_forever()
+
+    # 建立连接后发送消息
+    def on_open(self, ws):
+        print("sending..")
+        def run(*args):
+            ws.send(self.data)
+
+        Thread(target=run).start()
+
+    # 接收消息
+    def on_message(self, ws, message):
+        code = json.loads(message).get("code")
+        if code != 90000:
+            # 打印接口错误
+            print(message)
+        else:
+            self.audio_data += base64.b64decode(bytes(json.loads(message).get("data")["audio_data"], encoding='utf-8'))
+            if json.loads(message).get("data")["end_flag"] == 1:
+                with wave.open('test.wav', 'wb') as wavfile:
+                    wavfile.setparams((1, 2, 16000, 0, 'NONE', 'NONE'))
+                    wavfile.writeframes(self.audio_data)
+                ws.close()
+                print("task finished successfully")
+
+    # 打印错误
+    def on_error(self, ws, error):
+        print("error: ", str(error))
+
+    # 关闭连接
+    def on_close(ws):
+        print("client closed.")
+
+
+# 准备数据
+def prepare_data(args, access_token):
+
+    # 填写Header信息
+    audiotype= args.audiotype
+    voice_name = args.voice_name
+
+    text = args.text
+    # 单次调用不超过300个汉字
+    if len(text) &gt; 300:
+        raise Exception("Text is too long. The maximum length of chinese character is 300")
+    text_bytes = text.encode(encoding='UTF-8')
+    text = str(base64.b64encode(text_bytes), encoding='UTF-8')
+    tts_params = {"language": "ZH", "voice_name": voice_name, "audiotype": audiotype, "domain": "1", "text": text}
+
+    data = {"access_token": access_token, "version": "1.0", "tts_params": tts_params}
+    data = json.dumps(data)
+
+    return data
+
+
+# 获取命令行输入参数
+def get_args():
+    text = "今天天气不错哦！"
+    parser = argparse.ArgumentParser(description='tts')
+    parser.add_argument('-client_secret', type=str, required=True)
+    parser.add_argument('-client_id', type=str, required=True)
+    parser.add_argument('-file_save_path', type=str, required=True)
+    parser.add_argument('--text', type=str, default=text)
+    parser.add_argument('--audiotype', type=str, default='4')
+    parser.add_argument('--voice_name', type=str, default='Lingling')
+    args = parser.parse_args()
+
+    return args
+
+
+# 获取access_token用于鉴权
+def get_access_token(client_secret, client_id):
+    grant_type = "client_credentials"
+    url = "https://openapi.data-baker.com/oauth/2.0/token?grant_type={}&amp;client_secret={}&amp;client_id={}" \
+        .format(grant_type, client_secret, client_id)
+
+    try:
+        response = requests.post(url)
+        response.raise_for_status()
+    except Exception as e:
+        print(response.text)
+        raise Exception
+    else:
+        access_token = json.loads(response.text).get('access_token')
+        return access_token
+
+
+if __name__ == '__main__':
+    try:
+        args = get_args()
+
+        # 获取access_token
+        client_secret = args.client_secret
+        client_id = args.client_id
+        access_token = get_access_token(client_secret, client_id)
+
+        # 准备数据
+        data = prepare_data(args, access_token)
+
+        uri = "wss://openapi.data-baker.com/tts/wsapi"
+        # 建立Websocket连接
+        client = Client(data, uri)
+        client.connect()
+
+        print('end')
+    except Exception as e:
+        print(e)
+      <button class="copyClass">copy</button></pre> <p data-v-99abef30="">命令行执行</p> <pre class="doc-sample doc-code" data-v-99abef30="">python online_tts.py -client_secret=您的client_secret -client_id=您的client_id -file_save_path=test.wav --text=欢迎使用标贝开放平台<button class="copyClass">copy</button></pre></section> <h3 data-v-99abef30="">JAVA示例代码</h3> <section data-v-99abef30=""><pre class="doc-sample doc-code" data-v-99abef30="">package com.databaker.web.tts;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import okhttp3.*;
+import org.apache.commons.lang3.StringUtils;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.text.SimpleDateFormat;
+import java.util.Base64;
+import java.util.Date;
+
+/**
+ * 短文本合成WebSocket API接口调用示例
+ * 附：短文本合成Websocket API文档 【https://www.data-baker.com/specs/file/tts_api_websocket】
+ * 注意：
+ * 1.本demo展示了如何保存音频流到本地文件
+ * 2.本demo仅完成基本的接口调用，失败重试、token过期重新获取、日志打印等优化工作需要开发者自行完成
+ *
+ * @author data-baker
+ */
+public class TtsWebSocketDemo extends WebSocketListener {
+    /**
+     * 授权：需要在开放平台获取【https://ai.data-baker.com/】
+     */
+    private static final String clientId = "YOUR_CLIENT_ID";
+    private static final String clientSecret = "YOUR_CLIENT_SECRET";
+
+    /**
+     * 获取token的地址信息
+     */
+    public static String tokenUrl = "https://openapi.data-baker.com/oauth/2.0/token?grant_type=client_credentials&amp;client_secret=%s&amp;client_id=%s";
+
+    private static final String hostUrl = "wss://openapi.data-baker.com/tts/wsapi";
+
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd HH:mm:ss.SSS");
+
+    /**
+     * 开始时间
+     */
+    private static ThreadLocal&lt;Date&gt; timeBegin = ThreadLocal.withInitial(() -&gt; new Date());
+
+    /**
+     * 结束时间
+     */
+    private static ThreadLocal&lt;Date&gt; timeEnd = ThreadLocal.withInitial(() -&gt; new Date());
+
+    private Date startTime;
+
+    private String accessToken = getAccessToken();
+
+    /**
+     * utf-8编码，不超过300个汉字（即900字节）
+     */
+    private static Integer MAX_BYTE_LENGTH = 900;
+
+    /**
+     * 文本
+     */
+    private String text = "感谢使用标贝科技语音合成服务，祝您使用愉快！";
+    /**
+     * 发音人
+     */
+    private String voiceName = "Tiantian";
+
+    /**
+     * 保存结果文件的路径，开发者需要根据实际路径调整
+     */
+    private File resultFile;
+
+    public TtsWebSocketDemo(File resultFile) {
+        this.resultFile = resultFile;
+    }
+
+    public TtsWebSocketDemo(String text, File resultFile) {
+        this.text = text;
+        this.resultFile = resultFile;
+    }
+
+    public TtsWebSocketDemo(String text, String voiceName, File resultFile) {
+        this.text = text;
+        this.voiceName = voiceName;
+        this.resultFile = resultFile;
+    }
+
+    @Override
+    public void onOpen(WebSocket webSocket, Response response) {
+        super.onOpen(webSocket, response);
+        this.startTime = timeBegin.get();
+        new Thread(() -&gt; {
+            //连接成功，开始发送数据
+            //发送文本
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("access_token", accessToken);
+            jsonObject.put("version", "1.0");
+            //填充asr_params
+            JSONObject ttsParams = new JSONObject();
+            //domain非必填
+            ttsParams.put("domain", "1");
+            ttsParams.put("interval", "0");
+            ttsParams.put("language", "ZH");
+            ttsParams.put("voice_name", voiceName);
+
+            ttsParams.put("text", Base64.getEncoder().encodeToString(text.getBytes(Charset.forName("UTF-8"))));
+            jsonObject.put("tts_params", ttsParams);
+            System.out.println("dataSent:" + text);
+            webSocket.send(jsonObject.toString());
+
+            System.out.println("all data is send");
+        }).start();
+    }
+
+    @Override
+    public void onMessage(WebSocket webSocket, String text) {
+        super.onMessage(webSocket, text);
+        JSONObject resp = JSON.parseObject(text);
+        if (resp != null) {
+            if (resp.getInteger("code") != 90000) {
+                System.out.println("code=&gt;" + resp.getInteger("code") + " error=&gt;" + resp.getString("message") + " trace_id=" + resp.getString("trace_id"));
+                //关闭连接
+                webSocket.close(1000, "");
+                System.out.println("发生错误，关闭连接");
+                return;
+            }
+            JSONObject dataObject = resp.getJSONObject("data");
+            if (dataObject != null) {
+                if (StringUtils.isNotEmpty(dataObject.getString("audio_data"))) {
+                    //写入文件
+                    FileOutputStream out = null;
+                    try {
+                        out = new FileOutputStream(resultFile, true);
+                        byte[] b = Base64.getDecoder().decode(dataObject.getString("audio_data"));
+                        out.write(b);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } finally {
+                        if (out != null) {
+                            try {
+                                out.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+                if (dataObject.getInteger("end_flag") == 1) {
+                    //说明数据全部返回完毕，可以关闭连接，释放资源
+                    System.out.println("session end,tts finished. ");
+                    System.out.println(sdf.format(startTime) + "开始");
+                    System.out.println(sdf.format(timeEnd.get()) + "结束");
+                    System.out.println("耗时:" + (timeEnd.get().getTime() - startTime.getTime()) + "ms");
+                    webSocket.close(1000, "");
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onFailure(WebSocket webSocket, Throwable t, Response response) {
+        super.onFailure(webSocket, t, response);
+        try {
+            if (null != response) {
+                int code = response.code();
+                System.out.println("onFailure code:" + code);
+                System.out.println("onFailure body:" + response.body().string());
+            }
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 测试方法
+     *
+     * @param args
+     * @throws Exception
+     */
+    public static void main(String[] args) throws Exception {
+        OkHttpClient client = new OkHttpClient.Builder().build();
+        Request request = new Request.Builder().url(hostUrl).build();
+        File file = new File("src/main/resources/tts1.pcm");
+        //测试文本
+        String ttsTestText = "教育部13日召开新闻通气会表示，暑期托管服务主要面向确有需求的家庭和学生，并由家长学生自愿选择参加。托管服务应以看护为主，合理组织提供一些集体游戏活动、文体活动、阅读指导、综合实践、兴趣拓展、作业辅导等服务，但不得组织集体补课、讲授新课。关于暑期托管变成第三学期的说法是不符合实际的。";
+        //测试简单调用
+        if ((ttsTestText.getBytes(Charset.forName("UTF-8"))).length &gt; MAX_BYTE_LENGTH) {
+            //单次调用长度不能超过300汉字即900字节
+            //本demo策略是长度过长则直接返回，实际使用过程中可以进行文本切割
+            System.out.println("文本不能超过300个汉字");
+            return;
+        }
+        client.newWebSocket(request, new TtsWebSocketDemo(ttsTestText, file));
+    }
+
+    public static String getAccessToken() {
+        String accessToken = "";
+        OkHttpClient client = new OkHttpClient();
+        //request 默认是get请求
+        String url = String.format(tokenUrl, clientSecret, clientId);
+        Request request = new Request.Builder().url(url).build();
+        JSONObject jsonObject;
+        try {
+            Response response = client.newCall(request).execute();
+            if (response.isSuccessful()) {
+                //解析
+                String resultJson = response.body().string();
+                jsonObject = JSON.parseObject(resultJson);
+                accessToken = jsonObject.getString("access_token");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return accessToken;
+    }
+}
+      <button class="copyClass">copy</button></pre></section> <h3 data-v-99abef30="">PHP示例代码</h3> <section data-v-99abef30=""><pre class="doc-sample doc-code" data-v-99abef30="">&lt;?php
+    ini_set("max_execution_time", "300");
+    require_once "websocket-php/vendor/autoload.php";
+    //1.获取token链接
+    $client_secret = '***'; //应用secret
+    $client_id = '***'; //应用id
+    $grant_type = 'client_credentials'; //固定格式
+    $url = 'https://openapi.data-baker.com/oauth/2.0/token?grant_type='.$grant_type.'&amp;client_id='.$client_id.'&amp;client_secret='.$client_secret;
+
+    //curl get请求
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); //信任任何证书
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0); // 检查证书中是否设置域名,0不验证
+    $token_res = curl_exec($ch);
+
+    //如果错误 查看错误信息
+    if(curl_errno($ch))
+    {
+        print curl_error($ch);
+    }
+    curl_close($ch);
+
+    //进行token信息解析
+    $token_info = json_decode($token_res,1);
+    $access_token = $token_info['access_token'];    //获取到的token信息
+    //var_dump($access_token);die;
+    //$access_token = '***';
+
+    //2.短文本合成
+    $url = 'wss://openapi.data-baker.com/tts/wsapi';
+    $file_path = './test.txt';//文件路径 必须utf-8编码
+
+    //定义请求方法
+    $data_param['access_token'] = $access_token;
+    $data_param['version'] = '1.0';
+    $data_param['tts_params']['domain'] = '1';
+    $data_param['tts_params']['language'] = 'ZH';
+    $data_param['tts_params']['voice_name'] = 'Jiaojiao';
+
+    //发送数据请求 每次发送不超过300个汉字
+    $client = new \WebSocket\Client($url); //实例化
+    $handle = fopen($file_path,'rb');
+    $audio_info = fread($handle,900); //三个字节即一个汉字字符（UTF-8）
+    $data_param['tts_params']['text'] = base64_encode($audio_info);
+    $data = json_encode($data_param);
+    $client-&gt;send($data); //发送数据
+
+    //监听数据
+    $info_list = [];
+    $flag = true;
+    while ($flag) {
+        try {
+            $message = $client-&gt;receive();//获取数据
+            $result_info = json_decode($message,1);
+            if($result_info['code'] == 90000){
+                $info_list[$result_info['data']['idx']] = $result_info['data'];
+            }else{
+                throw new Exception($result_info['message']);
+            }
+            if($result_info['data']['end_flag']==1) $flag=false;//最后一包数据获取完成 停止获取数据
+            //var_dump($result_info);
+        } catch (\WebSocket\ConnectionException $e) {
+            die($e-&gt;getMessage());
+        }
+    }
+    //对获取数据进行处理 (说明，根据业务逻辑情况使用，本示例对返回信息一次性写入)
+    if($info_list){
+        ksort($info_list);//进行升序排序（说明，酌情使用，本示例对返回识别段落进行了二次排序）
+        $file_name = './test.pcm';
+        $handle=fopen($file_name,"w");
+        foreach ($info_list as $v){
+            //写入文件
+            fwrite($handle, base64_decode($v['audio_data']));
+        }
+        die("识别音频保存完成");
+    }else{
+        die("获取的数据为空");
+    }
+      <button class="copyClass">copy</button></pre></section> <h3 data-v-99abef30="">GO示例代码</h3> <section data-v-99abef30=""><pre class="doc-sample doc-code" data-v-99abef30="">package main
+
+import (
+	"bufio"
+	"encoding/base64"
+	"encoding/json"
+	"errors"
+	"flag"
+	"fmt"
+	"github.com/gorilla/websocket"
+	"io/ioutil"
+	"net/http"
+	"net/url"
+	"os"
+	"strconv"
+	"strings"
+	"time"
+)
+
+type AuthInfo struct {
+	AccessToken string `json:"access_token"`
+	ExpiresIn   int    `json:"expires_in"`
+	Scope       string `json:"scope"`
+}
+
+type ReqTtsParams struct {
+	Domain    string `json:"domain"`
+	Interval  string `json:"interval,omitempty"`
+	Language  string `json:"language"`
+	VoiceName string `json:"voice_name"`
+	Text      string `json:"text"`
+	Audiotype string `json:"audiotype,omitempty"`
+	Rate      string `json:"rate,omitempty"`
+}
+type WsReqParam struct {
+	AccessToken string       `json:"access_token"`
+	Version     string       `json:"version"`
+	TtsParams   ReqTtsParams `json:"tts_params"`
+}
+
+type WsMsgData struct {
+	Idx       int    `json:"idx"`
+	AudioData string `json:"audio_data"`
+	AudioType string `json:"audio_type"`
+	Interval  string `json:"interval"`
+	IntervalX string `json:"interval_x"`
+	EndFlag   int    `json:"end_flag"`
+}
+type WsMsg struct {
+	Code    int       `json:"code"`
+	Message string    `json:"message"`
+	TraceId string    `json:"trace_id"`
+	Data    WsMsgData `json:"data"`
+}
+
+const grantType string = "client_credentials"
+
+func GetToken(reqUrl, clientId, clientSecret string) (string, error) {
+	// 超时时间：60秒
+	client := &amp;http.Client{Timeout: 60 * time.Second}
+	urlParams := url.Values{}
+	urlParams.Add("grant_type", grantType)
+	urlParams.Add("client_id", clientId)
+	urlParams.Add("client_secret", clientSecret)
+	httpUrl := reqUrl
+	httpUrl += "?"
+	httpUrl += urlParams.Encode()
+	fmt.Printf("httpUrl: %s\n\n", httpUrl)
+	resp, err := client.Get(httpUrl)
+	if err != nil {
+		fmt.Printf("send http get token request failed, err: %s\n", err)
+		return "", err
+	}
+	defer resp.Body.Close()
+	result, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Printf("http get token request, readall body failed, err: %s\n", err)
+		return "", err
+	}
+	authInfo := AuthInfo{}
+	err = json.Unmarshal(result, &amp;authInfo)
+	if err != nil {
+		fmt.Printf("auth info json.Unmarshal err: %s \n", err)
+		return "", err
+	}
+	if len(authInfo.AccessToken) &lt;= 0 {
+		return "", errors.New("access token is null")
+	}
+	fmt.Printf("get token success. info: %#v \n", authInfo)
+	return authInfo.AccessToken, nil
+}
+
+func SendTts(urlStr string, reqParam WsReqParam) error {
+	con, _, err := websocket.DefaultDialer.Dial(urlStr, nil)
+	if err != nil {
+		fmt.Printf("websocket dial failed. url: %s\n", urlStr)
+		return err
+	}
+	defer con.Close()
+	if strings.Contains(reqParam.TtsParams.VoiceName, "cc") {
+		reqParam.TtsParams.Audiotype = "5"
+	}
+	err = con.WriteJSON(reqParam)
+	if err != nil {
+		fmt.Printf("websocket write json failed. url: %s\n", urlStr)
+		return err
+	}
+	var f *os.File
+	defer func() {
+		if f != nil {
+			_ = f.Close()
+		}
+	}()
+
+	filename := reqParam.TtsParams.VoiceName + "_"
+	filename += ".pcm"
+	f, err = os.Create(filename)
+	if err != nil {
+		return err
+	}
+	fmt.Printf("output:\t%s\n", filename)
+	writer := bufio.NewWriter(f)
+	for {
+		msg := WsMsg{}
+		err = con.ReadJSON(&amp;msg)
+		if err != nil {
+			fmt.Printf("websocket read json failed. url: %s\n", urlStr)
+			return err
+		}
+		if msg.Code != 90000 {
+			return fmt.Errorf("error_code %d, msg: %s", msg.Code, msg.Message)
+		}
+		fmt.Printf("index:\t%d\n", msg.Data.Idx)
+		fmt.Printf("interval:\t%s\n", msg.Data.Interval)
+		fmt.Printf("interval_x:\t%s\n", msg.Data.IntervalX)
+		fmt.Printf("endflag:\t%d\n\n", msg.Data.EndFlag)
+		if msg.Data.EndFlag == 1 {
+			return nil
+		}
+		audioData, err := base64.StdEncoding.DecodeString(msg.Data.AudioData)
+		if err != nil {
+			return err
+		}
+		_, _ = writer.Write(audioData)
+		_ = writer.Flush()
+	}
+	return nil
+}
+
+func main() {
+	var (
+		clientId, clientSecret, text, voiceName string
+		audioType, rate                         int
+		interval                                bool
+	)
+	flag.StringVar(&amp;clientId, "cid", "", "client id")
+	flag.StringVar(&amp;clientSecret, "cs", "", "client secret")
+	flag.StringVar(&amp;text, "t", "标贝科技", "合成文本")
+	flag.StringVar(&amp;voiceName, "v", "Jingjing", "发音人")
+	flag.IntVar(&amp;audioType, "audiotype", 4, "audiotype")
+	flag.IntVar(&amp;rate, "rate", 0, "rate")
+	flag.BoolVar(&amp;interval, "interval", false, "interval")
+	flag.Parse()
+	if len(os.Args) &lt; 2 {
+		flag.Usage()
+		return
+	}
+	if len(clientId) &lt;= 0 || len(clientSecret) &lt;= 0 || len(text) &lt;= 0 || len(voiceName) &lt;= 0 {
+		fmt.Println("parameter error!!!")
+		return
+	}
+	accessToken, err := GetToken("https://openapi.data-baker.com/oauth/2.0/token",
+		clientId,
+		clientSecret,
+	)
+	if err != nil {
+		fmt.Println("get access token failed!!!! please check your client_id and client_secret.")
+		return
+	}
+	base64Text := base64.StdEncoding.EncodeToString([]byte(text))
+	param := WsReqParam{
+		AccessToken: accessToken,
+		Version:     "1.0",
+		TtsParams: ReqTtsParams{
+			Text:      base64Text,
+			Language:  "ZH",
+			Domain:    "1",
+			VoiceName: voiceName,
+			Audiotype: strconv.Itoa(audioType),
+			Rate:      strconv.Itoa(rate),
+		},
+	}
+	if interval {
+		param.TtsParams.Interval = "1"
+	}
+	err = SendTts("wss://openapi.data-baker.com/tts/wsapi", param)
+	if err != nil {
+		fmt.Printf("send tts websocket request failed. err: %s \n", err.Error())
+		return
+	}
+	fmt.Println("send websocket request success.")
+}<button class="copyClass">copy</button></pre></section> <h3 data-v-99abef30="">C示例代码</h3> <section data-v-99abef30=""><p data-v-99abef30="">
+        代码地址：<a data-v-99abef30="" href="https://github.com/data-baker/BakerSpeechApiDemo/tree/main/tts-websocket-api/online_tts" target="_blank">Github</a></p></section> <h3 data-v-99abef30="">JS示例代码</h3> <section data-v-99abef30=""><p data-v-99abef30="">
+        代码地址：<a data-v-99abef30="" href="https://github.com/data-baker/BakerSpeechApiDemo/tree/main/tts-websocket-api/online_tts/JS" target="_blank">Github</a></p></section> <h3 data-v-99abef30="" id="tts-api-2">响应结果</h3> <section data-v-99abef30=""><ul data-v-99abef30="" class="callback"><li data-v-99abef30="">请求识别响应</li> <div class="table-wrap"><table class="doc-table" data-v-99abef30="" border="0" cellspacing="0" cellpadding="0"><thead data-v-99abef30=""><tr data-v-99abef30=""><th data-v-99abef30="">参数名称</th> <th data-v-99abef30="">类型</th> <th data-v-99abef30="">描述</th></tr></thead> <tbody data-v-99abef30=""><tr data-v-99abef30=""><td data-v-99abef30="">code</td> <td data-v-99abef30="">int</td> <td data-v-99abef30="">错误码4xxxx表示客户端参数错误，5xxxx表示服务端内部错误，详见<a data-v-99abef30="" href="/specs/file/tts_api_websocket#ttsWebErr">错误码</a></td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">message</td> <td data-v-99abef30="">string</td> <td data-v-99abef30="">错误描述</td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">trace_id</td> <td data-v-99abef30="">string</td> <td data-v-99abef30="">任务id</td></tr></tbody></table></div> <pre class="doc-sample doc-code" data-v-99abef30="">{
+      "code":40001,
+      "message":" Invalid json data",
+      "trace_id":" 1572234229176271"
+}<button class="copyClass">copy</button></pre> <li data-v-99abef30="">成功响应</li> <div class="table-wrap"><table class="doc-table" data-v-99abef30="" border="0" cellspacing="0" cellpadding="0"><thead data-v-99abef30=""><tr data-v-99abef30=""><th data-v-99abef30="">参数名称</th> <th data-v-99abef30="">类型</th> <th data-v-99abef30="">描述</th></tr></thead> <tbody data-v-99abef30=""><tr data-v-99abef30=""><td data-v-99abef30="">code</td> <td data-v-99abef30="">int</td> <td data-v-99abef30="">错误码4xxxx表示客户端参数错误，5xxxx表示服务端内部错误</td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">message</td> <td data-v-99abef30="">string</td> <td data-v-99abef30="">错误描述</td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">trace_id</td> <td data-v-99abef30="">string</td> <td data-v-99abef30="">任务id</td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">data</td> <td data-v-99abef30="">object</td> <td data-v-99abef30="">合成音频片段</td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">idx</td> <td data-v-99abef30="">int</td> <td data-v-99abef30="">包序号</td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">audio_data</td> <td data-v-99abef30="">string</td> <td data-v-99abef30="">base64编码后的音频数据，需要解码后使用</td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">audio_type</td> <td data-v-99abef30="">string</td> <td data-v-99abef30="">音频格式</td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">interval</td> <td data-v-99abef30="">string</td> <td data-v-99abef30="">音子边界信息</td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">end_flag</td> <td data-v-99abef30="">int</td> <td data-v-99abef30="">结束标志：<br data-v-99abef30="">0：未结束<br data-v-99abef30="">1：结束</td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">interval_x</td> <td data-v-99abef30="">string</td> <td data-v-99abef30="">interval-info-x: L=1&amp;T=1,L=1&amp;T=2,L=1&amp;T=1,L=1&amp;T=2,L=1&amp;T=5
+                <br data-v-99abef30="">
+                L表示语言种类，目前支持1：纯中文，5：中英混<br data-v-99abef30="">
+                T表示interval类型，0：默认值，1：声母，2：韵母，3：儿化韵母，4：英文，5：#3静音
+              </td></tr></tbody></table></div> <pre class="doc-sample doc-code" data-v-99abef30="">{
+      "code":90000,
+      "message":"Success",
+      "trace_id":" 1572234229176271"
+      "data":{
+        "idx":1,
+        "audio_data":" P8EAPz/AQAGAPf/8v/n/wkAAwD//wsA7f/q/x",
+        "audio_type":"audio/pcm",
+        "interval":" h=0.083746&amp;e=0.175807",
+        "interval_x":"L=1&amp;T=1,L=1&amp;T=2"
+        "end_flag":0
+      }
+}<button class="copyClass">copy</button></pre></ul></section> <h3 data-v-99abef30="" id="ttsWebErr">错误码</h3> <section data-v-99abef30=""><div class="table-wrap"><table class="doc-table" data-v-99abef30="" border="0" cellspacing="0" cellpadding="0"><thead data-v-99abef30=""><tr data-v-99abef30=""><th data-v-99abef30="">code</th> <th data-v-99abef30="">描述</th> <th data-v-99abef30="">处理建议</th></tr></thead> <tbody data-v-99abef30=""><tr data-v-99abef30=""><td data-v-99abef30="">90000</td> <td data-v-99abef30="">返回音频数据</td> <td data-v-99abef30=""></td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">10001</td> <td data-v-99abef30="">access_token参数获取失败或未传输</td> <td data-v-99abef30="" rowspan="10">检查参数</td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">10002</td> <td data-v-99abef30="">domain参数值错误</td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">10003</td> <td data-v-99abef30="">language参数错误</td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">10004</td> <td data-v-99abef30="">voice_name参数错误</td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">10005</td> <td data-v-99abef30="">audiotype参数错误</td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">10006</td> <td data-v-99abef30="">rate参数错误</td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">10007</td> <td data-v-99abef30="">idx错误</td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">10008</td> <td data-v-99abef30="">single错误</td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">10009</td> <td data-v-99abef30="">text参数错误</td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">10010</td> <td data-v-99abef30="">文本太长</td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">20000</td> <td data-v-99abef30="">获取资源错误</td> <td data-v-99abef30=""></td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">20001</td> <td data-v-99abef30="">断句失败</td> <td data-v-99abef30=""></td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">20002</td> <td data-v-99abef30="">分段数错误</td> <td data-v-99abef30=""></td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">20003</td> <td data-v-99abef30="">分段后的文本长度错误</td> <td data-v-99abef30=""></td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">20004</td> <td data-v-99abef30="">获取引擎链接错误</td> <td data-v-99abef30=""></td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">20005</td> <td data-v-99abef30="">RPC链接失败错误</td> <td data-v-99abef30=""></td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">20006</td> <td data-v-99abef30="">引擎内部错误</td> <td data-v-99abef30=""></td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">20007</td> <td data-v-99abef30="">操作redis错误</td> <td data-v-99abef30=""></td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">20008</td> <td data-v-99abef30="">音频编码错误</td> <td data-v-99abef30=""></td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">30000</td> <td data-v-99abef30="">鉴权错误（access_token值不正确或已经失效）</td> <td data-v-99abef30=""></td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">30001</td> <td data-v-99abef30="">并发错误</td> <td data-v-99abef30=""></td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">30002</td> <td data-v-99abef30="">内部配置错误</td> <td data-v-99abef30=""></td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">30003</td> <td data-v-99abef30="">json串解析错误</td> <td data-v-99abef30=""></td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">30004</td> <td data-v-99abef30="">获取url失败</td> <td data-v-99abef30=""></td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">30005</td> <td data-v-99abef30="">获取客户IP地址失败</td> <td data-v-99abef30=""></td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">30006</td> <td data-v-99abef30="">任务队列错误</td> <td data-v-99abef30=""></td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">40001</td> <td data-v-99abef30="">请求json不合法</td> <td data-v-99abef30="" rowspan="5">检查参数</td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">40002</td> <td data-v-99abef30="">请求缺失必须字段</td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">40003</td> <td data-v-99abef30="">版本号错误</td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">40004</td> <td data-v-99abef30="">字段值类型错误</td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">40005</td> <td data-v-99abef30="">参数错误</td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">50001</td> <td data-v-99abef30="">处理超时</td> <td data-v-99abef30="" rowspan="3"></td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">50002</td> <td data-v-99abef30="">内部rpc调用失败</td></tr> <tr data-v-99abef30=""><td data-v-99abef30="">50004</td> <td data-v-99abef30="">其他内部错误</td></tr></tbody></table></div></section></div>

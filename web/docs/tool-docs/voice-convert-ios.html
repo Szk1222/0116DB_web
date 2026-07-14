@@ -1,102 +1,50 @@
-<h1>声音转换 iOS SDK</h1>
-<p class="doc-lead">声音转换 iOS SDK 用于在 iOS 端接入实时声音转换和文件声音转换能力，支持麦克风录音转换，也支持传入音频文件路径进行转换。</p>
-
-<h2 id="voice-convert-ios-download">下载与兼容</h2>
-<p>SDK 与示例 Demo 下载地址：<a href="https://github.com/data-baker/BakerIosSdks" target="_blank" rel="noopener">https://github.com/data-baker/BakerIosSdks</a></p>
-<ul>
-<li>系统版本：iOS 9.0 及以上。</li>
-<li>CPU 架构：<code>arm64</code>、<code>arm64e</code>、<code>armv7</code>、<code>armv7s</code>。</li>
-<li>权限配置：在 <code>Info.plist</code> 中添加 <code>Privacy - Microphone Usage Description</code>。</li>
-</ul>
-
-<h2 id="voice-convert-ios-audio">音频要求</h2>
-<ul>
-<li>音频编码：<code>pcm</code>。</li>
-<li>采样率 / 位深：<code>16000Hz</code> / <code>16bit</code>。</li>
-<li>声道：单声道。</li>
-<li>语言：中文普通话。</li>
-</ul>
-
-<h2 id="voice-convert-ios-integrate">集成 SDK</h2>
-<p>通过 CocoaPods 集成：</p>
-<pre><code class="language-ruby">pod 'DBAudioSDK/DBVoiceTransferKit', 'SDK_VERSION'</code></pre>
-<p><code>SDK_VERSION</code> 为实际接入版本号。接入后导入声音转换类头文件：</p>
-<pre><code class="language-objectivec">#import "DBVoiceTransferUtil.h"</code></pre>
-
-<h2 id="voice-convert-ios-flow">调用流程</h2>
-<h3>实时声音转换</h3>
-<ol>
-<li>实例化 <code>DBVoiceTransferUtil</code>，调用 <code>setupClientId:clientSecret:block:</code> 完成鉴权。</li>
-<li>配置目标音色、播放开关、回调代理等转换参数。</li>
-<li>调用 <code>startTransferNeedPlay:</code> 开始转换，SDK 会使用麦克风录音。</li>
-<li>通过 <code>DBTransferProtocol</code> 接收转换结果。</li>
-<li>调用结束方法关闭麦克风和服务端连接。</li>
-</ol>
-<h3>声音文件转换</h3>
-<ol>
-<li>鉴权流程同实时声音转换。</li>
-<li>配置声音转换参数。</li>
-<li>调用文件转换方法，传入声音文件路径，并指定是否需要播放。</li>
-<li>转换完成或取消时，关闭服务端连接。</li>
-</ol>
-
-<h2 id="voice-convert-ios-example">调用代码示例</h2>
-<pre><code class="language-objectivec">[[DBVoiceTransferUtil shareInstance] setupClientId:clientId
-                                    clientSecret:clientSecret
-                                           block:^(NSString * _Nullable token, NSError * _Nullable error) {
-  if (error) {
-    NSLog(@"获取 token 失败:%@", error);
-    return;
-  }
+<div data-v-4d61dfdb=""><h2 data-v-4d61dfdb="">声音转换iOS SDK</h2> <h3 data-v-4d61dfdb="">SDK 下载地址</h3> <section data-v-4d61dfdb=""><p data-v-4d61dfdb="">
+        下载地址：
+        <a data-v-4d61dfdb="" target="_blank" href="https://github.com/data-baker/BakerIosSdks">https://github.com/data-baker/BakerIosSdks</a></p></section> <h3 data-v-4d61dfdb="">⾳频要求</h3> <section data-v-4d61dfdb=""><ul data-v-4d61dfdb=""><li data-v-4d61dfdb=""><b data-v-4d61dfdb="">·</b> ⽀持⾳频⽂件的编码格式及⽂件名的后缀: pcm。</li> <li data-v-4d61dfdb=""><b data-v-4d61dfdb="">·</b> ⽀持⾳频⽂件的采样率/位深: 16000Hz/16bit。</li> <li data-v-4d61dfdb=""><b data-v-4d61dfdb="">·</b> ⽀持的语⾔:中⽂普通话。</li> <li data-v-4d61dfdb=""><b data-v-4d61dfdb="">·</b> 声道：单声道。</li></ul></section> <h3 data-v-4d61dfdb="">集成SDK</h3> <section data-v-4d61dfdb=""><ul data-v-4d61dfdb=""><li data-v-4d61dfdb=""><strong data-v-4d61dfdb=""><b data-v-4d61dfdb="">1. 兼容性说明</b></strong><br data-v-4d61dfdb=""> <strong data-v-4d61dfdb="">系统：iOS 9.0以上版本 <br data-v-4d61dfdb=""> CPU架构：arm64 arm64e armv7 armv7s <br data-v-4d61dfdb="">添加隐私麦克风权限：</strong> <pre class="doc-sample doc-code" data-v-4d61dfdb="">Privacy - Microphone Usage Description：使用麦克风检测声音<button class="copyClass">copy</button></pre></li> <li data-v-4d61dfdb=""><strong data-v-4d61dfdb=""><b data-v-4d61dfdb="">2. 通过Pod方式集成</b></strong> <pre class="doc-sample doc-code" data-v-4d61dfdb="">Pod DBAudioSDK/DBVoiceTransferKit , ‘xxx’ ; ‘xxx’ 指的是SDK的版本号; <button class="copyClass">copy</button></pre> <strong data-v-4d61dfdb="">手动导入资源文件，资源目录如下图，具体可参照demo</strong><br data-v-4d61dfdb=""> <img data-v-4d61dfdb="" src="https://databaker-gw-static.oss-accelerate.aliyuncs.com/assets/images/specs/vc_ios.png" alt="" style="height: 180px;"></li> <li data-v-4d61dfdb=""><strong data-v-4d61dfdb=""><b data-v-4d61dfdb="">3. 引用SDK的头文件</b></strong> <br data-v-4d61dfdb=""> <strong data-v-4d61dfdb="">声音转换类的头文件</strong> <pre class="doc-sample doc-code" data-v-4d61dfdb="">#import “DBVoiceTransferUtil.h”<button class="copyClass">copy</button></pre></li></ul></section> <h3 data-v-4d61dfdb="">SDK 调用说明</h3> <section data-v-4d61dfdb=""><img data-v-4d61dfdb="" src="https://databaker-gw-static.oss-accelerate.aliyuncs.com/assets/images/specs/vc_ios2.png" alt="" style="height: 516px;"><br data-v-4d61dfdb=""><br data-v-4d61dfdb=""> <ul data-v-4d61dfdb=""><li data-v-4d61dfdb=""><strong data-v-4d61dfdb=""><b data-v-4d61dfdb="">1. 声音转换调用</b></strong><br data-v-4d61dfdb=""> <ul data-v-4d61dfdb=""><li data-v-4d61dfdb="">1. 鉴权：
+              实例化<span data-v-4d61dfdb="">DBVoiceDetectionUtil</span>对象，调用<span data-v-4d61dfdb="">“setupClientId:clientSecret:block:”</span>
+              的方法进行鉴权，鉴权成功后可以使用服务；</li> <li data-v-4d61dfdb="">2. 配置声音转换的相关参数，具体可参照“参数说明”；</li> <li data-v-4d61dfdb="">3.
+              开启声音转换：调用开启声音转换后，a.SDK会使用麦克风权限，录制声音进行声音转换，声音转换结果通过<span data-v-4d61dfdb="">DBTransferProtocol</span>进行回调；b.指定是否需要播放；
+            </li> <li data-v-4d61dfdb="">4. 结束声音转换：调用结束声音转换，会关闭麦克风和服务端的连接；</li></ul></li> <li data-v-4d61dfdb=""><strong data-v-4d61dfdb=""><b data-v-4d61dfdb="">2. 声音文件转换调用</b></strong><br data-v-4d61dfdb=""> <ul data-v-4d61dfdb=""><li data-v-4d61dfdb="">1. 鉴权： 同声音转换调用；</li> <li data-v-4d61dfdb="">2. 配置声音转换的相关参数；</li> <li data-v-4d61dfdb="">3. 开启文件转换：调用开启声音文件转换方法，需要传入声音文件的路径，并指定是否需要播放；</li> <li data-v-4d61dfdb="">4. 结束文件声音转换： 调用结束声音文件转换并关闭服务端的连接；</li></ul></li></ul></section> <h3 data-v-4d61dfdb="">调用代码示例</h3> <section data-v-4d61dfdb=""><ul data-v-4d61dfdb=""><li data-v-4d61dfdb=""><strong data-v-4d61dfdb="">1. 鉴权示例</strong> <pre class="doc-sample doc-code" data-v-4d61dfdb="">[[DBVoiceTransferUtil shareInstance] setupClientId:clientId clientSecret:clientSecret block:^(NSString * _Nullable token, NSError * _Nullable error) {
+if (error) {
+[[XCHudHelper sharedInstance] hideHud];
+NSLog(@"获取token失败:%@",error);
+NSString *msg = [NSString stringWithFormat:@"获取token失败:%@",error.description];
+return;
+}
 }];
+<button class="copyClass">copy</button></pre></li> <li data-v-4d61dfdb=""><strong data-v-4d61dfdb="">2. 转换参数设置示例</strong> <pre class="doc-sample doc-code" data-v-4d61dfdb="">_voiceTransferUtil = [DBVoiceTransferUtil shareInstance];
+_voiceTransferUtil.log = YES;
+_voiceTransferUtil.voiceName = @"XXX";
+_voiceTransferUtil.delegate = self; &nbsp;<button class="copyClass">copy</button></pre></li> <li data-v-4d61dfdb=""><strong data-v-4d61dfdb="">3. 实时语音转换调用示例</strong> <pre class="doc-sample doc-code" data-v-4d61dfdb="">// 开始
+[self.voiceTransferUtil startTransferNeedPlay:YES];
+// 结束
+[self.voiceTransferUtil endTransferAndCloseSocket];
+<button class="copyClass">copy</button></pre></li> <li data-v-4d61dfdb=""><strong data-v-4d61dfdb="">4. 文件转换调用示例</strong> <pre class="doc-sample doc-code" data-v-4d61dfdb="">// 开启声音转换
+[self.voiceTransferUtil startTransferWithFilePath:@"path" needPaley:YES];
+// 结束声音转换
+[self.voiceTransferUtil endFileTransferAndCloseSocket];<button class="copyClass">copy</button></pre></li> <li data-v-4d61dfdb=""><strong data-v-4d61dfdb="">5. 回调函数处理示例</strong> <pre class="doc-sample doc-code" data-v-4d61dfdb="">// 错误信息回调
+- (void)onError:(NSInteger)code message:(NSString *)message{xxx}
 
-DBVoiceTransferUtil *transfer = [DBVoiceTransferUtil shareInstance];
-transfer.log = YES;
-transfer.voiceName = @"Vc_jiaojiao";
-transfer.delegate = self;
+// 开启声音转换
+- (void)readyToTransfer{xxx}
 
-// 开始实时转换
-[transfer startTransferNeedPlay:YES];</code></pre>
+// 麦克风录音数据回调
+- (void)microphoneAudioData:(NSData *)data isLast:(BOOL)isLast {xxx}
 
-<h2 id="voice-convert-ios-params">参数说明</h2>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>参数 / 属性</th><th>说明</th></tr>
-<tr><td><code>clientId</code></td><td>应用授权 ID。</td></tr>
-<tr><td><code>clientSecret</code></td><td>应用授权密钥。</td></tr>
-<tr><td><code>voiceName</code></td><td>目标声音模型名称，例如 <code>Vc_jiaojiao</code>。</td></tr>
-<tr><td><code>delegate</code></td><td>设置 <code>DBTransferProtocol</code> 回调代理。</td></tr>
-<tr><td><code>log</code></td><td>是否开启 SDK 日志。</td></tr>
-<tr><td><code>needPlay</code></td><td>是否需要 SDK 内部播放转换后的音频。</td></tr>
-</table>
-</div>
+// 声音分贝值返回，回调
+- (void)dbValues:(NSInteger)db{xxx}
 
-<h2 id="voice-convert-ios-callback">DBTransferProtocol 回调</h2>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>回调</th><th>说明</th></tr>
-<tr><td>转换状态回调</td><td>返回当前转换流程状态。</td></tr>
-<tr><td>音频数据回调</td><td>返回转换后的音频数据，可用于播放或写入文件。</td></tr>
-<tr><td>结束回调</td><td>提示本次转换已结束，可释放相关资源。</td></tr>
-<tr><td>错误回调</td><td>返回错误码、错误信息和追踪信息，本次转换任务中断。</td></tr>
-</table>
-</div>
+// 转换数据回调
+- (void)transferCallBack:(NSData *)data isLast:(BOOL)isLast {xxx}
 
-<h2 id="voice-convert-ios-errors">常见错误码</h2>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>错误码</th><th>说明</th></tr>
-<tr><td><code>19180001</code></td><td>没有 token，请先完成鉴权初始化。</td></tr>
-<tr><td><code>19180002</code></td><td>网络请求出现错误。</td></tr>
-<tr><td><code>19180003</code></td><td>没有录音权限。</td></tr>
-<tr><td><code>10000</code></td><td>WS 数据包解析错误。</td></tr>
-<tr><td><code>10001</code></td><td>WS 数据包 JSON 解析错误。</td></tr>
-<tr><td><code>10002</code></td><td>请求参数缺少 <code>access_token</code>。</td></tr>
-<tr><td><code>10003</code></td><td><code>access_token</code> 过期或不合法。</td></tr>
-<tr><td><code>10004</code></td><td>请求参数缺少 <code>voice_name</code>。</td></tr>
-<tr><td><code>10005</code></td><td><code>voice_name</code> 不存在。</td></tr>
-<tr><td><code>20000</code></td><td>引擎资源不足，拒绝新建会话。</td></tr>
-<tr><td><code>20001</code></td><td>声音转换出错。</td></tr>
-<tr><td><code>30001</code></td><td>会话空闲超时。</td></tr>
-</table>
-</div>
+/// 开启播放回调
+- (void)readlyToPlay {xxx}
+
+///  结束播放回调
+- (void)playFinished {xxx}
+<button class="copyClass">copy</button></pre></li></ul></section> <h3 data-v-4d61dfdb="">参数说明</h3> <section data-v-4d61dfdb=""><ul data-v-4d61dfdb=""><li data-v-4d61dfdb=""><strong data-v-4d61dfdb="">SDK关键类</strong> <div class="table-wrap"><table class="doc-table" data-v-4d61dfdb="" border="0" cellspacing="0" cellpadding="0"><thead data-v-4d61dfdb=""><tr data-v-4d61dfdb=""><th data-v-4d61dfdb="">类接口名称</th> <th data-v-4d61dfdb="">说明</th></tr></thead> <tbody data-v-4d61dfdb=""><tr data-v-4d61dfdb=""><td data-v-4d61dfdb="">DBVoiceDetectionUtil</td> <td data-v-4d61dfdb="">声音转换的核心类： 包含鉴权，声音转换，文件声音转换</td></tr> <tr data-v-4d61dfdb=""><td data-v-4d61dfdb="">DBTransferModel</td> <td data-v-4d61dfdb="">数据model类，封装服务端返回的数据</td></tr> <tr data-v-4d61dfdb=""><td data-v-4d61dfdb="">DBTransferEnum</td> <td data-v-4d61dfdb="">错误枚举类，封装sdk客户端的错误</td></tr> <tr data-v-4d61dfdb=""><td data-v-4d61dfdb="">DBTransferProtocol</td> <td data-v-4d61dfdb="">声音转换回调协议，包含声音转换相关回调方法</td></tr></tbody></table></div> <br data-v-4d61dfdb=""></li> <li data-v-4d61dfdb=""><strong data-v-4d61dfdb="">声音转换配置参数说明</strong> <div class="table-wrap"><table class="doc-table" data-v-4d61dfdb="" border="0" cellspacing="0" cellpadding="0"><thead data-v-4d61dfdb=""><tr data-v-4d61dfdb=""><th data-v-4d61dfdb="">参数名</th> <th data-v-4d61dfdb="">参数类型</th> <th data-v-4d61dfdb="">是否必填</th> <th data-v-4d61dfdb="">说明</th></tr></thead> <tbody data-v-4d61dfdb=""><tr data-v-4d61dfdb=""><td data-v-4d61dfdb="">log</td> <td data-v-4d61dfdb="">BOOL</td> <td data-v-4d61dfdb="">否</td> <td data-v-4d61dfdb="">1.打印日志 0:不打印日志(打印日志会在沙盒中保存一份text,方便我们查看,上线前要置为NO);</td></tr> <tr data-v-4d61dfdb=""><td data-v-4d61dfdb="">enableVad</td> <td data-v-4d61dfdb="">BOOL</td> <td data-v-4d61dfdb="">否</td> <td data-v-4d61dfdb="">true代表启动服务端vad功能，默认false。如果启动系统会根据输入音频进行检测，过滤环境噪音。否则直接将原始输入音频进行转换。</td></tr> <tr data-v-4d61dfdb=""><td data-v-4d61dfdb="">voiceName</td> <td data-v-4d61dfdb="">NSString</td> <td data-v-4d61dfdb="">否</td> <td data-v-4d61dfdb="">发音人参数即转换的目标声音</td></tr></tbody></table></div> <br data-v-4d61dfdb=""></li> <li data-v-4d61dfdb=""><strong data-v-4d61dfdb="">转换结果参数说明</strong> <div class="table-wrap"><table class="doc-table" data-v-4d61dfdb="" border="0" cellspacing="0" cellpadding="0"><thead data-v-4d61dfdb=""><tr data-v-4d61dfdb=""><th data-v-4d61dfdb="">参数名</th> <th data-v-4d61dfdb="">参数类型</th> <th data-v-4d61dfdb="">是否必填</th> <th data-v-4d61dfdb="">说明</th></tr></thead> <tbody data-v-4d61dfdb=""><tr data-v-4d61dfdb=""><td data-v-4d61dfdb="">errcode</td> <td data-v-4d61dfdb="">int</td> <td data-v-4d61dfdb="">否</td> <td data-v-4d61dfdb="">错误码，0 代表成功其他代表识别，参考错误码说明。</td></tr> <tr data-v-4d61dfdb=""><td data-v-4d61dfdb="">errmsg</td> <td data-v-4d61dfdb="">string</td> <td data-v-4d61dfdb="">是</td> <td data-v-4d61dfdb="">错误信息描述</td></tr> <tr data-v-4d61dfdb=""><td data-v-4d61dfdb="">traceid</td> <td data-v-4d61dfdb="">string</td> <td data-v-4d61dfdb="">是</td> <td data-v-4d61dfdb="">会话唯一id，用于追踪定位问题</td></tr> <tr data-v-4d61dfdb=""><td data-v-4d61dfdb="">lastpkg</td> <td data-v-4d61dfdb="">bool</td> <td data-v-4d61dfdb="">是</td> <td data-v-4d61dfdb="">是否为最后一包，当时发送最后一包数据时设置为true 告诉调用方输出完成</td></tr></tbody></table></div> <br data-v-4d61dfdb=""></li> <li data-v-4d61dfdb=""><strong data-v-4d61dfdb="">调用方法说明</strong> <div class="table-wrap"><table class="doc-table" data-v-4d61dfdb="" border="0" cellspacing="0" cellpadding="0"><thead data-v-4d61dfdb=""><tr data-v-4d61dfdb=""><th data-v-4d61dfdb="">方法名</th> <th data-v-4d61dfdb="">说明</th></tr></thead> <tbody data-v-4d61dfdb=""><tr data-v-4d61dfdb=""><td data-v-4d61dfdb="">- (void)setupClientId:(NSString *)clientId clientSecret:(NSString *)clientSecret
+                  block:(DBAuthenticationBlock)block;</td> <td data-v-4d61dfdb="">鉴权，鉴权成功会返回token,失败会返回错误信息</td></tr> <tr data-v-4d61dfdb=""><td data-v-4d61dfdb="">- (void)startTransferNeedPlay:(BOOL)needPlay</td> <td data-v-4d61dfdb="">开始转换，是否需要播放@param needPlay yes: 需要播放； no:不需要播放</td></tr> <tr data-v-4d61dfdb=""><td data-v-4d61dfdb="">- (void)endTransferAndCloseSocket;</td> <td data-v-4d61dfdb="">结束转换并且并且关闭服务端连接</td></tr> <tr data-v-4d61dfdb=""><td data-v-4d61dfdb="">- (void)startTransferWithFilePath:(NSString *)filePath needPaley:(BOOL)needPlay;
+                </td> <td data-v-4d61dfdb="">本地文件转换，读取本地文件<br data-v-4d61dfdb="">@param needPlay yes: 需要播放； no:不需要播放</td></tr> <tr data-v-4d61dfdb=""><td data-v-4d61dfdb="">- (void)endFileTransferAndCloseSocket;</td> <td data-v-4d61dfdb="">结束文件变声转换并且关闭服务端连接</td></tr> <tr data-v-4d61dfdb=""><td data-v-4d61dfdb="">- (NSString *)getSavePath:(NSString *)fileName;</td> <td data-v-4d61dfdb="">默认保存在Temp文件夹下<br data-v-4d61dfdb="">@param fileName 文件名称</td></tr> <tr data-v-4d61dfdb=""><td data-v-4d61dfdb="">- (void)startServeConnetNeedPlay:(BOOL)needPlay;</td> <td data-v-4d61dfdb="">先开启网络连接，接收到网络连接成功回调后再通过`webSocketPostData:isEnd`发送音频数据</td></tr> <tr data-v-4d61dfdb=""><td data-v-4d61dfdb="">- (void)webSocketPostData:(NSData *)audioData isEnd:(BOOL)isEnd;</td> <td data-v-4d61dfdb="">向服务端发送数据<br data-v-4d61dfdb="">@param audioData 音频数据<br data-v-4d61dfdb="">@param isEnd 最后一包数据时isEnd设置为Yes,否则设置为NO
+                </td></tr> <tr data-v-4d61dfdb=""><td data-v-4d61dfdb="">- (void)stopPlay;</td> <td data-v-4d61dfdb="">停止播放</td></tr></tbody></table></div> <br data-v-4d61dfdb=""></li></ul></section> <h3 data-v-4d61dfdb="">回调方法DBTransferProtocol说明</h3> <section data-v-4d61dfdb=""><ul data-v-4d61dfdb=""><li data-v-4d61dfdb=""><div class="table-wrap"><table class="doc-table" data-v-4d61dfdb="" border="0" cellspacing="0" cellpadding="0"><thead data-v-4d61dfdb=""><tr data-v-4d61dfdb=""><th data-v-4d61dfdb="">方法名称</th> <th data-v-4d61dfdb="">参数说明</th></tr></thead> <tbody data-v-4d61dfdb=""><tr data-v-4d61dfdb=""><td data-v-4d61dfdb="">- (void)readyToTransfer;</td> <td data-v-4d61dfdb="">开启声音转换</td></tr> <tr data-v-4d61dfdb=""><td data-v-4d61dfdb="">- (void)microphoneAudioData:(NSData *)data isLast:(BOOL)isLast;</td> <td data-v-4d61dfdb="">回调麦克风录制的数据 ,isLast: yes,最后一包，NO,非最后一包</td></tr> <tr data-v-4d61dfdb=""><td data-v-4d61dfdb="">- (void)transferCallBack:(NSData *)data isLast:(BOOL)isLast;</td> <td data-v-4d61dfdb="">声音转换结果回调,isLast: yes,最后一包，NO,非最后一包</td></tr> <tr data-v-4d61dfdb=""><td data-v-4d61dfdb="">- (void)onError:(NSInteger)code message:(NSString *)message;</td> <td data-v-4d61dfdb="">错误回调 code:错误码 message:错误信息</td></tr> <tr data-v-4d61dfdb=""><td data-v-4d61dfdb="">- (void)readlyToPlay;</td> <td data-v-4d61dfdb="">准备好了，开始播放了的回调</td></tr> <tr data-v-4d61dfdb=""><td data-v-4d61dfdb="">- (void)playFinished;</td> <td data-v-4d61dfdb="">播放完成回调</td></tr> <tr data-v-4d61dfdb=""><td data-v-4d61dfdb="">- (void)dbValues:(NSInteger)db;</td> <td data-v-4d61dfdb="">获取麦克风的音频分贝值回调</td></tr></tbody></table></div></li></ul></section> <h3 data-v-4d61dfdb="">错误码</h3> <section data-v-4d61dfdb=""><ul data-v-4d61dfdb=""><li data-v-4d61dfdb=""><strong data-v-4d61dfdb="">客户端错误码</strong> <div class="table-wrap"><table class="doc-table" data-v-4d61dfdb="" border="0" cellspacing="0" cellpadding="0"><thead data-v-4d61dfdb=""><tr data-v-4d61dfdb=""><th data-v-4d61dfdb="">错误码</th> <th data-v-4d61dfdb="">枚举状态</th> <th data-v-4d61dfdb="">含义</th></tr></thead> <tbody data-v-4d61dfdb=""><tr data-v-4d61dfdb=""><td data-v-4d61dfdb="">19110001</td> <td data-v-4d61dfdb="">DBErrorStateFileReadFailed</td> <td data-v-4d61dfdb="">文件读取失败</td></tr> <tr data-v-4d61dfdb=""><td data-v-4d61dfdb="">19110002</td> <td data-v-4d61dfdb="">DBErrorStateParsing</td> <td data-v-4d61dfdb="">网络数据解析失败</td></tr> <tr data-v-4d61dfdb=""><td data-v-4d61dfdb="">19110003</td> <td data-v-4d61dfdb="">DBErrorStateMicrophoneNoGranted</td> <td data-v-4d61dfdb="">没有麦克风权限</td></tr></tbody></table></div> <br data-v-4d61dfdb=""></li> <li data-v-4d61dfdb=""><strong data-v-4d61dfdb="">服务端错误码</strong> <div class="table-wrap"><table class="doc-table" data-v-4d61dfdb="" border="0" cellspacing="0" cellpadding="0"><thead data-v-4d61dfdb=""><tr data-v-4d61dfdb=""><th data-v-4d61dfdb="">错误码</th> <th data-v-4d61dfdb="">含义</th> <th data-v-4d61dfdb="">类别</th></tr></thead> <tbody data-v-4d61dfdb=""><tr data-v-4d61dfdb=""><td data-v-4d61dfdb="">0</td> <td data-v-4d61dfdb="">成功</td> <td data-v-4d61dfdb="" rowspan="7">请求参数错误</td></tr> <tr data-v-4d61dfdb=""><td data-v-4d61dfdb="">10000</td> <td data-v-4d61dfdb="">ws数据包解析错误</td></tr> <tr data-v-4d61dfdb=""><td data-v-4d61dfdb="">10001</td> <td data-v-4d61dfdb="">ws数据包json解析错误</td></tr> <tr data-v-4d61dfdb=""><td data-v-4d61dfdb="">10002</td> <td data-v-4d61dfdb="">请求参数缺少access token</td></tr> <tr data-v-4d61dfdb=""><td data-v-4d61dfdb="">10003</td> <td data-v-4d61dfdb="">access token过期或不合法</td></tr> <tr data-v-4d61dfdb=""><td data-v-4d61dfdb="">10004</td> <td data-v-4d61dfdb="">请求参数缺少 voice name</td></tr> <tr data-v-4d61dfdb=""><td data-v-4d61dfdb="">10005</td> <td data-v-4d61dfdb="">voice name 不存在</td></tr> <tr data-v-4d61dfdb=""><td data-v-4d61dfdb="">20000</td> <td data-v-4d61dfdb="">引擎资源不足，拒绝新建会话。</td> <td data-v-4d61dfdb="" rowspan="5">服务端错误</td></tr> <tr data-v-4d61dfdb=""><td data-v-4d61dfdb="">20001</td> <td data-v-4d61dfdb="">声音转换出错</td></tr> <tr data-v-4d61dfdb=""><td data-v-4d61dfdb="">20002</td> <td data-v-4d61dfdb="">动态内存申请失败</td></tr> <tr data-v-4d61dfdb=""><td data-v-4d61dfdb="">20003</td> <td data-v-4d61dfdb="">向客户端推送响应失败</td></tr> <tr data-v-4d61dfdb=""><td data-v-4d61dfdb="">20004</td> <td data-v-4d61dfdb="">其他未定义的内部错误</td></tr> <tr data-v-4d61dfdb=""><td data-v-4d61dfdb="">30000</td> <td data-v-4d61dfdb="">会话进行时客户端主动关闭</td> <td data-v-4d61dfdb="" rowspan="2">客户端错误</td></tr> <tr data-v-4d61dfdb=""><td data-v-4d61dfdb="">30001</td> <td data-v-4d61dfdb="">
+                  会话空闲超时，超过一定时间没有数据传输导致会话空闲超时，主动断开连接。
+                </td></tr></tbody></table></div> <br data-v-4d61dfdb=""></li></ul></section></div>

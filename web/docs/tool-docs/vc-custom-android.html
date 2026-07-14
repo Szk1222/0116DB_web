@@ -1,33 +1,24 @@
-<h1>定制模型 Android SDK</h1>
-<p class="doc-lead">定制模型 Android SDK 用于在移动端完成声音复刻流程，包括环境噪声检测、获取朗读文本、录音、上传识别、提交训练、查询模型状态以及体验合成效果。</p>
-
-<h2 id="vc-custom-android-download">下载与依赖</h2>
-<p>SDK 与示例 Demo 下载地址：<a href="https://github.com/data-baker/BakerAndroidSdks" target="_blank" rel="noopener">https://github.com/data-baker/BakerAndroidSdks</a></p>
-<p>在项目根目录的 <code>build.gradle</code> 中加入 JitPack 仓库：</p>
-<pre><code class="language-gradle">allprojects {
-  repositories {
-    maven { url 'https://jitpack.io' }
-  }
-}</code></pre>
-<p>在业务 Module 中加入依赖：</p>
-<pre><code class="language-gradle">dependencies {
+<div data-v-0786312a=""><h2 data-v-0786312a="">定制模型Android SDK</h2> <h3 data-v-0786312a="">下载安装</h3> <section data-v-0786312a=""><p data-v-0786312a="">
+        SDK及示例demo下载地址:
+        <a data-v-0786312a="" target="_blank" href="https://github.com/data-baker/BakerAndroidSdks">https://github.com/data-baker/BakerAndroidSdks</a></p></section> <h3 data-v-0786312a="">Android Studio集成SDK（参考demo）</h3> <section data-v-0786312a=""><ul data-v-0786312a=""><li data-v-0786312a=""><strong data-v-0786312a="">
+            在工程下的build.gradle文件中添加以下代码。</strong> <pre class="doc-sample doc-code" data-v-0786312a="">allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}<button class="copyClass">copy</button></pre></li> <li data-v-0786312a=""><strong data-v-0786312a="">在主model下build.gradle文件中添加以下代码。建议使用此方式。</strong> <pre class="doc-sample doc-code" data-v-0786312a="">dependencies {
   implementation 'com.github.data-baker.BakerAndroidSdks:engravelib:2.0.13'
   implementation 'com.squareup.okhttp3:okhttp:4.2.2'
   implementation 'com.google.code.gson:gson:2.8.6'
   implementation 'com.kailashdabhi:om-recorder:1.1.5'
-}</code></pre>
-
-<h2 id="vc-custom-android-permission">权限配置</h2>
-<p>在 <code>AndroidManifest.xml</code> 中声明网络、录音和存储权限；Android 6.0 及以上还需要动态申请录音和存储权限。</p>
-<pre><code class="language-xml">&lt;uses-permission android:name="android.permission.INTERNET" /&gt;
-&lt;uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /&gt;
-&lt;uses-permission android:name="android.permission.RECORD_AUDIO" /&gt;
-&lt;uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /&gt;</code></pre>
-<p>如项目需要允许明文网络访问，在 <code>application</code> 节点增加：</p>
-<pre><code class="language-xml">android:usesCleartextTraffic="true"</code></pre>
-
-<h2 id="vc-custom-android-proguard">混淆配置</h2>
-<pre><code class="language-text">-keep class com.baker.engrave.lib.bean.** { *; }
+}<button class="copyClass">copy</button></pre> <p data-v-0786312a="">或者将.jar/.aar包添加至工程module下，lib文件夹里。</p> <p data-v-0786312a="">2021年6月，标贝计划开源sdk源码，所以也可以直接集成源码model。</p> <p data-v-0786312a="">注意：SDK内使用了okhttp、gson所以需要开发者添加以这两个库，若工程内已存在，无需重复添加。okhttp请使用4.x版本，以免出现版本兼容bug。</p></li> <li data-v-0786312a=""><strong data-v-0786312a="">
+            在主 <b data-v-0786312a="">Module</b> 的
+            <b data-v-0786312a="">AndroidManifest.xml</b>文件中添加网络权限。<b data-v-0786312a="">安卓6.0</b>及以上系统版本在使用声音复刻<b data-v-0786312a="">SDK</b>的时候，必须要申请<b data-v-0786312a="">RECORD_AUDIO和WRITE_EXTERNAL_STORAGE</b>权限。</strong> <pre class="doc-sample doc-code" data-v-0786312a="">&lt;uses-permission android:name="android.permission.INTERNET" /&gt;
+&lt;uses-permission android:name="android.permission.RECORD_AUDIO"/&gt;
+&lt;uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/&gt;<button class="copyClass">copy</button></pre></li> <li data-v-0786312a=""><strong data-v-0786312a="">在主<b data-v-0786312a="">Module</b>的<b data-v-0786312a="">AndroidManifest.xml</b>文件中的<b data-v-0786312a="">application</b>节点添加以下属性。</strong> <pre class="doc-sample doc-code" data-v-0786312a="">android:usesCleartextTraffic="true"
+android:requestLegacyExternalStorage="true"<button class="copyClass">copy</button></pre> <p data-v-0786312a="">Eclipse环境也遵循相关集成jar包的方式即可。</p></li> <li data-v-0786312a=""><strong data-v-0786312a="">关于混淆。</strong> <p data-v-0786312a="">
+            SDK中用到了okhttp和gson，所以需要将这两个包的混淆代码添加上。具体混淆代码可以去官方文档上查阅。如果项目中已经有这两个包的混淆代码，不必重复添加。请加上我们SDK其他类的混淆代码，如下：
+          </p> <pre class="doc-sample doc-code" data-v-0786312a="">-keep class com.baker.engrave.lib.bean.** { *; }
 -keep public class com.baker.engrave.lib.BakerVoiceEngraver{*;}
 -keep public class com.baker.engrave.lib.util.HLogger{*;}
 -keep public class com.baker.engrave.lib.net.WebSocketClient{*;}
@@ -38,85 +29,271 @@
 -keep public class com.baker.engrave.lib.callback.RecordCallback{*;}
 -keep public class com.baker.engrave.lib.callback.UploadRecordsCallback{*;}
 -keep public class com.baker.engrave.lib.callback.ContentTextCallback{*;}
--keep public class com.baker.engrave.lib.callback.BaseMouldCallback{*;}</code></pre>
+-keep public class com.baker.engrave.lib.callback.BaseMouldCallback{*;}<button class="copyClass">copy</button></pre></li></ul></section> <h3 data-v-0786312a="">背景及核心流程介绍</h3> <section data-v-0786312a=""><img data-v-0786312a="" src="https://databaker-gw-static.oss-accelerate.aliyuncs.com/assets/images/specs/document18.png" alt="" style="display: block; margin-top: 20px; width: 500px; height: 500px;"> <ul data-v-0786312a=""><li data-v-0786312a="" style="list-style: decimal;">
+          整个复刻体验闭环包含两个模块，一个模块是录音上传服务器进行声音模型训练，产出声音模型ID，另一个模块是根据声音模型ID去合成服务器合成，产出声音文件，播放声音文件完成体验。
+        </li> <li data-v-0786312a="" style="list-style: decimal;">
+          此（复刻）SDK仅支持第一个模块的功能，即②③④⑤⑥⑦等功能。第二个体验的模块⑧，我们提供2种集成方式供选择，以便实现实际项目中的需求。
+          <p data-v-0786312a="">
+            第一种集成方式如Demo中所示，用声音模型ID +
+            RestAPI的形式，合成MP3声音文件，进行播放。这种合成方式适用于单次不超过250字文本长度的文本合成。
+          </p> <p data-v-0786312a="">
+            另一种方式则是声音模型ID +
+            TTS合成SDK，具体集成方式可参考我们TTS合成SDK的接入文档。这种方式无文本长度限制，实时合成流式返回，TTS合成SDK中也有播放器功能，集成使用很方便。
+          </p></li></ul></section> <h3 data-v-0786312a="">SDK关键类</h3> <section data-v-0786312a=""><ul data-v-0786312a=""><li data-v-0786312a="">
+          BakerVoiceEngraver：声音复刻SDK关键业务处理类，SDK中单例存在。可通过BakerVoiceEngraver.getInstance()获得该实例。
+        </li> <li data-v-0786312a="">
+          DetectCallback：环境噪音检测回调类。开启环境检测后，检测结果会实时通过回调方法返回，最终结果以及错误信息都会通过此类的回调方法返回。
+        </li> <li data-v-0786312a="">
+          ContentTextCallback：录音文本内容信息获取回调类。文本内容以及错误信息会通过回调方法返回。
+        </li> <li data-v-0786312a="">
+          RecordCallback：录音及录音文件上传相关业务回调类。录音状态、文件上传识别、识别结果、错误信息等都会通过回调方法返回。录音过程中会实时将声音分贝值返回。
+        </li> <li data-v-0786312a="">
+          UploadRecordsCallback：录音完成后开启声音模型训练的回调类。提交结果、声音模型ID、错误信息等都会通过回调方法返回。
+        </li> <li data-v-0786312a="">
+          MouldCallback：查询声音模型信息回调类。可以通过模型ID查询单个模型的训练信息，可以通过queryId分页查询该Id下所有模型的训练信息。
+        </li> <li data-v-0786312a="">
+          Mould：声音模型的实体类。属性如下： <br data-v-0786312a="">
+          String modelId; //模型ID<br data-v-0786312a="">
+          int modelStatus;//模型状态<br data-v-0786312a="">
+          1=默认状态，2=录制中，3=启动训练失败，4=训练中，5=训练失败，6=训练成功。<br data-v-0786312a="">
+          String statusName;//模型状态中文(值)
+        </li></ul></section> <h3 data-v-0786312a="">调用说明</h3> <section data-v-0786312a=""><ul data-v-0786312a=""><li data-v-0786312a="">
+          本SDK调用过程可能会发生在多个页面，所以我们将各功能实现拆细了，同时伴随着细分的多个回调。这样做的目的是方便灵活调用。
+        </li> <li data-v-0786312a=""><p data-v-0786312a="">第一步需要初始化。</p> <ul data-v-0786312a=""><li data-v-0786312a="">
+              可通过调用BakerVoiceEngraver.getInstance().initSDK(Context
+              context, String clientId, String clientSecret, String
+              queryID)实现初始化。前三个参数是必传参数，clientId和clientSecret是授权信息。第四个参数queryID可传空。这个queryID的作用是与当前训练的声音模型ID关联，存储备份在标贝服务器。以备后期可通过queryId查询到与此管理的所有声音模型信息。
+            </li> <li data-v-0786312a="">
+              如果在初始化时未上传queryId，也可以调用BakerVoiceEngraver.getInstance().setQueryId(String
+              queryID)方法设置queryID，但设置queryID一定要在调用getVoiceMouldId()方法之前调用，即第4步之前设置。在产出声音模型ID时，就需要将queryId与声音模型ID关联存储。
+            </li></ul></li> <li data-v-0786312a=""><p data-v-0786312a="">环境噪音检测</p> <ul data-v-0786312a=""><li data-v-0786312a="">
+              在此步之前，请务必申请到Manifest.permission.RECORD_AUDIO,
+              Manifest.permission.WRITE_EXTERNAL_STORAGE
+              这2个权限。SDK中也做了权限检测，无权限检测会上报错误信息。
+            </li> <li data-v-0786312a="">
+              BakerVoiceEngraver.getInstance().setDetectCallback(DetectCallback
+              callback);设置噪音检测的回调。检测过程中会将实时分贝数据、检测最终结果、错误信息等通过回调接口中的方法返回。DetectCallback接口的具体信息请参考xxx。
+            </li> <li data-v-0786312a="">
+              调用BakerVoiceEngraver.getInstance().startDBDetection();方法开启噪音检测。检测时长是3秒。
+            </li> <li data-v-0786312a="">
+              噪音检测通过固定算法得出环境声音分贝值作为检测终值，如果终值大于70分贝，是不允许进行后续步骤的，因为环境太嘈杂，会直接影响训练出来的声音的品质。可以参考demo中对于返回结果的提示以及逻辑处理，如果噪音检测不通过，可以换环境在相对安静的空间内重新检测。重新检测也是调用BakerVoiceEngraver.getInstance().startDBDetection();方法。
+            </li> <li data-v-0786312a="">
+              理论上是环境越安静，录音效果越好，训练出来的声音品质会越好。所以对这个噪音的限制，SDK只做不能超过70分贝的最大值限制。使用SDK的亲们可以在自己的应用中灵活做二次限制。
+            </li></ul></li> <li data-v-0786312a=""><p data-v-0786312a="">获取录音文本，并录音上传。</p> <ul data-v-0786312a=""><li data-v-0786312a="">
+              在此步也请一定确保申请到Manifest.permission.RECORD_AUDIO,
+              Manifest.permission.WRITE_EXTERNAL_STORAGE
+              这2个权限。SDK中也做了权限检测，无权限检测会上报错误信息。
+            </li> <li data-v-0786312a="">
+              BakerVoiceEngraver.getInstance().setContentTextCallback(ContentTextCallback
+              callback);设置获取录音文本的回调。文本信息或错误信息都将通过回调方法返回。
+            </li> <li data-v-0786312a="">
+              BakerVoiceEngraver.getInstance().setRecordCallback(RecordCallback
+              callback);设置录音、上传、识别检测、错误信息等接口方法的回调。
+            </li> <li data-v-0786312a="">
+              BakerVoiceEngraver.getInstance().getTextList();调用此方法获取录音文本信息。参考demo，将返回的文本信息列表分条展示，供用户完成录音流程。
+            </li> <li data-v-0786312a="">
+              BakerVoiceEngraver.getInstance().getVoiceMouldId();调用此方法申请此次声音训练的相关资源。在开始录音上传之前，必须调用此方法。
+            </li> <li data-v-0786312a="">
+              BakerVoiceEngraver.getInstance().startRecord(String
+              contentText);调用此方法开启录音。此方法会返回一个int值，该值的意义分别是：0=mouldId为空，1=无权限，2=开启成功。
+            </li> <li data-v-0786312a="">
+              BakerVoiceEngraver.getInstance().uploadRecords(String
+              contentText);本小段朗读完成后，调用此方法停止录音，并开始上传识别。此方法会返回一个int值，该值的意义分别是：0=mouldId为空,
+              1=结束成功，开始上传识别。
+            </li> <li data-v-0786312a="">
+              若结束录音后上传过程中出现错误，可以通过调用以下方法BakerVoiceEngraver.getInstance().reUploadRecords(String
+              contentText);重新上传本段录音。
+            </li> <li data-v-0786312a="">
+              若因各种原因，在录音过程中需要退出录制，或者放弃当前任务，请调用BakerVoiceEngraver.getInstance().recordInterrupt();这个方法通知SDK中止录音。若在异常退出录制的过程中调用此方法，可以即时释放声音复刻名额以及停止录音。否则未中止录音可能会产生非常大的录音文件，占用用户设备存储资源。
+            </li> <li data-v-0786312a="">
+              此步中我们将录音的顺序及录音总数的维护交给了SDK接入方来维护。理论上应当一段一段录制，当检测到都录制完成后，就开启声音模型训练了。
+            </li></ul></li> <li data-v-0786312a=""><p data-v-0786312a="">开启声音模型训练</p> <ul data-v-0786312a=""><li data-v-0786312a="">
+              BakerVoiceEngraver.getInstance().setUploadRecordsCallback(UploadRecordsCallback
+              callback);通过此方法设置开启模型训练结果的回调。开启训练的结果、声音模型ID、错误信息等都将通过此回调接口方法返回。
+            </li> <li data-v-0786312a="">
+              BakerVoiceEngraver.getInstance().finishRecords(String phone,
+              String
+              notifyUrl);调用此方法开启模型训练。这个方法中的两个参数都是选填的。第一个参数是手机号，如果上传后，可以通过手机短信收到训练进度通知，但短信中带有标贝公司签名信息，所以不建议在正式项目中上传该手机号。第二个参数是提供一个接收异步训练进度回调的服务器接口地址，建议SDK接入方设置该回调地址。标贝科技的异步训练服务器将训练结果以推送方式通知接入方，该地址必须为外网可访问的url，不能携带参数。（文档最后附了示例回调接口的代码，提供参考）目前主要包括开启训练通知和训练完成时通知。
+            </li> <li data-v-0786312a="">
+              开启模型训练成功后，此步回调方法中返回的mouldId建议SDK接入方自行将其存储维护起来，此mouldId应当与用户一一对应。在声音合成体验时，要用到这个mouldId。
+            </li></ul></li> <li data-v-0786312a="">如果需要再次发起新声音模型训练，可以重复第3-5步</li> <li data-v-0786312a=""><p data-v-0786312a="">查询模型信息</p> <ul data-v-0786312a=""><li data-v-0786312a="">
+              BakerVoiceEngraver.getInstance().setMouldCallback(MouldCallback
+              callback)设置查询结果回调。声音模型相关信息、错误信息等会通过回调方法返回。
+            </li> <li data-v-0786312a="">
+              BakerVoiceEngraver.getInstance().getMouldList(int page, int limit,
+              String
+              queryId)根据queryId分页查询此queryId下的所有声音模型信息。Page从1开始。
+            </li> <li data-v-0786312a="">
+              BakerVoiceEngraver.getInstance().getMouldInfo(String
+              mouldId);根据模型Id查询模型信息。
+            </li></ul></li> <li data-v-0786312a=""><p data-v-0786312a="">体验合成声音</p> <ul data-v-0786312a=""><li data-v-0786312a="">
+              第一种方式类似Demo所示，通过restAPI形式，拼接MP3链接，然后请求播放。这个地方需要token信息，这个token信息可以通过BakerVoiceEngraver.getInstance().getToken();实时获取。Token其实是用sdk初始化时提供的clientId和clientSecret获取的，且有过期时效，所以不建议保存，使用时实时获取即可。相关介绍可以参考标贝公司官网：<a data-v-0786312a="" href="https://www.data-baker.com/specs/file/tts_api_restful">https://www.data-baker.com/specs/file/tts_api_restful</a></li> <li data-v-0786312a="">
+              第二种方式是集成声音合成的SDK，这种方式接入的相关链接：<a data-v-0786312a="" href="https://www.data-baker.com/specs/file/reprint_sdk_android">https://www.data-baker.com/specs/file/reprint_sdk_android</a>
+              SDK采用实时合成流式返回，响应速度很快。SDK也集成了播放器功能，集成使用很方便。
+            </li></ul></li></ul></section> <h3 data-v-0786312a="">API说明</h3> <section data-v-0786312a=""><ul data-v-0786312a=""><li data-v-0786312a=""><p data-v-0786312a="" style="margin: 20px 0px;">BakerVoiceEngraver类说明</p> <div class="table-wrap"><table class="doc-table" data-v-0786312a="" border="0" cellspacing="0" cellpadding="0"><thead data-v-0786312a=""><tr data-v-0786312a=""><th data-v-0786312a="">方法名</th> <th data-v-0786312a="">作用</th> <th data-v-0786312a="">说明</th></tr></thead> <tbody data-v-0786312a=""><tr data-v-0786312a=""><td data-v-0786312a="">getInstance()</td> <td data-v-0786312a="">获取单实例</td> <td data-v-0786312a="">获取BakerVoiceEngraver类单实例。</td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">initSDK()</td> <td data-v-0786312a="">初始化SDK</td> <td data-v-0786312a="">
+                  initSDK(Context context, String clientId, String clientSecret,
+                  String queryID,InitListener
+                  listener)初始化SDK。前三个参数是必传参数，clientId和clientSecret是授权信息。第四个参数queryID可传空。这个queryID的作用是与当前训练的声音模型ID关联，存储备份在标贝服务器。以备后期可通过queryId查询到与此管理的所有声音模型信息。InitListener见调用说明.8。
+                </td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">setQueryId()</td> <td data-v-0786312a="">设置queryId</td> <td data-v-0786312a="">
+                  如果在初始化时未上传queryId，也可以调用setQueryId(String
+                  queryID)方法设置queryID，但设置queryID一定要在调用getVoiceMouldId()方法之前调用，即SDK关键类.4步之前设置。
+                </td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">getTextList()</td> <td data-v-0786312a="">获取录音文本信息</td> <td data-v-0786312a="">
+                  调用此方法获取录音文本信息。参考demo，将返回的文本信息列表分条展示，供用户完成录音流程。
+                </td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">startDBDetection()</td> <td data-v-0786312a="">开启噪音检测</td> <td data-v-0786312a="">
+                  噪音检测通过固定算法得出环境声音分贝值作为检测终值，如果终值大于70分贝，是不允许进行后续步骤的，因为环境太嘈杂，会直接影响训练出来的声音的品质。可以参考demo中对于返回结果的提示以及逻辑处理，如果噪音检测不通过，可以换环境在相对安静的空间内重新检测。重新检测也是调用此方法。
+                </td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">getVoiceMouldId()</td> <td data-v-0786312a="">申请声音模型训练资源</td> <td data-v-0786312a="">
+                  调用startRecord(String
+                  contentText)方法开启录音。参数中contentText是此条录音的文本信息（必传）。此方法会返回一个int值，该值的意义分别是：0=mouldId为空，1=无权限，2=开启成功。
+                </td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">startRecord()</td> <td data-v-0786312a="">开始录音</td> <td data-v-0786312a="">
+                  调用startRecord(String
+                  contentText)方法开启录音。参数中contentText是此条录音的文本信息（必传）。此方法会返回一个int值，该值的意义分别是：0=mouldId为空，1=无权限，2=开启成功。
+                </td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">uploadRecords()</td> <td data-v-0786312a="">停止录音上传识别</td> <td data-v-0786312a="">
+                  每小段朗读完成后，调用uploadRecords(String
+                  contentText)方法停止录音，并开始上传识别。参数中contentText是此条录音的文本信息（必传）。此方法会返回一个int值，该值的意义分别是：0=mouldId为空,
+                  1=结束成功，开始上传识别。
+                </td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">reUploadRecords()</td> <td data-v-0786312a="">重新上传本段录音</td> <td data-v-0786312a="">
+                  若结束单段录音后上传过程中出现错误，可以通过调用以下方法reUploadRecords(String
+                  contentText);重新上传本段录音。参数中contentText是此条录音的文本信息（必传）。此方法会返回一个int值，该值的意义分别是：0=mouldId为空,
+                  1=结束成功，开始上传识别。
+                </td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">recordInterrupt()</td> <td data-v-0786312a="">异常中断(退出)此次录音任务</td> <td data-v-0786312a="">
+                  若因各种原因，在录音过程中需要退出录制，或者放弃当前任务，请调用recordInterrupt()方法通知SDK中止录音。若在异常退出录制的过程中调用此方法，可以即时释放声音复刻名额以及停止录音。否则未中止录音可能会产生非常大的录音文件，占用用户设备存储资源。
+                </td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">finishRecords()</td> <td data-v-0786312a="">完成录音开启训练</td> <td data-v-0786312a="">
+                  调用此方法开启模型训练。这个方法中的两个参数都是选填的。第一个参数是手机号，如果上传后，可以通过手机短信收到训练进度通知，但短信中带有标贝公司签名信息，所以不建议在正式项目中上传该手机号。第二个参数是训练进度回调的服务器接口地址，建议SDK接入方设置该回调地址，这样我们服务器在模型训练过程中的进度变更时通知该地址，以便及时通知用户。目前主要包括开启训练通知和训练完成时通知。
+                </td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">getMouldList()</td> <td data-v-0786312a="">获取模型信息列表</td> <td data-v-0786312a="">
+                  getMouldList(int page, int limit, String
+                  queryId)根据queryId分页查询此queryId下的所有声音模型信息。Page从1开始。
+                </td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">getMouldInfo()</td> <td data-v-0786312a="">获取单个模型信息</td> <td data-v-0786312a="">getMouldInfo(String mouldId);根据模型Id查询模型信息。</td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">getToken()</td> <td data-v-0786312a="">获取token信息</td> <td data-v-0786312a="">
+                  getToken()实时获取Token。Token其实是用sdk初始化时提供的clientId和clientSecret获取的，且有过期时效，所以不建议保存，使用时实时获取即可。
+                </td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">setContentTextCallback()</td> <td data-v-0786312a="">设置获取录音文本的回调</td> <td data-v-0786312a="">
+                  setContentTextCallback(ContentTextCallback
+                  callback)设置获取录音文本的回调。文本信息或错误信息都将通过回调方法返回。
+                </td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">setDetectCallback()</td> <td data-v-0786312a="">设置噪音检测的回调</td> <td data-v-0786312a="">
+                  setDetectCallback(DetectCallback
+                  callback)设置噪音检测的回调。参数需要接入方自己实例化DetectCallback，可参考demo的方式。检测过程中会将实时分贝数据、检测最终结果、错误信息等通过回调接口中的方法返回。DetectCallback接口的具体信息请参考xxx。
+                </td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">setRecordCallback()</td> <td data-v-0786312a="">设置录音上传相关回调</td> <td data-v-0786312a="">
+                  setRecordCallback(RecordCallback
+                  callback)设置录音、上传、识别检测、错误信息等接口方法的回调。
+                </td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">setUploadRecordsCallback()</td> <td data-v-0786312a="">设置开启模型训练结果的回调。</td> <td data-v-0786312a="">
+                  setUploadRecordsCallback(UploadRecordsCallback
+                  callback)通过此方法设置开启模型训练结果的回调。开启训练的结果、声音模型ID、错误信息等都将通过此回调接口方法返回。
+                </td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">setMouldCallback()</td> <td data-v-0786312a="">设置查询声音模型信息的回调。</td> <td data-v-0786312a="">
+                  setMouldCallback(MouldCallback
+                  callback)设置查询结果回调。声音模型相关信息、错误信息等会通过回调方法返回。
+                </td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">startPlay()</td> <td data-v-0786312a="">播放录音</td> <td data-v-0786312a="">
+                  第一个参数是试听第几个录音，从0开始。<br data-v-0786312a="">
+                  第二个参数是个回调，详见调用说明.7。
+                </td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">stopPlay()</td> <td data-v-0786312a="">停止播放</td> <td data-v-0786312a="">停止播放已经开始的录音</td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">isRecord(int index)</td> <td data-v-0786312a="">判断是否录制成功</td> <td data-v-0786312a="">
+                  index从0开始。x从0开始。 如果录制成功返回true。
+                  如果录制失败返回false。
+                </td></tr></tbody></table></div></li> <li data-v-0786312a=""><p data-v-0786312a="" style="margin: 20px 0px;">DetectCallback环境检测回调接口方法说明</p> <div class="table-wrap"><table class="doc-table" data-v-0786312a="" border="0" cellspacing="0" cellpadding="0"><thead data-v-0786312a=""><tr data-v-0786312a=""><th data-v-0786312a="">接口方法名</th> <th data-v-0786312a="">作用</th> <th data-v-0786312a="">说明</th></tr></thead> <tbody data-v-0786312a=""><tr data-v-0786312a=""><td data-v-0786312a="">dbDetecting</td> <td data-v-0786312a="">环境检测中结果反馈</td> <td data-v-0786312a="">
+                  dbDetecting(int
+                  value);回调方法的参数是实时返回的声音分贝检测值。使用方式参考demo。
+                </td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">dbDetectionResult</td> <td data-v-0786312a="">环境检测最终结果反馈</td> <td data-v-0786312a="">
+                  dbDetectionResult(boolean result, int
+                  value);参数result=true，表示检测通过。value是检测通过的分贝值。result=false，表示检测未通过。value是检测未通过的分贝值。使用方式参考demo。
+                </td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">onDetectError</td> <td data-v-0786312a="">错误信息回调</td> <td data-v-0786312a="">
+                  onDetectError(int errorCode, String
+                  message);错误信息回调，errorCode是错误code码，message是详细错误信息。使用方式参考demo。
+                </td></tr></tbody></table></div></li> <li data-v-0786312a=""><p data-v-0786312a="" style="margin: 20px 0px;">
+            ContentTextCallback获取录音文本回调接口方法说明
+          </p> <div class="table-wrap"><table class="doc-table" data-v-0786312a="" border="0" cellspacing="0" cellpadding="0"><thead data-v-0786312a=""><tr data-v-0786312a=""><th data-v-0786312a="">接口方法名</th> <th data-v-0786312a="">作用</th> <th data-v-0786312a="">说明</th></tr></thead> <tbody data-v-0786312a=""><tr data-v-0786312a=""><td data-v-0786312a="">contentTextList</td> <td data-v-0786312a="">获取录音文本回调</td> <td data-v-0786312a="">
+                  contentTextList(String[]
+                  strList);获取录音文本回调，返回的参数是此次录音需要的录音文本，以字符串数组形式返回。可参考demo维护和使用该数据。
+                </td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">onContentTextError</td> <td data-v-0786312a="">错误信息回调</td> <td data-v-0786312a="">
+                  onContentTextError(int errorCode, String
+                  message);错误信息回调，errorCode是错误code码，message是详细错误信息。使用方式参考demo。
+                </td></tr></tbody></table></div></li> <li data-v-0786312a=""><p data-v-0786312a="" style="margin: 20px 0px;">
+            RecordCallback录音上传识别回调接口方法说明
+          </p> <div class="table-wrap"><table class="doc-table" data-v-0786312a="" border="0" cellspacing="0" cellpadding="0"><thead data-v-0786312a=""><tr data-v-0786312a=""><th data-v-0786312a="">接口方法名</th> <th data-v-0786312a="">作用</th> <th data-v-0786312a="">说明</th></tr></thead> <tbody data-v-0786312a=""><tr data-v-0786312a=""><td data-v-0786312a="">recordsResult</td> <td data-v-0786312a="">录音中、识别中、识别结果回调。</td> <td data-v-0786312a="">
+                  recordsResult(int typeCode, int
+                  recognizeResult);录音中、识别中、识别结果回调。参数typeCode
+                  1=录音中，
+                  2=识别中，3=最终结果。recognizeResult是识别率，取值0-100.
+                  使用方式参考demo，非常建议单段录音识别通过后才开启下一段录制。所有段录音完成录制，识别通过才开启模型训练，否则会影响最终声音的品质。
+                </td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">recordVolume</td> <td data-v-0786312a="">录音过程中实时返回声音分贝信息。</td> <td data-v-0786312a="">
+                  recordVolume(int
+                  volume);录音过程中，会将声音分贝值实时返回。volume是分贝值。具体使用方式参考demo。
+                </td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">onRecordError</td> <td data-v-0786312a="">错误信息回调</td> <td data-v-0786312a="">
+                  onRecordError(int errorCode, String
+                  message);错误信息回调，errorCode是错误code码，message是详细错误信息。使用方式参考demo。
+                </td></tr></tbody></table></div></li> <li data-v-0786312a=""><p data-v-0786312a="" style="margin: 20px 0px;">
+            UploadRecordsCallback开启模型训练回调接口方法说明
+          </p> <div class="table-wrap"><table class="doc-table" data-v-0786312a="" border="0" cellspacing="0" cellpadding="0"><thead data-v-0786312a=""><tr data-v-0786312a=""><th data-v-0786312a="">接口方法名</th> <th data-v-0786312a="">作用</th> <th data-v-0786312a="">说明</th></tr></thead> <tbody data-v-0786312a=""><tr data-v-0786312a=""><td data-v-0786312a="">uploadRecordsResult</td> <td data-v-0786312a="">模型开启训练成功回调</td> <td data-v-0786312a="">
+                  uploadRecordsResult(boolean result, String mouldId);参数result
+                  true=成功，false=失败。参数mouldId是声音模型的ID，此mouldId建议SDK接入方自行将其存储维护起来，此mouldId应当与用户一一对应。在声音合成体验时，要用到这个mouldId。
+                  使用方式参考demo。
+                </td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">onUploadError</td> <td data-v-0786312a="">错误信息回调</td> <td data-v-0786312a="">
+                  onUploadError(int errorCode, String
+                  message);错误信息回调，errorCode是错误code码，message是详细错误信息。使用方式参考demo。提交不成功，可以再次提交。
+                </td></tr></tbody></table></div></li> <li data-v-0786312a=""><p data-v-0786312a="" style="margin: 20px 0px;">
+            MouldCallback查询声音模型相关回调接口方法说明
+          </p> <div class="table-wrap"><table class="doc-table" data-v-0786312a="" border="0" cellspacing="0" cellpadding="0"><thead data-v-0786312a=""><tr data-v-0786312a=""><th data-v-0786312a="">接口方法名</th> <th data-v-0786312a="">作用</th> <th data-v-0786312a="">说明</th></tr></thead> <tbody data-v-0786312a=""><tr data-v-0786312a=""><td data-v-0786312a="">mouldInfo</td> <td data-v-0786312a="">根据mouldId查询mould信息回调</td> <td data-v-0786312a="">
+                  mouldInfo(Mould
+                  mould);根据mouldId查询mould信息回调，方法的参数是返回的声音模型信息。若需要此回调方法，需要手动复写该方法。使用方式参考demo。
+                </td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">mouldList</td> <td data-v-0786312a="">根据queryId分页查询mould信息回调</td> <td data-v-0786312a="">
+                  mouldList(List&lt;Mould&gt;
+                  list);根据queryId分页查询mould信息回调。参数list是声音模型信息的列表。使用方式参考demo。
+                </td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">onMouldError</td> <td data-v-0786312a="">错误信息回调</td> <td data-v-0786312a="">
+                  onMouldError(int errorCode, String
+                  message);错误信息回调，errorCode是错误code码，message是详细错误信息。使用方式参考demo。
+                </td></tr></tbody></table></div></li> <li data-v-0786312a=""><p data-v-0786312a="" style="margin: 20px 0px;">PlayListener，录音试听回调</p> <div class="table-wrap"><table class="doc-table" data-v-0786312a="" border="0" cellspacing="0" cellpadding="0"><thead data-v-0786312a=""><tr data-v-0786312a=""><th data-v-0786312a="">接口方法名</th> <th data-v-0786312a="">作用</th> <th data-v-0786312a="">说明</th></tr></thead> <tbody data-v-0786312a=""><tr data-v-0786312a=""><td data-v-0786312a="">playStart</td> <td data-v-0786312a="">试听开始</td> <td data-v-0786312a="">当开始播放的时候回调此方法</td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">playEnd</td> <td data-v-0786312a="">试听结束</td> <td data-v-0786312a="">当播放结束的时候回调此方法</td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">playError</td> <td data-v-0786312a="">试听报错</td> <td data-v-0786312a="">当播放过程中出现错误的时候回调此方法时候回调此方法</td></tr></tbody></table></div></li> <li data-v-0786312a=""><p data-v-0786312a="" style="margin: 20px 0px;">InitListener，初始化结果回调</p> <div class="table-wrap"><table class="doc-table" data-v-0786312a="" border="0" cellspacing="0" cellpadding="0"><thead data-v-0786312a=""><tr data-v-0786312a=""><th data-v-0786312a="">接口方法名</th> <th data-v-0786312a="">作用</th> <th data-v-0786312a="">说明</th></tr></thead> <tbody data-v-0786312a=""><tr data-v-0786312a=""><td data-v-0786312a="">onInitSuccess</td> <td data-v-0786312a="">初始化成功</td> <td data-v-0786312a="">当初始化成功的时候回调此方法</td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">onInitError(Exception e)</td> <td data-v-0786312a="">初始化失败</td> <td data-v-0786312a="">当初始化识别的回收回调此方法</td></tr></tbody></table></div></li></ul></section> <h3 data-v-0786312a="">错误码</h3> <section data-v-0786312a=""><div class="table-wrap"><table class="doc-table" data-v-0786312a="" border="0" cellspacing="0" cellpadding="0"><thead data-v-0786312a=""><tr data-v-0786312a=""><th data-v-0786312a="">错误码</th> <th data-v-0786312a="">含义</th></tr></thead> <tbody data-v-0786312a=""><tr data-v-0786312a=""><td data-v-0786312a="">90000</td> <td data-v-0786312a="">接口正常，正确返回的识别码</td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">90001</td> <td data-v-0786312a="">请求token失败</td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">90002</td> <td data-v-0786312a="">Token过期</td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">90003</td> <td data-v-0786312a="">参数值为空或不正确</td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">90004</td> <td data-v-0786312a="">网络请求错误</td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">90005</td> <td data-v-0786312a="">网络请求返回data值为空</td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">90006</td> <td data-v-0786312a="">服务器返回错误的代码</td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">90007</td> <td data-v-0786312a="">解析response出错</td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">90008</td> <td data-v-0786312a="">当前上传的录音的mouldId与录制的录音的mouldId不一致</td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">90009</td> <td data-v-0786312a="">当前上传的录音的contentText与录制的录音的contentText不一致</td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">90010</td> <td data-v-0786312a="">停止录音出错</td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">90011</td> <td data-v-0786312a="">停止检测噪音出错</td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">90012</td> <td data-v-0786312a="">创建录音文件时异常</td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">90013</td> <td data-v-0786312a="">因音频焦点丢失或电话等异常中断录音</td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">99999</td> <td data-v-0786312a="">服务器系统异常</td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">00011</td> <td data-v-0786312a="">Token校验失败，请核查！</td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">10003</td> <td data-v-0786312a="">参数错误</td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">10004</td> <td data-v-0786312a="">上传文件失败，请选择正确的文件格式</td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">10005</td> <td data-v-0786312a="">上传文件不能为空</td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">10008</td> <td data-v-0786312a="">模型id不合法，请重试</td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">10009</td> <td data-v-0786312a="">模型正在过程录制中，其他客户端不能同时录制！</td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">10010</td> <td data-v-0786312a="">识别语音超时！</td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">40002</td> <td data-v-0786312a="">提交次数已达到最大限制</td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">40003</td> <td data-v-0786312a="">接口请在有效期内使用</td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">40004</td> <td data-v-0786312a="">接口签名不合法</td></tr> <tr data-v-0786312a=""><td data-v-0786312a="">40005</td> <td data-v-0786312a="">请填写正确的手机号！</td></tr></tbody></table></div></section> <h3 data-v-0786312a="">附：服务器端异步回调接口</h3> <section data-v-0786312a=""><pre class="doc-sample doc-code" data-v-0786312a="">    @ApiOperation(value = "模型训练结果回调接口，仅作为示例", notes = "该链接通过参数notifyUrl设置，如果链接无法访问，将无法接收到回调的push信息。")
+    @PostMapping("/notify")
+    public void mouldInformationNotify(HttpServletRequest request, HttpServletResponse response) {
+        LogUtils.printStartTag(request.getRequestURI());
+        String resXml = "";
+        InputStream inStream;
+        try {
+            inStream = request.getInputStream();
+            ByteArrayOutputStream outSteam = new ByteArrayOutputStream();
+            byte[] buffer = new byte[1024];
+            int len;
+            while ((len = inStream.read(buffer)) != -1) {
+                outSteam.write(buffer, 0, len);
+            }
 
-<h2 id="vc-custom-android-flow">接入流程</h2>
-<ol>
-<li>初始化 SDK，传入 <code>clientId</code>、<code>clientSecret</code> 和用于区分用户的 <code>queryID</code>。</li>
-<li>动态申请 <code>RECORD_AUDIO</code> 等权限，并进行环境噪声检测。</li>
-<li>获取朗读文本列表，引导用户逐条朗读。</li>
-<li>获取 <code>mouldId</code>，开始录音并上传每条朗读音频。</li>
-<li>全部音频上传完成后，调用训练接口提交手机号码和回调地址。</li>
-<li>通过 <code>queryId</code> 或 <code>mouldId</code> 查询模型状态；训练成功后得到 <code>modelId</code>。</li>
-<li>将 <code>modelId</code> 作为合成接口或合成 SDK 中的 <code>voice_name</code> 使用。</li>
-</ol>
+            // 获取 模型训练方 调用notifyUrl时携带的返回信息
+            String result = new String(outSteam.toByteArray(), "utf-8");
+            log.info("dataBaker:模型训练返回结果 ----result---- =" + result);
+            // 关闭流
+            outSteam.close();
+            inStream.close();
+            // String转换为json对象，然后业务处理
+            JSONObject jsonObject = StringUtils.isNotEmpty(result) ? JSON.parseObject(result) : null;
 
-<h2 id="vc-custom-android-init">初始化 SDK</h2>
-<pre><code class="language-java">BakerVoiceEngraver.getInstance().initSDK(
-    context,
-    "CLIENT_ID",
-    "CLIENT_SECRET",
-    "QUERY_ID"
-);</code></pre>
-<p>如果初始化后需要切换用户标识，可在获取模型前调用：</p>
-<pre><code class="language-java">BakerVoiceEngraver.getInstance().setQueryId("QUERY_ID");</code></pre>
+            //该参数表示模型id
+            String mouldId = jsonObject == null ? "" : jsonObject.getString("mouldId");
+            //该参数表示模型当前状态：可能的值为0、1、2、3
+            String mouldStatus = jsonObject == null ? "" : jsonObject.getString("mouldStatus");
+            //该参数表示状态的说明（文案可能会有变动），0：训练任务已启动 1：训练任务启动失败 2：训练任务启动成功但训练失败 3：训练成功
+            String statusName = jsonObject == null ? "" : jsonObject.getString("statusName");
 
-<h2 id="vc-custom-android-record">噪声检测与录音</h2>
-<p>录音前建议先检测环境噪声。检测过程约 3 秒，最终音量值大于 70 时建议提示用户更换安静环境后重新录制。</p>
-<pre><code class="language-java">BakerVoiceEngraver.getInstance().setDetectCallback(detectCallback);
-BakerVoiceEngraver.getInstance().startDBDetection();</code></pre>
-<p>获取朗读文本并开始录音：</p>
-<pre><code class="language-java">BakerVoiceEngraver.getInstance().setContentTextCallback(contentTextCallback);
-BakerVoiceEngraver.getInstance().getTextList();
+            //具体业务处理，例如自行通知用户、存储模型id和状态信息等（可先返回结果，然后异步去完成业务逻辑）
 
-String mouldId = BakerVoiceEngraver.getInstance().getVoiceMouldId();
-BakerVoiceEngraver.getInstance().setRecordCallback(recordCallback);
-int startCode = BakerVoiceEngraver.getInstance().startRecord(contentText);</code></pre>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>返回值</th><th>说明</th></tr>
-<tr><td><code>0</code></td><td><code>mouldId</code> 为空，需先获取声音复刻任务 ID。</td></tr>
-<tr><td><code>1</code></td><td>没有录音权限。</td></tr>
-<tr><td><code>2</code></td><td>开始录音成功。</td></tr>
-</table>
-</div>
+            //todo
 
-<h2 id="vc-custom-android-upload">上传与提交训练</h2>
-<p>每条朗读结束后上传当前音频；如上传失败，可调用重传接口。</p>
-<pre><code class="language-java">BakerVoiceEngraver.getInstance().setUploadRecordsCallback(uploadRecordsCallback);
-BakerVoiceEngraver.getInstance().uploadRecords(contentText);
-BakerVoiceEngraver.getInstance().reUploadRecords(contentText);</code></pre>
-<p>全部文本完成后，提交模型训练。<code>phone</code> 与 <code>notifyUrl</code> 均可按业务需要传入；<code>notifyUrl</code> 需为外网可访问地址且不携带参数。</p>
-<pre><code class="language-java">String mouldId = BakerVoiceEngraver.getInstance()
-    .finishRecords("13800000000", "https://example.com/voice/callback");</code></pre>
-<p>如用户中途退出，应调用 <code>recordInterrupt()</code> 释放本次录音和模型任务资源。</p>
+            //根据情况，向结果中赋值：正常情况下，选择下面的resSuccess;如果选择resFail,将会视为推送失败，标贝服务端将重新推送一次相同的内容
+            //     * 返回成功xml
+            //     */
+            //    String resSuccess = "&lt;xml&gt;&lt;return_code&gt;&lt;![CDATA[SUCCESS]]&gt;&lt;/return_code&gt;&lt;return_msg&gt;&lt;![CDATA[OK]]&gt;&lt;/return_msg&gt;&lt;/xml&gt;";
+            //    /**
+            //     * 返回失败xml
+            //     */
+            //    String resFail = "&lt;xml&gt;&lt;return_code&gt;&lt;![CDATA[FAIL]]&gt;&lt;/return_code&gt;&lt;return_msg&gt;&lt;![CDATA[报文为空]]&gt;&lt;/return_msg&gt;&lt;/xml&gt;";
 
-<h2 id="vc-custom-android-query">查询模型状态</h2>
-<pre><code class="language-java">BakerVoiceEngraver.getInstance().setMouldCallback(mouldCallback);
-BakerVoiceEngraver.getInstance().getMouldList(1, 20, "QUERY_ID");
-BakerVoiceEngraver.getInstance().getMouldInfo("MOULD_ID");</code></pre>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>字段</th><th>说明</th></tr>
-<tr><td><code>modelId</code></td><td>训练成功后生成的声音模型 ID，可作为 <code>voice_name</code> 使用。</td></tr>
-<tr><td><code>modelStatus</code></td><td>模型状态：<code>1</code> 默认、<code>2</code> 录制中、<code>3</code> 开启训练失败、<code>4</code> 训练中、<code>5</code> 训练失败、<code>6</code> 训练成功。</td></tr>
-<tr><td><code>statusName</code></td><td>模型状态展示名称。</td></tr>
-</table>
-</div>
-
-<h2 id="vc-custom-android-classes">关键类与回调</h2>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>类 / 回调</th><th>说明</th></tr>
-<tr><td><code>BakerVoiceEngraver</code></td><td>声音复刻主入口，提供初始化、录音、上传、训练和查询能力。</td></tr>
-<tr><td><code>DetectCallback</code></td><td>环境噪声检测结果回调。</td></tr>
-<tr><td><code>ContentTextCallback</code></td><td>朗读文本列表回调。</td></tr>
-<tr><td><code>RecordCallback</code></td><td>录音状态、音量和错误回调。</td></tr>
-<tr><td><code>UploadRecordsCallback</code></td><td>单条音频上传和识别结果回调。</td></tr>
-<tr><td><code>MouldCallback</code></td><td>模型列表、模型详情和训练状态回调。</td></tr>
-<tr><td><code>Mould</code></td><td>声音模型数据对象。</td></tr>
-</table>
-</div>
-
-<h2 id="vc-custom-android-synthesis">体验合成</h2>
-<p>模型训练成功后，可通过两种方式体验合成效果：一是调用短文本合成 RESTful API 并把 <code>modelId</code> 作为 <code>voice_name</code>；二是在语音合成 Android SDK 中使用同一模型 ID。体验接口通常限制文本长度，正式项目请以当前授权和接口说明为准。</p>
+            resXml = Constant.resSuccess;
+            //记录日志
+            log.info("dataBaker:模型训练回调返回模型  {}  的状态为：---&gt;{}", mouldId, statusName);
+        } catch (Exception e) {
+            log.error("dataBaker:模型训练回调异常：", e);
+        } finally {
+            try {
+                // 处理业务完毕
+                BufferedOutputStream out = new BufferedOutputStream(response.getOutputStream());
+                out.write(resXml.getBytes());
+                out.flush();
+                out.close();
+            } catch (IOException e) {
+                log.error("dataBaker:模型训练回调异常:out：", e);
+            }
+        }
+    }<button class="copyClass">copy</button></pre></section></div>

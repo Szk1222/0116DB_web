@@ -1,173 +1,478 @@
-<h1>声纹识别 RESTful API</h1>
-<p class="doc-lead">通过三段说话人音频完成声纹注册，再使用 1:1 或 1:N 接口进行身份验证和检索。</p>
+<div data-v-22cbc254=""><h2 data-v-22cbc254="">声纹识别</h2> <h3 data-v-22cbc254="">功能介绍</h3> <section data-v-22cbc254="" style="margin-bottom: 25px; color: rgb(51, 51, 51);"><p data-v-22cbc254="">通过声音识别说话人身份，仅需采集三段说话人音频注册到声纹库，即可通过1:1、1：N产品实现声纹识别。</p></section> <h3 data-v-22cbc254="">音频要求</h3> <section data-v-22cbc254=""><ul data-v-22cbc254=""><li data-v-22cbc254="">音频时长：最佳 10 秒，最小 1 秒，最大 30 秒</li> <li data-v-22cbc254="">支持音频格式：pcm</li> <li data-v-22cbc254="">音频采样率：16000Hz</li> <li data-v-22cbc254="">位深：16bit</li> <li data-v-22cbc254="">声道：单声道</li></ul></section> <h3 data-v-22cbc254="">使用方法</h3> <section data-v-22cbc254=""><p data-v-22cbc254="">1. 创建账号和应用，详见
+        <a data-v-22cbc254="" href="/specs/file/guide" class="">
+          平台新手指引
+        </a>
+        ，通过
+        <a data-v-22cbc254="" href="https://ai.data-baker.com/" target="_blank">
+          标贝开放平台
+        </a>
+        应用/服务获取client_id，client_secret
+      </p> <p data-v-22cbc254="">
+        2. 发送请求获取access_token，详见
+        <a data-v-22cbc254="" href="/specs/file/access_token" class="">获取访问令牌</a></p> <p data-v-22cbc254="">
+        3. 获取token后，发送创建声纹库请求：按照请求说明发送请求，具体参数详见 <a data-v-22cbc254="" href="/specs/file/vpr_api_restful#set">创建声纹id</a>。
+      </p> <p data-v-22cbc254="">
+        4. 获取声纹库注册id后，发送声纹注册请求，按照请求说明发送请求，具体参数详见 <a data-v-22cbc254="" href="/specs/file/vpr_api_restful#register">声纹注册</a>。
+      </p> <p data-v-22cbc254="">5. 注册声纹三次成功后，依据需求进行1:1或1:N验证，发送1:1或1:N验证，具体参数详见<a data-v-22cbc254="" href="/specs/file/vpr_api_restful#part1">1:1请求说明</a>、<a data-v-22cbc254="" href="/specs/file/vpr_api_restful#part2">1:N请求说明</a> 。</p></section> <h3 data-v-22cbc254="" id="set">创建声纹特征id</h3> <section data-v-22cbc254=""><p data-v-22cbc254="" class="shortshow"><span data-v-22cbc254="">功能介绍：</span>对声纹数据进行存储和管理，调用接口返回可用的声纹特征id</p> <p data-v-22cbc254="" class="shortshow"><span data-v-22cbc254="">接口类型：</span> REST API</p> <h4 data-v-22cbc254="">服务接口</h4> <p data-v-22cbc254=""><a data-v-22cbc254="" href="https://openapi.data-baker.com/vpr/createid" target="_blank">https://openapi.data-baker.com/vpr/createid</a></p> <h4 data-v-22cbc254="">请求参数</h4> <p data-v-22cbc254="">调用接口返回可用的声纹特征id</p> <p data-v-22cbc254="">请求参数采用 json 方式，Content-Type 为 application/json</p> <p data-v-22cbc254="">params字段说明</p> <div class="table-wrap"><table class="doc-table" data-v-22cbc254="" border="0" cellspacing="0" cellpadding="0"><thead data-v-22cbc254=""><tr data-v-22cbc254=""><th data-v-22cbc254="">参数名称</th> <th data-v-22cbc254="">类型</th> <th data-v-22cbc254="">是否必填项</th> <th data-v-22cbc254="">说明</th></tr></thead> <tbody data-v-22cbc254=""><tr data-v-22cbc254=""><td data-v-22cbc254="">access_token</td> <td data-v-22cbc254="">string</td> <td data-v-22cbc254="">yes</td> <td data-v-22cbc254="">
+              通过 client_id，client_secret 调用授权服务获得见
+              <a data-v-22cbc254="" href="/specs/file/access_token" class="">获取访问令牌</a></td></tr></tbody></table></div> <h4 data-v-22cbc254="">请求示例</h4> <pre class="doc-sample doc-code" data-v-22cbc254="">curl -X POST -H"Content-Type:application/json"
+https://openapi.data-baker.com/vpr/createid
+-d '{"access_token" : "eyJhb......"}'<button class="copyClass">copy</button></pre> <h4 data-v-22cbc254="">响应结果</h4> <p data-v-22cbc254="">Content-Type 为 application/json</p> <p data-v-22cbc254="">返回数据为 json 格式，err_msg 字段为 SUCCESS 表示调用成功</p> <div class="table-wrap"><table class="doc-table" data-v-22cbc254="" border="0" cellspacing="0" cellpadding="0"><thead data-v-22cbc254=""><tr data-v-22cbc254=""><th data-v-22cbc254="">参数名称</th> <th data-v-22cbc254="">类型</th> <th data-v-22cbc254="">说明</th></tr></thead> <tbody data-v-22cbc254=""><tr data-v-22cbc254=""><td data-v-22cbc254="">err_msg</td> <td data-v-22cbc254="">String</td> <td data-v-22cbc254="">错误信息</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">err_no</td> <td data-v-22cbc254="">Int</td> <td data-v-22cbc254="">错误码</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">log_id</td> <td data-v-22cbc254="">String</td> <td data-v-22cbc254="">日志标识</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">registerid</td> <td data-v-22cbc254="">String</td> <td data-v-22cbc254="">声纹特征 id</td></tr></tbody></table></div> <h4 data-v-22cbc254="">返回示例</h4> <pre class="doc-sample doc-code" data-v-22cbc254="">     {
+	"err_msg": "SUCCESS",
+	"log_id": "1637151763693260",
+	"err_no": 90000,
+	"registerid": "1760157933973465631"
+     }
+      <button class="copyClass">copy</button></pre></section> <h3 data-v-22cbc254="" id="register">声纹注册</h3> <p data-v-22cbc254="" class="shortshow"><span data-v-22cbc254="">功能介绍：</span>
+      保存基础对比音频，最少需要调用 3 次该接口完成注册过程，当某次注册返回失败时，需要重新提交注册，直到注册完成</p> <p data-v-22cbc254="" class="shortshow"><span data-v-22cbc254="">接口类型：</span> REST API</p> <section data-v-22cbc254=""><h4 data-v-22cbc254="">服务接口</h4> <a data-v-22cbc254="" href="https://openapi.data-baker.com/vpr/register" target="_blank">https://openapi.data-baker.com/vpr/register</a> <p data-v-22cbc254="">
+        最少需要调用 3
+        次该接口完成注册过程，当某次注册返回失败时，需要重新提交注册，直到注册完成
+      </p> <h4 data-v-22cbc254="" id="reprint-word1">请求参数</h4> <p data-v-22cbc254="">请求参数采用 json 方式，Content-Type 为 application/json</p> <p data-v-22cbc254="">params字段说明</p> <div class="table-wrap"><table class="doc-table" data-v-22cbc254="" border="0" cellspacing="0" cellpadding="0"><thead data-v-22cbc254=""><tr data-v-22cbc254=""><th data-v-22cbc254="" class="table_width">参数名称</th> <th data-v-22cbc254="" class="table_width">类 型</th> <th data-v-22cbc254="" style="white-space: nowrap;">是否必填</th> <th data-v-22cbc254="">说明</th></tr></thead> <tbody data-v-22cbc254=""><tr data-v-22cbc254=""><td data-v-22cbc254="">access_token</td> <td data-v-22cbc254="">String</td> <td data-v-22cbc254="">是</td> <td data-v-22cbc254="">
+              通过client_id，client_secret调用授权服务获得见<a data-v-22cbc254="" href="/specs/file/access_token" class="">获取访问令牌
+              </a></td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">format</td> <td data-v-22cbc254="">String</td> <td data-v-22cbc254="">是</td> <td data-v-22cbc254="">pcm</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">audio</td> <td data-v-22cbc254="">String</td> <td data-v-22cbc254="">是</td> <td data-v-22cbc254="">
+              音频数据 base64（单声道，采样率16K，位深16
+              位，pcm音频，最短1秒，最长30秒）
+            </td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">registerId</td> <td data-v-22cbc254="">String</td> <td data-v-22cbc254="">是</td> <td data-v-22cbc254="">调用创建声纹id接口获取</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">name</td> <td data-v-22cbc254="">String</td> <td data-v-22cbc254="">是</td> <td data-v-22cbc254="">自定义名字</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">scoreThreshold</td> <td data-v-22cbc254="">Float</td> <td data-v-22cbc254="">是</td> <td data-v-22cbc254="">注册有效分数，不得低于系统默认值15.0，推荐值30.0</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">vad</td> <td data-v-22cbc254="">Int</td> <td data-v-22cbc254="">否</td> <td data-v-22cbc254="">
+              是否打开vad(语音端点检测)处理,默认为关闭 <br data-v-22cbc254="">
+              打开vad功能可以提升声纹识 别准确度，但会增加响应时间 <br data-v-22cbc254="">
+              1：打开 <br data-v-22cbc254="">
+              0：关闭
+            </td></tr></tbody></table></div> <h4 data-v-22cbc254="">请求示例</h4> <pre class="doc-sample doc-code" data-v-22cbc254="">curl -X   POST -H"Content-Type:application/json"
+https://openapi.data-baker.com/vpr/register
+-d '{ "access_token": "eyJ...", "format":"wav", "audio":"AAA", "registerId":"5ae...","name":"testa", "scoreThreshold":65.0 } '<button class="copyClass">copy</button></pre> <h4 data-v-22cbc254="">响应结果</h4> <p data-v-22cbc254="">Content-Type 为 application/json</p> <p data-v-22cbc254="">返回数据为 json 格式，err_msg 字段为 错误信息</p> <div class="table-wrap"><table class="doc-table" data-v-22cbc254="" border="0" cellspacing="0" cellpadding="0"><thead data-v-22cbc254=""><tr data-v-22cbc254=""><th data-v-22cbc254="">参数名称</th> <th data-v-22cbc254="">类型</th> <th data-v-22cbc254="">说明</th></tr></thead> <tbody data-v-22cbc254=""><tr data-v-22cbc254=""><td data-v-22cbc254="">err_msg</td> <td data-v-22cbc254="">String</td> <td data-v-22cbc254="">错误信息</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">err_no</td> <td data-v-22cbc254="">Int</td> <td data-v-22cbc254="">错误码</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">log_id</td> <td data-v-22cbc254="">String</td> <td data-v-22cbc254="">日志标识</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">suc_num</td> <td data-v-22cbc254="">Int</td> <td data-v-22cbc254="">注册成功次数，为 3 时表示完成注册</td></tr></tbody></table></div> <h4 data-v-22cbc254="">返回示例</h4> <pre class="doc-sample doc-code" data-v-22cbc254="">      {
+	"err_msg": "SUCCESS",
+	"log_id": "1637152591998223",
+	"err_no": 90000,
+	"suc_num": 1
+      }
+      <button class="copyClass">copy</button></pre></section> <h3 data-v-22cbc254="" id="part1">声纹验证(1:1)</h3> <p data-v-22cbc254="" class="shortshow"><span data-v-22cbc254="">功能介绍：</span>
+      上传音频与已其中一个声纹库中的音频特征比对，返回是否匹配</p> <p data-v-22cbc254="" class="shortshow"><span data-v-22cbc254="">接口类型：</span> REST API</p> <section data-v-22cbc254=""><h4 data-v-22cbc254="">服务接口</h4> <p data-v-22cbc254=""><a data-v-22cbc254="" href="https://openapi.data-baker.com/vpr/match" target="_blank">https://openapi.data-baker.com/vpr/match</a></p> <p data-v-22cbc254="" style="margin: 20px 0px;">上传音频与已存在特征比对，返回是否匹配</p> <h4 data-v-22cbc254="">请求参数</h4> <p data-v-22cbc254="">请求参数采用 json 方式，Content-Type 为 application/json</p> <p data-v-22cbc254="">params 字段说明</p> <div class="table-wrap"><table class="doc-table" data-v-22cbc254="" border="0" cellspacing="0" cellpadding="0"><thead data-v-22cbc254=""><tr data-v-22cbc254=""><th data-v-22cbc254="" class="table_width">参数名称</th> <th data-v-22cbc254="" class="table_width">类型</th> <th data-v-22cbc254="">是否必填项</th> <th data-v-22cbc254="">说明</th></tr></thead> <tbody data-v-22cbc254=""><tr data-v-22cbc254=""><td data-v-22cbc254="">access_token</td> <td data-v-22cbc254="">String</td> <td data-v-22cbc254="">是</td> <td data-v-22cbc254="">
+              通过 client_id，client_secret 调用授权服务获得见
+              <a data-v-22cbc254="" href="/specs/file/access_token" class="">获取访问令牌</a></td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">format</td> <td data-v-22cbc254="">String</td> <td data-v-22cbc254="">是</td> <td data-v-22cbc254="">pcm</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">audio</td> <td data-v-22cbc254="">String</td> <td data-v-22cbc254="">是</td> <td data-v-22cbc254="">
+              音频数据 base64（单声道，采样率16K，位深16
+              位，pcm音频，最短1秒，最长30秒）
+            </td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">matchId</td> <td data-v-22cbc254="">String</td> <td data-v-22cbc254="">是</td> <td data-v-22cbc254="">待匹配声纹id</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">scoreThreshold</td> <td data-v-22cbc254="">Float</td> <td data-v-22cbc254="">是</td> <td data-v-22cbc254="">比对分数设置，得分高于该数值则比对成功，不得低于系统默认值5.0，推荐值15.0</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">vad</td> <td data-v-22cbc254="">Int</td> <td data-v-22cbc254="">否</td> <td data-v-22cbc254="">
+              是否打开vad(语音端点检测)处理,默认为关闭 <br data-v-22cbc254="">
+              打开vad功能可以提升声纹识 别准确度，但会增加响应时间 <br data-v-22cbc254="">
+              1：打开 <br data-v-22cbc254="">
+              0：关闭
+            </td></tr></tbody></table></div> <h4 data-v-22cbc254="">请求示例</h4> <pre class="doc-sample doc-code" data-v-22cbc254="">curl -X POST -H"Content-Type:application/json"
+https://openapi.data-baker.com/vpr/match
+-d  '{ "access_token": "eyJ...  ", "format":"pcm", "audio":"AAAAAA", "scoreThreshold":60.0, "matchId":"be0..." }'<button class="copyClass">copy</button></pre> <h4 data-v-22cbc254="">响应结果</h4> <p data-v-22cbc254="">Content-Type 为 application/json</p> <p data-v-22cbc254="">返回数据为 json 格式，err_msg 字段为 错误信息</p> <div class="table-wrap"><table class="doc-table" data-v-22cbc254="" border="0" cellspacing="0" cellpadding="0"><thead data-v-22cbc254=""><tr data-v-22cbc254=""><th data-v-22cbc254="">参数名称</th> <th data-v-22cbc254="">类型</th> <th data-v-22cbc254="">说明</th></tr></thead> <tbody data-v-22cbc254=""><tr data-v-22cbc254=""><td data-v-22cbc254="">err_msg</td> <td data-v-22cbc254="">String</td> <td data-v-22cbc254="">错误信息</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">err_no</td> <td data-v-22cbc254="">Int</td> <td data-v-22cbc254="">错误码</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">log_id</td> <td data-v-22cbc254="">String</td> <td data-v-22cbc254="">日志标识</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">matchStatus</td> <td data-v-22cbc254="">Int</td> <td data-v-22cbc254="">1 表示比对成功，0 表示比对失败</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">score</td> <td data-v-22cbc254="">String</td> <td data-v-22cbc254="">比对分数</td></tr></tbody></table></div> <pre class="doc-sample doc-code" data-v-22cbc254="">{
+    "matchStatus": 0,
+    "err_msg": "SUCCESS",
+    "log_id": "1639473151396592",
+    "err_no": 90000,
+    "score": 1.5
+}<button class="copyClass">copy</button></pre></section> <h3 data-v-22cbc254="">查询声纹状态码</h3> <p data-v-22cbc254="" class="shortshow"><span data-v-22cbc254="">功能介绍：</span>
+      查询声纹注册是否成功</p> <p data-v-22cbc254="" class="shortshow"><span data-v-22cbc254="">接口类型：</span> REST API</p> <section data-v-22cbc254=""><h4 data-v-22cbc254="">服务接口</h4> <p data-v-22cbc254=""><a data-v-22cbc254="" href="https://openapi.data-baker.com/vpr/status" target="_blank">https://openapi.data-baker.com/vpr/status</a></p> <h4 data-v-22cbc254="">请求参数</h4> <p data-v-22cbc254="">请求参数采用 json 方式，Content-Type 为 application/json</p> <p data-v-22cbc254="">params 字段说明</p> <div class="table-wrap"><table class="doc-table" data-v-22cbc254="" border="0" cellspacing="0" cellpadding="0"><thead data-v-22cbc254=""><tr data-v-22cbc254=""><th data-v-22cbc254="">参数名称</th> <th data-v-22cbc254="">类型</th> <th data-v-22cbc254="">是否必填</th> <th data-v-22cbc254="">说明</th></tr></thead> <tbody data-v-22cbc254=""><tr data-v-22cbc254=""><td data-v-22cbc254="">access_token</td> <td data-v-22cbc254="">String</td> <td data-v-22cbc254="">yes</td> <td data-v-22cbc254="">
+              通过 client_id，client_secret 调用授权服务获得见
+              <a data-v-22cbc254="" href="/specs/file/access_token" class="">获取访问令牌</a></td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">registerId</td> <td data-v-22cbc254="">String</td> <td data-v-22cbc254="">yes</td> <td data-v-22cbc254="" rowspan="5">调用创建声纹id接口获取</td></tr></tbody></table></div> <h4 data-v-22cbc254="">请求示例</h4> <pre class="doc-sample doc-code" data-v-22cbc254="">curl -X POST -H"Content-Type:application/json"
+https://openapi.data-baker.com/vpr/status
+-d '{"access_token" : "eyJ... ","registerId":"53a..."}'<button class="copyClass">copy</button></pre> <h4 data-v-22cbc254="">响应结果</h4> <p data-v-22cbc254="">content_type 为 application/json</p> <p data-v-22cbc254="">返回数据为 json 格式，err_msg 字段为 错误信息</p> <div class="table-wrap"><table class="doc-table" data-v-22cbc254="" border="0" cellspacing="0" cellpadding="0"><thead data-v-22cbc254=""><tr data-v-22cbc254=""><th data-v-22cbc254="">参数名称</th> <th data-v-22cbc254="">类型</th> <th data-v-22cbc254="">说明</th></tr></thead> <tbody data-v-22cbc254=""><tr data-v-22cbc254=""><td data-v-22cbc254="">err_msg</td> <td data-v-22cbc254="">String</td> <td data-v-22cbc254="">错误信息</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">err_no</td> <td data-v-22cbc254="">Int</td> <td data-v-22cbc254="">日志标识</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">log_id</td> <td data-v-22cbc254="">String</td> <td data-v-22cbc254="">错误码</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">status</td> <td data-v-22cbc254="">Int</td> <td data-v-22cbc254="">声纹注册次数，3：注册成功，0：未注册</td></tr></tbody></table></div> <h4 data-v-22cbc254="">返回示例</h4> <pre class="doc-sample doc-code" data-v-22cbc254="">   {
+    "err_msg": "SUCCESS",
+    "log_id": "1637152702700241",
+    "err_no": 90000,
+    "status": 3
+    }
+        <button class="copyClass">copy</button></pre></section> <h3 data-v-22cbc254="">删除声纹</h3> <p data-v-22cbc254="" class="shortshow"><span data-v-22cbc254="">功能介绍：</span>
+      删除已注册的声纹</p> <p data-v-22cbc254="" class="shortshow"><span data-v-22cbc254="">接口类型：</span> REST API</p> <section data-v-22cbc254=""><h4 data-v-22cbc254="">服务接口</h4> <a data-v-22cbc254="" href="https://openapi.data-baker.com/vpr/delete" target="_blank">https://openapi.data-baker.com/vpr/delete</a> <h4 data-v-22cbc254="">请求参数</h4> <p data-v-22cbc254="">请求参数采用 json 方式，Content-Type 为 application/json</p> <p data-v-22cbc254="">params 字段说明</p> <div class="table-wrap"><table class="doc-table" data-v-22cbc254="" border="0" cellspacing="0" cellpadding="0"><thead data-v-22cbc254=""><tr data-v-22cbc254=""><th data-v-22cbc254="">参数名称</th> <th data-v-22cbc254="">类型</th> <th data-v-22cbc254="">是否必填</th> <th data-v-22cbc254="">说明</th></tr></thead> <tbody data-v-22cbc254=""><tr data-v-22cbc254=""><td data-v-22cbc254="">access_token</td> <td data-v-22cbc254="">String</td> <td data-v-22cbc254="">yes</td> <td data-v-22cbc254="">
+              通过 client_id，client_secret 调用授权服务获得见
+              <a data-v-22cbc254="" href="/specs/file/access_token" class="">获取访问令牌</a></td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">registerId</td> <td data-v-22cbc254="">String</td> <td data-v-22cbc254="">yes</td> <td data-v-22cbc254="" rowspan="5">待匹配声纹id</td></tr></tbody></table></div></section> <section data-v-22cbc254=""><h4 data-v-22cbc254="">请求示例</h4> <pre class="doc-sample doc-code" data-v-22cbc254="">curl -X POST -H"Content-Type:application/json"
+ https://openapi.data-baker.com/vpr/delete
+-d '{"access_token" : "eyJ... ","registerId":"53a..."}'<button class="copyClass">copy</button></pre> <h4 data-v-22cbc254="">响应结果</h4> <p data-v-22cbc254="">content_type 为 application/json</p> <p data-v-22cbc254="">返回数据为 json 格式，err_msg 字段为 错误信息</p> <div class="table-wrap"><table class="doc-table" data-v-22cbc254="" border="0" cellspacing="0" cellpadding="0"><thead data-v-22cbc254=""><tr data-v-22cbc254=""><th data-v-22cbc254="">参数名称</th> <th data-v-22cbc254="">类型</th> <th data-v-22cbc254="">说明</th></tr></thead> <tbody data-v-22cbc254=""><tr data-v-22cbc254=""><td data-v-22cbc254="">err_msg</td> <td data-v-22cbc254="">String</td> <td data-v-22cbc254="">错误信息</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">err_no</td> <td data-v-22cbc254="">Int</td> <td data-v-22cbc254="">错误码</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">log_id</td> <td data-v-22cbc254="">String</td> <td data-v-22cbc254="">日志标识</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">status</td> <td data-v-22cbc254="">Int</td> <td data-v-22cbc254="">删除声纹的注册状态，3：注册成功，0：未注册</td></tr></tbody></table></div> <h4 data-v-22cbc254="">响应示例</h4> <pre class="doc-sample doc-code" data-v-22cbc254="">{
+    "err_msg": "SUCCESS",
+    "log_id": "1639473151396592",
+    "err_no": 90000,
+    "status": 1
+}<button class="copyClass">copy</button></pre></section> <h3 data-v-22cbc254="" id="part2">声纹对比（1:N）</h3> <p data-v-22cbc254="" class="shortshow"><span data-v-22cbc254="">功能介绍：</span>
+      上传音频，比对库中所有音频特征，返回匹配列表</p> <p data-v-22cbc254="" class="shortshow"><span data-v-22cbc254="">接口类型：</span> REST API</p> <section data-v-22cbc254=""><h4 data-v-22cbc254="">服务接口</h4> <a data-v-22cbc254="" href="https://openapi.data-baker.com/vpr/search" target="_blank">https://openapi.data-baker.com/vpr/search</a> <p data-v-22cbc254="">用户上传音频，比对库中所有特征，返回匹配的特征列表</p> <h4 data-v-22cbc254="">请求参数</h4> <p data-v-22cbc254="">请求参数采用 json 方式，Content-Type 为 application/json</p> <p data-v-22cbc254="">params 字段说明</p> <div class="table-wrap"><table class="doc-table" data-v-22cbc254="" border="0" cellspacing="0" cellpadding="0"><thead data-v-22cbc254=""><tr data-v-22cbc254=""><th data-v-22cbc254="" class="table_width">参数名称</th> <th data-v-22cbc254="" class="table_width">类型</th> <th data-v-22cbc254="" class="table_width">是否必填</th> <th data-v-22cbc254="">说明</th></tr></thead> <tbody data-v-22cbc254=""><tr data-v-22cbc254=""><td data-v-22cbc254="">access_token</td> <td data-v-22cbc254="">String</td> <td data-v-22cbc254="">是</td> <td data-v-22cbc254="">
+              通过 client_id，client_secret 调用授权服务获得见
+              <a data-v-22cbc254="" href="/specs/file/access_token" class="">获取访问令牌</a></td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">format</td> <td data-v-22cbc254="">String</td> <td data-v-22cbc254="">是</td> <td data-v-22cbc254="">pcm</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">audio</td> <td data-v-22cbc254="">String</td> <td data-v-22cbc254="">是</td> <td data-v-22cbc254="">
+              音频数据 base64（单声道，采样率16K，位深16
+              位，pcm音频，最短1秒，最长60秒）
+            </td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">scoreThreshold</td> <td data-v-22cbc254="">float</td> <td data-v-22cbc254="">是</td> <td data-v-22cbc254="">比对分数设置，得分高于该数值则比对成功，不得低于系统默认值15.0，推荐值30.0</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">listNum</td> <td data-v-22cbc254="">Int</td> <td data-v-22cbc254="">是</td> <td data-v-22cbc254="">比对返回声纹条数</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">vad</td> <td data-v-22cbc254="">Int</td> <td data-v-22cbc254="">否</td> <td data-v-22cbc254="">
+              是否打开vad(语音端点检测)处理,默认为关闭 <br data-v-22cbc254="">
+              打开vad功能可以提升声纹识 别准确度，但会增加响应时间 <br data-v-22cbc254="">
+              1：打开 <br data-v-22cbc254="">
+              0：关闭
+            </td></tr></tbody></table></div> <h4 data-v-22cbc254="">请求示例</h4> <pre class="doc-sample doc-code" data-v-22cbc254="">curl -X POST -H"Content-Type:application/json"
+https://openapi.data-baker.com/vpr/search
+-d '{"access_token" : "eyJ...","format" : "pcm","audio" : "AAAAAA","scoreThreshold":30.0,"listNum":5}'<button class="copyClass">copy</button></pre> <h4 data-v-22cbc254="">响应结果</h4> <p data-v-22cbc254="">content_type 为 application/json</p> <p data-v-22cbc254="">返回数据为 json 格式，err_msg 字段为 错误信息</p> <div class="table-wrap"><table class="doc-table" data-v-22cbc254="" border="0" cellspacing="0" cellpadding="0"><thead data-v-22cbc254=""><tr data-v-22cbc254=""><th data-v-22cbc254="">参数名称</th> <th data-v-22cbc254="">类型</th> <th data-v-22cbc254="">说明</th></tr></thead> <tbody data-v-22cbc254=""><tr data-v-22cbc254=""><td data-v-22cbc254="">err_msg</td> <td data-v-22cbc254="">String</td> <td data-v-22cbc254="">错误信息</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">err_no</td> <td data-v-22cbc254="">String</td> <td data-v-22cbc254="">错误码</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">log_id</td> <td data-v-22cbc254="">String</td> <td data-v-22cbc254="">日志标识</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">matchList</td> <td data-v-22cbc254="">Array</td> <td data-v-22cbc254="">返回结果数据</td></tr></tbody></table></div> <p data-v-22cbc254="" style="margin: 20px 0px 0px;">matchList参数</p> <div class="table-wrap"><table class="doc-table" data-v-22cbc254=""><thead data-v-22cbc254=""><tr data-v-22cbc254=""><th data-v-22cbc254="">参数名称</th> <th data-v-22cbc254="">类型</th> <th data-v-22cbc254="">说明</th></tr></thead> <tbody data-v-22cbc254=""><tr data-v-22cbc254=""><td data-v-22cbc254="">pkid</td> <td data-v-22cbc254="">String</td> <td data-v-22cbc254="">匹配到的声纹特征 id</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">score</td> <td data-v-22cbc254="">float</td> <td data-v-22cbc254="">比对的分数</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">name</td> <td data-v-22cbc254="">String</td> <td data-v-22cbc254="">声纹关联名字</td></tr></tbody></table></div> <h4 data-v-22cbc254="">返回示例</h4> <pre class="doc-sample doc-code" data-v-22cbc254="">    {
+     "log_id": "1637153028866860",
+     "err_msg": "SUCCESS",
+     "matchList": [
+        {
+         "spkid": "3bc084c0-a0ea-4fe2-9b1b-358c74b21c8b",
+         "score": 63.936468236333987,
+         "name": "1"
+        },
+        {
+         "spkid": "70532bab-0cce-4d23-af07-4f18bb94b928",
+         "score": 61.937236514386112,
+         "name": "2"
+        },
+        {
+         "spkid": "7dbf40f6-db6c-4b35-9740-387e3bdbe657",
+         "score": 59.941546517333543,
+         "name": "3"
+        }
+      ],
+     "err_no": 90000
+    }
+      <button class="copyClass">copy</button></pre></section> <h3 data-v-22cbc254="">JAVA示例代码</h3> <section data-v-22cbc254=""><pre class="doc-sample doc-code" data-v-22cbc254="">package com.databaker.web.asr;
 
-<h2>音频要求</h2>
-<ul>
-<li>推荐音频时长约 10 秒，最短 1 秒，最长 30 秒。</li>
-<li>格式：PCM。</li>
-<li>采样率：16000Hz。</li>
-<li>位深：16bit。</li>
-<li>声道：单声道。</li>
-<li>请求中的音频需要先进行 Base64 编码。</li>
-</ul>
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import okhttp3.*;
 
-<h2>鉴权与调用流程</h2>
-<ol>
-<li>在开放平台创建账号和应用，获取 <code>client_id</code> 与 <code>client_secret</code>。</li>
-<li>调用访问令牌接口获取 <code>access_token</code>。</li>
-<li>调用创建接口获取 <code>registerId</code>。</li>
-<li>至少提交三段音频完成声纹注册。</li>
-<li>根据业务需要调用 1:1 验证或 1:N 检索。</li>
-</ol>
-<p>所有接口均使用 <code>POST</code>，请求头为 <code>Content-Type: application/json</code>。</p>
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+/**
+ * 声纹识别RESTFUL API接口调用示例
+ * 附：声纹识别RESTFUL API文档 【https://www.data-baker.com/specs/file/vpr_api_restful】
+ *
+ * 注意：
+ * 1.仅作为demo示例,失败重试、token过期重新获取、日志打印等优化工作需要开发者自行完成
+ * 2.此demo将6个接口一次性封装，请参照接口文档，使用时只需在main中逐一解开方法注释，并补充方法中的参数值即可
+ *
+ * @author data-baker
+ */
+public class VoiceprintRecognitionDemo {
 
-<h2>接口总览</h2>
-<div class="table-wrap">
-<table class="doc-table">
-<thead><tr><th>功能</th><th>接口</th></tr></thead>
-<tbody>
-<tr><td>创建声纹特征 ID</td><td><code>https://openapi.data-baker.com/vpr/createid</code></td></tr>
-<tr><td>声纹注册</td><td><code>https://openapi.data-baker.com/vpr/register</code></td></tr>
-<tr><td>1:1 声纹验证</td><td><code>https://openapi.data-baker.com/vpr/match</code></td></tr>
-<tr><td>查询注册状态</td><td><code>https://openapi.data-baker.com/vpr/status</code></td></tr>
-<tr><td>删除声纹</td><td><code>https://openapi.data-baker.com/vpr/delete</code></td></tr>
-<tr><td>1:N 声纹检索</td><td><code>https://openapi.data-baker.com/vpr/search</code></td></tr>
-</tbody>
-</table>
-</div>
+    /**
+     * 授权：需要在开放平台获取【https://ai.data-baker.com/】
+     */
+    private static final String clientId = "";
+    private static final String clientSecret = "";
+    /**
+     * 获取token的地址信息
+     */
+    public static String tokenUrl = "https://openapi.data-baker.com/oauth/2.0/token?grant_type=client_credentials&amp;client_secret=%s&amp;client_id=%s";
 
-<h2 id="createid">创建声纹特征 ID</h2>
-<p>创建一个可用于注册声纹的 <code>registerId</code>。</p>
-<pre><code class="language-bash">curl -X POST \
-  -H "Content-Type: application/json" \
-  https://openapi.data-baker.com/vpr/createid \
-  -d '{"access_token":"your_access_token"}'</code></pre>
-<pre><code class="language-json">{
-  "err_msg": "SUCCESS",
-  "log_id": "1637151763693260",
-  "err_no": 90000,
-  "registerid": "1760157933973465631"
-}</code></pre>
+    /** 创建声纹ID API地址 */
+    private static String createUrl = "https://openapi.data-baker.com/vpr/createid";
+    /** 声纹注册API地址 */
+    private static String registUrl = "https://openapi.data-baker.com/vpr/register";
+    /** 查询声纹状态码API地址 */
+    private static String queryStatusUrl = "https://openapi.data-baker.com/vpr/status";
+    /** 删除声纹API地址 */
+    private static String deleteUrl = "https://openapi.data-baker.com/vpr/delete";
+    /** 声纹验证(1:1)API地址 */
+    private static String matchUrl = "https://openapi.data-baker.com/vpr/match";
+    /** 声纹对比(1:N)API地址 */
+    private static String searchUrl = "https://openapi.data-baker.com/vpr/search";
 
-<h2 id="register">声纹注册</h2>
-<p>使用同一个 <code>registerId</code> 至少提交三段音频。当某次注册失败时，需要重新提交，直到达到注册要求。</p>
-<h3>请求参数</h3>
-<div class="table-wrap">
-<table class="doc-table">
-<thead><tr><th>参数</th><th>类型</th><th>必填</th><th>说明</th></tr></thead>
-<tbody>
-<tr><td><code>access_token</code></td><td>String</td><td>是</td><td>访问令牌。</td></tr>
-<tr><td><code>format</code></td><td>String</td><td>是</td><td>音频格式，例如 <code>pcm</code>。</td></tr>
-<tr><td><code>audio</code></td><td>String</td><td>是</td><td>Base64 编码后的音频数据。</td></tr>
-<tr><td><code>registerId</code></td><td>String</td><td>是</td><td>创建声纹特征 ID 接口返回的 ID。</td></tr>
-<tr><td><code>name</code></td><td>String</td><td>是</td><td>声纹关联名称。</td></tr>
-<tr><td><code>scoreThreshold</code></td><td>Float</td><td>是</td><td>比对分数阈值，不能低于系统默认值。</td></tr>
-</tbody>
-</table>
-</div>
-<pre><code class="language-json">{
-  "access_token": "your_access_token",
-  "format": "pcm",
-  "audio": "BASE64_AUDIO",
-  "registerId": "1760157933973465631",
-  "name": "demo",
-  "scoreThreshold": 65.0
-}</code></pre>
-<pre><code class="language-json">{
-  "err_msg": "SUCCESS",
-  "log_id": "1637152591998223",
-  "err_no": 90000,
-  "suc_num": 1
-}</code></pre>
+    public static void main(String[] args){
+        try {
+            /** 创建声纹ID */
+//        doCreateLibrary();
+            /** 声纹注册 */
+//            doRegist();
+            /** 查询声纹状态码 */
+//        doQueryStatus();
+            /** 删除声纹 */
+//        doDelete();
+            /** 声纹验证(1:1) */
+//        doMatch();
+            /** 声纹验证(1:N) */
+//        doSearch();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-<h2 id="match">声纹验证（1:1）</h2>
-<p>上传待验证音频，与指定的声纹特征进行比对，返回是否匹配和比对分数。</p>
-<pre><code class="language-json">{
-  "access_token": "your_access_token",
-  "format": "pcm",
-  "audio": "BASE64_AUDIO",
-  "scoreThreshold": 60.0,
-  "matchId": "register_id"
-}</code></pre>
-<pre><code class="language-json">{
-  "matchStatus": 0,
-  "err_msg": "SUCCESS",
-  "log_id": "1639473151396592",
-  "err_no": 90000,
-  "score": 1.5
-}</code></pre>
-<p><code>matchStatus</code> 为 <code>1</code> 表示比对成功，<code>0</code> 表示比对失败。</p>
+    public static void doCreateLibrary() {
+        Map&lt;String,Object&gt; params = new HashMap&lt;&gt;();
+        params.put("access_token",getAccessToken());
+        String rightResultdesc = "创建声纹库完成，结果信息";
+        String wrongResultdesc = "创建声纹库失败，结果信息";
+        sendReqUtil(params,createUrl,rightResultdesc,wrongResultdesc);
+    }
 
-<h2 id="status">查询声纹状态</h2>
-<pre><code class="language-json">{
-  "access_token": "your_access_token",
-  "registerId": "register_id"
-}</code></pre>
-<pre><code class="language-json">{
-  "err_msg": "SUCCESS",
-  "log_id": "1637152702700241",
-  "err_no": 90000,
-  "status": 3
-}</code></pre>
-<p><code>status</code> 为 <code>3</code> 表示注册成功，<code>0</code> 表示尚未注册完成。</p>
+    public static void doRegist() throws Exception {
+        Map&lt;String,Object&gt; params = new HashMap&lt;&gt;();
+        params.put("access_token",getAccessToken());
+        params.put("format","pcm");
+        params.put("audio",encodeBase64File(""));  //获取音频数据地址
+        params.put("registerId","");                    //声纹库id
+        params.put("name","声纹注册测试");                //自定义名字
+        params.put("scoreThreshold", 65.0);             //注册有效分数
+        String rightResultdesc = "声纹注册完成，结果信息";
+        String wrongResultdesc = "声纹注册失败，错误信息";
+        sendReqUtil(params,registUrl,rightResultdesc,wrongResultdesc);
+    }
 
-<h2 id="delete">删除声纹</h2>
-<p>传入 <code>registerId</code> 删除对应声纹。</p>
-<pre><code class="language-bash">curl -X POST \
-  -H "Content-Type: application/json" \
-  https://openapi.data-baker.com/vpr/delete \
-  -d '{"access_token":"your_access_token","registerId":"register_id"}'</code></pre>
-<pre><code class="language-json">{
-  "err_msg": "SUCCESS",
-  "log_id": "1639473151396592",
-  "err_no": 90000,
-  "status": 1
-}</code></pre>
+    private static void doQueryStatus() {
+        Map&lt;String,Object&gt; params = new HashMap&lt;&gt;();
+        params.put("access_token",getAccessToken());
+        params.put("registerId","");                    //声纹库id
+        String rightResultdesc = "查询声纹状态码完成，结果信息";
+        String wrongResultdesc = "查询声纹状态码失败，结果信息";
+        sendReqUtil(params,queryStatusUrl,rightResultdesc,wrongResultdesc);
+    }
 
-<h2 id="search">声纹检索（1:N）</h2>
-<p>上传待检索音频，与声纹库中的全部特征进行比对并返回匹配列表。</p>
-<h3>请求参数</h3>
-<div class="table-wrap">
-<table class="doc-table">
-<thead><tr><th>参数</th><th>类型</th><th>必填</th><th>说明</th></tr></thead>
-<tbody>
-<tr><td><code>access_token</code></td><td>String</td><td>是</td><td>访问令牌。</td></tr>
-<tr><td><code>format</code></td><td>String</td><td>是</td><td>音频格式，例如 <code>pcm</code>。</td></tr>
-<tr><td><code>audio</code></td><td>String</td><td>是</td><td>Base64 编码后的音频，最长 60 秒。</td></tr>
-<tr><td><code>scoreThreshold</code></td><td>Float</td><td>是</td><td>比对分数阈值，系统默认值为 15.0，推荐使用 30.0。</td></tr>
-<tr><td><code>listNum</code></td><td>Int</td><td>是</td><td>返回的匹配条数。</td></tr>
-<tr><td><code>vad</code></td><td>Int</td><td>否</td><td>是否开启语音端点检测，<code>1</code> 开启，<code>0</code> 关闭，默认关闭。</td></tr>
-</tbody>
-</table>
-</div>
-<pre><code class="language-json">{
-  "access_token": "your_access_token",
-  "format": "pcm",
-  "audio": "BASE64_AUDIO",
-  "scoreThreshold": 30.0,
-  "listNum": 5
-}</code></pre>
-<pre><code class="language-json">{
-  "log_id": "1637153028866860",
-  "err_msg": "SUCCESS",
-  "matchList": [
-    {"spkid": "3bc084c0-a0ea-4fe2-9b1b-358c74b21c8b", "score": 63.93, "name": "1"},
-    {"spkid": "70532bab-0cce-4d23-af07-4f18bb94b928", "score": 61.93, "name": "2"}
-  ],
-  "err_no": 90000
-}</code></pre>
+    private static void doDelete() {
+        Map&lt;String,Object&gt; params = new HashMap&lt;&gt;();
+        params.put("access_token",getAccessToken());
+        params.put("registerId","");                    //声纹库id
+        String rightResultdesc = "删除声纹完成，结果信息";
+        String wrongResultdesc = "删除声纹失败，结果信息";
+        sendReqUtil(params,deleteUrl,rightResultdesc,wrongResultdesc);
+    }
 
-<h2>错误码</h2>
-<div class="table-wrap">
-<table class="doc-table">
-<thead><tr><th>错误码</th><th>说明</th></tr></thead>
-<tbody>
-<tr><td><code>90000</code></td><td>成功。</td></tr>
-<tr><td><code>10001</code> - <code>10003</code></td><td>请求参数、请求体或请求头错误。</td></tr>
-<tr><td><code>20001</code> - <code>20003</code></td><td>数据库、资源或缓存服务错误。</td></tr>
-<tr><td><code>30001</code> - <code>30005</code></td><td>音频过长、过短、数据错误、调用次数或并发超限。</td></tr>
-<tr><td><code>40001</code></td><td>引擎内部错误。</td></tr>
-<tr><td><code>50001</code> - <code>50002</code></td><td>访问令牌校验失败或无效。</td></tr>
-</tbody>
-</table>
-</div>
+    public static void doMatch() throws Exception {
+        Map&lt;String,Object&gt; params = new HashMap&lt;&gt;();
+        params.put("access_token",getAccessToken());
+        params.put("format","pcm");
+        params.put("audio",encodeBase64File("")); //获取音频数据地址
+        params.put("scoreThreshold",30.0);             //分数阈值
+        params.put("matchId","");                      //声纹库id
+        String rightResultdesc = "声纹1:1验证完成，结果信息";
+        String wrongResultdesc = "声纹1:1验证失败，结果信息";
+        sendReqUtil(params,matchUrl,rightResultdesc,wrongResultdesc);
+    }
+
+    public static void doSearch() throws Exception {
+        Map&lt;String,Object&gt; params = new HashMap&lt;&gt;();
+        params.put("access_token",getAccessToken());
+        params.put("format","pcm");
+        params.put("audio",encodeBase64File("")); //获取音频数据地址
+        params.put("scoreThreshold",30.0);             //分数阈值
+        params.put("listNum",5);
+        String rightResultdesc = "声纹1:N验证完成，结果信息";
+        String wrongResultdesc = "声纹1:N验证失败，结果信息";
+        sendReqUtil(params,searchUrl,rightResultdesc,wrongResultdesc);
+    }
+
+    public static String encodeBase64File(String path) throws Exception {
+        File file = new File(path);
+        FileInputStream inputFile = new FileInputStream(file);
+        byte[] buffer = new byte[(int) file.length()];
+        inputFile.read(buffer);
+        inputFile.close();
+        return Base64.getEncoder().encodeToString(buffer);
+    }
+
+    private static void sendReqUtil(Map&lt;String,Object&gt; params,String url,String rightResultdesc,String wrongResultdesc){
+        try {
+            OkHttpClient client = new OkHttpClient().newBuilder()
+                    .connectTimeout(60, TimeUnit.SECONDS)
+                    .readTimeout(60, TimeUnit.SECONDS)
+                    .writeTimeout(60, TimeUnit.SECONDS)
+                    .build();
+            MediaType mediaType = MediaType.parse("application/json");
+            RequestBody body = RequestBody.create(JSONObject.toJSONString(params),mediaType);
+            //构造request
+            Request request = new Request.Builder()
+                    .url(url)
+                    .method("POST", body)
+                    .addHeader("Content-Type", "application/json")
+                    .build();
+            Response response = null;
+            response = client.newCall(request).execute();
+            if (response.isSuccessful()) {
+                JSONObject jsonObject = JSON.parseObject(response.body().string());
+                System.out.println(rightResultdesc + ": " + (jsonObject == null ? "" : jsonObject));
+            } else {
+                System.out.println(wrongResultdesc + ": " + response.body().string());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static String getAccessToken() {
+        String accessToken = "";
+        OkHttpClient client = new OkHttpClient();
+        String url = String.format(tokenUrl, clientSecret, clientId);
+        Request request = new Request.Builder().url(url).build();
+        JSONObject jsonObject;
+        try {
+            Response response = client.newCall(request).execute();
+            if (response.isSuccessful()) {
+                //解析
+                String resultJson = response.body().string();
+                jsonObject = JSON.parseObject(resultJson);
+                accessToken = jsonObject.getString("access_token");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return accessToken;
+    }
+}
+      <button class="copyClass">copy</button></pre></section> <h3 data-v-22cbc254="">Python示例代码</h3> <section data-v-22cbc254=""><pre class="doc-sample doc-code" data-v-22cbc254="">import requests
+import json
+import argparse
+import base64
+import os
+import time
+
+
+class VoicePrint:
+
+    # 获取声纹id
+    def get_voiceprint_id(self, access_token):
+        url = "https://openapi.data-baker.com/vpr/createid"
+        headers = {'Content-Type': 'application/json'}
+        data = {'access_token': access_token}
+        response = requests.post(url, data=json.dumps(data), headers=headers)
+        register_id = json.loads(response.text).get("registerid")
+        if json.loads(response.text).get('err_no') == 90000:
+            return register_id
+        else:
+            raise Exception
+
+    # 声纹注册
+    def voiceprint_register(self, audio, access_token, name, format, registerId):
+        url = 'https://openapi.data-baker.com/vpr/register'
+        headers = {'Content-Type': 'application/json'}
+        data = {'access_token': access_token,
+                'format': format,
+                'audio': audio,
+                'registerId': registerId,
+                'name': name,
+                'scoreThreshold': 30.0}
+        response = requests.post(url, data=json.dumps(data), headers=headers)
+        if json.loads(response.text).get('err_no') == 90000:
+            return True
+        else:
+            print(response.text)
+            return False
+
+    # 查询声纹状态码
+    def check_voiceprint_status(self, access_token, register_id):
+        url = 'https://openapi.data-baker.com/vpr/status'
+        headers = {'Content-Type': 'application/json'}
+        data = {'access_token': access_token,
+                'registerId': register_id}
+        response = requests.post(url, data=json.dumps(data), headers=headers)
+        if json.loads(response.text).get('err_no') == 90000:
+            if json.loads(response.text).get('status') == 3:
+                return "register successfully"
+            else:
+                return "register failed"
+        else:
+            raise Exception
+
+    # 声纹删除
+    def remove_voiceprint(self, access_token, registerId):
+        url = 'https://openapi.data-baker.com/vpr/delete'
+        headers = {'Content-Type': 'application/json'}
+        data = {'access_token': access_token,
+                'registerId': registerId}
+        response = requests.post(url, data=json.dumps(data), headers=headers)
+        if json.loads(response.text).get('err_no') == 90000:
+            return "remove successfully"
+        else:
+            return "remove failed"
+
+    # 声纹对比
+    def verification_1VN(self, access_token, file):
+        url = 'https://openapi.data-baker.com/vpr/search'
+        headers = {'Content-Type': 'application/json'}
+
+        data = {'access_token': access_token,
+                'format': args.format,
+                'audio': file,
+                'listNum': 10,
+                'scoreThreshold': 65.0}
+        response = requests.post(url, data=json.dumps(data), headers=headers)
+        return response
+
+    # 声纹认证
+    def verification_1V1(self, access_token, file, matchId):
+        url = 'https://openapi.data-baker.com/vpr/match'
+        headers = {'Content-Type': 'application/json'}
+        data = {'access_token': access_token,
+                'format': 'pcm',
+                'audio': file,
+                'matchId': matchId,
+                'scoreThreshold': 65.0}
+        response = requests.post(url, data=json.dumps(data), headers=headers)
+        return response
+
+
+# 获取access_token用于鉴权
+def get_access_token(client_secret, client_id):
+    grant_type = "client_credentials"
+    url = "https://openapi.data-baker.com/oauth/2.0/token?grant_type={}&amp;client_secret={}&amp;client_id={}".format(
+        grant_type, client_secret, client_id)
+    response = requests.post(url)
+    access_token = json.loads(response.text).get('access_token')
+
+    return access_token
+
+
+# 获取命令行输入参数
+def get_args():
+    parser = argparse.ArgumentParser(description='VR')
+    parser.add_argument('-client_secret', type=str, required=True)
+    parser.add_argument('-client_id', type=str, required=True)
+    parser.add_argument('-file_path', type=str, required=True)
+    parser.add_argument('-name', type=str, required=True)
+    parser.add_argument('--format', type=str, required=False, default='pcm')
+    parser.add_argument('--scoreThreshold', type=float, required=False, default=65.0)
+
+    args = parser.parse_args()
+
+    return args
+
+
+if __name__ == '__main__':
+    try:
+        args = get_args()
+        vp = VoicePrint()
+
+        # 获取access_token
+        client_secret = args.client_secret
+        client_id = args.client_id
+        file_path = args.file_path
+        access_token = get_access_token(client_secret, client_id)
+
+        # 创建声纹特征id
+        registerId = vp.get_voiceprint_id(access_token)
+
+        num_of_registered_audio = 0
+        for root, dirs, files in os.walk(file_path):
+            for file in files:
+                with open(os.path.join(file_path, file), 'rb') as f:
+                    audio = str(base64.b64encode(f.read()), encoding='utf-8')
+                # 声纹注册
+                if vp.voiceprint_register(audio, access_token, args.name, args.format, registerId):
+                    num_of_registered_audio += 1
+                if num_of_registered_audio &gt;= 3:
+                    print("register successfully")
+                    break
+
+        time.sleep(1)
+
+        with open('data/1.wav', 'rb') as f:
+            file = str(base64.b64encode(f.read()), encoding='utf-8')
+
+        # 声纹对比（1 V N）
+        response = vp.verification_1VN(access_token, file)
+        print(response.text)
+
+        # 声纹验证（1 V 1)
+        # response = vp.verification_1V1(access_token, file, registerId)
+        # print(response.text)
+
+        # 查询声纹注册状态
+        # print(vp.check_voiceprint_status(access_token, registerId))
+
+        # 删除指定声纹
+        # print(vp.remove_voiceprint(access_token, registerId))
+
+        print('finished')
+
+    except Exception as e:
+        print(e)
+
+
+      <button class="copyClass">copy</button></pre> <h4 data-v-22cbc254="">命令行执行</h4> <pre class="doc-sample doc-code" data-v-22cbc254="">python voiceprint.py -client_secret=您的client_secret -client_id=您的client_id -file_path=文件夹路径 -name=声纹名称<button class="copyClass">copy</button></pre></section> <h3 data-v-22cbc254="">错误码</h3> <section data-v-22cbc254=""><h4 data-v-22cbc254="">错误码分类</h4> <div class="table-wrap"><table class="doc-table" data-v-22cbc254="" border="0" cellspacing="0" cellpadding="0"><thead data-v-22cbc254=""><tr data-v-22cbc254=""><th data-v-22cbc254="">err_no</th> <th data-v-22cbc254="">描述</th></tr></thead> <tbody data-v-22cbc254=""><tr data-v-22cbc254=""><td data-v-22cbc254="">100xx</td> <td data-v-22cbc254="">请求参数错误</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">200xx</td> <td data-v-22cbc254="">链接服务器错误</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">300xx</td> <td data-v-22cbc254="">业务调用错误</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">400xx</td> <td data-v-22cbc254="">引擎内部错误</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">500xx</td> <td data-v-22cbc254="">授权相关错误</td></tr></tbody></table></div> <h4 data-v-22cbc254="">详细错误码</h4> <div class="table-wrap"><table class="doc-table" data-v-22cbc254="" border="0" cellspacing="0" cellpadding="0"><thead data-v-22cbc254=""><tr data-v-22cbc254=""><th data-v-22cbc254="">err_no</th> <th data-v-22cbc254="">描述</th></tr></thead> <tbody data-v-22cbc254=""><tr data-v-22cbc254=""><td data-v-22cbc254="">90000</td> <td data-v-22cbc254="">成功</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">10001</td> <td data-v-22cbc254="">请求参数错误</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">10002</td> <td data-v-22cbc254="">请求体格式错误</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">10003</td> <td data-v-22cbc254="">请求头错误</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">20001</td> <td data-v-22cbc254="">数据库错误</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">20002</td> <td data-v-22cbc254="">资源请求错误</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">20003</td> <td data-v-22cbc254="">REDIS数据库错误</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">30001</td> <td data-v-22cbc254="">语音过长错误</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">30002</td> <td data-v-22cbc254="">语音过短错误</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">30003</td> <td data-v-22cbc254="">语音数据错误</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">30004</td> <td data-v-22cbc254="">调用数量已达上限</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">30005</td> <td data-v-22cbc254="">并发超出限制</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">30006</td> <td data-v-22cbc254="">声纹ID未找到</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">30007</td> <td data-v-22cbc254="">声纹ID不属于该账户</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">30008</td> <td data-v-22cbc254="">声纹ID已经注册</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">30009</td> <td data-v-22cbc254="">声纹ID未注册</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">30010</td> <td data-v-22cbc254="">声纹得分低于阈值</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">30011</td> <td data-v-22cbc254="">得分阈值设置低于默认值</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">30012</td> <td data-v-22cbc254="">声纹数量已达上限</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">40001</td> <td data-v-22cbc254="">创建声纹错误</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">40002</td> <td data-v-22cbc254="">提取特征错误</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">40003</td> <td data-v-22cbc254="">声纹匹配错误</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">50001</td> <td data-v-22cbc254="">校验token错误</td></tr> <tr data-v-22cbc254=""><td data-v-22cbc254="">50002</td> <td data-v-22cbc254="">token无效错误</td></tr></tbody></table></div></section></div>

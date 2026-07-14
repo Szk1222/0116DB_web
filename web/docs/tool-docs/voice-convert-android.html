@@ -1,116 +1,20 @@
-<h1>声音转换 Android SDK</h1>
-<p class="doc-lead">声音转换 Android SDK 用于在 Android 端快速接入变声能力，内置录音流程，也支持调用方传入音频字节流完成转换。</p>
-
-<h2 id="voice-convert-android-download">下载与依赖</h2>
-<p>SDK 与示例 Demo 下载地址：<a href="https://github.com/data-baker/BakerAndroidSdks" target="_blank" rel="noopener">https://github.com/data-baker/BakerAndroidSdks</a></p>
-<p>在工程根目录 <code>build.gradle</code> 中加入 JitPack 仓库：</p>
-<pre><code class="language-gradle">allprojects {
-  repositories {
-    maven { url 'https://jitpack.io' }
-  }
-}</code></pre>
-<p>在主 Module 中加入依赖：</p>
-<pre><code class="language-gradle">dependencies {
+<div data-v-1b418355=""><h2 data-v-1b418355="">声音转换Android SDK</h2> <h3 data-v-1b418355="">概述</h3> <section data-v-1b418355=""><p data-v-1b418355="">
+        本 SDK 旨在使开发者更方便的接入标贝科技的变声功能。里面内置了录音功能，免去开发者实现录音的功能。
+      </p></section> <h3 data-v-1b418355="">SDK 下载地址</h3> <section data-v-1b418355=""><p data-v-1b418355="">
+        下载地址：
+      <a data-v-1b418355="" target="_blank" href="https://github.com/data-baker/BakerAndroidSdks">https://github.com/data-baker/BakerAndroidSdks</a></p></section> <h3 data-v-1b418355="">Android Studio集成SDK（参考demo）</h3> <section data-v-1b418355=""><ul data-v-1b418355=""><li data-v-1b418355=""><strong data-v-1b418355="">1. 在工程下的build.gradle文件中添加以下代码。</strong> <pre class="doc-sample doc-code" data-v-1b418355="">allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}<button class="copyClass">copy</button></pre></li> <li data-v-1b418355=""><strong data-v-1b418355="">2. 在主model下build.gradle文件中添加以下代码。建议使用此方式</strong> <pre class="doc-sample doc-code" data-v-1b418355="">dependencies {
   implementation 'com.github.data-baker.BakerAndroidSdks:bakerbasecomponent:2.0.11'
-  implementation 'com.github.data-baker.BakerAndroidSdks:bakerhttp:2.0.11'
-  implementation 'com.github.data-baker.BakerAndroidSdks:voiceconvert:2.0.11'
+  implementation ' com.github.data-baker.BakerAndroidSdks:bakerhttp:2.0.11'
+  implementation ' com.github.data-baker.BakerAndroidSdks: voiceconvert:2.0.11'
   implementation 'com.squareup.okhttp3:okhttp:4.2.2'
   implementation 'com.google.code.gson:gson:2.8.6'
-}</code></pre>
-
-<h2 id="voice-convert-android-permission">权限与混淆</h2>
-<pre><code class="language-xml">&lt;uses-permission android:name="android.permission.INTERNET" /&gt;
+}<button class="copyClass">copy</button></pre> <ul data-v-1b418355=""><li data-v-1b418355="">或者将.jar/.aar包添加至工程module下，lib文件夹里。</li> <li data-v-1b418355="">2021年6月，标贝计划开源sdk源码，所以也可以直接集成源码model。</li> <li data-v-1b418355="">注意：SDK内使用了okhttp、gson所以需要开发者添加以这两个库，若工程内已存在，无需重复添加。okhttp请使用4.x版本，以免出现版本兼容bug。</li></ul></li> <li data-v-1b418355=""><strong data-v-1b418355="">3. 在主Module的AndroidManifest.xml文件中添加权限。6.0以上需要动态申请RECORD_AUDIO权限。</strong> <pre class="doc-sample doc-code" data-v-1b418355="">&lt;uses-permission android:name="android.permission.INTERNET" /&gt;
 &lt;uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /&gt;
-&lt;uses-permission android:name="android.permission.RECORD_AUDIO" /&gt;</code></pre>
-<p>Android 6.0 及以上需要动态申请 <code>RECORD_AUDIO</code> 权限。如需明文网络访问，在 <code>application</code> 节点增加：</p>
-<pre><code class="language-xml">android:usesCleartextTraffic="true"</code></pre>
-<p>混淆配置：</p>
-<pre><code class="language-text">-keep class com.databaker.voiceconvert.** { *; }
+&lt;uses-permission android:name="android.permission.RECORD_AUDIO" /&gt;<button class="copyClass">copy</button></pre></li><li data-v-1b418355=""><strong data-v-1b418355="">4. 在主Module的AndroidManifest.xml文件中的application节点添加以下属性。</strong> <pre class="doc-sample doc-code" data-v-1b418355="">android:usesCleartextTraffic="true"<button class="copyClass">copy</button></pre></li> <li data-v-1b418355=""><strong data-v-1b418355="">5.关于混淆</strong> <p data-v-1b418355="">SDK中用到了okhttp和gson，所以需要将这两个包的混淆代码添加上。具体混淆代码可以去官方文档上查阅。如果项目中已经有这两个包的混淆代码，不必重复添加。请加上我们SDK其他类的混淆代码，如下：</p> <pre class="doc-sample doc-code" data-v-1b418355="">-keep class com.databaker.voiceconvert.** { *; }
 -keep class com.baker.sdk.http.**{*;}
--keep class com.baker.sdk.basecomponent.**{*;}</code></pre>
-
-<h2 id="voice-convert-android-classes">关键类</h2>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>类名</th><th>说明</th></tr>
-<tr><td><code>VoiceConvertManager</code></td><td>声音转换业务处理类，全局只需一个实例。</td></tr>
-<tr><td><code>VoiceConvertCallBack</code></td><td>声音转换业务回调类，返回转换进度、原始数据、转换结果和错误信息。回调运行在子线程。</td></tr>
-</table>
-</div>
-
-<h2 id="voice-convert-android-flow">调用流程</h2>
-<ol>
-<li>实例化 <code>VoiceConvertManager</code>。</li>
-<li>调用 <code>init(Context context, String clientId, String clientSecret, AuthCallback authCallback)</code> 初始化 SDK。</li>
-<li>设置目标音色、VAD、音频对齐等参数。</li>
-<li>按场景选择麦克风录音转换或字节流转换。</li>
-<li>在 <code>VoiceConvertCallBack</code> 中接收状态、转换结果或错误信息。</li>
-<li>不再使用时调用 <code>release()</code> 释放资源。</li>
-</ol>
-<pre><code class="language-java">VoiceConvertManager convertManager = new VoiceConvertManager();
-convertManager.init(context, clientId, clientSecret, authCallback);
-convertManager.setVoiceName("Vc_jiaojiao");
-convertManager.setVadEnable(true);
-convertManager.setAudioAlign(true);</code></pre>
-
-<h2 id="voice-convert-android-scenes">转换场景</h2>
-<h3>麦克风实时转换</h3>
-<ol>
-<li>确保应用已取得录音权限。</li>
-<li>通过 <code>VoiceConvertManager</code> 设置参数。</li>
-<li>调用 <code>startFromMic(callBack)</code> 开启录音转换。</li>
-<li>在回调中接收状态、转换结果、原始录音数据或错误信息。</li>
-<li>调用 <code>stopRecord()</code> 结束录音转换。</li>
-<li>根据 <code>onAudioOutput()</code> 中的 <code>isLast</code> 判断转换数据是否完整返回。</li>
-</ol>
-<h3>音频字节流转换</h3>
-<ol>
-<li>通过 <code>VoiceConvertManager</code> 设置参数。</li>
-<li>调用 <code>startFromBytes(callBack)</code> 通知 SDK 准备转换。</li>
-<li>在 <code>onReady()</code> 回调后，多次调用 <code>sendAudio(byte[] data, boolean isLast)</code> 输入待转换音频。</li>
-<li>单次数据建议固定为 <code>5120</code> 字节；最后一片可以为其他长度，并且 <code>isLast=true</code>。</li>
-<li>前后两次 <code>sendAudio</code> 调用间隔不要超过 <code>10</code> 秒。</li>
-</ol>
-
-<h2 id="voice-convert-android-methods">方法说明</h2>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>方法</th><th>说明</th></tr>
-<tr><td><code>init()</code></td><td>初始化 SDK，必须先调用。</td></tr>
-<tr><td><code>startFromMic()</code></td><td>使用 SDK 内部录音进行声音转换。</td></tr>
-<tr><td><code>stopRecord()</code></td><td>结束录音转换。</td></tr>
-<tr><td><code>startFromBytes()</code></td><td>开启调用方自有音频数据转换。</td></tr>
-<tr><td><code>sendAudio()</code></td><td>在 <code>onReady()</code> 后发送音频字节流。</td></tr>
-<tr><td><code>setVoiceName()</code></td><td>设置目标声音模型名称，默认 <code>Vc_jiaojiao</code>。</td></tr>
-<tr><td><code>setVadEnable()</code></td><td>设置是否开启服务端 VAD，默认 <code>false</code>。</td></tr>
-<tr><td><code>setAudioAlign()</code></td><td>设置输出音频是否与输入音频对齐，默认 <code>false</code>。</td></tr>
-<tr><td><code>release()</code></td><td>释放 SDK 资源。</td></tr>
-</table>
-</div>
-
-<h2 id="voice-convert-android-callback">回调说明</h2>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>回调</th><th>说明</th></tr>
-<tr><td><code>onReady()</code></td><td>SDK 已准备好，可以开始发送音频数据。</td></tr>
-<tr><td><code>onAudioInput()</code></td><td>返回原始录音或输入音频数据。</td></tr>
-<tr><td><code>onAudioOutput()</code></td><td>返回转换后的音频数据，包含是否最后一包标记。</td></tr>
-<tr><td><code>onError()</code></td><td>返回错误码、错误信息和 <code>traceId</code>，出现错误后本次转换任务中断。</td></tr>
-</table>
-</div>
-
-<h2 id="voice-convert-android-errors">常见错误码</h2>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>错误码</th><th>说明</th></tr>
-<tr><td><code>19180001</code></td><td>没有 token，请先调用 <code>init</code> 方法初始化。</td></tr>
-<tr><td><code>19180002</code></td><td>网络请求出现错误。</td></tr>
-<tr><td><code>19180003</code></td><td>没有录音权限。</td></tr>
-<tr><td><code>10000</code></td><td>WS 数据包解析错误。</td></tr>
-<tr><td><code>10002</code></td><td>请求参数缺少 <code>access_token</code>。</td></tr>
-<tr><td><code>10004</code></td><td>请求参数缺少 <code>voice_name</code>。</td></tr>
-<tr><td><code>10005</code></td><td><code>voice_name</code> 不存在。</td></tr>
-<tr><td><code>20001</code></td><td>声音转换出错。</td></tr>
-<tr><td><code>30001</code></td><td>会话空闲超时。</td></tr>
-</table>
-</div>
+-keep class com.baker.sdk.basecomponent.**{*;}<button class="copyClass">copy</button></pre></li></ul></section> <h3 data-v-1b418355="">SDK 关键类</h3> <section data-v-1b418355=""><p data-v-1b418355="">1. <b data-v-1b418355="">VoiceConvertManager</b>：声音转换关键业务处理类，全局只需一个实例即可。</p> <p data-v-1b418355="">2. <b data-v-1b418355="">VoiceConvertCallBack</b>：声音转换业务回调类。您可以在这些个回调方法中获取到当前转换的进度状态和各类数据结果，或者错误信息。注意回调方法是运行在子线程的。调用开始转换时	请将此callback提交给VoiceConvertManager实例。</p></section> <h3 data-v-1b418355="">SDK 调用说明</h3> <section data-v-1b418355=""><ul data-v-1b418355=""><li data-v-1b418355=""><p data-v-1b418355="">1. 实例化VoiceConvertManager类，得到VoiceConvertManager的实例。</p> <pre class="doc-sample doc-code" data-v-1b418355="">VoiceConvertManager convertManager = new VoiceConvertManager();<button class="copyClass">copy</button></pre></li> <li data-v-1b418355=""><p data-v-1b418355="">2. 初始化SDK。</p> <pre class="doc-sample doc-code" data-v-1b418355="">convertManager.init(Context context, String clientId, String clientSecret, AuthCallback authCallback);<button class="copyClass">copy</button></pre> <p data-v-1b418355="">初始化这一步会进行网络请求，做授权操作。所以在实际调用过程中，请将此步骤尽可能提前调用，保障足够时间进行网络授权请求。</p></li> <li data-v-1b418355=""><p data-v-1b418355="" style="margin: 10px 0px;">3. 声音转换支持2种转换场景，第一种是SDK内调用手机麦克风录音、上传完成声音转换返回转换结果。此种方式需要接入方提前获取应用的录音权限。第二种场景是接收字节流，SDK收到数据后，上传服务器完成转换，返回转换结果。适用于语音文件识别或者调用方自有数据转换。</p> <p data-v-1b418355="" style="margin-left: 10px;"><b data-v-1b418355="">第一种场景</b>(参考: com.baker.sdk.demo.convert. VoiceConvertFromMicActivity)：</p> <p data-v-1b418355="" style="margin-left: 20px;">A. 需要应用取得录音权限。</p> <p data-v-1b418355="" style="margin-left: 20px;">B. 通过VoiceConvertManager实例，设置各类参数。</p> <p data-v-1b418355="" style="margin-left: 20px;">C. convertManager.startFromMic(callBack); 开启录音转换。</p> <p data-v-1b418355="" style="margin-left: 20px;">D. 在VoiceConvertCallBack回调中接收状态、转换结果、原始录音数据或错误信息等。</p> <p data-v-1b418355="" style="margin-left: 20px;">E. 通过convertManager.stopRecord();此方法结束录音转换。</p> <p data-v-1b418355="" style="margin-left: 20px;">F. 根据回调方法onAudioOutput()中isLast参数判断转换数据返回是否完整结束。</p> <p data-v-1b418355="" style="margin-left: 10px;"><b data-v-1b418355="">第二种场景</b>(参考: com.baker.sdk.demo.convert. VoiceConvertFromFileActivity)：</p> <p data-v-1b418355="" style="margin-left: 20px;">A. 通过VoiceConvertManager实例，设置各类参数。</p> <p data-v-1b418355="" style="margin-left: 20px;">B. convertManager. startFromBytes (callBack); 通知SDK准备转换。</p> <p data-v-1b418355="" style="margin-left: 20px;">C. 在VoiceConvertCallBack的onReady() 回调方法中得到SDK已准备好后。</p> <p data-v-1b418355="" style="margin-left: 20px;">D. 多次调用convertManager. sendAudio (byte[] data, boolean isLast);方法向SDK输入待转换语音字节流。此方法单次接收固定长度（5120）字节数组。最后一片数据可以是其他长度字节数组，且最后一片数据isLast=true的标签必须发送。</p> <p data-v-1b418355="" style="margin-left: 20px;">E. 在VoiceConvertCallBack回调中接收状态、转换结果、原始录音数据或错误信息等。</p> <p data-v-1b418355="" style="margin-left: 20px;">F. 此种方式，每次在调用convertManager. sendAudio时，前后2次间隔时		间不能超过10秒。</p></li> <li data-v-1b418355="">4. 在确定不再使用转换后，调用convertManager.release()释放SDK资源。</li> <li data-v-1b418355="">5. 如果需要发起新的转换请求，可以重复第3.3步。</li></ul></section> <h3 data-v-1b418355="">参数说明</h3> <section data-v-1b418355=""><p data-v-1b418355="">1. 基本调用方法说明</p> <div class="table-wrap"><table class="doc-table" data-v-1b418355="" border="0" cellspacing="0" cellpadding="0"><thead data-v-1b418355=""><tr data-v-1b418355=""><th data-v-1b418355="" style="width: 130px;">参数</th> <th data-v-1b418355="" style="width: 140px;">参数名称</th> <th data-v-1b418355="" style="width: 80px;">是否必填</th> <th data-v-1b418355="">说明</th></tr></thead> <tbody data-v-1b418355=""><tr data-v-1b418355=""><td data-v-1b418355="">init()</td> <td data-v-1b418355="">初始化SDK</td> <td data-v-1b418355="">是</td> <td data-v-1b418355="">必须调用此方法初始化SDK，祥见3.2</td></tr> <tr data-v-1b418355=""><td data-v-1b418355="">startFromMic()</td> <td data-v-1b418355="">开启录音转换</td> <td data-v-1b418355="">否</td> <td data-v-1b418355="">使用sdk内部唤起的录音，进行声音转换</td></tr> <tr data-v-1b418355=""><td data-v-1b418355="">stopRecord()</td> <td data-v-1b418355="">结束录音</td> <td data-v-1b418355="">否</td> <td data-v-1b418355="">配合startFromMic()方法使用，结束sdk录音转换。</td></tr> <tr data-v-1b418355=""><td data-v-1b418355="">startFromBytes()</td> <td data-v-1b418355="">开启数据转换</td> <td data-v-1b418355="">否</td> <td data-v-1b418355="">文件或者调用者自有音频数据转换</td></tr> <tr data-v-1b418355=""><td data-v-1b418355="">sendAudio()</td> <td data-v-1b418355="">发送转换数据</td> <td data-v-1b418355="">否</td> <td data-v-1b418355="">配合startFromBytes方法使用，在onReady()之后，可多次调用此方法。</td></tr> <tr data-v-1b418355=""><td data-v-1b418355="">setVoiceName()</td> <td data-v-1b418355="">设置目标声音模型名称</td> <td data-v-1b418355="">否</td> <td data-v-1b418355="">音色名称，默认音色"Vc_jiaojiao"</td></tr> <tr data-v-1b418355=""><td data-v-1b418355="">setVadEnable()</td> <td data-v-1b418355="">设置开启VAD</td> <td data-v-1b418355="">否</td> <td data-v-1b418355="">true代表启动服务端vad功能，默认false。如果启动系统会根据输入音频进行检测，过滤环境噪音。否则直接将原始输入音频进行转换。默认false。</td></tr> <tr data-v-1b418355=""><td data-v-1b418355="">setAudioAlign()</td> <td data-v-1b418355="">设置音频是否对齐</td> <td data-v-1b418355="">否</td> <td data-v-1b418355="">true代表输出音频与输入音频进行对齐,默认false。即开启vad时会保留静音部分，false丢弃静音部分。 默认false。</td></tr> <tr data-v-1b418355=""><td data-v-1b418355="">release()</td> <td data-v-1b418355="">释放sdk资源</td> <td data-v-1b418355="">否</td> <td data-v-1b418355="">在确定不再使用服务之后，可以调用此方法回收sdk资源，避免内存泄漏等情况。</td></tr></tbody></table></div> <p data-v-1b418355="" style="margin: 15px 0px;">2. VoiceConvertCallBack回调类方法说明</p> <div class="table-wrap"><table class="doc-table" data-v-1b418355="" border="0" cellspacing="0" cellpadding="0"><thead data-v-1b418355=""><tr data-v-1b418355=""><th data-v-1b418355="" style="width: 130px;">参数</th> <th data-v-1b418355="" style="width: 140px;">参数名称</th> <th data-v-1b418355="">说明</th></tr></thead> <tbody data-v-1b418355=""><tr data-v-1b418355=""><td data-v-1b418355="">onReady()</td> <td data-v-1b418355="">准备就绪</td> <td data-v-1b418355="">授权验证通过，且与服务器连接成功，准备就绪回调</td></tr> <tr data-v-1b418355=""><td data-v-1b418355="">canSpeech()</td> <td data-v-1b418355="">SDK mic准备就绪时回调</td> <td data-v-1b418355="">mic初始化成功后，只有使用sdk唤起的系统麦克风录音，才会有此回调</td></tr> <tr data-v-1b418355=""><td data-v-1b418355="">onOriginData(byte[] data, int volume)</td> <td data-v-1b418355="">原始音频 和 分贝值回调</td> <td data-v-1b418355="">只有使用sdk唤起的系统麦克风录音，才会有此回调</td></tr> <tr data-v-1b418355=""><td data-v-1b418355="">onAudioOutput(byte[] audioArray, boolean isLast, String traceId)</td> <td data-v-1b418355="">变声后的音频回调</td> <td data-v-1b418355="">audioArray 音频序列，isLast 是否是最后一包，traceId    本次声音转换唯一标识id</td></tr> <tr data-v-1b418355=""><td data-v-1b418355="">onError(String errorCode, String errorMessage, String traceId)</td> <td data-v-1b418355="">转换出现错误</td> <td data-v-1b418355="">String code是错误码，错误码具体请参考以下错误码对照表。String message是具体的错误信息日志。traceId是服务器运行日志id，可能为空，供错误追溯用。转换过程中出现各种错误情况都会回调此方法。一旦出现错误，此次转换任务中断。</td></tr></tbody></table></div></section> <h3 data-v-1b418355="">错误码</h3> <section data-v-1b418355=""><div class="table-wrap"><table class="doc-table" data-v-1b418355="" border="0" cellspacing="0" cellpadding="0"><thead data-v-1b418355=""><tr data-v-1b418355=""><th data-v-1b418355="">错误码</th> <th data-v-1b418355="">含义</th> <th data-v-1b418355="">类别</th></tr></thead> <tbody data-v-1b418355=""><tr data-v-1b418355=""><td data-v-1b418355="">19180001</td> <td data-v-1b418355="">没有token，请先调用 init 方法初始化</td> <td data-v-1b418355="" rowspan="3">SDK内部错误码</td></tr> <tr data-v-1b418355=""><td data-v-1b418355="">19180002</td> <td data-v-1b418355="">网络请求出现错误</td></tr> <tr data-v-1b418355=""><td data-v-1b418355="">19180003</td> <td data-v-1b418355="">没有录音权限</td></tr> <tr data-v-1b418355=""><td data-v-1b418355="">10000</td> <td data-v-1b418355="">ws数据包解析错误</td> <td data-v-1b418355="" rowspan="6">请求参数错误</td></tr> <tr data-v-1b418355=""><td data-v-1b418355="">10001</td> <td data-v-1b418355="">ws数据包json解析错误</td></tr> <tr data-v-1b418355=""><td data-v-1b418355="">10002</td> <td data-v-1b418355="">请求参数缺少access_token</td></tr> <tr data-v-1b418355=""><td data-v-1b418355="">10003</td> <td data-v-1b418355="">access_token过期或不合法</td></tr> <tr data-v-1b418355=""><td data-v-1b418355="">10004</td> <td data-v-1b418355="">请求参数缺少 voice_name</td></tr><tr data-v-1b418355=""><td data-v-1b418355="">10005</td> <td data-v-1b418355="">voice_name 不存在</td></tr> <tr data-v-1b418355=""><td data-v-1b418355="">20000</td> <td data-v-1b418355="">引擎资源不足，拒绝新建会话。</td> <td data-v-1b418355="" rowspan="5">服务端错误</td></tr> <tr data-v-1b418355=""><td data-v-1b418355="">20001</td> <td data-v-1b418355="">声音转换出错</td></tr><tr data-v-1b418355=""><td data-v-1b418355="">20002</td> <td data-v-1b418355="">动态内存申请失败</td></tr> <tr data-v-1b418355=""><td data-v-1b418355="">20003</td> <td data-v-1b418355="">向客户端推送响应失败</td></tr> <tr data-v-1b418355=""><td data-v-1b418355="">20004</td> <td data-v-1b418355="">其他未定义的内部错误</td></tr> <tr data-v-1b418355=""><td data-v-1b418355="">30000</td> <td data-v-1b418355="">会话进行时客户端主动关闭</td> <td data-v-1b418355="" rowspan="2">客户端错误</td></tr> <tr data-v-1b418355=""><td data-v-1b418355="">30001</td> <td data-v-1b418355="">会话空闲超时，超过一定时间没有数据传输导致会话空闲超时，主动断开连接。</td></tr></tbody></table></div></section></div>

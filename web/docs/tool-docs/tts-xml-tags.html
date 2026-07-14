@@ -1,0 +1,356 @@
+<div data-v-08ae6052=""><h2 data-v-08ae6052="">xml标签说明</h2> <h3 data-v-08ae6052="">xml标签如何使用</h3> <section data-v-08ae6052=""><p data-v-08ae6052="">
+      通过URL合成文本时，请将“#”替换成“%23”，否则包含“#”的标签会失效。
+      这个只有在浏览器的情况下才需要替换，程序中不需要
+    </p> <ul data-v-08ae6052=""><li data-v-08ae6052="">可以指定数字的读法（数字读法/电报读法/电话号码/地址/ID/逐字符读法/标点读法/日期读法/时间读法/货币读法/度量衡读法）；</li> <li data-v-08ae6052="">可以指定汉字的拼音（合成时按指定拼音发音）；</li> <li data-v-08ae6052="">可以指定停顿类型（一级/二级/三级停顿）；</li> <li data-v-08ae6052="">可以指定英文单词的读法（英文单词读法）；</li> <li data-v-08ae6052="">可以指定静音时长[前提：#3韵律处指定才能生效，否则无效]；</li> <li data-v-08ae6052="">可以指定车牌号读法[英文按字母读，数字按电报读]</li> <li data-v-08ae6052="">
+        可以在指定位置增加换气声[前提：定制库中有长换气/短换气对应的定制库音频]
+      </li> <li data-v-08ae6052="" style="color: red;">
+        建议：
+        <ul data-v-08ae6052=""><li data-v-08ae6052="" style="color: red;">不要在配对的双标签中嵌套使用双标签或单标签，以免造成标签失效；</li> <li data-v-08ae6052="" style="color: red;">指定中文拼音时推荐使用“X&lt;cnphone py=xxx&gt;”标签；</li> <li data-v-08ae6052="" style="color: red;">使用时请严格参照上述说明，请勿随意增删空格等字符，以免造成标签失效；</li> <li data-v-08ae6052="" style="color: red;">&lt;silence len=xxx&gt;和&lt;pause type=xx&gt;同时使用能够实现所需效果。无论是单独使用还是同时使用，<b data-v-08ae6052="">都需要确保标签前后不能只是空格或标点符号，</b>以确保正确生效。</li></ul></li></ul></section> <h3 data-v-08ae6052="">数字等字符串读法</h3> <section data-v-08ae6052=""><ul data-v-08ae6052=""><li data-v-08ae6052="" style="font-weight: bold;">
+        数字读法
+        <ul data-v-08ae6052=""><li data-v-08ae6052="" style="font-weight: bold;">
+            xml标签
+            <div data-v-08ae6052="" style="font-weight: 100;">&lt;figure&gt;xxx&lt;/figure type=digit&gt;</div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+            说明
+            <div data-v-08ae6052="" style="font-weight: 100;">指定“xxx”的合成采用数字读法。其中“xxx”必须为单字节阿拉伯数字。</div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+            举例
+            <div data-v-08ae6052="" style="font-weight: 100;"><div data-v-08ae6052="">1.食物加热需要&lt;figure&gt;110&lt;/figure type=digit&gt;分钟才能完成。</div> <div data-v-08ae6052="">2.遭遇紧急情况请拨打&lt;figure&gt;110&lt;/figure type=digit&gt;报警电话</div></div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+            效果
+            <div data-v-08ae6052="" style="font-weight: 100;">数字都读成：一百一十</div></li></ul></li> <li data-v-08ae6052="" style="font-weight: bold;">
+        电报读法
+        <ul data-v-08ae6052=""><li data-v-08ae6052="" style="font-weight: bold;">
+            xml标签
+            <div data-v-08ae6052="" style="font-weight: 100;">&lt;figure&gt;xxx&lt;/figure type=ordinal&gt;</div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+            说明
+            <div data-v-08ae6052="" style="font-weight: 100;">指定“xxx”的合成采用电报读法。其中“xxx”必须为单字节阿拉伯数字。</div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+            举例
+            <div data-v-08ae6052="" style="font-weight: 100;"><div data-v-08ae6052="">1.食物加热需要&lt;figure&gt;110&lt;/figure type=ordinal&gt;分钟才能完成。</div> <div data-v-08ae6052="">2.遭遇紧急情况请拨打&lt;figure&gt;110&lt;/figure type=ordinal&gt;报警电话。</div></div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+            效果
+            <div data-v-08ae6052="" style="font-weight: 100;">数字都读成：幺幺零</div></li></ul></li> <li data-v-08ae6052="" style="font-weight: bold;">
+        电话号码读法
+        <ul data-v-08ae6052=""><li data-v-08ae6052="" style="font-weight: bold;">
+            xml标签
+            <div data-v-08ae6052="" style="font-weight: 100;">&lt;figure&gt;xxx&lt;/figure type=telephone&gt;</div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+            说明
+            <div data-v-08ae6052="" style="font-weight: 100;">
+              指定“xxx”的合成采用电话号码读法，按电话号码的常用方式发音。<br data-v-08ae6052="">
+              支持格式包括：<br data-v-08ae6052="">
+              ①座机号：2345678。<br data-v-08ae6052="">
+              ②座机号+分机号：2345678-123、2345678分机123。<br data-v-08ae6052="">
+              ③区号+座机号：0102345678。<br data-v-08ae6052="">
+              ④区号+座机号+分机号：010-2345678-123。<br data-v-08ae6052="">
+              ⑤国家代买+区号+座机号：（86）010-2345678。<br data-v-08ae6052="">
+              ⑥国家代码+区号+座机号+分机号：（86）010-2345678-123。<br data-v-08ae6052="">
+              ⑦手机号：13912345679。<br data-v-08ae6052="">
+              ⑧国家代码+手机号：+8613912345678。<br data-v-08ae6052="">
+              ⑨服务号：95111。</div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+            举例
+            <div data-v-08ae6052="" style="font-weight: 100;">
+              ① &lt;figure&gt;62552560&lt;/figure type=telephone&gt;<br data-v-08ae6052="">
+              ② &lt;figure&gt;4930286-109&lt;/figure type=telephone&gt;<br data-v-08ae6052="">
+              &lt;figure&gt;4930286分机109&lt;/figure type=telephone&gt;<br data-v-08ae6052="">
+              ③ &lt;figure&gt;0102345678&lt;/figure type=telephone&gt;<br data-v-08ae6052="">
+              ④ &lt;figure&gt;010-2345678-123&lt;/figure type=telephone&gt;<br data-v-08ae6052="">
+              ⑤ &lt;figure&gt;(86)010-2345678&lt;/figure type=telephone&gt;<br data-v-08ae6052="">
+              ⑥ &lt;figure&gt;(86)010-2345678-123&lt;/figure type=telephone&gt;<br data-v-08ae6052="">
+              ⑦ &lt;figure&gt;13912345678&lt;/figure type=telephone&gt;<br data-v-08ae6052="">
+              ⑧ &lt;figure&gt;+8613912345678&lt;/figure type=telephone&gt;<br data-v-08ae6052="">
+              ⑨ &lt;figure&gt;95111&lt;/figure type=telephone&gt;<br data-v-08ae6052=""></div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+            效果
+            <div data-v-08ae6052="" style="font-weight: 100;">
+              ① 六二五五 二五六零<br data-v-08ae6052="">
+              ② 四九三 零二八六 转幺零九<br data-v-08ae6052="">
+              四九三 零二八六 分机幺零九<br data-v-08ae6052="">
+              ③ 零幺零 二三四 五六七八<br data-v-08ae6052="">
+              ④ 零幺零 二三四 五六七八 转幺二三<br data-v-08ae6052="">
+              ⑤ 八六 零幺零 二三四 五六七八<br data-v-08ae6052="">
+              ⑥ 八六 零幺零 二三四 五六七八 转幺二三<br data-v-08ae6052="">
+              ⑦ 幺三九 幺二三四 五六七八<br data-v-08ae6052="">
+              ⑧ 八六 幺三九 幺二三四 五六七八<br data-v-08ae6052="">
+              ⑨ 九五幺幺幺<br data-v-08ae6052=""></div></li></ul></li> <li data-v-08ae6052="" style="font-weight: bold;">
+        地址读法
+        <ul data-v-08ae6052=""><li data-v-08ae6052="" style="font-weight: bold;">
+            xml标签
+            <div data-v-08ae6052="" style="font-weight: 100;">&lt;figure&gt;xxx&lt;/figure type=address&gt;</div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+            说明
+            <div data-v-08ae6052="" style="font-weight: 100;">指定“xxx”的合成采用地址读法，按地址读法发音。</div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+            举例
+            <div data-v-08ae6052="" style="font-weight: 100;">
+              ① &lt;figure&gt;元和镇嘉元30-9&lt;/figure type=address&gt;<br data-v-08ae6052="">
+              ② &lt;figure&gt;市台路388弄1107-1108号&lt;/figure type=address&gt;<br data-v-08ae6052="">
+              ③ &lt;figure&gt;华润二十四城六期锦云府3-1-3205&lt;/figure type=address&gt;<br data-v-08ae6052="">
+              ④ &lt;figure&gt;圣华名都大厦2幢2006室&lt;/figure type=address&gt;<br data-v-08ae6052="">
+              ⑤ &lt;figure&gt;五常街道庭院5幢4单元201&lt;/figure type=address&gt;<br data-v-08ae6052=""></div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+            效果
+            <div data-v-08ae6052="" style="font-weight: 100;">
+              ① 元和镇嘉元三十杠九<br data-v-08ae6052="">
+              ② 市台路三八八弄幺幺零七杠幺幺零八号<br data-v-08ae6052="">
+              ③ 华润二十四城六期锦云府三杠一杠三二零五<br data-v-08ae6052="">
+              ④ 圣华名都大厦二幢二零零六室<br data-v-08ae6052="">
+              ⑤ 五常街道庭院五幢四单元二零幺
+            </div></li></ul></li> <li data-v-08ae6052="" style="font-weight: bold;">
+        ID读法
+        <ul data-v-08ae6052=""><li data-v-08ae6052="" style="font-weight: bold;">
+            xml标签
+            <div data-v-08ae6052="" style="font-weight: 100;">&lt;figure&gt;xxx&lt;/figure type=id&gt;</div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+            说明
+            <div data-v-08ae6052="" style="font-weight: 100;">
+              指定“xxx”的合成采用ID读法，适用于账号名称、ID等场景。ID由半角阿拉伯数字、半角英文大小写字母和半角下划线组成，超出此范围则为非法ID，会导致标签失效。
+            </div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+            举例
+            <div data-v-08ae6052="" style="font-weight: 100;">
+              ① &lt;figure&gt;dell0101&lt;/figure type=id&gt;<br data-v-08ae6052="">
+              ② &lt;figure&gt;myid_1998&lt;/figure type=id&gt;<br data-v-08ae6052="">
+              ③ &lt;figure&gt;AiTest&lt;/figure type=id&gt;<br data-v-08ae6052=""></div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+            效果
+            <div data-v-08ae6052="" style="font-weight: 100;">
+              ① D E L L 零幺零幺<br data-v-08ae6052="">
+              ② M Y I D 下划线幺九九八<br data-v-08ae6052="">
+              ③ A I T E S T<br data-v-08ae6052=""></div></li></ul></li> <li data-v-08ae6052="" style="font-weight: bold;">
+        逐字符读法
+        <ul data-v-08ae6052=""><li data-v-08ae6052="" style="font-weight: bold;">
+            xml标签
+            <div data-v-08ae6052="" style="font-weight: 100;">&lt;figure&gt;xxx&lt;/figure type=characters&gt;</div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+            说明
+            <div data-v-08ae6052="" style="font-weight: 100;">
+              指定“xxx”的合成采用逐字符读法，将标签内的文本按字符一一读出来。支持中文汉字、大小写英文半角字符、半角阿拉伯数字0~9以及部分全角和半角字符。</div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+            举例
+            <div data-v-08ae6052="" style="font-weight: 100;">
+              ① &lt;figure&gt;ISBN 1-001-099098-1&lt;/figure type=characters&gt; <br data-v-08ae6052="">
+              ② &lt;figure&gt;x10b2345_u&lt;/figure type=characters&gt;<br data-v-08ae6052="">
+              ③ &lt;figure&gt;v1.0.1&lt;/figure type=characters&gt;<br data-v-08ae6052="">
+              ④ &lt;figure&gt;版本号2.0&lt;/figure type=characters&gt;<br data-v-08ae6052="">
+              ⑤ &lt;figure&gt;αβγ&lt;/figure type=characters&gt;<br data-v-08ae6052=""></div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+            效果
+            <div data-v-08ae6052="" style="font-weight: 100;">
+              ① I S B N 一杠零零幺杠零九九零九八杠一 <br data-v-08ae6052="">
+              ② X 幺零 B 二三四五下划线 U<br data-v-08ae6052="">
+              ③ V 一点零点一<br data-v-08ae6052="">
+              ④ 版本号二点零<br data-v-08ae6052="">
+              ⑤ 阿尔法贝塔伽玛<br data-v-08ae6052=""></div></li></ul></li> <li data-v-08ae6052="" style="font-weight: bold;">
+        标点读法
+        <ul data-v-08ae6052=""><li data-v-08ae6052="" style="font-weight: bold;">
+            xml标签
+            <div data-v-08ae6052="" style="font-weight: 100;">&lt;figure&gt;xxx&lt;/figure type=punctuation&gt;</div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+            说明
+            <div data-v-08ae6052="" style="font-weight: 100;">
+              指定“xxx”的合成采用标点读法，将标签内的文本按标点负号的方式读出来。<br data-v-08ae6052="">
+              支持的标点符号包括：<br data-v-08ae6052="">
+              “(左双引号)、‘(左单引号)、！(叹号)、”(右双引号)、’(右单引号)、（(左括号)、）(右括号)、，(逗号)、。(句号)、—(杠)、：(冒号)、；(分号)、？(问号)、、(顿号)、…(省略号)、……(省略号)、《(左书名号)、》(右书名号)、￥(人民币符号)、≥(大于等于)、≤(小于等于)、≠(不等于)、≈(约等于)、±(加减)、×(乘)、π(派)、Α(阿尔法)、Β(贝塔)、Γ(伽玛)、Δ(德尔塔)、Ε(艾普西龙)、Ζ(捷塔)、Θ(西塔)、Ι(艾欧塔)、Κ(喀帕)、∧(拉姆达)、Μ(缪)、Ν(拗)、Ξ(克西欧)、Ο(麦克轮)、∏(派)、Ρ(柔)、∑(西格玛)、Τ(套)、Υ(宇普西龙)、Φ(fai)、Χ(器)、Ψ(普赛)、Ω(欧米伽)、α(阿尔法)、β(贝塔)、γ(伽玛)、δ(德尔塔)、ε(艾普西龙)、ζ(捷塔)、η(依塔)、θ(西塔)、ι(艾欧塔)、κ(喀帕)、λ(拉姆达)、μ(缪)、ν(拗)、ξ(克西)、ο(欧麦克轮)、π(派)、ρ(柔)、σ(西格玛)、τ(套)、υ(宇普西龙)、φ(fai)、χ(器)、ψ(普赛)、ω(欧米伽)、!(叹号)、#(井号)、$(dollar)、%(百分号)、&amp;(and)、((左括号)、)(右括号)、*(星)、+(加)、,(逗号)、-(杠)、.(点)、/(斜杆)、:(冒号)、;(分号)、&lt;(小于)、=(等号)、&gt;(大于)、?(问号)、@(at)、[(左方括号)、\(反斜线)、](右方括号)、^(脱字符)、_(下划线)、`(反引号)、{(左花括号)、|(竖线)、}(右花括号)、~(波浪线)
+            </div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+            举例
+            <div data-v-08ae6052="" style="font-weight: 100;">
+              ① &lt;figure&gt;&lt;=&gt;?@&lt;/figure type=punctuation&gt; <br data-v-08ae6052="">
+              ② &lt;figure&gt;……&lt;/figure type=punctuation&gt;<br data-v-08ae6052="">
+              ③ &lt;figure&gt;!#$%&amp;&lt;/figure type=punctuation&gt;<br data-v-08ae6052="">
+              ④ &lt;figure&gt;‘()*+&lt;/figure type=punctuation&gt;<br data-v-08ae6052="">
+              ⑤ &lt;figure&gt;[\]^_&lt;/figure type=punctuation&gt;<br data-v-08ae6052=""></div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+            效果
+            <div data-v-08ae6052="" style="font-weight: 100;">
+              ① 小于等号大于问号 at <br data-v-08ae6052="">
+              ② 省略号<br data-v-08ae6052="">
+              ③ 叹号井号 dollar 百分号 and<br data-v-08ae6052="">
+              ④ 左单引号左括号右括号星加<br data-v-08ae6052="">
+              ⑤ 左方括号反斜线右方括号脱字符下划线<br data-v-08ae6052=""></div></li></ul></li> <li data-v-08ae6052="" style="font-weight: bold;">
+        日期读法
+        <ul data-v-08ae6052=""><li data-v-08ae6052="" style="font-weight: bold;">
+            xml标签
+            <div data-v-08ae6052="" style="font-weight: 100;">&lt;figure&gt;xxx&lt;/figure type=date&gt;</div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+            说明
+            <div data-v-08ae6052="" style="font-weight: 100;">
+              指定“xxx”的合成采用日期读法，按日期发音。<br data-v-08ae6052="">
+              不支持英文格式日期<br data-v-08ae6052="">
+              支持的中文日期格式包括：<br data-v-08ae6052="">
+              xx年、xx年xx月、xx年xx月xx日、xx年xx月xx号、xx月xx号、年/月、年/月/日、xx年xx月xx日~xx年xx月xx日、xx年xx月xx日~xx日、xx年xx月~xx年xx月、xx月xx日~xx月xx日、xx月xx日~xx日、年.月.日~年.月.日、月/日~月/日、xx~xx月、月/日/年
+            </div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+            举例
+            <div data-v-08ae6052="" style="font-weight: 100;">
+              ① &lt;figure&gt;71年&lt;/figure type=date&gt; <br data-v-08ae6052="">
+              ② &lt;figure&gt;2021年&lt;/figure type=date&gt;<br data-v-08ae6052="">
+              ③ &lt;figure&gt;2021/10/01&lt;/figure type=date&gt;<br data-v-08ae6052="">
+              ④ &lt;figure&gt;2021/09/01~2021/10/01&lt;/figure type=date&gt;<br data-v-08ae6052=""></div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+            效果
+            <div data-v-08ae6052="" style="font-weight: 100;">
+              ① 七一年<br data-v-08ae6052="">
+              ② 二零二一年<br data-v-08ae6052="">
+              ③ 二零二一年十月一日<br data-v-08ae6052="">
+              ④ 二零二一年九月一日到二零二一年十月一日<br data-v-08ae6052=""></div></li></ul></li> <li data-v-08ae6052="" style="font-weight: bold;">
+        时间读法
+        <ul data-v-08ae6052=""><li data-v-08ae6052="" style="font-weight: bold;">
+            xml标签
+            <div data-v-08ae6052="" style="font-weight: 100;">&lt;figure&gt;xxx&lt;/figure type=time&gt;</div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+            说明
+            <div data-v-08ae6052="" style="font-weight: 100;">
+              指定“xxx”的合成采用时间读法，按时间发音。<br data-v-08ae6052="">
+              支持的中文时间格式包括：<br data-v-08ae6052="">
+              xx:xx、xx:xx:xx、xx:xx~xx:xx、上午xx:xx~下午xx:xx、xx:xx:xxam、xx:xx:xxpm
+            </div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+            举例
+            <div data-v-08ae6052="" style="font-weight: 100;">
+              ① &lt;figure&gt;10:20:30&lt;/figure type=time&gt;<br data-v-08ae6052="">
+              ② &lt;figure&gt;11:00~12:00&lt;/figure type=time&gt;<br data-v-08ae6052="">
+              ③ &lt;figure&gt;上午10:20~下午13:30&lt;/figure type=time&gt;<br data-v-08ae6052="">
+              ④ &lt;figure&gt;5:20:12am&lt;/figure type=time&gt;<br data-v-08ae6052=""></div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+            效果
+            <div data-v-08ae6052="" style="font-weight: 100;">
+              ① 十点二十分三十秒<br data-v-08ae6052="">
+              ② 十一点到十二点<br data-v-08ae6052="">
+              ③ 上午十点二十分到下午十三点三十分<br data-v-08ae6052="">
+              ④ 上午五点二十分十二秒<br data-v-08ae6052=""></div></li></ul></li> <li data-v-08ae6052="" style="font-weight: bold;">
+        货币读法
+        <ul data-v-08ae6052=""><li data-v-08ae6052="" style="font-weight: bold;">
+            xml标签
+            <div data-v-08ae6052="" style="font-weight: 100;">&lt;figure&gt;xxx&lt;/figure type=currency&gt;</div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+            说明
+            <div data-v-08ae6052="" style="font-weight: 100;">
+              指定“xxx”的合成采用货币读法，按金额发音。<br data-v-08ae6052="">
+              支持的货币符号包括(大小写敏感)：<br data-v-08ae6052="">
+              $(美元)、ARS(阿根廷比索)、ARS$(阿根廷比索)、ATS(奥地利先令)、AUD(澳元)、BEF(比利时法郎)、BGN(保加利亞列弗)、CAD(加元)、CHF(瑞士法郎)、CNY(元)、DEM(德国马克)、ESP(西班牙比塞塔)、EUR(欧元)、FIM(芬兰马克)、FRF(法国法郎)、Fr(法郎)、GBP(英镑)、HKD(港币)、IDR(印尼盾)、IEP(爱尔兰镑)、ITL(意大利里拉)、JPY(日元)、J￥(日元)、KRW(韩国元)、LUF(卢森堡法郎)、Lm(马耳他里拉)、MYR(马来西亚林吉特)、NLG(荷兰盾)、NOK(挪威克朗)、NT$(新台币)、NZD(新西兰元)、PHP(菲律宾比索)、PTE(葡萄牙埃斯库多)、R$(巴西雷亚尔)、RMB(人民币)、Rp(印尼盾)、S$(新加坡元)、SEK(瑞典克朗)、SGD(新加坡元)、SUR(俄罗斯卢布)、Sk(斯洛伐克克朗)、THB(泰铢)、USD(美元)、VND(越南盾)、kr(丹麦克朗)、￥(人民币)、лв(保加利亞列弗)、руб(俄罗斯卢布)、€(欧元)、￡(英镑)、￥(元)、＄(美元)
+            </div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+            举例
+            <div data-v-08ae6052="" style="font-weight: 100;">
+              ① &lt;figure&gt;12.00RMB&lt;/figure type=currency&gt;<br data-v-08ae6052="">
+              ② &lt;figure&gt;$12.12&lt;/figure type=currency&gt;<br data-v-08ae6052="">
+              ③ &lt;figure&gt;1213.00KML&lt;/figure type=currency&gt;<br data-v-08ae6052="">
+              ④ &lt;figure&gt;$12,000.99&lt;/figure type=currency&gt;<br data-v-08ae6052=""></div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+            效果
+            <div data-v-08ae6052="" style="font-weight: 100;">
+              ① 十二人民币<br data-v-08ae6052="">
+              ② 十二点一二美元<br data-v-08ae6052="">
+              ③ 一千二百一十三 Ｋ Ｍ Ｌ<br data-v-08ae6052="">
+              ④ 一万两千点九九美元<br data-v-08ae6052=""></div></li></ul></li> <li data-v-08ae6052="" style="font-weight: bold;">
+        度量衡读法
+        <ul data-v-08ae6052=""><li data-v-08ae6052="" style="font-weight: bold;">
+            xml标签
+            <div data-v-08ae6052="" style="font-weight: 100;">&lt;figure&gt;xxx&lt;/figure type=measure&gt;</div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+            说明
+            <div data-v-08ae6052="" style="font-weight: 100;">
+              指定“xxx”的合成采用度量衡读法，按计量单位发音。<br data-v-08ae6052="">
+              支持的度量单位包括(大小写敏感)：<br data-v-08ae6052="">
+              nm(纳米)、μm(微米)、mm(毫米)、cm(厘米)、m(米)、km(千米)、ft(英尺)、in(英寸)、mm2(平方毫米)、cm2(平方厘米)、㎡(平方米)、km2(平方千米)、SqFt(平方英尺)、cm3(立方厘米)、m3(立方米)、km3(立方千米)、mL(毫升)、L(升)、gallon(加仑)、μg(微克)、mg(毫克)、g(克)、kg(千克)、min(分)、sec(秒)、ms(毫秒)、μA(微安)、mA(毫安)、Ω(欧姆)、Hz(赫兹)、KHz(千赫兹)、MHz(兆赫兹)、GHz(吉赫兹)、V(伏)、kV(千伏)、kWh(千瓦时)、dB(分贝)、Pa(帕)、kPa(千帕)、Mpa(兆帕)、k㎡(平方千米)、kHz(千赫兹)、c㎡(平方厘米)、kW(千瓦)、cal(卡路里)
+            </div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+            举例
+            <div data-v-08ae6052="" style="font-weight: 100;">
+              ① &lt;figure&gt;120㎡56cm2&lt;/figure type=measure&gt;<br data-v-08ae6052="">
+              ② &lt;figure&gt;10~15kg&lt;/figure type=measure&gt;<br data-v-08ae6052="">
+              ③ &lt;figure&gt;100多毫克&lt;/figure type=measure&gt;<br data-v-08ae6052=""></div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+            效果
+            <div data-v-08ae6052="" style="font-weight: 100;">
+              ① 一百二十平方米五十六平方厘米<br data-v-08ae6052="">
+              ② 十至十五千克<br data-v-08ae6052="">
+              ③ 一百多毫克<br data-v-08ae6052=""></div></li></ul></li></ul></section> <h3 data-v-08ae6052="">拼音读法</h3> <section data-v-08ae6052=""><ul data-v-08ae6052=""><li data-v-08ae6052="" style="font-weight: bold;">
+        xml标签
+        <div data-v-08ae6052="" style="font-weight: 100;">X&lt;cnphone py=xxx&gt;或X(xxx)</div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+        说明
+        <div data-v-08ae6052="" style="font-weight: 100;">
+          指定“X”合成时的拼音为“xxx”。其中，本标签只控制标签前的一个汉字“X”，且“X”必须为汉字。指定的拼音必须合法[声韵母完整]，声调为1-5，其中5为轻声。</div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+        举例
+        <div data-v-08ae6052="" style="font-weight: 100;">
+          1.标贝科技&lt;cnphone py=ji1&gt; <br data-v-08ae6052="">
+          2.标贝科技(ji1)
+        </div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+        效果
+        <div data-v-08ae6052="" style="font-weight: 100;">“技”的读音将从四声“ji4”变为一声“ji1”</div></li></ul></section> <h3 data-v-08ae6052="">停顿类型读法</h3> <section data-v-08ae6052=""><ul data-v-08ae6052=""><li data-v-08ae6052="" style="font-weight: bold;">
+        xml标签
+        <div data-v-08ae6052="" style="font-weight: 100;">&lt;pause type=xx&gt;</div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+        说明
+        <div data-v-08ae6052="" style="font-weight: 100;">指定合成时标签所在位置的停顿类型为“xx”。其中“xx”的取值为“#0”、“#1”、“#2”、“#3”之一。
+        </div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+        举例
+        <div data-v-08ae6052="" style="font-weight: 100;">
+          标贝科技&lt;pause type=#3&gt;专注于智能语音交互&lt;pause type=#3&gt;提供智能语音整体解决方案和数据服务
+        </div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+        效果
+        <div data-v-08ae6052="" style="font-weight: 100;">
+          #0：没有停顿 <br data-v-08ae6052="">
+          #1：词语间的微小停顿<br data-v-08ae6052="">
+          #2：短句间的中级停顿<br data-v-08ae6052="">
+          #3：句子间的长停顿<br data-v-08ae6052=""></div></li></ul></section> <h3 data-v-08ae6052="">英文读法</h3> <section data-v-08ae6052=""><ul data-v-08ae6052=""><li data-v-08ae6052="" style="font-weight: bold;">
+        xml标签
+        <div data-v-08ae6052="" style="font-weight: 100;">&lt;readmode&gt;XXX&lt;/readmode type=eng&gt;</div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+        说明
+        <div data-v-08ae6052="" style="font-weight: 100;">指定“XXX”的合成采用英文单词读法。其中“XXX”必须为单字节英文字母和单字节数字(包含小数)组成的单词。
+        </div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+        举例
+        <div data-v-08ae6052="" style="font-weight: 100;">
+          上地&lt;readmode&gt;MOMA&lt;/readmode type=eng&gt;
+        </div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+        效果
+        <div data-v-08ae6052="" style="font-weight: 100;">
+          单词“MOMA”会被读成：...牟嘛…
+        </div></li></ul></section> <h3 data-v-08ae6052="">静音时长读法</h3> <section data-v-08ae6052=""><ul data-v-08ae6052=""><li data-v-08ae6052="" style="font-weight: bold;">
+        xml标签
+        <div data-v-08ae6052="" style="font-weight: 100;">&lt;silence len=xxx&gt;</div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+        说明
+        <div data-v-08ae6052="" style="font-weight: 100;">
+          指定合成时标签所在位置的静音时长。其中“xxx”的取值范围为[0, 15000]，单位为毫秒。 <br data-v-08ae6052="">
+          注：&lt;silence len=xxx&gt;和&lt;pause type=xx&gt;同时使用能够实现所需效果。无论是单独使用还是同时使用，<b data-v-08ae6052="">都需要确保标签前后不能只是空格或标点符号，</b>以确保正确生效。<br data-v-08ae6052="">
+          示例错误：&lt;pause type=#3&gt;&lt;silence len=500&gt;,<br data-v-08ae6052="">
+          示例修正：&lt;pause type=#3&gt;&lt;silence len=500&gt;这是一句话<br data-v-08ae6052=""></div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+        举例
+        <div data-v-08ae6052="" style="font-weight: 100;">
+          标贝科技&lt;silence len=200&gt;专注于智能语音交互&lt;silence len=500&gt;提供智能语音整体解决方案和数据服务
+        </div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+        效果
+        <div data-v-08ae6052="" style="font-weight: 100;">
+          “科技”与“专注”之间会有200ms静音；“交互”与“提供”之间会有500ms静音
+        </div></li></ul></section> <h3 data-v-08ae6052="">录音读法</h3> <section data-v-08ae6052=""><ul data-v-08ae6052=""><li data-v-08ae6052="" style="font-weight: bold;">
+        xml标签
+        <div data-v-08ae6052="" style="font-weight: 100;">&lt;usraud&gt;xxxx&lt;/usraud&gt;</div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+        说明
+        <div data-v-08ae6052="" style="font-weight: 100;">指定合成文本“xxxx”时直接取录音。
+          (注:本标签需要搭配录音库文件一起使用。如果没有录音库文件则本标签失效，按正常逻辑合成)</div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+        举例
+        <div data-v-08ae6052="" style="font-weight: 100;">
+          标贝科技专注于智能语音交互，提供&lt;usraud&gt;智能语音整体解决方案&lt;/usraud&gt;和数据服务
+        </div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+        效果
+        <div data-v-08ae6052="" style="font-weight: 100;">
+          文本“智能语音整体解决方案”在合成时直接取录音，其余文本走正常合成
+        </div></li></ul></section> <h3 data-v-08ae6052="">车牌号读法</h3> <section data-v-08ae6052=""><ul data-v-08ae6052=""><li data-v-08ae6052="" style="font-weight: bold;">
+        xml标签
+        <div data-v-08ae6052="" style="font-weight: 100;">&lt;carnum&gt;xxxx&lt;/carnum&gt;</div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+        说明
+        <div data-v-08ae6052="" style="font-weight: 100;">
+          指定合成文本“xxxx”时直接按车牌来读，即英文都按字母读法，数字都按电报读法。<br data-v-08ae6052="">
+          注:车牌号支持两种类型：<br data-v-08ae6052="">
+          ①“省市简称+数字/字母/-组合”，如：京A1B2C3；<br data-v-08ae6052="">
+          ②“数字/字母/-组合”，<br data-v-08ae6052="">
+          如：1B2C3。<br data-v-08ae6052="">
+          特别提醒：被修饰文本除省市简称外不能包含其它汉字；如果以省市简称开头，则省市简称的后接字符必须为大写英文字母<br data-v-08ae6052=""></div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+        举例
+        <div data-v-08ae6052="" style="font-weight: 100;">
+          e.g.1请问您是车牌号为&lt;carnum&gt;京A1B2C3&lt;/carnum&gt;的车主吗？<br data-v-08ae6052="">
+          e.g.2请问您是车牌号尾号为&lt;carnum&gt;1B2C3&lt;/carnum&gt;的车主吗？<br data-v-08ae6052=""></div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+        效果
+        <div data-v-08ae6052="" style="font-weight: 100;">
+          e.g.1中，“京A1B2C3”会被读成“京 Ａ 一 Ｂ 二 Ｃ 三”；<br data-v-08ae6052="">
+          e.g.2中，“1B2C3”会被读成“一 Ｂ 二 Ｃ 三”<br data-v-08ae6052=""></div></li></ul></section> <h3 data-v-08ae6052="">姓名读法</h3> <section data-v-08ae6052=""><ul data-v-08ae6052=""><li data-v-08ae6052="" style="font-weight: bold;">
+        xml标签
+        <div data-v-08ae6052="" style="font-weight: 100;">&lt;name&gt;XXX&lt;/name&gt;</div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+        说明
+        <div data-v-08ae6052="" style="font-weight: 100;">
+          指定""合成是按照姓名读法，第一个汉字按姓氏读，第二个XXX汉字开始按照常用发音读。其中"XXX"必须为汉字 &lt;name&gt;单单单&lt;/name&gt;
+        </div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+        举例
+        <div data-v-08ae6052="" style="font-weight: 100;">
+          尊敬的&lt;name&gt;单单单&lt;/name&gt;您好。
+        </div></li> <li data-v-08ae6052="" style="font-weight: bold;">
+        效果
+        <div data-v-08ae6052="" style="font-weight: 100;">
+          第一个"单"读"shan4",后面两个"单"读"dan1" 每一列，通过\t来分隔
+        </div></li></ul></section> <h3 data-v-08ae6052="">音子边界信息（interval时间戳）</h3> <section data-v-08ae6052=""><p data-v-08ae6052="">
+      系统收到一段文本的合成请求后，会进行文本分析、韵律分析生产音子序列在进行音频合成，每合成一个小片段系统返回一次音频（包括静音），返回音频后计算音频的音子边界信息，
+      音子边界返回的时间单位是秒，每个小句的音频会从头开始计时
+    </p> <img data-v-08ae6052="" src="https://databaker-gw-static.oss-accelerate.aliyuncs.com/assets/images/specs/document10.png" alt="" style="margin: 20px 0px; display: block; width: 500px; height: 261px;"> <ul data-v-08ae6052=""><li data-v-08ae6052="">
+        音子合集
+        <p data-v-08ae6052="">"SIL","SP3",</p> <p data-v-08ae6052="">
+          "ZH","Z","Y","W","V","UW","UHR","UH","TS","TR","TH","T","SH","S","R","P","OY","OW","NG","N","M","L","K","JH","IY","IHR","IH","HH","G","F","EY","ER","EHR","EH","DZ","DR","DH","D","CH","B","AY","AX","AW","AO","AH","AE","AA",
+        </p> <p data-v-08ae6052="">
+          "b","ch","c","d","f","g","h","j","k","l","m","n","p","q","r","sh","s","t","x","zh","z",
+        </p> <p data-v-08ae6052="">
+          "a","ai","an","ang","ao","e","ei","en","eng","er","i","ia","ian","iang","iao","ie","in","ing","io","iong","iou","iu","o","ong","ou","u","ua","uai","uan","uang","uei","uen","ueng","ui","un","uo","v","van","ve","vn",
+        </p> <p data-v-08ae6052="">
+          "air","angr","anr","aor","ar","eir","engr","enr","iangr","ianr","iaor","iar","ier","ingr","inr","ir","iur","ongr","or","our","uair","uangr","uanr","uar","ueir","uengr","uenr","uir","unr","uor","ur","vanr","ver","vnr","vr"
+        </p> <p data-v-08ae6052="">
+          SIL和SP3都表示静音，其他大写字母为英文音标，小写字母为中文的音素。
+        </p></li> <li data-v-08ae6052="">国际音标表</li> <div class="table-wrap"><table class="doc-table" data-v-08ae6052="" border="0" cellspacing="0" cellpadding="0"><tbody data-v-08ae6052=""><tr data-v-08ae6052=""><th data-v-08ae6052="" width="60">国际音标</th> <th data-v-08ae6052="" width="150">CMU</th> <th data-v-08ae6052="" width="60">例子</th> <th data-v-08ae6052="" width="50">国际音标</th> <th data-v-08ae6052="" width="50">CMU</th> <th data-v-08ae6052="" width="50">例子</th> <th data-v-08ae6052="" width="50">国际音标</th> <th data-v-08ae6052="" width="50">CMU</th> <th data-v-08ae6052="" width="50">例子</th></tr> <tr data-v-08ae6052=""><td data-v-08ae6052="">ɑ:</td> <td data-v-08ae6052="">美音不存在，会读成ae,ar(若有r时）</td> <td data-v-08ae6052=""></td> <td data-v-08ae6052="">au</td> <td data-v-08ae6052="">AW</td> <td data-v-08ae6052="">cow</td> <td data-v-08ae6052="">y</td> <td data-v-08ae6052="">Y</td> <td data-v-08ae6052="">yield</td></tr> <tr data-v-08ae6052=""><td data-v-08ae6052="">ʌ</td> <td data-v-08ae6052="">AH</td> <td data-v-08ae6052="">hut</td> <td data-v-08ae6052="">əu</td> <td data-v-08ae6052="">OW</td> <td data-v-08ae6052="">no</td> <td data-v-08ae6052="">θ</td> <td data-v-08ae6052="">TH</td> <td data-v-08ae6052="">theta</td></tr> <tr data-v-08ae6052=""><td data-v-08ae6052="">ə</td> <td data-v-08ae6052="">AX</td> <td data-v-08ae6052=""></td> <td data-v-08ae6052=""></td> <td data-v-08ae6052=""></td> <td data-v-08ae6052=""></td> <td data-v-08ae6052=""></td> <td data-v-08ae6052=""></td> <td data-v-08ae6052=""></td></tr> <tr data-v-08ae6052=""><td data-v-08ae6052="">ɔ/ɑ</td> <td data-v-08ae6052="">AA</td> <td data-v-08ae6052="">odd</td> <td data-v-08ae6052="">uə</td> <td data-v-08ae6052="">UH R</td> <td data-v-08ae6052="">poor</td> <td data-v-08ae6052="">ð</td> <td data-v-08ae6052="">DH</td> <td data-v-08ae6052="">the</td></tr> <tr data-v-08ae6052=""><td data-v-08ae6052="">ɔ:</td> <td data-v-08ae6052="">AO</td> <td data-v-08ae6052="">ought</td> <td data-v-08ae6052="">ɛə</td> <td data-v-08ae6052="">EH R</td> <td data-v-08ae6052="">there</td> <td data-v-08ae6052="">ʃ</td> <td data-v-08ae6052="">SH</td> <td data-v-08ae6052="">she</td></tr> <tr data-v-08ae6052=""><td data-v-08ae6052="">ɝ</td> <td data-v-08ae6052="">ER</td> <td data-v-08ae6052="">hurt</td> <td data-v-08ae6052="">p</td> <td data-v-08ae6052="">P</td> <td data-v-08ae6052="">pee</td> <td data-v-08ae6052="">ʒ</td> <td data-v-08ae6052="">ZH</td> <td data-v-08ae6052="">seizure</td></tr> <tr data-v-08ae6052=""><td data-v-08ae6052="">ə:</td> <td data-v-08ae6052="">美音不存在</td> <td data-v-08ae6052="">美音不存在</td> <td data-v-08ae6052="">b</td> <td data-v-08ae6052="">B</td> <td data-v-08ae6052="">be</td> <td data-v-08ae6052="">tʃ</td> <td data-v-08ae6052="">CH</td> <td data-v-08ae6052="">cheese</td></tr> <tr data-v-08ae6052=""><td data-v-08ae6052="">ı</td> <td data-v-08ae6052="">IH</td> <td data-v-08ae6052="">it</td> <td data-v-08ae6052="">t</td> <td data-v-08ae6052="">T</td> <td data-v-08ae6052="">tea</td> <td data-v-08ae6052="">dʒ</td> <td data-v-08ae6052="">JH</td> <td data-v-08ae6052="">gee</td></tr> <tr data-v-08ae6052=""><td data-v-08ae6052="">i:</td> <td data-v-08ae6052="">IY</td> <td data-v-08ae6052="">eat</td> <td data-v-08ae6052="">d</td> <td data-v-08ae6052="">D</td> <td data-v-08ae6052="">dee</td> <td data-v-08ae6052="">tr</td> <td data-v-08ae6052="">T R</td> <td data-v-08ae6052="">tree</td></tr> <tr data-v-08ae6052=""><td data-v-08ae6052="">u</td> <td data-v-08ae6052="">UH</td> <td data-v-08ae6052="">hood</td> <td data-v-08ae6052="">k</td> <td data-v-08ae6052="">K</td> <td data-v-08ae6052="">key</td> <td data-v-08ae6052="">dr</td> <td data-v-08ae6052="">D R</td> <td data-v-08ae6052="">dress</td></tr> <tr data-v-08ae6052=""><td data-v-08ae6052="">u:</td> <td data-v-08ae6052="">UW</td> <td data-v-08ae6052="">who</td> <td data-v-08ae6052="">g</td> <td data-v-08ae6052="">G</td> <td data-v-08ae6052="">green</td> <td data-v-08ae6052="">ts</td> <td data-v-08ae6052="">T S</td> <td data-v-08ae6052="">effects</td></tr> <tr data-v-08ae6052=""><td data-v-08ae6052="">e</td> <td data-v-08ae6052="">EH</td> <td data-v-08ae6052="">ed</td> <td data-v-08ae6052="">m</td> <td data-v-08ae6052="">M</td> <td data-v-08ae6052="">me</td> <td data-v-08ae6052="">dz</td> <td data-v-08ae6052="">D Z</td> <td data-v-08ae6052="">fields</td></tr> <tr data-v-08ae6052=""><td data-v-08ae6052="">æ</td> <td data-v-08ae6052="">AE</td> <td data-v-08ae6052="">at</td> <td data-v-08ae6052="">n</td> <td data-v-08ae6052="">N</td> <td data-v-08ae6052="">knee</td> <td data-v-08ae6052="">v</td> <td data-v-08ae6052="">V</td> <td data-v-08ae6052="">vee</td></tr> <tr data-v-08ae6052=""><td data-v-08ae6052="">aı</td> <td data-v-08ae6052="">AY</td> <td data-v-08ae6052="">hide</td> <td data-v-08ae6052="">ŋ</td> <td data-v-08ae6052="">NG</td> <td data-v-08ae6052="">ping</td> <td data-v-08ae6052="">w</td> <td data-v-08ae6052="">W</td> <td data-v-08ae6052="">we</td></tr> <tr data-v-08ae6052=""><td data-v-08ae6052="">eı</td> <td data-v-08ae6052="">EY</td> <td data-v-08ae6052="">detail</td> <td data-v-08ae6052="">l</td> <td data-v-08ae6052="">L</td> <td data-v-08ae6052="">lee</td> <td data-v-08ae6052="">f</td> <td data-v-08ae6052="">F</td> <td data-v-08ae6052="">fee</td></tr> <tr data-v-08ae6052=""><td data-v-08ae6052="">ɔı</td> <td data-v-08ae6052="">OY</td> <td data-v-08ae6052="">toy</td> <td data-v-08ae6052="">s</td> <td data-v-08ae6052="">S</td> <td data-v-08ae6052="">sea</td> <td data-v-08ae6052="">r</td> <td data-v-08ae6052="">R</td> <td data-v-08ae6052="">read</td></tr> <tr data-v-08ae6052=""><td data-v-08ae6052="">ıə</td> <td data-v-08ae6052="">IH R</td> <td data-v-08ae6052="">hear</td> <td data-v-08ae6052="">z</td> <td data-v-08ae6052="">Z</td> <td data-v-08ae6052="">zee</td> <td data-v-08ae6052="">h</td> <td data-v-08ae6052="">HH</td> <td data-v-08ae6052="">he</td></tr></tbody></table></div></ul></section></div>

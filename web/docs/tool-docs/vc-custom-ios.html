@@ -1,142 +1,108 @@
-<h1>定制模型 iOS SDK</h1>
-<p class="doc-lead">定制模型 iOS SDK 用于在 iOS 端完成声音复刻，包括噪声检测、朗读文本获取、录音、上传识别、提交训练、模型状态查询和合成体验。</p>
-
-<h2 id="vc-custom-ios-download">下载与兼容</h2>
-<p>SDK 与示例 Demo 下载地址：<a href="https://github.com/data-baker/BakerIosSdks" target="_blank" rel="noopener">https://github.com/data-baker/BakerIosSdks</a></p>
-<ul>
-<li>系统版本：iOS 8.0 及以上。</li>
-<li>CPU 架构：<code>arm64</code>、<code>arm64e</code>、<code>armv7</code>、<code>armv7s</code>。</li>
-<li>权限配置：在 <code>Info.plist</code> 中添加 <code>Privacy - Microphone Usage Description</code>。</li>
-</ul>
-
-<h2 id="vc-custom-ios-integrate">集成方式</h2>
-<p>通过 CocoaPods 集成：</p>
-<pre><code class="language-ruby">pod 'DBAudioSDK/DBVoiceEngraverKit', 'SDK_VERSION'</code></pre>
-<p><code>SDK_VERSION</code> 为实际接入版本号。接入后在业务文件中导入头文件：</p>
-<pre><code class="language-objectivec">#import "DBVoiceEngraverManager.h"
-#import "DBVoiceDetectionUtil.h"</code></pre>
-
-<h2 id="vc-custom-ios-flow">接入流程</h2>
-<ol>
-<li>实例化 <code>DBVoiceDetectionUtil</code> 并实现噪声检测代理。</li>
-<li>初始化 <code>DBVoiceEngraverManager</code>，传入 <code>clientId</code>、<code>clientSecret</code> 和 <code>queryId</code>。</li>
-<li>获取朗读文本列表，进入朗读录音页面。</li>
-<li>按文本开始录音，结束后上传当前音频并接收识别结果。</li>
-<li>全部文本录制完成后，提交训练并等待模型生成。</li>
-<li>通过 <code>queryId</code> 或 <code>modelId</code> 查询训练状态。</li>
-<li>训练成功后，将 <code>modelId</code> 作为合成接口或合成 SDK 的 <code>voice_name</code>。</li>
-</ol>
-
-<h2 id="vc-custom-ios-detect">噪声检测</h2>
-<p>录音前建议先检测环境噪声，并在 <code>DBVoiceDetectionDelegate</code> 中接收检测过程音量、检测结果和试听结束等回调。</p>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>代理方法</th><th>说明</th></tr>
-<tr><td><code>dbDetecting</code></td><td>检测进行中，可用于展示实时音量。</td></tr>
-<tr><td><code>dbDetectionResult</code></td><td>检测完成，返回当前环境是否适合录音。</td></tr>
-<tr><td><code>dbVoiceRecognizeError</code></td><td>检测或识别过程中出现错误。</td></tr>
-<tr><td><code>playToEnd</code></td><td>试听音频播放完成。</td></tr>
-</table>
-</div>
-
-<h2 id="vc-custom-ios-init">初始化 SDK</h2>
-<pre><code class="language-objectivec">[[DBVoiceEngraverManager sharedInstance] setupWithClientId:@"CLIENT_ID"
-                                             clientSecret:@"CLIENT_SECRET"
-                                                  queryId:@"QUERY_ID"
-                                           SuccessHandler:^{
-  // 初始化成功
-} failureHander:^(DBErrorState errorState, NSString *message) {
-  // 初始化失败
-}];</code></pre>
-<p>如需切换用户标识，可调用：</p>
-<pre><code class="language-objectivec">[[DBVoiceEngraverManager sharedInstance] setupQueryId:@"QUERY_ID"];</code></pre>
-
-<h2 id="vc-custom-ios-record">朗读与录音</h2>
-<p>先获取朗读文本，再按文本开始录音。录音异常中断时，建议调用异常停止接口释放本次会话资源。</p>
-<pre><code class="language-objectivec">[[DBVoiceEngraverManager sharedInstance] getRecordTextArrayTextHandler:^(NSArray *textArray) {
-  // 展示朗读文本
-} failure:^(DBErrorState errorState, NSString *message) {
-  // 获取失败
-}];
-
-[[DBVoiceEngraverManager sharedInstance] startRecordWithText:text
-                                              failureHander:^(DBErrorState errorState, NSString *message) {
-  // 开始录音失败
-}];
-
-[[DBVoiceEngraverManager sharedInstance] pauseRecord];</code></pre>
-<pre><code class="language-objectivec">[[DBVoiceEngraverManager sharedInstance] unNormalStopRecordSeesionSuccessHandler:^{
-  // 已释放异常会话
-} failureHandler:^(DBErrorState errorState, NSString *message) {
-  // 释放失败
-}];</code></pre>
-
-<h2 id="vc-custom-ios-upload">上传识别与提交训练</h2>
-<p>单条朗读结束后上传当前音频并接收识别结果；全部文本完成后提交模型训练。<code>notifyUrl</code> 需为外网可访问地址且不携带参数。</p>
-<pre><code class="language-objectivec">[[DBVoiceEngraverManager sharedInstance] uploadRecordVoiceRecogizeHandler:^(DBVoiceRecognizeModel *model) {
-  // 当前音频识别结果
-}];
-
-[[DBVoiceEngraverManager sharedInstance] startModelTrainRecordVoiceWithPhoneNumber:@"13800000000"
-                                                                         notifyUrl:@"https://example.com/voice/callback"
-                                                                    successHandler:^(DBVoiceModel *model) {
-  // 提交训练成功
-} failureHander:^(DBErrorState errorState, NSString *message) {
-  // 提交训练失败
-}];</code></pre>
-
-<h2 id="vc-custom-ios-query">查询模型状态</h2>
-<pre><code class="language-objectivec">[[DBVoiceEngraverManager sharedInstance] batchQueryModelStatusByQueryId:@"QUERY_ID"
-                                                         SuccessHandler:^(NSArray&lt;DBVoiceModel *&gt; *models) {
-  // 模型列表
-} failureHander:^(DBErrorState errorState, NSString *message) {
-  // 查询失败
-}];
-
-[[DBVoiceEngraverManager sharedInstance] queryModelStatusByModelId:@"MODEL_ID"
-                                                    SuccessHandler:^(DBVoiceModel *model) {
-  // 单个模型状态
-} failureHander:^(DBErrorState errorState, NSString *message) {
-  // 查询失败
-}];</code></pre>
-
-<h2 id="vc-custom-ios-classes">关键类与回调</h2>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>类 / 回调</th><th>说明</th></tr>
-<tr><td><code>DBVoiceDetectionUtil</code></td><td>环境噪声检测工具。</td></tr>
-<tr><td><code>DBVoiceDetectionDelegate</code></td><td>噪声检测、音量和试听状态回调。</td></tr>
-<tr><td><code>DBVoiceEngraverManager</code></td><td>声音复刻主入口，提供初始化、录音、上传、训练和查询能力。</td></tr>
-<tr><td><code>DBVoiceModel</code></td><td>训练成功或查询返回的声音模型对象。</td></tr>
-<tr><td><code>DBVoiceRecognizeModel</code></td><td>单条录音上传后的识别结果对象。</td></tr>
-<tr><td><code>DBSuccessHandler</code></td><td>通用成功回调。</td></tr>
-<tr><td><code>DBVoiceRecogizeHandler</code></td><td>录音识别结果回调。</td></tr>
-<tr><td><code>DBTextBlock</code></td><td>朗读文本列表回调。</td></tr>
-<tr><td><code>DBSuccessModelHandler</code></td><td>模型列表回调。</td></tr>
-<tr><td><code>DBSuccessOneModelHandler</code></td><td>单个模型回调。</td></tr>
-<tr><td><code>DBFailureHandler</code></td><td>通用失败回调。</td></tr>
-</table>
-</div>
-
-<h2 id="vc-custom-ios-errors">常见错误码</h2>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>错误码</th><th>枚举</th><th>说明</th></tr>
-<tr><td><code>0</code></td><td><code>DBErrorStateNOError</code></td><td>无错误。</td></tr>
-<tr><td><code>1000</code></td><td><code>DBErrorStateMircropho-neNotPermission</code></td><td>未获得麦克风权限。</td></tr>
-<tr><td><code>1001</code></td><td><code>DBErrorStateInitlizeSDK</code></td><td>SDK 初始化失败或尚未初始化。</td></tr>
-<tr><td><code>1002</code></td><td><code>DBErrorStateFailureToAccessToken</code></td><td>获取访问令牌失败。</td></tr>
-<tr><td><code>1003</code></td><td><code>DBErrorStateFailureToGetSession</code></td><td>获取录音会话失败。</td></tr>
-<tr><td><code>1004</code></td><td><code>DBErrorStateFailureIn-validParams</code></td><td>参数无效。</td></tr>
-<tr><td><code>99999</code></td><td><code>DBErrorStateNetwork-DataError</code></td><td>网络或数据异常。</td></tr>
-<tr><td><code>00011</code></td><td><code>DBErrorStateTokenInvaild</code></td><td>访问令牌无效。</td></tr>
-<tr><td><code>10003</code></td><td><code>DBErrorStateFailureEr-rorParams</code></td><td>参数错误。</td></tr>
-<tr><td><code>10004</code></td><td><code>DBErrorStateUpload-Failed</code></td><td>上传失败。</td></tr>
-<tr><td><code>10005</code></td><td><code>DBErrorStateEmptyfile</code></td><td>上传文件为空。</td></tr>
-<tr><td><code>10008</code></td><td><code>DBErrorStateModuleI-dInvailid</code></td><td>模型 ID 无效。</td></tr>
-<tr><td><code>10009</code></td><td><code>DBErrorStateModelSyns</code></td><td>模型合成异常。</td></tr>
-</table>
-</div>
-
-<h2 id="vc-custom-ios-synthesis">体验合成</h2>
-<p>训练成功后，<code>DBVoiceModel</code> 中的 <code>modelId</code> 可作为 <code>voice_name</code> 用于短文本合成 RESTful API 或语音合成 iOS SDK。体验文本长度和并发限制请以当前授权与合成接口说明为准。</p>
+<div data-v-12a24cf8=""><h2 data-v-12a24cf8="">定制模型iOS SDK</h2> <h3 data-v-12a24cf8="">下载安装</h3> <section data-v-12a24cf8=""><p data-v-12a24cf8="">
+        SDK及示例demo下载地址:
+        <a data-v-12a24cf8="" target="_blank" href="https://github.com/data-baker/BakerIosSdks">https://github.com/data-baker/BakerIosSdks</a></p></section> <h3 data-v-12a24cf8="">集成SDK</h3> <section data-v-12a24cf8=""><ul data-v-12a24cf8=""><li data-v-12a24cf8=""><p data-v-12a24cf8="">兼容性说明</p> <ul data-v-12a24cf8=""><li data-v-12a24cf8="" style="list-style: disc;">兼容性：系统：iOS 8以上版本</li> <li data-v-12a24cf8="" style="list-style: disc;">
+              CPU架构：arm64 arm64e armv7 armv7s
+            </li> <li data-v-12a24cf8="" style="list-style: disc;">
+              添加隐私麦克风权限：Privacy - Microphone Usage
+              Description：使用麦克风检测声音
+            </li></ul></li> <li data-v-12a24cf8=""><p data-v-12a24cf8="">添加源文件</p> <ul data-v-12a24cf8=""><li data-v-12a24cf8=""><p data-v-12a24cf8="">pod 方式集成；</p> <pre class="doc-sample doc-code" data-v-12a24cf8="">Pod DBAudioSDK/DBVoiceEngraverKit ,’xxx’ ；  xxx 指SDK的版本号；<button class="copyClass">copy</button></pre></li> <li data-v-12a24cf8=""><p data-v-12a24cf8="">导入资源文件，资源文件如下，具体参照demo:</p> <img data-v-12a24cf8="" src="https://databaker-gw-static.oss-accelerate.aliyuncs.com/assets/images/specs/document15.png" alt="" style="display: block; margin-top: 20px; width: 300px; height: 297px;"></li></ul></li> <li data-v-12a24cf8="">引用SDK的头文件</li> <pre class="doc-sample doc-code" data-v-12a24cf8="">#import “DBVoiceEngraverManager.h”// 声音复刻头文件
+#import “DBVoiceDetectionUtil.h” //噪声检测头文件<button class="copyClass">copy</button></pre></ul></section> <h3 data-v-12a24cf8="">SDK关键类</h3> <section data-v-12a24cf8=""><div class="table-wrap"><table class="doc-table" data-v-12a24cf8="" border="0" cellspacing="0" cellpadding="0"><thead data-v-12a24cf8=""><tr data-v-12a24cf8=""><th data-v-12a24cf8="">类接口名称</th> <th data-v-12a24cf8="">参数说明</th></tr></thead> <tbody data-v-12a24cf8=""><tr data-v-12a24cf8=""><td data-v-12a24cf8="">DBVoiceDetectionUtil</td> <td data-v-12a24cf8="">声音检测工具类，负责噪声检测</td></tr> <tr data-v-12a24cf8=""><td data-v-12a24cf8="">DBVoiceDetectionDelegate</td> <td data-v-12a24cf8="">回调声音检测的结果和录音时音量的结果，以及试听结束的回调</td></tr> <tr data-v-12a24cf8=""><td data-v-12a24cf8="">DBVoiceEngraverEnumerte</td> <td data-v-12a24cf8="">包含复刻SDK中的错误枚举</td></tr> <tr data-v-12a24cf8=""><td data-v-12a24cf8="">DBVoiceModel</td> <td data-v-12a24cf8="">复刻成功后返回的声音模型</td></tr> <tr data-v-12a24cf8=""><td data-v-12a24cf8="">DBVoiceRecognizeModel</td> <td data-v-12a24cf8="">返回上传声音后的识别结果</td></tr></tbody></table></div></section> <h3 data-v-12a24cf8="">调用说明</h3> <section data-v-12a24cf8=""><img data-v-12a24cf8="" src="https://databaker-gw-static.oss-accelerate.aliyuncs.com/assets/images/specs/document16.png" alt="" style="display: block; margin-top: 20px; width: 500px; height: 491px;"> <ul data-v-12a24cf8=""><li data-v-12a24cf8="" style="list-style: disc;">
+          整个复刻体验闭环包含两个模块，一个模块是录音上传服务器进行声音模型训练，产出声音模型ID，另一个模块是根据声音模型ID去合成服务器合成，产出声音文件，播放声音文件完成体验。
+        </li> <li data-v-12a24cf8="" style="list-style: disc;">
+          此（复刻）SDK仅支持第一个模块的功能，即②③④⑤⑥⑦等功能。第二个体验的模块⑧，我们提供2种集成方式供选择，以便实现实际项目中的需求。参考<i data-v-12a24cf8="" style="font-style: normal; color: rgb(82, 106, 255);">调用说明2</i>的说明。
+        </li></ul> <ul data-v-12a24cf8=""><li data-v-12a24cf8=""><strong data-v-12a24cf8="">声音复刻的流程</strong> <ul data-v-12a24cf8=""><li data-v-12a24cf8="">
+              实例化DBVoiceDetectionUtil检测噪声,并遵守相关代理，在代理回调中处理噪声检测的结果；
+            </li> <li data-v-12a24cf8="">点击开始复刻，并获取复刻文本，获取成功后进入朗读文本页面；</li> <li data-v-12a24cf8="">
+              实例化DBVoiceEngraverManager单例对象，并传入文本开始声音复刻；
+            </li> <li data-v-12a24cf8="">开始朗读文本；</li> <li data-v-12a24cf8="">结束朗读文本；</li> <li data-v-12a24cf8="">上传文本并进行准确率识别；</li> <li data-v-12a24cf8="">录制完成，填入相关信息并开始录制；</li> <li data-v-12a24cf8="">根据queryId 或者modelId 获取复刻后的声音；</li> <li data-v-12a24cf8="">选择相应的声音模型进行声音体验;</li></ul></li> <li data-v-12a24cf8=""><p data-v-12a24cf8="">
+            第一种集成方式如Demo中所示，用声音模型ID +
+            RestAPI的形式，合成MP3声音文件，进行播放。这种合成方式适用于单次不超过250字文本长度的文本合成。
+          </p> <p data-v-12a24cf8="">
+            另一种方式则是声音模型ID +
+            TTS合成SDK，具体集成方式可参考我们TTS合成SDK的接入文档。这种方式无文本长度限制，实时合成流式返回，TTS合成SDK中也有播放器功能，集成使用很方便。
+          </p></li></ul></section> <h3 data-v-12a24cf8="">参数说明</h3> <section data-v-12a24cf8=""><div class="table-wrap"><table class="doc-table" data-v-12a24cf8="" border="0" cellspacing="0" cellpadding="0"><thead data-v-12a24cf8=""><tr data-v-12a24cf8=""><th data-v-12a24cf8="">方法名称</th> <th data-v-12a24cf8="">使用说明</th></tr></thead> <tbody data-v-12a24cf8=""><tr data-v-12a24cf8=""><td data-v-12a24cf8="">
+              - (void)setupWithClientId:(NSString *)clientId
+              clientSecret:(NSString *)clientSecret queryId:(nullable NSString *
+              )queryId SuccessHan-dler:(DBSuccessHandler)successHandler
+              failure-Hander:(DBFailureHandler)failureHandler
+            </td> <td data-v-12a24cf8="">
+              1.设置clientId,clientSecret;queryId，successHandler，failureHandler初始化的时候设置；<br data-v-12a24cf8="">
+              2.queryId为可选项，可以通过它来批量查询复刻后的modelId;<br data-v-12a24cf8="">
+              3.clientId,clientSecret为授权信息，需联系标贝公司获取<br data-v-12a24cf8="">
+              4.successHandler回调结果，默认为空 <br data-v-12a24cf8="">
+              5. failureHandler：回调失败结果
+            </td></tr> <tr data-v-12a24cf8=""><td data-v-12a24cf8="">
+              - (void)getRecordTextArrayTextHandler:(DBTextBlock)textHandler
+              failure:(DBFailureHandler)failureHandler
+            </td> <td data-v-12a24cf8="">
+              获取复刻的文本 textHandler：以数组的形式回调文本数据；
+              failureHandler：回调失败结果
+            </td></tr> <tr data-v-12a24cf8=""><td data-v-12a24cf8="">- (void)setupQueryId:(nullable NSString *)queryId</td> <td data-v-12a24cf8="">
+              设置查询Id，需要在执行获取sessionId前设置，此参数不是必填参数，但是强烈建议使用
+              queryId： 查询Id
+            </td></tr> <tr data-v-12a24cf8=""><td data-v-12a24cf8="">
+              - (void)startRecordWithText:(NSString *)text
+              failure-Hander:(DBFailureHandler)failureHandler
+            </td> <td data-v-12a24cf8="">
+              传入识别文本并开启录音,默认添加了一个120s时长的录音限制；
+              failureHandler：如果发生错误，回调此方法
+            </td></tr> <tr data-v-12a24cf8=""><td data-v-12a24cf8="">- (void)pauseRecord;</td> <td data-v-12a24cf8="">结束录音，结束本次录音</td></tr> <tr data-v-12a24cf8=""><td data-v-12a24cf8="">
+              -
+              (void)unNormalStopRecordSeesionSuccessHan-dler:(DBSuccessHandler)successBlock
+              failure-Han-dler:(DBFailureHandler)failureHandler
+            </td> <td data-v-12a24cf8="">
+              非正常录音结束，如果用户没录音完返回需要调用此方法结束录音，不然会默认占用一个录音权限，如果长时间未调用，也会自动释放；
+              successBlock：结束录音成功的回调；
+              failureHandler：如果发生错误，回调此方法
+            </td></tr> <tr data-v-12a24cf8=""><td data-v-12a24cf8="">
+              -
+              (void)uploadRecordVoiceRecogizeHandler:(DBVoiceRecogizeHandler)successHandler
+            </td> <td data-v-12a24cf8="">
+              上传录音文件进行识别 successHandler：识别成功
+              1、如果发生错误，回调代理方法-
+              (void)dbVoiceRecognizeError:(NSError *)error
+            </td></tr> <tr data-v-12a24cf8=""><td data-v-12a24cf8="">
+              - (void)batchQueryModelStatusByQueryId:(NSString
+              *_Nullable)queryId
+              Success-Han-dler:(DBSuccessModelHandler)successHandler
+              failure-Hander:(DBFailureHandler)failureHandler
+            </td> <td data-v-12a24cf8="">
+              根据默认传入的queryId查询模型状态
+              successHandler：查询成功，以数组的形式返回model
+              failureHandler：如果发生错误，回调此方法
+            </td></tr> <tr data-v-12a24cf8=""><td data-v-12a24cf8="">
+              - (void)queryModelStatusByModelId:(NSString *)modelId
+              SuccessHan-dler:(DBSuccessModelHandler)successHandler
+              failure-Hander:(DBFailureHandler)failureHandler
+            </td> <td data-v-12a24cf8="">
+              根据默认传入的modelId查询模型状态
+              successHandler：查询成功，以数组的形式返回model
+              failureHandler：如果发生错误，回调此方
+            </td></tr> <tr data-v-12a24cf8=""><td data-v-12a24cf8="">
+              - (void)startModelTrainRecordVoiceWithPhoneNumber:(NSString *
+              _Nullable)phoneNumber notifyUrl:(NSString *_Nullable)notifyUrl
+              successHan-dler:(DBSuccessHandler)successHandler
+              failure-Hander:(DBFailureHandler)failureHandler
+            </td> <td data-v-12a24cf8="">
+              开启模型训练； phoneNumber：手机号码
+              notifyUrl：用于接收复刻结果的回调url
+              successHandler:开启训练成功，开启成功后会回调modelId
+              failureHandler：如果发生错误，回调此方法
+            </td></tr></tbody></table></div></section> <h3 data-v-12a24cf8="">回调类方法说明</h3> <section data-v-12a24cf8=""><div class="table-wrap"><table class="doc-table" data-v-12a24cf8="" border="0" cellspacing="0" cellpadding="0"><thead data-v-12a24cf8=""><tr data-v-12a24cf8=""><th data-v-12a24cf8="">名称</th> <th data-v-12a24cf8="">参数</th> <th data-v-12a24cf8="">说明</th></tr></thead> <tbody data-v-12a24cf8=""><tr data-v-12a24cf8=""><td data-v-12a24cf8="">DBSuccessHandler</td> <td data-v-12a24cf8="">NSDictionary *dict</td> <td data-v-12a24cf8="">
+              成功的回调，以字典的形式回调结果，此处回调为服务端返回的数据
+            </td></tr> <tr data-v-12a24cf8=""><td data-v-12a24cf8="">DBVoiceRecogizeHandler</td> <td data-v-12a24cf8="">DBVoiceRecognizeModel *model</td> <td data-v-12a24cf8="">
+              识别成功的回调 status： 1：上传识别成功； 0：上传识别失败 percent:
+              声音的准确率
+            </td></tr> <tr data-v-12a24cf8=""><td data-v-12a24cf8="">DBTextBlock</td> <td data-v-12a24cf8="">NSArray &lt;NSString *&gt; *textArray</td> <td data-v-12a24cf8="">获取需要朗读的文本</td></tr> <tr data-v-12a24cf8=""><td data-v-12a24cf8="">DBSuccessModelHandler</td> <td data-v-12a24cf8="">NSArray&lt;DBVoiceModel *&gt; *array</td> <td data-v-12a24cf8="">获取训练成功的声音模型Id</td></tr> <tr data-v-12a24cf8=""><td data-v-12a24cf8="">DBSuccessOneModelHandler</td> <td data-v-12a24cf8="">DBVoiceModel *model</td> <td data-v-12a24cf8="">
+              modelStatus： 2：录制中 3：启动训练失败 4：训练中 5： 训练失败 6：
+              训练成功 modelId: 模型Id，每个声音对应一个模型Id
+              modelStatus:模型状态
+            </td></tr> <tr data-v-12a24cf8=""><td data-v-12a24cf8="">DBFailureHandler</td> <td data-v-12a24cf8="">NSError *error</td> <td data-v-12a24cf8="">错误信息</td></tr></tbody></table></div> <p data-v-12a24cf8="" style="margin: 20px 0px;">DBVoiceDetectionDelegate说明</p> <div class="table-wrap"><table class="doc-table" data-v-12a24cf8="" border="0" cellspacing="0" cellpadding="0"><thead data-v-12a24cf8=""><tr data-v-12a24cf8=""><th data-v-12a24cf8="">方法名称</th> <th data-v-12a24cf8="">参数说明</th></tr></thead> <tbody data-v-12a24cf8=""><tr data-v-12a24cf8=""><td data-v-12a24cf8="">- (void)dbDetecting:(NSInteger)volumeDB</td> <td data-v-12a24cf8="">回调声音检测到的分贝值 volumeDB：检测到音量的分贝值</td></tr> <tr data-v-12a24cf8=""><td data-v-12a24cf8="">
+              - (void)dbDetectionResult:(BOOL)result value:(NSInteger)volumeDB
+            </td> <td data-v-12a24cf8="">
+              噪声检测的最终结果回调 result: 1：检测成功 0：检测失败
+              volumeDB:检测到音量的分贝值
+            </td></tr> <tr data-v-12a24cf8=""><td data-v-12a24cf8="">- (void)dbVoiceRecognizeError:(NSError *)error</td> <td data-v-12a24cf8="">音频识别过程中的错误回调 1、error:错误信息</td></tr> <tr data-v-12a24cf8=""><td data-v-12a24cf8="">- (void)playToEnd</td> <td data-v-12a24cf8="">试听结束后的回调</td></tr></tbody></table></div> <p data-v-12a24cf8="" style="margin: 20px 0px;">DBVoiceDetectionUtil说明</p> <div class="table-wrap"><table class="doc-table" data-v-12a24cf8="" border="0" cellspacing="0" cellpadding="0"><thead data-v-12a24cf8=""><tr data-v-12a24cf8=""><th data-v-12a24cf8="">方法名称</th> <th data-v-12a24cf8="">使用说明</th></tr></thead> <tbody data-v-12a24cf8=""><tr data-v-12a24cf8=""><td data-v-12a24cf8="">-(DBErrorState)startDBDetection</td> <td data-v-12a24cf8="">
+              1.遵循相关的代理，并实现相关的代理方法；<br data-v-12a24cf8="">
+              2.开启噪声检测，如果开启成功，返回值为DBErrorStateNOError;
+            </td></tr></tbody></table></div></section> <h3 data-v-12a24cf8="">错误码说明</h3> <section data-v-12a24cf8=""><div class="table-wrap"><table class="doc-table" data-v-12a24cf8="" border="0" cellspacing="0" cellpadding="0"><thead data-v-12a24cf8=""><tr data-v-12a24cf8=""><th data-v-12a24cf8="">错误码</th> <th data-v-12a24cf8="">枚举状态</th> <th data-v-12a24cf8="">含义</th></tr></thead> <tbody data-v-12a24cf8=""><tr data-v-12a24cf8=""><td data-v-12a24cf8="">0</td> <td data-v-12a24cf8="">DBErrorStateNOError</td> <td data-v-12a24cf8="">成功</td></tr> <tr data-v-12a24cf8=""><td data-v-12a24cf8="">1000</td> <td data-v-12a24cf8="">DBErrorStateMircropho-neNotPermission</td> <td data-v-12a24cf8="">麦克风没有权限</td></tr> <tr data-v-12a24cf8=""><td data-v-12a24cf8="">1001</td> <td data-v-12a24cf8="">DBErrorStateInitlizeSDK</td> <td data-v-12a24cf8="">初始化SDK失败</td></tr> <tr data-v-12a24cf8=""><td data-v-12a24cf8="">1002</td> <td data-v-12a24cf8="">DBErrorStateFailureToAccessToken</td> <td data-v-12a24cf8="">获取token失败</td></tr> <tr data-v-12a24cf8=""><td data-v-12a24cf8="">1003</td> <td data-v-12a24cf8="">DBErrorStateFailureToGetSession</td> <td data-v-12a24cf8="">获取session失败</td></tr> <tr data-v-12a24cf8=""><td data-v-12a24cf8="">1004</td> <td data-v-12a24cf8="">DBErrorStateFailureIn-validParams</td> <td data-v-12a24cf8="">无效的参数</td></tr> <tr data-v-12a24cf8=""><td data-v-12a24cf8="">99999</td> <td data-v-12a24cf8="">DBErrorStateNetwork-DataError</td> <td data-v-12a24cf8="">获取网络数据异常</td></tr> <tr data-v-12a24cf8=""><td data-v-12a24cf8="">00011</td> <td data-v-12a24cf8="">DBErrorStateTokenInvaild</td> <td data-v-12a24cf8="">token失效</td></tr> <tr data-v-12a24cf8=""><td data-v-12a24cf8="">10003</td> <td data-v-12a24cf8="">DBErrorStateFailureEr-rorParams</td> <td data-v-12a24cf8="">参数错误</td></tr> <tr data-v-12a24cf8=""><td data-v-12a24cf8="">10004</td> <td data-v-12a24cf8="">DBErrorStateUpload-Failed</td> <td data-v-12a24cf8="">上传文件失败，请选择正确的文件格式</td></tr> <tr data-v-12a24cf8=""><td data-v-12a24cf8="">10005</td> <td data-v-12a24cf8="">DBErrorStateEmptyfile</td> <td data-v-12a24cf8="">上传文件不能为空</td></tr> <tr data-v-12a24cf8=""><td data-v-12a24cf8="">10008</td> <td data-v-12a24cf8="">DBErrorStateModuleI-dInvailid</td> <td data-v-12a24cf8="">模型id不合法，请重试</td></tr> <tr data-v-12a24cf8=""><td data-v-12a24cf8="">10009</td> <td data-v-12a24cf8="">DBErrorStateModelSyns</td> <td data-v-12a24cf8="">模型正在过程录制中，其他客户端不能同时录制！</td></tr> <tr data-v-12a24cf8=""><td data-v-12a24cf8="">10010</td> <td data-v-12a24cf8="">DBErrorStateRecognizeVoiceTimeOut</td> <td data-v-12a24cf8="">识别语音超时！</td></tr> <tr data-v-12a24cf8=""><td data-v-12a24cf8="">40002</td> <td data-v-12a24cf8="">DBErrorStateMaxUploadTime</td> <td data-v-12a24cf8="">提交次数已达到最大限制</td></tr> <tr data-v-12a24cf8=""><td data-v-12a24cf8="">40003</td> <td data-v-12a24cf8="">DBErrorStateExpiredRquest</td> <td data-v-12a24cf8="">接口请在有效期内使用</td></tr> <tr data-v-12a24cf8=""><td data-v-12a24cf8="">40004</td> <td data-v-12a24cf8="">DBErrorStateRequestAuthFaild</td> <td data-v-12a24cf8="">接口签名不合法</td></tr> <tr data-v-12a24cf8=""><td data-v-12a24cf8="">40005</td> <td data-v-12a24cf8="">DBErrorStateInvaildMoile</td> <td data-v-12a24cf8="">请填写正确的手机号！</td></tr></tbody></table></div></section></div>

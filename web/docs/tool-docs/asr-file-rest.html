@@ -1,193 +1,823 @@
-<h1>录音文件识别 Restful API</h1>
-<p class="doc-lead">录音文件识别用于对已经录制完成的音频文件进行文字转写。接口采用异步调用方式，提交音频文件或可下载的文件 URL 后，系统创建识别任务，识别完成后可通过主动轮询或回调通知获取结果。</p>
+<div data-v-5da33d74=""><h2 data-v-5da33d74="">录音文件识别Restful API</h2> <h3 data-v-5da33d74="">功能介绍</h3> <section data-v-5da33d74=""><p data-v-5da33d74="">
+        录音文件识别时针对已经录制的音频文件，进行文字转写。录音文件识别是非实时的，通过接口提交录音文件或可以直接下载的文件URL，系统接收后进行识别转文字。
+      </p> <p data-v-5da33d74="">
+        录音文件识别采用异步调用（非实时），音频文件上传成功后进入等待队列，识别成功后可以采用主动轮询或者回调的方式获得识别结果，返回结果时间受音频时长以及排队任务量的影响。&nbsp;<b data-v-5da33d74="">如遇识别耗时比平时延长，大概率表示当前时间段出现识别高峰，请耐心等待，免费用户在24小时内完成并返回识别结果；付费用户在3小时内完成并返回识别结果。</b></p></section> <h3 data-v-5da33d74="">音频要求</h3> <section data-v-5da33d74=""><ul data-v-5da33d74=""><li data-v-5da33d74="">直接上传音频数据方式一次最多不能超过64MB</li> <li data-v-5da33d74="">通过提交音频URL方式文件大小不超过512MB</li> <li data-v-5da33d74="">单声道：wav，pcm，mp3，ogg，flac</li> <li data-v-5da33d74="">双声道：wav，mp3，ogg，flac</li> <li data-v-5da33d74="">音频采样率：8000Hz，16000Hz(音频采样率如果大于16000，会强制降采样到参数指定采样率，再进行识别)</li> <li data-v-5da33d74="">位深：16bits</li></ul></section> <h3 data-v-5da33d74="">使用方法</h3> <section data-v-5da33d74=""><p data-v-5da33d74="">1. 创建账号和应用，详见<a data-v-5da33d74="" href="https://www.data-baker.com/specs/file/guide">平台新手指引</a>，通过<a data-v-5da33d74="" href="https://ai.data-baker.com/">标贝开放平台</a>/应用/服务获取client_id，client_secret</p> <p data-v-5da33d74="">2. 发送请求获取access_token，详见<a data-v-5da33d74="" href="https://www.data-baker.com/specs/file/access_token">获取访问令牌</a></p> <p data-v-5da33d74="">3. 发送新建任务请求：发送新建任务请求，具体参数详见<a data-v-5da33d74="" href="/specs/file/asr_file_api_restful#asr-file-re">请求参数</a>。
+      </p> <p data-v-5da33d74="">4. 接收返回结果：发送请求成功后会立即收到返回响应，采用JSON格式封装，在“taskid"字段中获取任务id，具体参数详见<a data-v-5da33d74="" href="/specs/file/asr_file_api_restful#asr-file1">新建任务响应结果</a></p> <p data-v-5da33d74="">5. 发送查询识别结果请求：使用“taskid”发送查询识别结果请求，具体参数详见<a data-v-5da33d74="" href="/specs/file/asr_file_api_restful#asr-file2">查询识别结果</a>。</p> <p data-v-5da33d74="">6. 接收识别结果：发送请求成功后会立即收到返回响应，采用JSON格式封装，识别结果在“text"字段内，具体参数详见<a data-v-5da33d74="" href="/specs/file/asr_file_api_restful#asr-file3">响应识别结果</a>。</p></section> <h3 data-v-5da33d74="">服务地址</h3> <section data-v-5da33d74=""><div class="table-wrap"><table class="doc-table" data-v-5da33d74="" border="0" cellspacing="0" cellpadding="0"><thead data-v-5da33d74=""><tr data-v-5da33d74=""><th data-v-5da33d74="">访问类型</th> <th data-v-5da33d74="">说明</th> <th data-v-5da33d74="">URL</th> <th data-v-5da33d74="">Host</th></tr></thead> <tbody data-v-5da33d74=""><tr data-v-5da33d74=""><td data-v-5da33d74="">外网访问</td> <td data-v-5da33d74="">新建任务</td> <td data-v-5da33d74="">https://openapi.data-baker.com/asr/starttask?</td> <td data-v-5da33d74="">openapi.data-baker.com</td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">外网访问</td> <td data-v-5da33d74="">
+              查询结果
+              <br data-v-5da33d74="">（主动轮询）
+            </td> <td data-v-5da33d74="">https://openapi.data-baker.com/asr/taskresult?</td> <td data-v-5da33d74="">openapi.data-baker.com</td></tr></tbody></table></div></section> <h3 data-v-5da33d74="">交互流程</h3> <section data-v-5da33d74=""><strong data-v-5da33d74="">1. 主动轮询</strong> <img data-v-5da33d74="" src="https://databaker-gw-static.oss-accelerate.aliyuncs.com/assets/images/specs/document6.png" alt="" style="display: block; width: 600px; height: 689px;"> <strong data-v-5da33d74="">2. 回调通知</strong> <img data-v-5da33d74="" src="https://databaker-gw-static.oss-accelerate.aliyuncs.com/assets/images/specs/document7.png" alt="" style="display: block; width: 600px; height: 460px;"></section> <h3 data-v-5da33d74="">测试音频</h3> <section data-v-5da33d74=""><a data-v-5da33d74="" href="https://databaker-of-yuedu.oss-cn-huhehaote.aliyuncs.com/gw/test.wav?OSSAccessKeyId=LTAI4Fktx2ckBLU3ZJizYTuW&amp;Expires=5286041033&amp;Signature=f3%2FFOHDp37Kw8XM%2BGqOXlB7M7IY%3D" target="_blank">测试音频</a></section> <h3 data-v-5da33d74="" id="asr-file-re">请求参数</h3> <section data-v-5da33d74=""><strong data-v-5da33d74="">1. 请求headers</strong> <div class="table-wrap"><table class="doc-table" data-v-5da33d74="" border="0" cellspacing="0" cellpadding="0"><thead data-v-5da33d74=""><tr data-v-5da33d74=""><th data-v-5da33d74="">参数名称</th> <th data-v-5da33d74="">名称</th> <th data-v-5da33d74="" style="white-space: nowrap;">是否必填</th> <th data-v-5da33d74="">说明</th></tr></thead> <tbody data-v-5da33d74=""><tr data-v-5da33d74=""><td data-v-5da33d74="">access_token</td> <td data-v-5da33d74="">String</td> <td data-v-5da33d74="">Yes</td> <td data-v-5da33d74="">
+              通过client_id，client_secret调用授权服务获得见<a data-v-5da33d74="" href="/specs/file/access_token" class="">获取访问令牌
+              </a></td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">file_url</td> <td data-v-5da33d74="">String</td> <td data-v-5da33d74="">No</td> <td data-v-5da33d74="">
+              录音文件URL，外网可访问。 如未指定该参数，则把音频方与请求体中上传
+            </td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">callback_url</td> <td data-v-5da33d74="">String</td> <td data-v-5da33d74="">No</td> <td data-v-5da33d74="">
+              识别结果回调URL
+              <br data-v-5da33d74="">如有，则识别结束后通过回调通知
+              <br data-v-5da33d74="">否则，则通过查询结果进行轮询
+            </td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">channel</td> <td data-v-5da33d74="">Integer</td> <td data-v-5da33d74="">No</td> <td data-v-5da33d74="">
+              录音文件声道数
+              <br data-v-5da33d74="">1:单声道 <br data-v-5da33d74="">2:双声道
+            </td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">audio_format</td> <td data-v-5da33d74="">String</td> <td data-v-5da33d74="">Yes</td> <td data-v-5da33d74="">
+              音频格式 <br data-v-5da33d74="">
+              单声道：wav，pcm，mp3，ogg，flac<br data-v-5da33d74="">
+              双声道：wav，mp3，ogg，flac<br data-v-5da33d74=""></td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">sample_rate</td> <td data-v-5da33d74="">String</td> <td data-v-5da33d74="">Yes</td> <td data-v-5da33d74="">音频采样率支持<br data-v-5da33d74="">8000Hz <br data-v-5da33d74=""> 16000Hz<br data-v-5da33d74="">
+              (音频采样率如果大于16000，会强制降采样到参数指定采样率，再进行识别)
+            </td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">domain</td> <td data-v-5da33d74="">String</td> <td data-v-5da33d74="">no</td> <td data-v-5da33d74="">
+              模型名称 <br data-v-5da33d74=""> <b data-v-5da33d74="">16k采样率支持模型：</b><br data-v-5da33d74="">
+              中文通用模型 "common"，<b data-v-5da33d74="">默认值</b><br data-v-5da33d74="">
+              中英自由说模型 "cn-en-mixed" <br data-v-5da33d74="">
+              英文模型 "english"，<br data-v-5da33d74="">
+              粤语模型 "cantonese"，<br data-v-5da33d74="">
+              维语模型 "uighur"，<br data-v-5da33d74=""> <b data-v-5da33d74="">8k采样率支持模型：</b><br data-v-5da33d74="">
+              中文客服模型 "kefu"<br data-v-5da33d74=""></td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">add_pct</td> <td data-v-5da33d74="">String</td> <td data-v-5da33d74="">no</td> <td data-v-5da33d74="">true: 加标点，<b data-v-5da33d74="">默认值</b><br data-v-5da33d74="">false：不添加标点</td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">hotwordid</td> <td data-v-5da33d74="">String</td> <td data-v-5da33d74="">no</td> <td data-v-5da33d74="">配置的热词组的id</td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">diylmid</td> <td data-v-5da33d74="">String</td> <td data-v-5da33d74="">no</td> <td data-v-5da33d74="">asr个性化模型的id</td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">enable_itn</td> <td data-v-5da33d74="">String</td> <td data-v-5da33d74="">no</td> <td data-v-5da33d74="">
+              中文数字转换为阿拉伯数字（仅支持3位及以上数字串）<br data-v-5da33d74="">
+              ‘true’: 开启<br data-v-5da33d74="">
+              ‘false’: 关闭
+            </td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">auto_split</td> <td data-v-5da33d74="">String</td> <td data-v-5da33d74="">no</td> <td data-v-5da33d74="">
+              开启说话人分离（该功能处于测试阶段，支持2个说话人分离，效果持续优化中）<br data-v-5da33d74="">
+              ‘true’: 开启<br data-v-5da33d74="">
+              ‘false’: 关闭
+            </td></tr></tbody></table></div> <strong data-v-5da33d74="">2. 请求体</strong> <p data-v-5da33d74="" style="padding-left: 20px;">
+        当未指定file_url参数时，请将二进制音频数据放到HTTP请求体中；
+      </p> <p data-v-5da33d74="" style="padding-left: 20px;">
+        当指定file_url参数时，服务端将忽略HTTP请求体，并从指定的url处下载音频文件
+      </p></section> <h3 data-v-5da33d74="">请求示例</h3> <section data-v-5da33d74=""><pre class="doc-sample doc-code" data-v-5da33d74="">curl -X POST \
+-H "access_token:xxxxxxxxxx" \
+-H "audio_format:wav" \
+-H "sample_rate:16000" \
+--data-binary "@wav_16k.wav" \
+"https://openapi.data-baker.com/asr/starttask?"<button class="copyClass">copy</button></pre></section> <h3 data-v-5da33d74="">Python示例代码</h3> <section data-v-5da33d74=""><p data-v-5da33d74="">代码地址：<a data-v-5da33d74="" href="https://github.com/data-baker/BakerSpeechApiDemo/tree/main/asr-rest-api/audio_file_recognition" target="_blank">Github</a></p> <p data-v-5da33d74="">Python3示例如下：</p> <pre class="doc-sample doc-code" data-v-5da33d74="">#!/usr/bin/env python
+# coding: utf-8
 
-<h2 id="asr-file-rest-intro">功能介绍</h2>
-<ul>
-<li>支持通过请求体直接上传音频二进制数据。</li>
-<li>支持提交外网可访问的 <code>file_url</code>，服务端从指定 URL 下载音频文件。</li>
-<li>支持主动轮询查询任务结果，也支持在创建任务时传入 <code>callback_url</code> 接收回调通知。</li>
-<li>直接上传音频数据时，单次文件最大 <code>64MB</code>；通过音频 URL 提交时，文件最大 <code>512MB</code>。</li>
-<li>识别结果返回耗时受音频时长和排队任务量影响；高峰期请耐心等待。</li>
-</ul>
-
-<h2 id="asr-file-rest-audio">音频要求</h2>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>项目</th><th>要求</th></tr>
-<tr><td>单声道格式</td><td><code>wav</code>、<code>pcm</code>、<code>mp3</code>、<code>ogg</code>、<code>flac</code></td></tr>
-<tr><td>双声道格式</td><td><code>wav</code>、<code>mp3</code>、<code>ogg</code>、<code>flac</code></td></tr>
-<tr><td>采样率</td><td><code>8000Hz</code>、<code>16000Hz</code>。音频采样率高于 <code>16000Hz</code> 时，会按参数指定采样率降采样后识别。</td></tr>
-<tr><td>位深</td><td><code>16bits</code></td></tr>
-</table>
-</div>
-
-<h2 id="asr-file-rest-usage">使用方法</h2>
-<ol>
-<li>创建账号和应用，在开放平台应用服务中获取 <code>client_id</code> 与 <code>client_secret</code>。</li>
-<li>调用授权服务获取 <code>access_token</code>。</li>
-<li>调用新建任务接口，上传音频数据或传入 <code>file_url</code>，获取 <code>taskid</code>。</li>
-<li>如果未设置 <code>callback_url</code>，使用 <code>taskid</code> 主动轮询查询识别结果。</li>
-<li>如果设置了 <code>callback_url</code>，识别结束后服务端会向回调地址发送结果；长时间未收到回调时仍可使用 <code>taskid</code> 查询。</li>
-</ol>
-
-<h2 id="asr-file-rest-endpoint">服务地址</h2>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>访问类型</th><th>接口</th><th>URL</th><th>Host</th></tr>
-<tr><td>外网访问</td><td>新建任务</td><td><code>https://openapi.data-baker.com/asr/starttask?</code></td><td><code>openapi.data-baker.com</code></td></tr>
-<tr><td>外网访问</td><td>查询结果</td><td><code>https://openapi.data-baker.com/asr/taskresult?</code></td><td><code>openapi.data-baker.com</code></td></tr>
-</table>
-</div>
-
-<h2 id="asr-file-rest-create">新建任务请求参数</h2>
-<h3>请求 Headers</h3>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>参数名称</th><th>类型</th><th>是否必填</th><th>说明</th></tr>
-<tr><td><code>access_token</code></td><td>string</td><td>是</td><td>通过 <code>client_id</code>、<code>client_secret</code> 调用授权服务获得。</td></tr>
-<tr><td><code>file_url</code></td><td>string</td><td>否</td><td>外网可访问的录音文件 URL。未指定时，请将音频二进制数据放入 HTTP 请求体；指定后服务端会忽略请求体并从该 URL 下载音频。</td></tr>
-<tr><td><code>callback_url</code></td><td>string</td><td>否</td><td>识别结果回调 URL。传入后识别结束会通过回调通知；未传入时通过查询接口轮询。</td></tr>
-<tr><td><code>channel</code></td><td>integer</td><td>是</td><td>录音文件声道数，<code>1</code> 单声道，<code>2</code> 双声道。</td></tr>
-<tr><td><code>audio_format</code></td><td>string</td><td>是</td><td>音频格式，如 <code>wav</code>、<code>pcm</code>、<code>mp3</code>、<code>ogg</code>、<code>flac</code>。</td></tr>
-<tr><td><code>sample_rate</code></td><td>integer</td><td>是</td><td>音频采样率，支持 <code>8000</code>、<code>16000</code>。</td></tr>
-<tr><td><code>domain</code></td><td>string</td><td>否</td><td>模型名称，默认 <code>common</code>。</td></tr>
-<tr><td><code>add_pct</code></td><td>boolean</td><td>否</td><td>是否添加标点，<code>true</code> 添加，<code>false</code> 不添加。</td></tr>
-<tr><td><code>hotwordid</code></td><td>string</td><td>否</td><td>配置的热词组 ID。</td></tr>
-<tr><td><code>diylmid</code></td><td>string</td><td>否</td><td>ASR 个性化模型 ID。</td></tr>
-<tr><td><code>enable_itn</code></td><td>boolean</td><td>否</td><td>是否将中文数字转换为阿拉伯数字，仅支持 3 位及以上数字串。</td></tr>
-<tr><td><code>auto_split</code></td><td>boolean</td><td>否</td><td>是否开启说话人分离。该能力处于测试阶段，支持 2 个说话人分离。</td></tr>
-</table>
-</div>
-<h3>请求体</h3>
-<p>未指定 <code>file_url</code> 时，请将二进制音频数据放到 HTTP 请求体中；指定 <code>file_url</code> 时，服务端将忽略 HTTP 请求体。</p>
-
-<h2 id="asr-file-rest-create-example">新建任务示例</h2>
-<pre><code class="language-python">import requests
-
-url = "https://openapi.data-baker.com/asr/starttask?"
-headers = {
-    "access_token": "ACCESS_TOKEN",
-    "audio_format": "wav",
-    "sample_rate": "16000",
-    "channel": "1",
-    "domain": "common"
-}
-
-with open("test.wav", "rb") as f:
-    response = requests.post(url, headers=headers, data=f)
-
-task_id = response.json().get("taskid")
-print(task_id)</code></pre>
-<p>示例代码参考：<a href="https://github.com/data-baker/BakerSpeechApiDemo/tree/main/asr-rest-api/audio_file_recognition" target="_blank" rel="noopener">audio_file_recognition</a></p>
-
-<h2 id="asr-file-rest-create-response">新建任务响应结果</h2>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>字段</th><th>类型</th><th>说明</th></tr>
-<tr><td><code>trace_id</code></td><td>string</td><td>日志 ID，遇到问题时可用于跟踪排查。</td></tr>
-<tr><td><code>code</code></td><td>int</td><td>请求结果码，成功为 <code>20000</code>。</td></tr>
-<tr><td><code>info</code></td><td>string</td><td>任务结果描述，请求失败时可根据该字段分析问题。</td></tr>
-<tr><td><code>taskid</code></td><td>string</td><td>识别任务 ID，后续查询识别结果时使用。</td></tr>
-</table>
-</div>
-
-<h2 id="asr-file-rest-query">查询识别结果</h2>
-<p>主动轮询时，调用查询结果接口，并在 Header 中传入 <code>access_token</code> 与 <code>taskid</code>。</p>
-<pre><code class="language-python">import time
+import argparse
+import time
 import requests
+import json
 
-url = "https://openapi.data-baker.com/asr/taskresult?"
-headers = {
-    "access_token": "ACCESS_TOKEN",
-    "taskid": "TASK_ID"
+
+# 获取access_token用于鉴权
+def get_access_token(client_secret, client_id):
+    grant_type = "client_credentials"
+    url = "https://openapi.data-baker.com/oauth/2.0/token?grant_type={}&amp;client_secret={}&amp;client_id={}".format(
+        grant_type, client_secret, client_id)
+    response = requests.post(url)
+    access_token = json.loads(response.text).get('access_token')
+
+    return access_token
+
+
+# 查询识别结果
+def get_text(headers):
+    url = "https://asr.data-baker.com/asr/taskresult"
+    response = requests.post(url, headers=headers)
+    text = json.loads(response.text).get("text")
+    code = json.loads(response.text).get("code")
+    if code == 20000 or code == 20001 or code == 20005:
+        return text
+    else:
+        raise Exception(response.text)
+
+
+# 创建识别任务，发送识别文件
+def create_task(file, headers):
+    url = "https://asr.data-baker.com/asr/starttask?"
+    response = requests.post(url, data=file, headers=headers)
+    task_id = json.loads(response.text).get("taskid")
+    code = json.loads(response.text).get("code")
+    if code != 20000:
+        raise Exception(response.text)
+
+    return task_id
+
+
+# 获取命令行输入参数
+def get_args():
+    parser = argparse.ArgumentParser(description='ASR')
+    parser.add_argument('-client_secret', type=str, required=True)
+    parser.add_argument('-client_id', type=str, required=True)
+    parser.add_argument('-file_path', type=str, required=True)
+    parser.add_argument('--audio_format', type=str, default='wav')
+    parser.add_argument('--sample_rate', type=str, default='16000')
+    args = parser.parse_args()
+
+    return args
+
+
+if __name__ == '__main__':
+    try:
+        args = get_args()
+
+        # 获取access_token
+        client_secret = args.client_secret
+        client_id = args.client_id
+        access_token = get_access_token(client_secret, client_id)
+
+        # 新建任务
+        file = open(args.file_path, 'rb')
+        audio_format = args.audio_format
+        sample_rate = args.sample_rate
+        headers = {'access_token': access_token, 'audio_format': audio_format, 'sample_rate': sample_rate, 'domain': 'common'}
+        task_id = create_task(file, headers)
+
+
+        # 主动轮询查询识别结果
+        recognition_headers = {'access_token': access_token, 'taskid': task_id}
+        while True:
+            text = get_text(recognition_headers)
+            if text:
+                break
+            else:
+                time.sleep(2)
+                print('task is processing')
+        print(text['left_result'])
+    except Exception as e:
+        print(e)<button class="copyClass">copy</button></pre> <p data-v-5da33d74="">命令行执行: 默认wav格式，16000采样率</p> <pre class="doc-sample doc-code" data-v-5da33d74="">python audio_file_recognition.py -client_secret=你的client_secret -client_id=你的client_secret -file_path=test.wav<button class="copyClass">copy</button></pre> <p data-v-5da33d74="">如有主要可自行修改参数</p> <pre class="doc-sample doc-code" data-v-5da33d74="">python audio_file_recognition.py -client_secret=你的client_secret -client_id=你的client_id -file_path=test.wav --audio_format=wavmple_rate=16000<button class="copyClass">copy</button></pre></section> <h3 data-v-5da33d74="">PHP示例代码</h3> <section data-v-5da33d74=""><pre class="doc-sample doc-code" data-v-5da33d74="">&lt;?php
+//获取访问令牌
+$client_secret = '***'; //应用secret
+$client_id = '***'; //应用id
+$grant_type = 'client_credentials'; //固定格式
+
+//1.获取token
+$url = 'https://openapi.data-baker.com/oauth/2.0/token?grant_type='.$grant_type.'&amp;client_id='.$client_id.'&amp;client_secret='.$client_secret;
+
+//curl get请求
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); //信任任何证书
+curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0); // 检查证书中是否设置域名,0不验证
+$token_res = curl_exec($ch);
+
+//如果错误 查看错误信息
+if(curl_errno($ch))
+{
+    print curl_error($ch);
+}
+curl_close($ch);
+
+//进行token信息解析
+$token_info = json_decode($token_res,1);
+$access_token = $token_info['access_token'];    //获取到的token信息
+//var_dump($access_token);die;
+//$access_token = '***';
+
+//2.录音文件新建任务 说明（支持录音文件url方式，支持识别结果回调方式。本demo采用本地文件发送请求体识别，主动轮询识别结果方式。）
+$url = 'https://openapi.data-baker.com/asr/starttask?';
+
+//curl post请求
+$audio_format = 'wav';  //音频格式
+$sample_rate = 16000;   //采样率
+$Content_Type = 'application/json; charset=utf-8';
+$headers = array(
+    'access_token:'.$access_token,
+    'audio_format:'.$audio_format,
+    'sample_rate:'.$sample_rate,
+    'Content-Type:'.$Content_Type
+);
+
+$file_path = './test.wav';
+//第一种方式读取
+$post_audio = file_get_contents($file_path);
+
+//第二种方式读取
+//$file_size = filesize($file_path);
+//$post_audio = fread(fopen($file_path, "r"), $file_size);
+
+$ch = curl_init();
+curl_setopt($ch, CURLINFO_HEADER_OUT, true);
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+curl_setopt($ch, CURLOPT_POST, true);
+curl_setopt($ch, CURLOPT_POSTFIELDS, $post_audio);
+$audio_res = curl_exec($ch);
+
+//$request_header = curl_getinfo($ch, CURLINFO_HEADER_OUT);
+
+if(curl_errno($ch))
+{
+    print curl_error($ch);
+}
+curl_close($ch);
+
+$audio_info = json_decode($audio_res,1);
+$task_id = $audio_info['taskid'];    //新建任务后返回的全局唯一任务ID
+
+
+//3.查询识别结果
+
+function queryRes($access_token,$task_id){
+    sleep(10);   //等待10s后查询识别结果（可以队列方式）
+    $url = 'https://openapi.data-baker.com/asr/taskresult?';
+
+    //curl post请求
+    $Content_Type = 'application/json; charset=utf-8';
+    $headers = array(
+        'access_token:'.$access_token,
+        'taskid:'.$task_id,
+        'Content-Type:'.$Content_Type
+    );
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    $result = curl_exec($ch);
+    if(curl_errno($ch))
+    {
+        print curl_error($ch);
+    }
+    curl_close($ch);
+
+    $result_info = json_decode($result,1);
+
+    //如果响应结果不成功递归调用
+    if($result_info['code']!=20000){
+        queryRes($access_token,$task_id);
+    }else{
+        $text = $result_info['text'];    //录音文件识别结果 json 类型
+        var_dump($text);die;
+    }
 }
 
-while True:
-    result = requests.post(url, headers=headers).json()
-    if result.get("code") in (20000, 20001, 20005):
-        if result.get("text"):
-            print(result["text"].get("left_result"))
-            break
-        time.sleep(2)
-    else:
-        raise RuntimeError(result)</code></pre>
+queryRes($access_token,$task_id);
+<button class="copyClass">copy</button></pre></section> <h3 data-v-5da33d74="">C示例代码</h3> <section data-v-5da33d74=""><p data-v-5da33d74="">代码地址：<a data-v-5da33d74="" href="https://github.com/data-baker/BakerSpeechApiDemo/tree/main/asr-rest-api/audio_file_recognition" target="_blank">Github</a></p></section> <h3 data-v-5da33d74="">JAVA示例代码</h3> <section data-v-5da33d74=""><pre class="doc-sample doc-code" data-v-5da33d74="">package com.databaker.web.asr;
 
-<h2 id="asr-file-rest-result">识别结果参数</h2>
-<p>查询结果或回调通知均以 JSON 返回。任务失败时 <code>text</code> 为空。</p>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>字段</th><th>类型</th><th>说明</th></tr>
-<tr><td><code>trace_id</code></td><td>string</td><td>日志 ID。</td></tr>
-<tr><td><code>code</code></td><td>int</td><td>任务状态或错误码。</td></tr>
-<tr><td><code>info</code></td><td>string</td><td>任务结果描述。</td></tr>
-<tr><td><code>text</code></td><td>object</td><td>识别结果对象。</td></tr>
-<tr><td><code>left_duration</code></td><td>int</td><td>左声道时长，单位毫秒。</td></tr>
-<tr><td><code>right_duration</code></td><td>int</td><td>右声道时长，单位毫秒。</td></tr>
-</table>
-</div>
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import okhttp3.*;
+import org.apache.commons.lang3.StringUtils;
 
-<h3>text 内部结构</h3>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>字段</th><th>类型</th><th>说明</th></tr>
-<tr><td><code>left_result</code></td><td>string</td><td>左声道全部识别结果。</td></tr>
-<tr><td><code>right_result</code></td><td>string</td><td>右声道全部识别结果。</td></tr>
-<tr><td><code>left_result_array</code></td><td>array</td><td>左声道分段识别结果。</td></tr>
-<tr><td><code>right_result_array</code></td><td>array</td><td>右声道分段识别结果。</td></tr>
-</table>
-</div>
+import java.io.File;
+import java.io.FileInputStream;
 
-<h3>分段结果结构</h3>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>字段</th><th>类型</th><th>说明</th></tr>
-<tr><td><code>result</code></td><td>string</td><td>该分段语音识别结果，失败时为空。</td></tr>
-<tr><td><code>confidence</code></td><td>int</td><td>整句置信度，范围 <code>0-100</code>。</td></tr>
-<tr><td><code>speakerid</code></td><td>int</td><td>说话人 ID。开启说话人分离后为 <code>1</code> 或 <code>2</code>，关闭后为 <code>-1</code>。</td></tr>
-<tr><td><code>sos</code></td><td>float</td><td>该句在音频中的绝对开始时间点，单位秒。</td></tr>
-<tr><td><code>eos</code></td><td>float</td><td>该句在音频中的绝对结束时间点，单位秒。</td></tr>
-<tr><td><code>segment_code</code></td><td>int</td><td>分段任务 code，旧站文档标注暂时固定为 <code>20000</code>。</td></tr>
-<tr><td><code>speed</code></td><td>int</td><td>语速，范围 <code>0-2000</code>。</td></tr>
-<tr><td><code>speed_label</code></td><td>string</td><td>语速标签：<code>FAST</code>、<code>MEDIUM</code>、<code>SLOW</code>。</td></tr>
-<tr><td><code>volume</code></td><td>int</td><td>音量，范围 <code>0-100</code>。</td></tr>
-<tr><td><code>volume_label</code></td><td>string</td><td>音量标签：<code>SILENT</code>、<code>XSOFT</code>、<code>SOFT</code>、<code>MEDIUM</code>、<code>LOUD</code>、<code>XLOUD</code>。</td></tr>
-<tr><td><code>words</code></td><td>array</td><td>词级别识别结果，包含 <code>confidence</code>、<code>sos</code>、<code>eos</code>、<code>word</code>。</td></tr>
-</table>
-</div>
 
-<h2 id="asr-file-rest-callback">回调通知</h2>
-<p>创建任务时传入 <code>callback_url</code> 后，识别完成会将识别结果发送到该地址。若长时间未收到回调，仍可根据 <code>taskid</code> 调用查询接口。</p>
-<pre><code class="language-python">from flask import Flask, request
+/**
+ * 录音文件识别RESTFUL API接口调用示例
+ * 附：录音文件识别RESTFUL API文档 【https://www.data-baker.com/specs/file/asr_file_api_restful】
+ *
+ * 注意：
+ * 1.仅作为demo示例,失败重试、token过期重新获取、日志打印等优化工作需要开发者自行完成
+ * 2.录音文件识别中的录音文件有两种提交方式：A.在header中通过音频下载链接方式提交 B.在body中通过音频文件流方式提交。服务端优先使用方式A提供的音频。
+ * 3.录音文件识别是非实时接口，提供了两种方式获取结果：A.开发者提供回调接口 B.开发者主动查询进度接口。开发者可自由选择，主动查询时注意频率不要太高。
+ *
+ * @author data-baker
+ */
+public class AsrFileRestApiDemo {
+    /**
+     * 授权：需要在开放平台获取【https://ai.data-baker.com/】
+     */
+    private static final String clientId = "YOUR_CLIENT_ID";
+    private static final String clientSecret = "YOUR_CLIENT_SECRET";
+
+    /**
+     * 获取token的地址信息
+     */
+    public static String tokenUrl = "https://openapi.data-baker.com/oauth/2.0/token?grant_type=client_credentials&amp;client_secret=%s&amp;client_id=%s";
+    /**
+     * 录音文件识别API地址
+     */
+    public static String asrSubmitTaskUrl = "https://openapi.data-baker.com/asr/starttask";
+    /**
+     * 录音文件识别API地址
+     */
+    public static String asrQueryTaskUrl = "https://openapi.data-baker.com/asr/taskresult";
+    /**
+     * 文件流方式上传音频，最大支持64M；音频URL方式上传，最大支持512M
+     */
+    public static Integer MAX_FILE_SIZE = 64 * 1024 * 1024;
+
+    /**
+     * 仅作为demo示例
+     * 失败重试、token过期重新获取、日志打印等优化工作需要开发者自行完成
+     **/
+    public static void main(String[] args) {
+        String accessToken = getAccessToken();
+        if (StringUtils.isNotEmpty(accessToken)) {
+            //支持两种上传音频方式：url或文件流；支持三种音频格式：pcm、wav、mp3
+            //1.url方式
+            //String audioFileInfo = "YOUR_AUDIO_FILE_URL";
+            //String taskId = submitFileAsrTask(accessToken, audioFileInfo, AudioFileTypeEnum.UrlType, "mp3", 16000, "");
+
+            //2.文件流方式
+            String audioFileInfo = "YOUR_AUDIO_FILE_FULL_PATH";
+            String taskId = submitFileAsrTask(accessToken, audioFileInfo, AudioFileTypeEnum.FileType, "pcm", 16000, "");
+
+            //查询识别结果
+            try {
+                if (StringUtils.isNotEmpty(taskId)) {
+                    Thread.sleep(10 * 1000);
+                    queryFileAsrTaskResult(accessToken, taskId);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * 提交录音文件识别任务
+     */
+    public static String submitFileAsrTask(String accessToken, String audioFileInfo, AudioFileTypeEnum fileType, String audioFormat, Integer sampleRate, String callback_url) {
+        try {
+            OkHttpClient client = new OkHttpClient();
+            MediaType mediaType = MediaType.parse("application/octet-stream");
+            //requestBody默认为空
+            RequestBody requestBody = RequestBody.create(null, new byte[0]);
+            //如果以文件流方式上传，文件流放在requestBody里面
+            if (AudioFileTypeEnum.FileType.equals(fileType)) {
+                File audioFile = new File(audioFileInfo);
+                if (!audioFile.exists() || audioFile.length() &gt; MAX_FILE_SIZE) {
+                    return "";
+                }
+                FileInputStream in = new FileInputStream(audioFile);
+                byte[] fileByte = new byte[(int) audioFile.length()];
+                int realLen = in.read(fileByte);
+                //确保音频文件内容全部被读取
+                if (realLen == (int) audioFile.length()) {
+                    requestBody = RequestBody.create(mediaType, fileByte);
+                }
+            }
+            //构造完整request
+            Request request = new Request.Builder()
+                    .url(asrSubmitTaskUrl)
+                    .addHeader("access_token", accessToken)
+                    .addHeader("file_url", AudioFileTypeEnum.UrlType.equals(fileType) ? audioFileInfo : "")
+                    .addHeader("audio_format", audioFormat)
+                    .addHeader("sample_rate", String.valueOf(sampleRate))
+                    .addHeader("domain", "common")
+                    .addHeader("callback_url", callback_url)
+                    .method("POST", requestBody)
+                    .build();
+            Response response = client.newCall(request).execute();
+            if (response.isSuccessful()) {
+                JSONObject jsonObject = JSON.parseObject(response.body().string());
+                System.out.println("提交识别任务成功，任务id：" + (jsonObject == null ? "" : jsonObject.getString("taskid")));
+                return jsonObject == null ? "" : jsonObject.getString("taskid");
+            } else {
+                System.out.println("提交识别任务失败，错误信息：" + response.body().string());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    /**
+     * 查询录音文件识别任务的结果
+     */
+    public static void queryFileAsrTaskResult(String accessToken, String taskId) {
+        try {
+            OkHttpClient client = new OkHttpClient();
+            //requestBody默认为空
+            RequestBody requestBody = RequestBody.create(null, new byte[0]);
+            Request request = new Request.Builder()
+                    .url(asrQueryTaskUrl)
+                    .addHeader("access_token", accessToken)
+                    .addHeader("taskid", taskId)
+                    .method("POST", requestBody)
+                    .build();
+            Response response = client.newCall(request).execute();
+            if (response.isSuccessful()) {
+                JSONObject jsonObject = JSON.parseObject(response.body().string());
+                // 返回的结构开发者可参考接口文档【https://www.data-baker.com/specs/file/asr_file_api_restful】中的“响应识别结果”部分。
+                // 本demo测试时使用的是单声道音频，故仅获取left_result作为示例。开发者请根据音频情况自行解析。
+                if (jsonObject == null) {
+                    System.out.println("查询识别任务成功，结果信息：null");
+                } else {
+                    jsonObject = jsonObject.getJSONObject("text");
+                    System.out.println("查询识别任务成功，结果信息：" + (jsonObject == null ? "null" : jsonObject.getString("left_result")));
+                }
+            } else {
+                System.out.println("查询识别任务失败，错误信息：" + response.body().string());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static String getAccessToken() {
+        String accessToken = "";
+        OkHttpClient client = new OkHttpClient();
+        //request 默认是get请求
+        String url = String.format(tokenUrl, clientSecret, clientId);
+        Request request = new Request.Builder().url(url).build();
+        JSONObject jsonObject;
+        try {
+            Response response = client.newCall(request).execute();
+            if (response.isSuccessful()) {
+                //解析
+                String resultJson = response.body().string();
+                jsonObject = JSON.parseObject(resultJson);
+                accessToken = jsonObject.getString("access_token");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return accessToken;
+    }
+
+    public enum AudioFileTypeEnum {
+        UrlType(1),
+        FileType(2);
+
+        private int type;
+
+        AudioFileTypeEnum(int type) {
+            this.type = type;
+        }
+    }
+}
+
+      <button class="copyClass">copy</button></pre></section> <h3 data-v-5da33d74="">GO示例代码</h3> <section data-v-5da33d74=""><pre class="doc-sample doc-code" data-v-5da33d74="">package main
+
+import (
+	"bytes"
+	"encoding/json"
+	"errors"
+	"flag"
+	"fmt"
+	"io/ioutil"
+	"net/http"
+	"net/url"
+	"os"
+	"strconv"
+	"time"
+)
+
+type AuthInfo struct {
+	AccessToken string `json:"access_token"`
+	ExpiresIn   int    `json:"expires_in"`
+	Scope       string `json:"scope"`
+}
+type ReqTtsParams struct {
+	AccessToken string
+	AudioFormat string
+	SampleRate  int
+	domain      string
+	hotwordId   string
+	diylmId     string
+	Channel     int
+}
+
+type Response struct {
+	Code    int    `json:"code"`
+	Taskid  string `json:"taskid"`
+	TraceId string `json:"trace_id"`
+}
+
+type RecognitionText struct {
+	LeftResult  string `json:"left_result"`
+	RightResult string `json:"right_result"`
+}
+
+type RecognitionResult struct {
+	Code    int             `json:"code"`
+	Taskid  string          `json:"taskid"`
+	TraceId string          `json:"trace_id"`
+	Info    string          `json:"info"`
+	Text    RecognitionText `json:"text"`
+}
+
+const grantType string = "client_credentials"
+
+func GetToken(reqUrl, clientId, clientSecret string) (string, error) {
+	// 超时时间：60秒
+	client := &amp;http.Client{Timeout: 60 * time.Second}
+	urlParams := url.Values{}
+	urlParams.Add("grant_type", grantType)
+	urlParams.Add("client_id", clientId)
+	urlParams.Add("client_secret", clientSecret)
+	httpUrl := reqUrl
+	httpUrl += "?"
+	httpUrl += urlParams.Encode()
+	fmt.Printf("httpUrl: %s\n\n", httpUrl)
+	resp, err := client.Get(httpUrl)
+	if err != nil {
+		fmt.Printf("send http get token request failed, err: %s\n", err)
+		return "", err
+	}
+	defer resp.Body.Close()
+	result, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Printf("http get token request, readall body failed, err: %s\n", err)
+		return "", err
+	}
+	authInfo := AuthInfo{}
+	err = json.Unmarshal(result, &amp;authInfo)
+	if err != nil {
+		fmt.Printf("auth info json.Unmarshal err: %s \n", err)
+		return "", err
+	}
+	if len(authInfo.AccessToken) &lt;= 0 {
+		return "", errors.New("access token is null")
+	}
+	fmt.Printf("get token success. info: %#v \n", authInfo)
+	return authInfo.AccessToken, nil
+}
+
+func CreateTask(reqUrl, file string, reqParam ReqTtsParams) (string, error) {
+	// 超时时间：60秒
+	client := &amp;http.Client{Timeout: 60 * time.Second}
+	fmt.Printf("reqUrl: %s\n\n", reqUrl)
+	fileContent, err := ioutil.ReadFile(file)
+	if err != nil {
+		return "", err
+	}
+	req, err := http.NewRequest(http.MethodPost, reqUrl, bytes.NewReader(fileContent))
+	if err != nil {
+		return "", err
+	}
+	req.Header.Add("access_token", reqParam.AccessToken)
+	req.Header.Add("audio_format", reqParam.AudioFormat)
+	req.Header.Add("sample_rate", strconv.Itoa(reqParam.SampleRate))
+	if len(reqParam.domain) &gt; 0 {
+		req.Header.Add("domain", reqParam.domain)
+	}
+	if len(reqParam.hotwordId) &gt; 0 {
+		req.Header.Add("hotwordid", reqParam.hotwordId)
+	}
+	if len(reqParam.diylmId) &gt; 0 {
+		req.Header.Add("diylmid", reqParam.diylmId)
+	}
+	if reqParam.Channel &gt; 0 {
+		req.Header.Add("channel", strconv.Itoa(reqParam.Channel))
+	}
+	resp, err := client.Do(req)
+	if err != nil {
+		fmt.Printf("send http request failed, err: %s \n", err)
+		return "", err
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != 200 {
+		fmt.Printf("send http request return status code != 200\n")
+		return "", errors.New("status code is not 200")
+	}
+	result, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Printf("readall http body failed, err: %s \n", err)
+		return "", err
+	}
+	response := Response{}
+	if err = json.Unmarshal(result, &amp;response); err != nil {
+		return "", err
+	}
+	if response.Code != 20000 {
+		return string(result), errors.New("request failed code != 20000")
+	}
+
+	return response.Taskid, nil
+}
+
+func QueryResult(reqUrl, taskId, access_token string) (int, error) {
+	client := &amp;http.Client{Timeout: 60 * time.Second}
+	req, err := http.NewRequest(http.MethodPost, reqUrl, nil)
+	if err != nil {
+		return 0, err
+	}
+	req.Header.Add("access_token", access_token)
+	req.Header.Add("taskid", taskId)
+	resp, err := client.Do(req)
+	if err != nil {
+		return 0, err
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != 200 {
+		fmt.Printf("send http request return status code != 200\n")
+		return 0, errors.New("status code is not 200")
+	}
+	resultJson, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Printf("readall http body failed, err: %s \n", err)
+		return 0, err
+	}
+	result := RecognitionResult{}
+	if err = json.Unmarshal(resultJson, &amp;result); err != nil {
+		return 0, err
+	}
+	if 20000 != result.Code {
+		return result.Code, fmt.Errorf("code:%d, traceId:%s info:%s", result.Code, result.TraceId, result.Info)
+	}
+	fmt.Printf("code:\t\t%d\ntraceId:\t%s\nleft_result:\t%s\nright_result:\t%s\n",
+		result.Code, result.TraceId, result.Text.LeftResult, result.Text.RightResult)
+	return result.Code, nil
+}
+
+func main() {
+	var (
+		clientId, clientSecret, file, audio_format, domain string
+		sample_rate, channel                               int
+	)
+	flag.StringVar(&amp;clientId, "cid", "", "client id")
+	flag.StringVar(&amp;clientSecret, "cs", "", "client secret")
+	flag.StringVar(&amp;file, "f", "", "识别文件")
+	flag.IntVar(&amp;sample_rate, "sample_rate", 16000, "音频采样率")
+	flag.IntVar(&amp;channel, "channel", 1, "录音文件声道数")
+	flag.StringVar(&amp;domain, "domain", "", "模型名称")
+	flag.StringVar(&amp;audio_format, "audio_format", "wav", "音频格式")
+	flag.Parse()
+	if len(os.Args) &lt; 2 {
+		flag.Usage()
+		return
+	}
+	if len(clientId) &lt;= 0 || len(clientSecret) &lt;= 0 || len(file) &lt;= 0 || len(audio_format) &lt;= 0 {
+		fmt.Println("parameter error!!!")
+		return
+	}
+	// 获取令牌
+	accessToken, err := GetToken("https://openapi.data-baker.com/oauth/2.0/token",
+		clientId,
+		clientSecret,
+	)
+	if err != nil {
+		fmt.Println("get access token failed!!!! please check your client_id and client_secret.")
+		return
+	}
+	param := ReqTtsParams{
+		AccessToken: accessToken,
+		SampleRate:  sample_rate,
+		AudioFormat: audio_format,
+		Channel:     channel,
+		domain:      domain,
+	}
+	// 创建识别任务
+	result, err := CreateTask("https://openapi.data-baker.com/asr/starttask?", file, param)
+	if err != nil {
+		fmt.Printf("send request failed. result: %s \n", result)
+		return
+	}
+	fmt.Printf("create task success. traceId: %s\n", result)
+	for {
+		// 查询识别结果
+		code, err := QueryResult("https://openapi.data-baker.com/asr/taskresult?", result, accessToken)
+		if err == nil {
+			break
+		}
+		if code != 20001 &amp;&amp; code != 20005 {
+			fmt.Printf("query result failed. error: %s\n", err.Error())
+			break
+		}
+		fmt.Printf("query result failed. %s\n", err.Error())
+		time.Sleep(time.Second)
+	}
+	fmt.Println("request finish...")
+}<button class="copyClass">copy</button></pre></section> <h3 data-v-5da33d74="" id="asr-file1">新建任务响应结果</h3> <section data-v-5da33d74=""><div class="table-wrap"><table class="doc-table" data-v-5da33d74="" border="0" cellspacing="0" cellpadding="0"><thead data-v-5da33d74=""><tr data-v-5da33d74=""><th data-v-5da33d74="">字段名</th> <th data-v-5da33d74="">描述</th></tr></thead> <tbody data-v-5da33d74=""><tr data-v-5da33d74=""><td data-v-5da33d74="">trace_id</td> <td data-v-5da33d74="">日志id，如遇到问题，可反馈此id给开发，用于跟踪问题</td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">code</td> <td data-v-5da33d74="">请求结果码，请参考错误码一节</td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">info</td> <td data-v-5da33d74="">任务结果描述，如请求失败请根据该字段内容分析问题</td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">taskid</td> <td data-v-5da33d74="">任务id，后面请求方可携带此taskid去查询是否识别结束</td></tr></tbody></table></div> <strong data-v-5da33d74="">1. 请求成功</strong> <pre class="doc-sample doc-code" data-v-5da33d74="">{
+    "trace_id":" 1571988259683020 ",
+    "code":20000,
+    "info":"Success",
+    "taskid":" f0c58fc9************90e3ebfdb653"
+}<button class="copyClass">copy</button></pre> <strong data-v-5da33d74="">2. 请求失败</strong> <pre class="doc-sample doc-code" data-v-5da33d74="">{
+    "trace_id":" 1571988883381595 ",
+    "code":40007,
+    "info":"Invalid body"
+}<button class="copyClass">copy</button></pre></section> <h3 data-v-5da33d74="" id="asr-file2">查询识别结果</h3> <section data-v-5da33d74=""><div class="table-wrap"><table class="doc-table" data-v-5da33d74="" border="0" cellspacing="0" cellpadding="0"><thead data-v-5da33d74=""><tr data-v-5da33d74=""><th data-v-5da33d74="">参数名称</th> <th data-v-5da33d74="">类型</th> <th data-v-5da33d74="">是否必填</th> <th data-v-5da33d74="">说明</th></tr></thead> <tbody data-v-5da33d74=""><tr data-v-5da33d74=""><td data-v-5da33d74="">access_token</td> <td data-v-5da33d74="">String</td> <td data-v-5da33d74="">Yes</td> <td data-v-5da33d74="">
+              通过client_id，client_secret调用授权服务获得见<a data-v-5da33d74="" href="/specs/file/access_token" class="">获取访问令牌
+              </a></td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">taskid</td> <td data-v-5da33d74="">string</td> <td data-v-5da33d74="">yes</td> <td data-v-5da33d74="">识别任务的taskid</td></tr></tbody></table></div> <pre class="doc-sample doc-code" data-v-5da33d74="">curl -X POST \
+-H "access_token:xxxxxxxxxx" \
+-H "taskid:f0c58fc9************90e3ebfdb653" \
+"https://openapi.data-baker.com/asr/taskresult" <button class="copyClass">copy</button></pre></section> <h3 data-v-5da33d74="" id="asr-file3">响应结果参数</h3> <section data-v-5da33d74=""><strong data-v-5da33d74="">回调通知或主动查询得到识别结果，json格式返回。</strong> <div class="table-wrap"><table class="doc-table" data-v-5da33d74="" border="0" cellspacing="0" cellpadding="0"><thead data-v-5da33d74=""><tr data-v-5da33d74=""><th data-v-5da33d74="">字段名</th> <th data-v-5da33d74="">类型</th> <th data-v-5da33d74="">描述</th></tr></thead> <tbody data-v-5da33d74=""><tr data-v-5da33d74=""><td data-v-5da33d74="">trace_id</td> <td data-v-5da33d74="">string</td> <td data-v-5da33d74="">日志id，如遇到问题，可反馈此id给开发，用于跟踪问题</td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">code</td> <td data-v-5da33d74="">int</td> <td data-v-5da33d74="">请求结果码，请参考错误码一节</td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">info</td> <td data-v-5da33d74="">string</td> <td data-v-5da33d74="">任务结果描述，如请求失败请根据该字段内容分析问题</td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">text</td> <td data-v-5da33d74="">jsonObject</td> <td data-v-5da33d74="">识别结果，josn对象，任务失败则为空</td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">taskid</td> <td data-v-5da33d74="">string</td> <td data-v-5da33d74="">任务id，后面请求方可携带此taskid去查询是否识别结束</td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">left_duration</td> <td data-v-5da33d74="">int</td> <td data-v-5da33d74="">左声道时长，单位：ms</td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">right_duration</td> <td data-v-5da33d74="">int</td> <td data-v-5da33d74="">右声道时长，单位：ms</td></tr></tbody></table></div> <p data-v-5da33d74="" style="margin: 20px 0px;">text内部结构：</p> <div class="table-wrap"><table class="doc-table" data-v-5da33d74="" border="0" cellspacing="0" cellpadding="0"><thead data-v-5da33d74=""><tr data-v-5da33d74=""><th data-v-5da33d74="" style="width: 140px;">字段名</th> <th data-v-5da33d74="" style="width: 100px;">类型</th> <th data-v-5da33d74="" style="width: 140px;">描述</th></tr></thead> <tbody data-v-5da33d74=""><tr data-v-5da33d74=""><td data-v-5da33d74="">left_result_array</td> <td data-v-5da33d74="">jsonArray</td> <td data-v-5da33d74="">左声道分段识别结果</td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">right_result_array</td> <td data-v-5da33d74="">jsonArray</td> <td data-v-5da33d74="">右声道分段识别结果</td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">left_result</td> <td data-v-5da33d74="">string</td> <td data-v-5da33d74="">左声道全部识别结果</td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">right_result</td> <td data-v-5da33d74="">string</td> <td data-v-5da33d74="">右声道全部识别结果</td></tr></tbody></table></div> <p data-v-5da33d74="" style="margin: 20px 0px;">left_result_array和right_result_array内部结构：</p> <div class="table-wrap"><table class="doc-table" data-v-5da33d74="" border="0" cellspacing="0" cellpadding="0"><thead data-v-5da33d74=""><tr data-v-5da33d74=""><th data-v-5da33d74="" style="width: 140px;">参数名称</th> <th data-v-5da33d74="" style="width: 100px;">类型</th> <th data-v-5da33d74="" style="width: 140px;">描述</th></tr></thead> <tbody data-v-5da33d74=""><tr data-v-5da33d74=""><td data-v-5da33d74="">result</td> <td data-v-5da33d74="">string</td> <td data-v-5da33d74="">识别结果</td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">text</td> <td data-v-5da33d74="">string</td> <td data-v-5da33d74="">语音识别结果，失败时为空</td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">confidence</td> <td data-v-5da33d74="">string</td> <td data-v-5da33d74="">整句置信度[0-100]，值越大表示置信度越高。</td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">speed</td> <td data-v-5da33d74="">int</td> <td data-v-5da33d74="">语速，取值[0-2000]</td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">speakerid</td> <td data-v-5da33d74="">int</td> <td data-v-5da33d74="">说话人id，开启后值为1和2，关闭后值为-1</td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">sos</td> <td data-v-5da33d74="">string</td> <td data-v-5da33d74="">该句在音频中的绝对开始时间点 单位：秒</td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">eos</td> <td data-v-5da33d74="">string</td> <td data-v-5da33d74="">该句在音频中的绝对结束时间点 单位：秒</td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">segment_code</td> <td data-v-5da33d74="">int</td> <td data-v-5da33d74="">分段任务code,暂时固定为 20000,忽略该字段</td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">speed_label</td> <td data-v-5da33d74="">string</td> <td data-v-5da33d74="">
+              语速标签：<br data-v-5da33d74="">
+              15以下：FAST 快<br data-v-5da33d74="">
+              15-30 : MEDIUM 适中<br data-v-5da33d74="">
+              30-2000：SLOW 慢
+            </td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">volume</td> <td data-v-5da33d74="">int</td> <td data-v-5da33d74="">音量，取值[0-100]</td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">volume_label</td> <td data-v-5da33d74="">string</td> <td data-v-5da33d74="">
+              音量标签：<br data-v-5da33d74="">
+              SILENT：0-15 静音<br data-v-5da33d74="">
+              XSOFT：15-30 音量很小<br data-v-5da33d74="">
+              SOFT：30-50 音量小<br data-v-5da33d74="">
+              MEDIUM：50-70 音量适中<br data-v-5da33d74="">
+              LOAD：70-85 音量大<br data-v-5da33d74="">
+              XLOUD：85-100 音量很大
+            </td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">words</td> <td data-v-5da33d74="">array</td> <td data-v-5da33d74="">词级别识别结果</td></tr></tbody></table></div> <p data-v-5da33d74="" style="margin: 20px 0px;">words内部结构:</p> <div class="table-wrap"><table class="doc-table" data-v-5da33d74="" border="0" cellspacing="0" cellpadding="0"><thead data-v-5da33d74=""><tr data-v-5da33d74=""><th data-v-5da33d74="" style="width: 140px;">字段名</th> <th data-v-5da33d74="" style="width: 100px;">类型</th> <th data-v-5da33d74="" style="width: 140px;">描述</th></tr></thead> <tbody data-v-5da33d74=""><tr data-v-5da33d74=""><td data-v-5da33d74="">confidence</td> <td data-v-5da33d74="">string</td> <td data-v-5da33d74="">词置信度[0-1]，值越大表示置信度越高。</td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">sos</td> <td data-v-5da33d74="">string</td> <td data-v-5da33d74="">词在音频中的绝对开始时间点 单位：秒</td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">eos</td> <td data-v-5da33d74="">string</td> <td data-v-5da33d74="">词在音频中的绝对结束时间点 单位：秒</td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">word</td> <td data-v-5da33d74="">string</td> <td data-v-5da33d74="">词</td></tr></tbody></table></div></section> <h3 data-v-5da33d74="">响应结果示例</h3> <section data-v-5da33d74=""><pre class="doc-sample doc-code" data-v-5da33d74="">{
+    "code": 20000,
+    "info": "Success",
+    "left_duration": 4992,
+    "right_duration": 4992,
+    "taskid": "1b3eb3b4-9a04-4804-87af-170bffdd21bf",
+    "text": {
+        "left_result": "欢迎使用标贝科技开放平台。",
+        "left_result_array": [
+            {
+                "confidence": "58.33",
+                "eos": "4.42",
+                "result": "欢迎使用标贝科技开放平台。",
+                "segment_code": 20000,
+                "sos": "0.38",
+                "speed": 33,
+                "speakerid": -1,
+                "speedlabel": "SLOW",
+                "success": "yes",
+                "volume": 43,
+                "volume_label": "SOFT",
+                "words": [
+                    {
+                        "confidence": "0.33",
+                        "eos": "1.52",
+                        "sos": "1.07",
+                        "word": "欢迎"
+                    },
+                    {
+                        "confidence": "0.67",
+                        "eos": "2.06",
+                        "sos": "1.52",
+                        "word": "使用"
+                    },
+                    {
+                        "confidence": "0.50",
+                        "eos": "2.53",
+                        "sos": "2.06",
+                        "word": "标贝"
+                    },
+                    {
+                        "confidence": "0.50",
+                        "eos": "2.96",
+                        "sos": "2.53",
+                        "word": "科技"
+                    },
+                    {
+                        "confidence": "0.50",
+                        "eos": "3.41",
+                        "sos": "2.96",
+                        "word": "开放"
+                    },
+                    {
+                        "confidence": "1.00",
+                        "eos": "4.38",
+                        "sos": "3.41",
+                        "word": "平台"
+                    }
+                ]
+            }
+        ],
+        "right_result": "欢迎使用标贝科技开放平台。",
+        "right_result_array": [
+            {
+                "confidence": "58.33",
+                "eos": "4.42",
+                "result": "欢迎使用标贝科技开放平台。",
+                "segment_code": 20000,
+                "sos": "0.38",
+                "speed": 33,
+                "speakerid": -1,
+                "speed_label": "SLOW",
+                "success": "yes",
+                "volume": 43,
+                "volume_label": "SOFT",
+                "words": [
+                    {
+                        "confidence": "0.33",
+                        "eos": "1.52",
+                        "sos": "1.07",
+                        "word": "欢迎"
+                    },
+                    {
+                        "confidence": "0.67",
+                        "eos": "2.06",
+                        "sos": "1.52",
+                        "word": "使用"
+                    },
+                    {
+                        "confidence": "0.50",
+                        "eos": "2.53",
+                        "sos": "2.06",
+                        "word": "标贝"
+                    },
+                    {
+                        "confidence": "0.50",
+                        "eos": "2.96",
+                        "sos": "2.53",
+                        "word": "科技"
+                    },
+                    {
+                        "confidence": "0.50",
+                        "eos": "3.41",
+                        "sos": "2.96",
+                        "word": "开放"
+                    },
+                    {
+                        "confidence": "1.00",
+                        "eos": "4.38",
+                        "sos": "3.41",
+                        "word": "平台"
+                    }
+                ]
+            }
+        ]
+    },
+    "trace_id": "1652152016088962"
+}<button class="copyClass">copy</button></pre></section> <h3 data-v-5da33d74="">回调通知</h3> <section data-v-5da33d74=""><p data-v-5da33d74="">
+        录音文件识别支持回调接口发送识别结果，在调用创建任务接口时，填写callback_url可以将识别结果直接发送到该接口。<b data-v-5da33d74="">（如果长时间未收到回调通知，仍可以根据taskid调用识别接口进行查询）</b></p> <p data-v-5da33d74="" style="margin-top: 10px;"><b data-v-5da33d74="">回调通知Python3示例代码</b></p> <pre class="doc-sample doc-code" data-v-5da33d74="">from flask import Flask, request
 import json
+
 
 app = Flask(__name__)
 
-@app.route("/", methods=["GET", "POST"])
-def get_text():
-    payload = json.loads(request.get_data())
-    text = payload["text"]["left_result"]
-    with open("result.txt", "w", encoding="utf-8") as f:
-        f.write(text)
-    return "finished"</code></pre>
 
-<h2 id="asr-file-rest-errors">错误码</h2>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>错误码</th><th>含义</th><th>处理建议</th></tr>
-<tr><td><code>20000</code></td><td>请求成功</td><td>按响应内容解析。</td></tr>
-<tr><td><code>20001</code></td><td>任务正在处理</td><td>等待一段时间后继续查询。</td></tr>
-<tr><td><code>20002</code></td><td><code>taskid</code> 无效</td><td>使用新建识别任务返回的 <code>taskid</code>。</td></tr>
-<tr><td><code>20005</code></td><td>任务在队列中等待调度执行</td><td>等待前序任务结束后自动处理。</td></tr>
-<tr><td><code>20006</code></td><td>音频分割后部分识别失败</td><td>重新发送识别请求或联系技术人员。</td></tr>
-<tr><td><code>20007</code></td><td>音频分割后全部识别失败</td><td>检查音频质量和格式后重试。</td></tr>
-<tr><td><code>30001</code></td><td>HTTP 请求参数错误</td><td>检查请求参数。</td></tr>
-<tr><td><code>30002</code></td><td>服务内部错误</td><td>保留 TraceID 并排查。</td></tr>
-<tr><td><code>30003</code></td><td>识别结果解析出错</td><td>保留响应内容并排查。</td></tr>
-<tr><td><code>30005</code></td><td>语音质量问题</td><td>检查音频清晰度、噪声和格式。</td></tr>
-<tr><td><code>30006</code></td><td>输入语音过长</td><td>控制音频时长或拆分文件。</td></tr>
-<tr><td><code>30015</code></td><td>单个语音分片过长</td><td>检查上传文件大小。</td></tr>
-<tr><td><code>30016</code></td><td>回调 URL 失败</td><td>检查回调地址可访问性和服务状态。</td></tr>
-<tr><td><code>50002</code></td><td>内部 RPC 调用失败</td><td>稍后重试或联系技术人员。</td></tr>
-<tr><td><code>50009</code></td><td>其他内部错误</td><td>保留 TraceID 并排查。</td></tr>
-</table>
-</div>
+@app.route("/", methods=['GET', 'POST'])
+def get_text():
+    with open('test.txt', 'w') as f:
+        text = json.loads(request.get_data())['text']['left_result']
+        f.write(text)
+    return "finished"<button class="copyClass">copy</button></pre> <p data-v-5da33d74="">将上述代码保存为server.py</p> <p data-v-5da33d74=""><b data-v-5da33d74="">命令行执行</b></p> <pre class="doc-sample doc-code" data-v-5da33d74="">export FLASK_APP=server
+flask run -p 端口号 --host=服务器IP<button class="copyClass">copy</button></pre> <p data-v-5da33d74=""><b data-v-5da33d74="">回调示例</b></p> <pre class="doc-sample doc-code" data-v-5da33d74="">{'left_result': '欢迎使用标贝科技开放平台！', 'left_result_array': [{'eos': '4.97', 'result': '欢迎使用标贝科技开放平台！', 'segment_code': 20000, 'sos': '0.23', 'success': 'yes'}]}<button class="copyClass">copy</button></pre></section> <h3 data-v-5da33d74="">错误码</h3> <section data-v-5da33d74=""><div class="table-wrap"><table class="doc-table" data-v-5da33d74="" border="0" cellspacing="0" cellpadding="0"><thead data-v-5da33d74=""><tr data-v-5da33d74=""><th data-v-5da33d74="">code</th> <th data-v-5da33d74="">描述</th> <th data-v-5da33d74="">解决方案</th></tr></thead> <tbody data-v-5da33d74=""><tr data-v-5da33d74=""><td data-v-5da33d74="">20000</td> <td data-v-5da33d74="">请求成功</td> <td data-v-5da33d74=""></td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">20001</td> <td data-v-5da33d74="">任务正在处理</td> <td data-v-5da33d74="">等待10分钟再查询</td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">20002</td> <td data-v-5da33d74="">taskid无效</td> <td data-v-5da33d74="">使用新建识别任务时返回的taskid</td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">20005</td> <td data-v-5da33d74="">任务在队列中等待被调度执行</td> <td data-v-5da33d74="">之前任务结束后自动进行</td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">20006</td> <td data-v-5da33d74="">音频分割后，部分识别失败</td> <td data-v-5da33d74="">重新发送识别请求,或联系技术人员</td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">20007</td> <td data-v-5da33d74="">音频分割后，全部识别失败</td> <td data-v-5da33d74="">重新发送识别请求,或联系技术人员</td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">30001</td> <td data-v-5da33d74="">HTTP请求参数错误</td> <td data-v-5da33d74="" rowspan="16">
+              服务器内部错误，提交traceid，标贝后台进行排查。
+            </td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">30002</td> <td data-v-5da33d74="">服务内部错误</td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">30003</td> <td data-v-5da33d74="">识别结果解析出错</td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">30004</td> <td data-v-5da33d74="">应用包名未知</td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">30005</td> <td data-v-5da33d74="">语音质量问题</td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">30006</td> <td data-v-5da33d74="">输入语音过长</td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">30007</td> <td data-v-5da33d74="">连接识别引擎失败</td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">30008</td> <td data-v-5da33d74="">会话id不存在</td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">30009</td> <td data-v-5da33d74="">Rpc调用非法</td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">30010</td> <td data-v-5da33d74="">redis rpop操作返回空</td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">30011</td> <td data-v-5da33d74="">redis rpop值不合法</td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">30012</td> <td data-v-5da33d74="">rpc调用识别引擎失败</td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">30013</td> <td data-v-5da33d74="">Redis rpop操作失败</td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">30014</td> <td data-v-5da33d74="">redis lpush操作失败</td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">30015</td> <td data-v-5da33d74="">单个语音分片过长</td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">30016</td> <td data-v-5da33d74="">回调url失败</td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">50002</td> <td data-v-5da33d74="">内部rpc调用失败</td> <td data-v-5da33d74="" rowspan="2"></td></tr> <tr data-v-5da33d74=""><td data-v-5da33d74="">50009</td> <td data-v-5da33d74="">其他内部错误</td></tr></tbody></table></div></section></div>

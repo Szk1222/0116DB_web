@@ -1,107 +1,107 @@
-<h1>离线声音转换 iOS SDK</h1>
-<p class="doc-lead">离线声音转换 iOS SDK 支持在设备端完成麦克风录音、PCM 文件和 PCM 字节流转换。首次授权激活需要联网，后续转换可在无网络环境中进行。</p>
-
-<h2>下载安装与兼容性</h2>
-<p>SDK 与示例 Demo 地址：<a href="https://github.com/data-baker/BakerIosSdks" target="_blank" rel="noopener">https://github.com/data-baker/BakerIosSdks</a></p>
-<ul>
-<li>系统版本：iOS 9.0 及以上。</li>
-<li>CPU 架构：<code>arm64</code>、<code>arm64e</code>、<code>armv7</code>、<code>armv7s</code>。</li>
-<li>在 <code>Info.plist</code> 中加入 <code>Privacy - Microphone Usage Description</code> 麦克风权限说明。</li>
-</ul>
-
-<h2>关键类</h2>
-<div class="table-wrap">
-<table class="doc-table">
-<thead><tr><th>类名</th><th>说明</th></tr></thead>
-<tbody>
-<tr><td><code>DBOfflineConvertVoiceClient</code></td><td>离线声音转换业务处理类，应用内使用一个共享实例。</td></tr>
-<tr><td><code>DBOfflineVoiceConvertDelegate</code></td><td>返回准备状态、转换数据、播放状态和错误信息，回调在子线程执行。</td></tr>
-</tbody>
-</table>
-</div>
-
-<h2>初始化</h2>
-<pre><code class="language-objectivec">DBOfflineConvertVoiceClient *convertClient =
-    [DBOfflineConvertVoiceClient shareInstance];
-
-[convertClient setupVoiceConvertSDKClientId:clientId
-                               clientSecret:clientSecret
-                              messageHander:^(NSInteger ret, NSString *message) {
-  if (ret == 0) {
-    NSLog(@"授权成功");
-  } else {
-    NSLog(@"授权失败 code:%@ message:%@", @(ret), message);
-  }
-}];</code></pre>
-<p>初始化会执行授权请求，建议在业务开始前尽早调用。设备首次激活需要联网，激活完成后不需要持续联网。</p>
-
-<h2>转换场景</h2>
-<h3>麦克风录音转换</h3>
-<ol>
-<li>取得录音权限。</li>
-<li>调用 <code>startAndRecord</code> 开启 SDK 录音。</li>
-<li>在 <code>onReadyForConvert</code> 后通过 <code>onResultData:data endflag:</code> 接收实时转换数据。</li>
-<li>调用 <code>stopRecord</code> 结束录音，完成后触发 <code>onConvertComplete</code>。</li>
-<li>需要播放时调用 <code>play</code>，也可以自行处理回调中的音频数据。</li>
-</ol>
-<h3>PCM 文件转换</h3>
-<ol>
-<li>调用 <code>startFileConvertPCMPath:</code> 开启文件转换。</li>
-<li>收到 <code>onReadyForConvert</code> 后，通过回调接收转换数据。</li>
-<li>转换完成后触发 <code>onConvertComplete</code>，需要播放时调用 <code>play</code>。</li>
-</ol>
-<h3>PCM 字节流转换</h3>
-<ol>
-<li>调用 <code>startConvertByPCM</code> 并等待 <code>onReadyForConvert</code>。</li>
-<li>多次调用 <code>sendData:index:</code> 发送音频数据，序号从 0 开始递增。</li>
-<li>最后一包将序号乘以 -1，转换结果通过 <code>onResultData:data endflag:</code> 实时返回。</li>
-</ol>
-<p>输入数据使用 PCM 格式时，应使用 16KHz、单声道、16bit 参数。每次转换的原始录音和结果文件会覆盖上一次任务生成的对应文件。</p>
-
-<h2>方法说明</h2>
-<div class="table-wrap">
-<table class="doc-table">
-<thead><tr><th>方法</th><th>作用</th></tr></thead>
-<tbody>
-<tr><td><code>setupVoiceConvertSDKClientId:clientSecret:messageHander:</code></td><td>初始化并授权 SDK。</td></tr>
-<tr><td><code>startAndRecord</code></td><td>开启麦克风录音转换。</td></tr>
-<tr><td><code>stopRecord</code></td><td>结束录音转换。</td></tr>
-<tr><td><code>startFileConvertPCMPath:</code></td><td>使用指定 PCM 文件进行转换。</td></tr>
-<tr><td><code>startConvertByPCM</code></td><td>开启 PCM 字节流转换。</td></tr>
-<tr><td><code>sendData:index:</code></td><td>发送 PCM 字节流，负数序号表示最后一包。</td></tr>
-<tr><td><code>setupVoiceName:</code></td><td>设置目标音色名称，默认值为 <code>Vc_luoli</code>。</td></tr>
-<tr><td><code>play</code> / <code>pause</code> / <code>stopPlay</code></td><td>控制 SDK 内置播放器。</td></tr>
-<tr><td><code>getOriginRecordFile</code></td><td>获取原始录音文件路径。</td></tr>
-<tr><td><code>getConvertResultFile</code></td><td>获取转换结果文件路径。</td></tr>
-</tbody>
-</table>
-</div>
-
-<h2>回调说明</h2>
-<div class="table-wrap">
-<table class="doc-table">
-<thead><tr><th>回调</th><th>说明</th></tr></thead>
-<tbody>
-<tr><td><code>onReadyForConvert</code></td><td>授权通过并准备完成，三种转换方式都会触发。</td></tr>
-<tr><td><code>onResultData:data endflag:</code></td><td>实时返回转换后的音频数据，<code>endFlag == YES</code> 表示转换结束。</td></tr>
-<tr><td><code>onConvertComplete</code></td><td>本次转换完成。</td></tr>
-<tr><td><code>dbValues:</code></td><td>返回 SDK 录音过程中的音量分贝值。</td></tr>
-<tr><td><code>onPlaying</code> / <code>onPaused</code> / <code>onPlayCompleted</code> / <code>onStopped</code></td><td>播放器状态回调。</td></tr>
-<tr><td><code>onError:msg:</code></td><td>返回错误码和错误信息。</td></tr>
-</tbody>
-</table>
-</div>
-
-<h2>错误码</h2>
-<div class="table-wrap">
-<table class="doc-table">
-<thead><tr><th>错误码</th><th>说明</th></tr></thead>
-<tbody>
-<tr><td><code>22190010</code></td><td>请求授权参数错误。</td></tr>
-<tr><td><code>22190011</code></td><td>获取 token 错误。</td></tr>
-<tr><td><code>22190012</code></td><td>授权无效。</td></tr>
-<tr><td><code>22190013</code></td><td>设备信息鉴权失败。</td></tr>
-<tr><td><code>22180006</code></td><td>SDK 播放器错误。</td></tr>
-</tbody>
-</table>
-</div>
+<div data-v-6d3b7d3e=""><h2 data-v-6d3b7d3e="">声音转换iOS SDK</h2> <h3 data-v-6d3b7d3e="">1.下载安装</h3> <section data-v-6d3b7d3e=""><p data-v-6d3b7d3e="">
+        项目地址：
+        <a data-v-6d3b7d3e="" target="_blank" href="https://github.com/data-baker/BakerIosSdks">https://github.com/data-baker/BakerIosSdks</a></p></section> <h3 data-v-6d3b7d3e="">2. 兼容性说明</h3> <section data-v-6d3b7d3e=""><ul data-v-6d3b7d3e=""><li data-v-6d3b7d3e=""><p data-v-6d3b7d3e=""><b data-v-6d3b7d3e="">1. 兼容性</b></p><br data-v-6d3b7d3e=""> <p data-v-6d3b7d3e="">系统：iOS 9.0以上版本 <br data-v-6d3b7d3e="">
+            CPU架构：arm64 arm64e armv7 armv7s
+            <br data-v-6d3b7d3e="">添加隐私麦克风权限：
+          </p> <pre class="doc-sample doc-code" data-v-6d3b7d3e="">Privacy - Microphone Usage Description：使用麦克风检测声音<button class="copyClass">copy</button></pre></li> <li data-v-6d3b7d3e=""><p data-v-6d3b7d3e=""><b data-v-6d3b7d3e="">2. SDK关键类</b></p><br data-v-6d3b7d3e=""> <p data-v-6d3b7d3e="">DBOfflineConvertVoiceClient：声⾳转换关键业务处理类，全局只需⼀个实例
+            即可。</p> <p data-v-6d3b7d3e="">DBOfflineVoiceConvertDelegate：声⾳转换业务回调类。您可以在这些个回调
+            ⽅法中获取到当前转换的进度状态、转换后声⾳的播放状态和各类数据结果，
+            或者错误信息。注意回调⽅法都是运⾏在⼦线程的。</p></li></ul></section> <h3 data-v-6d3b7d3e="">调用说明</h3> <section data-v-6d3b7d3e=""><ul data-v-6d3b7d3e=""><li data-v-6d3b7d3e=""><strong data-v-6d3b7d3e=""><b data-v-6d3b7d3e="">1. 实例化调用对象</b></strong><br data-v-6d3b7d3e=""> <ul data-v-6d3b7d3e=""><li data-v-6d3b7d3e="">
+              实例化VoiceConvertOffLineManager类，得到VoiceConvertOffLineManager的实例。
+            </li> <pre class="doc-sample doc-code" data-v-6d3b7d3e="">DBOfflineConvertVoiceClient *convertClient = [DBOfflineConvertVoiceClient 
+shareInstance];<button class="copyClass">copy</button></pre></ul></li> <li data-v-6d3b7d3e=""><strong data-v-6d3b7d3e=""><b data-v-6d3b7d3e="">2. 初始化SDK</b></strong><br data-v-6d3b7d3e=""> <pre class="doc-sample doc-code" data-v-6d3b7d3e="">[convertClient setupVoiceConvertSDKClientId:clientId 
+clientSecret:clientSecret messageHander:^(NSInteger ret, 
+NSString * _Nonnull message) { 
+ if (ret == 0) { 
+ NSLog(@"鉴权成功"); 
+ }else { 
+ NSLog(@"鉴权失败-code:%@-msg:
+%@",@(ret),message); } 
+ }];
+          <button class="copyClass">copy</button></pre> <ul data-v-6d3b7d3e=""><li data-v-6d3b7d3e="">
+              初始化这⼀步会进⾏⽹络请求，做授权操作。所以在实际调⽤过程中，请将此步骤尽可能提前调⽤，保障⾜够时间进⾏⽹络授权请求。离线设备授权仅第⼀次需要联⽹激活，此后⽆需联⽹授权激活。
+            </li></ul></li> <li data-v-6d3b7d3e=""><strong data-v-6d3b7d3e=""><b data-v-6d3b7d3e="">3. 离线声⾳转换⽀持3种转换场景</b></strong><br data-v-6d3b7d3e=""> <ul data-v-6d3b7d3e=""><li data-v-6d3b7d3e="">第⼀种是SDK内调⽤⼿机⻨克⻛录⾳、转换返回转换结果。</li> <li data-v-6d3b7d3e="">
+              第⼆种场景是接收pcm⽂件路径，sdk读取⽂件进⾏转换，返回转换结果。
+            </li> <li data-v-6d3b7d3e="">
+              第三种场景是接收pcm字节流，SDK收到数据完成转换，返回转换结果。
+            </li> <li data-v-6d3b7d3e="">
+              三种⽅式会实时返回转换结果，同时会将转换结果在沙盒中缓存成⼀个pcm⽂件，仅存在⼀个⽂件，后⼀次转换会覆盖前⼀次转换后结果的⽂件。若使⽤第⼀种⽅式也需要接⼊⽅提前获取应⽤的录⾳权限，同时录⾳原⽂件也会缓存⼀份，再次录⾳转换会覆盖前⼀次录⾳备份⽂件。
+            </li></ul> <strong data-v-6d3b7d3e=""><b data-v-6d3b7d3e="">第⼀种场景(SDK内调⽤⼿机⻨克⻛录⾳转换)</b></strong><br data-v-6d3b7d3e=""> <p data-v-6d3b7d3e="">需要应⽤取得录⾳权限。</p> <ul data-v-6d3b7d3e=""><li data-v-6d3b7d3e="">
+              A.调⽤
+              -（void）startAndRecord;⽅法开启sdk录⾳说话。录⾳开启成功后会回调onReadyForConvert⽅法。录⾳转换过程中，回调⽅法-(void)onResultData:(NSData
+              *)data endflag:(BOOL)endFlag;会实时返回转换 结果。data是转换后数据，endFlag=1代表转换结束。
+            </li> <li data-v-6d3b7d3e="">
+              B.调⽤- (void)stopRecord;⽅法结束录⾳。转换完成时回调⽅法 -
+              (void)onConvertComplete;会执⾏。
+            </li> <li data-v-6d3b7d3e="">
+              C.调⽤-(void)play;对转换后声⾳进⾏播放。播放过程中的播放状态回调⽅法详⻅表（4.2）。若需要边转换边播放，可以考虑在-(void)onResultData:(NSData
+              *)dataendflag:(BOOL)endFlag;回调⽅法⾥⾯接收到转换后数据后⾃⾏实现播放逻辑，不使⽤sdk⾃带播放器进⾏播放。若要再次执⾏录⾳、转换、播放，请重复A、B、C步骤即可。
+            </li></ul> <strong data-v-6d3b7d3e=""><b data-v-6d3b7d3e="">第⼆种场景(接收声⾳⽂件路径转换)</b></strong><br data-v-6d3b7d3e=""> <ul data-v-6d3b7d3e=""><li data-v-6d3b7d3e="">
+              A.调⽤- (void)startFileConvertPCMPath:(NSString
+              *)path开启转换。SDK准备 好后会回调- (void)onReadyForConvert;⽅法。
+            </li> <li data-v-6d3b7d3e="">
+              B.在- (void)onReadyForConvert;回调⽅法。转换过程中，回调⽅法-(void)onResultData:(NSData *)data
+              endflag:(BOOL)endFlag;会实时返回转换结果。audioData是转换后数据，endFlag==1代表转换结束。转换完成时回调⽅法 -
+              (void)onConvertComplete;会执⾏。
+            </li> <li data-v-6d3b7d3e="">
+              C.然后可以调⽤-(void)play;对转换后声⾳进⾏播放。播放过程中的播放状态回调⽅法详⻅表xxx。也可根据⾃身需求，在-
+              (void)onResultData:(NSData*)data
+              endflag:(BOOL)endFlag;回调⽅法⾥⾯接收到转换后数据后⾃⾏实现播放逻辑，不使⽤sdk⾃带播放器进⾏播放。
+            </li> <li data-v-6d3b7d3e="">若要再次执⾏转换、播放，请重复A、B、C步骤即可。</li></ul> <strong data-v-6d3b7d3e=""><b data-v-6d3b7d3e="">第三种场景(接收声⾳字节流转换)</b></strong><br data-v-6d3b7d3e=""> <ul data-v-6d3b7d3e=""><li data-v-6d3b7d3e="">
+              A.调⽤- (void)startConvertByPCM;开启转换。Sdk准备好后会回调 -(void)onReadyForConvert;⽅法。
+            </li> <li data-v-6d3b7d3e="">
+              B.在 -(void)onReadyForConvert;回调⽅法执⾏后，可多次调⽤-(void)sendData:(NSData
+              *)dataindex:(NSInteger)index;⽅法对⾳频流进⾏转换，index是发包序号，从0开始计数⾃增，最后⼀包index需（乘以-1）变负数。转换过程中，回调⽅法-
+              (void)onResultData:(NSData *)dataendflag:(BOOL)endFlag;
+              会实时返回转换结果。data是转换后数据，endFlag==1代表转换结束。转换完成时回调⽅法 -(void)onConvertComplete; 会执⾏。
+            </li> <li data-v-6d3b7d3e="">
+              C.调⽤-(void)play;对转换后声⾳进⾏播放。播放过程中的播放状态回调⽅法详⻅表4.2。也可根据⾃身需求，在- (void)onResultData:(NSData
+              *)dataendflag:(BOOL)endFlag;回调⽅法⾥⾯接收到转换后数据后⾃⾏实现播放逻辑，不使⽤sdk⾃带播放器进⾏播放。
+            </li> <li data-v-6d3b7d3e="">若要再次执⾏转换、播放，请重复A、B、C步骤即可。</li></ul></li></ul></section> <h3 data-v-6d3b7d3e="">方法说明</h3> <section data-v-6d3b7d3e=""><ul data-v-6d3b7d3e=""><li data-v-6d3b7d3e=""><strong data-v-6d3b7d3e="">DBOfflineConvertVoiceClient基本调⽤⽅法说明</strong> <div class="table-wrap"><table class="doc-table" data-v-6d3b7d3e="" border="0" cellspacing="0" cellpadding="0"><thead data-v-6d3b7d3e=""><tr data-v-6d3b7d3e=""><th data-v-6d3b7d3e="">方法名</th> <th data-v-6d3b7d3e="" style="width: 76px;">方法作用</th> <th data-v-6d3b7d3e="">说明</th></tr></thead> <tbody data-v-6d3b7d3e=""><tr data-v-6d3b7d3e=""><td data-v-6d3b7d3e="">
+                  - (void)setupVoiceConvertSDK ClientId:(NSString *)clientId
+                  clientSecret:(NSString *)clientSecret messageHander:
+                  (DBMessagHandler)message Handler;
+                </td> <td data-v-6d3b7d3e="">初始化SDK</td> <td data-v-6d3b7d3e="">
+                  必须调⽤此⽅法初始化SDK，详⻅ 3.2。clientId、secret等信息请从
+                  标⻉配置平台获取。callBack 是 DBMessagHandler。
+                </td></tr> <tr data-v-6d3b7d3e=""><td data-v-6d3b7d3e="">- (void)startAndRecord;</td> <td data-v-6d3b7d3e="">开启录⾳转换</td> <td data-v-6d3b7d3e="">
+                  使⽤sdk内部唤起的录⾳，进⾏声⾳转换。开启成功后， -
+                  (void)onReadyForConvert;回调⽅法会执⾏。转换结果通过-
+                  (void)onResultData:(NSData *)data endflag:(BOOL)endFlag;回
+                  调实时返回，转换完成后会执⾏- (void)onConvertComplete;回调⽅
+                  法。
+                </td></tr> <tr data-v-6d3b7d3e=""><td data-v-6d3b7d3e="">- (void)stopRecord;</td> <td data-v-6d3b7d3e="">结束录⾳</td> <td data-v-6d3b7d3e="">配合- (void)startAndRecord;⽅法使⽤，结束sdk录⾳转换。</td></tr> <tr data-v-6d3b7d3e=""><td data-v-6d3b7d3e="">- (void)play;</td> <td data-v-6d3b7d3e="">播放</td> <td data-v-6d3b7d3e="">
+                  调⽤sdk内播放器，播放转换后声⾳。三种转换⽅式转换后，均可调
+                  ⽤sdk内部播放器进⾏播放控制。
+                </td></tr> <tr data-v-6d3b7d3e=""><td data-v-6d3b7d3e="">- (void)pause;</td> <td data-v-6d3b7d3e="">播放</td> <td data-v-6d3b7d3e="">暂停sdk内播放器播放，调⽤ play() ⽅法可恢复播放</td></tr> <tr data-v-6d3b7d3e=""><td data-v-6d3b7d3e="">- (void)stopPlay;</td> <td data-v-6d3b7d3e="">停止播放</td> <td data-v-6d3b7d3e="">停⽌sdk内播放器，并清除掉播放器内数据。</td></tr> <tr data-v-6d3b7d3e=""><td data-v-6d3b7d3e="">- (void)startFileConvertPCMPat h:(NSString *)path;</td> <td data-v-6d3b7d3e="">开启数据转换</td> <td data-v-6d3b7d3e="">
+                  ⽂件或者⾳频数据流转换启动⽅法, 需要传⼊PCM格式的数据，采样率
+                  16K,单声道，16位深
+                </td></tr> <tr data-v-6d3b7d3e=""><td data-v-6d3b7d3e="">- (void)startConvertByPCM;</td> <td data-v-6d3b7d3e="">开启数据转换</td> <td data-v-6d3b7d3e="">客户只有的PCM数据进⾏转换；</td></tr> <tr data-v-6d3b7d3e=""><td data-v-6d3b7d3e="">- (void)sendData:(NSData *)data index:(NSInteger)index;</td> <td data-v-6d3b7d3e="">⾳频字节流数据转换⽅法</td> <td data-v-6d3b7d3e="">
+                  需要先调⽤- (void)startConvertByPCM;，然后
+                  在收到-(void)onReadyForConver回调后，多次调⽤-(void)sendData:(NSData
+                  *)dataindex:(NSInteger)index;⽅法进⾏⾳频流转换。index是发包序号，
+                  从0开始计数⾃增，最后⼀包index需（乘以-1）变负数。转换结果通过(void)onResultData:(NSData*)data
+                  endflag:(BOOL)endFlag;回调实时返回，转换完成后会执⾏-(void)onConvertComplete;回调⽅ 法。
+                </td></tr> <tr data-v-6d3b7d3e=""><td data-v-6d3b7d3e="">- (void)setupVoiceName: (NSString *)voiceName</td> <td data-v-6d3b7d3e="">设置⽬标声⾳模型名称</td> <td data-v-6d3b7d3e="">
+                  每次转换前可设置⾳⾊名称，默认⾳⾊是萝莉⾳"Vc_luoli"，⾳⾊列
+                  表⻅4.3，
+                </td></tr> <tr data-v-6d3b7d3e=""><td data-v-6d3b7d3e="">- (NSString *)getOriginRecordFile;</td> <td data-v-6d3b7d3e="">获取原始录⾳⽂件</td> <td data-v-6d3b7d3e="">
+                  如果是通过sdk录⾳转换，可以通过这个⽅法拿到原始录⾳⽂件路径。每次录⾳都会覆盖前⼀次录⾳的原始⽂件，录⾳⽂件路径和⽂件名固定不变。若未录⾳调⽤此⽅
+                  法，也会返回路径，但是⽂件可能不存在。所以使⽤此路径时，建议 检测⽂件是否存在。
+                </td></tr> <tr data-v-6d3b7d3e=""><td data-v-6d3b7d3e="">- (NSString *)getConvertResultFile;</td> <td data-v-6d3b7d3e="">获取转换后录⾳⽂件</td> <td data-v-6d3b7d3e="">
+                  ⽆论哪种转换⽅式，每次转换后， sdk都会将转换后的⾳频存储在⼀个⽂件中，可以通过此⽅法拿到转换后声⾳⽂件。每次转换都会覆盖前⼀次转换的结果⽂件。此⽂件路
+                  径和⽂件名固定不变。
+                </td></tr></tbody></table></div> <br data-v-6d3b7d3e=""></li> <li data-v-6d3b7d3e=""><strong data-v-6d3b7d3e="">DBOfflineVoiceConvertDelegate回调类⽅法说明</strong> <div class="table-wrap"><table class="doc-table" data-v-6d3b7d3e="" border="0" cellspacing="0" cellpadding="0"><thead data-v-6d3b7d3e=""><tr data-v-6d3b7d3e=""><th data-v-6d3b7d3e="">方法</th> <th data-v-6d3b7d3e="">作用</th> <th data-v-6d3b7d3e="">说明</th></tr></thead> <tbody data-v-6d3b7d3e=""><tr data-v-6d3b7d3e=""><td data-v-6d3b7d3e="">- (void)onReadyForCo nvert;</td> <td data-v-6d3b7d3e="">准备就绪</td> <td data-v-6d3b7d3e="">鉴权通过，准备就绪后回调，三种转换⽅式均会回调。</td></tr> <tr data-v-6d3b7d3e=""><td data-v-6d3b7d3e="">
+                  - (void)onResultData: (NSData *)data endflag: (BOOL)endFlag;
+                </td> <td data-v-6d3b7d3e="">转换数据实时回调⽅法</td> <td data-v-6d3b7d3e="">
+                  若想⾃⾏处理转换后数据，可使⽤此回调⽅法中的数据。endFlag ==
+                  1 代表转换结束。
+                </td></tr> <tr data-v-6d3b7d3e=""><td data-v-6d3b7d3e="">- (void)onConvertCom plete;</td> <td data-v-6d3b7d3e="">转换完成回调</td> <td data-v-6d3b7d3e="">每次转换完成，均会有此回调。</td></tr> <tr data-v-6d3b7d3e=""><td data-v-6d3b7d3e="">- (void)dbValues: (NSInteger)db;</td> <td data-v-6d3b7d3e="">录⾳⾳量分⻉值回调</td> <td data-v-6d3b7d3e="">
+                  如果通过sdk⾃带录⾳功能进⾏转换，这个回调会返回录⾳过程中声⾳的分⻉ 值。
+                </td></tr> <tr data-v-6d3b7d3e=""><td data-v-6d3b7d3e="">- (void)onPlaying;</td> <td data-v-6d3b7d3e="">播放中回调</td> <td data-v-6d3b7d3e="">调⽤sdk内部播放器进⾏播放时，正在播放中状态回调。</td></tr> <tr data-v-6d3b7d3e=""><td data-v-6d3b7d3e="">- (void)onPaused;</td> <td data-v-6d3b7d3e="">播放暂停回调</td> <td data-v-6d3b7d3e="">调⽤sdk内部播放器进⾏播放时，暂停播放状态回调。</td></tr> <tr data-v-6d3b7d3e=""><td data-v-6d3b7d3e="">- (void)onPlayComplet ed;</td> <td data-v-6d3b7d3e="">播放完成回调</td> <td data-v-6d3b7d3e="">调⽤sdk内部播放器进⾏播放时，播放完成回调。</td></tr> <tr data-v-6d3b7d3e=""><td data-v-6d3b7d3e="">- (void)onStopped;</td> <td data-v-6d3b7d3e="">停⽌播放回调</td> <td data-v-6d3b7d3e="">调⽤sdk内部播放器进⾏播放时，停⽌播放回调。</td></tr> <tr data-v-6d3b7d3e=""><td data-v-6d3b7d3e="">
+                  - (void)onError: (NSString *)errorCode msg: (NSString
+                  *)message;
+                </td> <td data-v-6d3b7d3e="">转换出现错误回调</td> <td data-v-6d3b7d3e="">
+                  NSString code是错误码，错误码具体请
+                  参考以下错误码对照表。NSString message是具体的错误信息⽇志。
+                </td></tr></tbody></table></div> <br data-v-6d3b7d3e=""></li> <li data-v-6d3b7d3e=""><strong data-v-6d3b7d3e="">离线声音转换音色列表</strong> <div class="table-wrap"><table class="doc-table" data-v-6d3b7d3e="" border="0" cellspacing="0" cellpadding="0"><thead data-v-6d3b7d3e=""><tr data-v-6d3b7d3e=""><th data-v-6d3b7d3e="">名字</th> <th data-v-6d3b7d3e="">voice name参数 (⾸字⺟⼤写)</th> <th data-v-6d3b7d3e="">⽀持采样率(Hz)</th></tr></thead> <tbody data-v-6d3b7d3e=""><tr data-v-6d3b7d3e=""><td data-v-6d3b7d3e="">萝莉⾳</td> <td data-v-6d3b7d3e="">Vc_luoli</td> <td data-v-6d3b7d3e="">16K</td></tr> <tr data-v-6d3b7d3e=""><td data-v-6d3b7d3e="">⼤叔</td> <td data-v-6d3b7d3e="">Vc_dashu</td> <td data-v-6d3b7d3e="">16K</td></tr> <tr data-v-6d3b7d3e=""><td data-v-6d3b7d3e="">搞怪</td> <td data-v-6d3b7d3e="">Vc_gaoguai</td> <td data-v-6d3b7d3e="">16K</td></tr> <tr data-v-6d3b7d3e=""><td data-v-6d3b7d3e="">空灵</td> <td data-v-6d3b7d3e="">Vc_kongling</td> <td data-v-6d3b7d3e="">16K</td></tr> <tr data-v-6d3b7d3e=""><td data-v-6d3b7d3e="">霸王⻰</td> <td data-v-6d3b7d3e="">Vc_bawanglong</td> <td data-v-6d3b7d3e="">16K</td></tr> <tr data-v-6d3b7d3e=""><td data-v-6d3b7d3e="">重⾦属</td> <td data-v-6d3b7d3e="">Vc_zhongjinshu</td> <td data-v-6d3b7d3e="">16K</td></tr> <tr data-v-6d3b7d3e=""><td data-v-6d3b7d3e="">机械音</td> <td data-v-6d3b7d3e="">Vc_jixieyin</td> <td data-v-6d3b7d3e="">16K</td></tr></tbody></table></div> <br data-v-6d3b7d3e=""></li> <li data-v-6d3b7d3e=""><strong data-v-6d3b7d3e="">发⽣异常时返回的code对应表</strong> <div class="table-wrap"><table class="doc-table" data-v-6d3b7d3e="" border="0" cellspacing="0" cellpadding="0"><thead data-v-6d3b7d3e=""><tr data-v-6d3b7d3e=""><th data-v-6d3b7d3e="">错误码</th> <th data-v-6d3b7d3e="">含义</th> <th data-v-6d3b7d3e="">类别</th></tr></thead> <tbody data-v-6d3b7d3e=""><tr data-v-6d3b7d3e=""><td data-v-6d3b7d3e="">22190010</td> <td data-v-6d3b7d3e="">请求授权参数报错</td> <td data-v-6d3b7d3e="" rowspan="5">SDK内部错误码</td></tr> <tr data-v-6d3b7d3e=""><td data-v-6d3b7d3e="">22190011</td> <td data-v-6d3b7d3e="">获取token报错</td></tr> <tr data-v-6d3b7d3e=""><td data-v-6d3b7d3e="">22190012</td> <td data-v-6d3b7d3e="">授权⽆效</td></tr> <tr data-v-6d3b7d3e=""><td data-v-6d3b7d3e="">22190013</td> <td data-v-6d3b7d3e="">设备信息鉴权失败</td></tr> <tr data-v-6d3b7d3e=""><td data-v-6d3b7d3e="">22180006</td> <td data-v-6d3b7d3e="">使⽤sdk⾃带Player相关错误</td></tr></tbody></table></div> <br data-v-6d3b7d3e=""></li></ul></section></div>

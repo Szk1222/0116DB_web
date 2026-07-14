@@ -1,126 +1,396 @@
-<h1>声音转换 Websocket API</h1>
-<p class="doc-lead">声音转换 Websocket API 面向实时声音转换场景。客户端以音频流形式输入原始声音，服务端以流式方式返回转换后的音频，可实现边说话边转换。</p>
-
-<h2 id="voice-convert-ws-audio">音频要求</h2>
-<ul>
-<li>音频编码：<code>pcm</code>。</li>
-<li>采样率 / 位深：<code>16000Hz</code> / <code>16bit</code>。</li>
-<li>声道：单声道。</li>
-<li>语言：中文普通话。</li>
-<li>有效时长：不超过 <code>180</code> 分钟。</li>
-</ul>
-
-<h2 id="voice-convert-ws-endpoint">服务地址</h2>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>访问类型</th><th>说明</th><th>URL</th><th>Host</th></tr>
-<tr><td>外网访问</td><td>WebSocket 协议</td><td><code>wss://openapi.data-baker.com/ws/voice_conversion</code></td><td><code>openapi.data-baker.com</code></td></tr>
-</table>
-</div>
-
-<h2 id="voice-convert-ws-flow">使用流程</h2>
-<ol>
-<li>创建账号和应用，获取 <code>client_id</code> 与 <code>client_secret</code>。</li>
-<li>调用授权服务获取 <code>access_token</code>。</li>
-<li>建立 WebSocket 连接。</li>
-<li>按数据包格式实时发送待转换音频。</li>
-<li>接收转换后的音频数据。</li>
-<li>最后一包发送或接收完成后关闭连接。</li>
-</ol>
-
-<h2 id="voice-convert-ws-params">请求参数</h2>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>参数名</th><th>参数格式</th><th>是否必填</th><th>说明</th></tr>
-<tr><td><code>access_token</code></td><td>string</td><td>是</td><td>通过 <code>client_id</code>、<code>client_secret</code> 调用授权服务获得。</td></tr>
-<tr><td><code>voice_name</code></td><td>string</td><td>是</td><td>目标声音参数，例如 <code>Vc_jiaojiao</code>。</td></tr>
-<tr><td><code>lastpkg</code></td><td>bool</td><td>是</td><td>是否为最后一包。发送最后一包数据时设置为 <code>true</code>，表示输入完成。</td></tr>
-<tr><td><code>enable_vad</code></td><td>bool</td><td>否</td><td><code>true</code> 表示启动服务端 VAD，默认 <code>false</code>。开启后会根据输入音频检测并过滤环境噪音。</td></tr>
-<tr><td><code>align_input</code></td><td>bool</td><td>否</td><td><code>true</code> 表示输出音频与输入音频对齐，默认 <code>false</code>。开启 VAD 时可保留静音部分。</td></tr>
-</table>
-</div>
-
-<h2 id="voice-convert-ws-packet">WS 数据包格式</h2>
-<p>每个二进制数据包由三部分组成：</p>
-<ol>
-<li><strong>HEAD</strong>：4 字节大端 32 位整数，表示第二部分 JSON 字符串的字节长度。</li>
-<li><strong>JSON</strong>：请求参数 JSON 字符串。</li>
-<li><strong>Audio</strong>：音频二进制数据；若数据包不包含音频，该部分可以为空。</li>
-</ol>
-<pre><code class="language-c">// length 转 byte[]
+<div data-v-b23ec376=""><h2 data-v-b23ec376="">声音转换Websocket API</h2> <h3 data-v-b23ec376="">功能介绍</h3> <section data-v-b23ec376=""><p data-v-b23ec376="">
+        声音转换Websocket API
+        满足用户实时声音转换的需求，允许用户以音频流的形式输入原始声音，同时转换后的声音也以流的形式实时推送回去，可以做到边说话边转换的实时效果。声音转换可以支持不同年龄、性别的说话人声音转换换成目标音色，目标音色会携带说话人的语气、情感、口音等特征。
+      </p></section> <h3 data-v-b23ec376="">音频要求</h3> <section data-v-b23ec376=""><ul data-v-b23ec376=""><li data-v-b23ec376="">支持音频文件的编码格式及文件名的后缀: pcm。</li> <li data-v-b23ec376="">支持音频文件的采样率/位深: 16000Hz/16bit。</li> <li data-v-b23ec376="">支持的语言:中文普通话。</li> <li data-v-b23ec376="">音频有效时长：不超过180分钟。</li> <li data-v-b23ec376="">声道：单声道</li></ul></section> <h3 data-v-b23ec376="">使用方法</h3> <section data-v-b23ec376=""><ul data-v-b23ec376=""><li data-v-b23ec376="">1.
+          创建账号和应用，详见
+          <a data-v-b23ec376="" href="/specs/file/guide" class="">平台新手指引</a>
+          ，通过
+          <a data-v-b23ec376="" href="https://ai.data-baker.com/#/index" target="_blank">标贝开放平台</a>
+          /应用/服务获取client_id，client_secret。
+        </li> <li data-v-b23ec376="">2.发送请求获取access_token，详见
+          <a data-v-b23ec376="" href="/specs/file/access_token" class="">获取访问令牌。</a></li> <li data-v-b23ec376="">3.建立websocket连接。</li> <li data-v-b23ec376="">4.实时发送需要转换的音频，具体参数详见 <a data-v-b23ec376="" href="/specs/file/vc_api_websocket#vcApi-1">请求参数。</a></li> <li data-v-b23ec376="">5.接收转换后的音频，具体参数定义详见 <a data-v-b23ec376="" href="/specs/file/vc_api_websocket#vcApi-2">响应结果。</a></li> <li data-v-b23ec376="">6.关闭连接。</li></ul></section> <h3 data-v-b23ec376="">服务地址</h3> <section data-v-b23ec376=""><div class="table-wrap"><table class="doc-table" data-v-b23ec376="" border="0" cellspacing="0" cellpadding="0"><thead data-v-b23ec376=""><tr data-v-b23ec376=""><th data-v-b23ec376="">访问类型</th> <th data-v-b23ec376="">说明</th> <th data-v-b23ec376="">URL</th> <th data-v-b23ec376="">Host</th></tr></thead> <tbody data-v-b23ec376=""><tr data-v-b23ec376=""><td data-v-b23ec376="">外网访问</td> <td data-v-b23ec376="">websocket协议</td> <td data-v-b23ec376="">wss://openapi.data-baker.com/ws/voice_conversion</td> <td data-v-b23ec376="">openapi.data-baker.com</td></tr></tbody></table></div></section> <h3 data-v-b23ec376="">交互流程</h3> <section data-v-b23ec376=""><img data-v-b23ec376="" src="https://databaker-gw-static.oss-accelerate.aliyuncs.com/assets/images/specs/document20.png" alt="" style="width: 100%;"></section> <h3 data-v-b23ec376="" id="vcApi-1">请求参数</h3> <section data-v-b23ec376=""><div class="table-wrap"><table class="doc-table" data-v-b23ec376=""><thead data-v-b23ec376=""><tr data-v-b23ec376=""><th data-v-b23ec376="" class="table-width">参数名</th> <th data-v-b23ec376="" class="table-width">参数格式</th> <th data-v-b23ec376="">是否必填</th> <th data-v-b23ec376="">说明</th></tr></thead> <tbody data-v-b23ec376=""><tr data-v-b23ec376=""><td data-v-b23ec376="">access_token</td> <td data-v-b23ec376="">string</td> <td data-v-b23ec376="">是</td> <td data-v-b23ec376="">通过client_id，client_secret调用授权服务获得见
+              <a data-v-b23ec376="" href="/specs/file/access_token" class="">获取访问令牌</a></td></tr> <tr data-v-b23ec376=""><td data-v-b23ec376="">enable_vad</td> <td data-v-b23ec376="">bool</td> <td data-v-b23ec376="">否</td> <td data-v-b23ec376="">true代表启动服务端vad功能，默认false。如果启动系统会根据输入音频进行检测，过滤环境噪音。否则直接将原始输入音频进行转换。</td></tr> <tr data-v-b23ec376=""><td data-v-b23ec376="">align_input</td> <td data-v-b23ec376="">bool</td> <td data-v-b23ec376="">否</td> <td data-v-b23ec376="">true代表输出音频与输入音频进行对齐,默认false。即开启vad时会保留静音部分，false丢弃静音部分</td></tr> <tr data-v-b23ec376=""><td data-v-b23ec376="">voice_name</td> <td data-v-b23ec376="">string</td> <td data-v-b23ec376="">是</td> <td data-v-b23ec376="">发音人参数即转换的目标声音</td></tr> <tr data-v-b23ec376=""><td data-v-b23ec376="">lastpkg</td> <td data-v-b23ec376="">bool</td> <td data-v-b23ec376="">是</td> <td data-v-b23ec376="">是否为最后一包，当时发送最后一包数据时设置为true 告诉系统输入完成</td></tr></tbody></table></div></section> <h3 data-v-b23ec376="">ws数据包格式</h3> <section data-v-b23ec376=""><img data-v-b23ec376="" src="https://databaker-gw-static.oss-accelerate.aliyuncs.com/assets/images/specs/document21.png" alt="" style="width: 100%;"> <p data-v-b23ec376="">格式说明</p> <ul data-v-b23ec376=""><li data-v-b23ec376="">
+          第一部分 HEAD
+          四字节的二进制，长度为一个大端的32位int转换而来，表示第二部分JSON数据的长度，转换关系如下:
+          <pre class="doc-sample doc-code" data-v-b23ec376="">//length转byte[]
 int32_t length = 123;
 unsigned char B[4];
-B[0] = length >> 24 & 0xFF;
-B[1] = length >> 16 & 0xFF;
-B[2] = length >> 8 & 0xFF;
-B[3] = length & 0xFF;
+B[0] = length &gt;&gt; 24 &amp; 0xFF;
+B[1] = length &gt;&gt; 16 &amp; 0xFF;
+B[2] = length &gt;&gt; 8 &amp; 0xFF;
+B[3] = length &amp; 0xFF;
 
-// byte[] 转 length
-length = (B[0] << 24) + (B[1] << 16) + (B[2] << 8) + B[3];</code></pre>
-
-<h2 id="voice-convert-ws-example">Python 示例</h2>
-<pre><code class="language-python">import json
+//byte[]转length
+length = (B[0] &lt;&lt; 24) + (B[1] &lt;&lt;  16) + (B[2] &lt;&lt;  8) + B[3];<button class="copyClass">copy</button></pre></li> <li data-v-b23ec376="">第二部分是一个JSON的字符串</li> <li data-v-b23ec376="">
+          第三部分是音频的二进制数据，若数据包中不包含音频，则第三部分可以为空
+        </li></ul></section> <h3 data-v-b23ec376="">Python示例代码</h3> <section data-v-b23ec376=""><pre class="doc-sample doc-code" data-v-b23ec376="">import argparse
+import json
+import wave
 import requests
 import websocket
+from threading import Thread
 
-def make_packet(params, audio):
-    body = json.dumps(params).encode("utf-8")
-    return len(body).to_bytes(4, byteorder="big") + body + audio
 
-params = {
-    "access_token": "ACCESS_TOKEN",
-    "voice_name": "Vc_jiaojiao",
-    "enable_vad": True,
-    "align_input": True,
-    "lastpkg": False
+#websocket客户端
+class Client:
+    def __init__(self, data, uri, save_path):
+        self.data = data
+        self.uri = uri
+        self.converted_data = b""
+        self.save_path = save_path
+
+    #建立连接
+    def connect(self):
+        ws_app = websocket.WebSocketApp(uri,
+                                        on_open=self.on_open,
+                                        on_message=self.on_message,
+                                        on_error=self.on_error,
+                                        on_close=self.on_close)
+        ws_app.run_forever()
+
+    # 建立连接后发送消息
+    def on_open(self, ws):
+        print("sending..")
+        def run(*args):
+            for message in self.data:
+                ws.send(message, websocket.ABNF.OPCODE_BINARY)
+
+        Thread(target=run).start()
+
+    # 接收消息
+    def on_message(self, ws, message):
+        length = int.from_bytes(message[:4], byteorder='big', signed=False)
+        json_data = json.loads((message[4: length + 4]).decode())
+        self.converted_data += message[4 + length:]
+        if json_data['lastpkg']:
+            with wave.open(self.save_path, 'wb') as wavfile:
+                wavfile.setparams((1, 2, 16000, 0, 'NONE', 'NONE'))
+                wavfile.writeframes(self.converted_data)
+                ws.close()
+                print("task finished successfully")
+        code = json.loads(message).get("errcode")
+        print(str(json.loads(message)))
+        if code != 0:
+            # 打印接口错误
+            print(message)
+
+    # 打印错误
+    def on_error(slef, ws, error):
+        print("error: ", str(error))
+
+    # 关闭连接
+    def on_close(ws):
+        print("client closed.")
+
+
+# 准备数据
+def prepare_data(args, access_token):
+
+    # 填写Header信息
+    voice_name = args.voice_name
+    with open(args.file_path, 'rb') as f:
+        file = f.read()
+    data = []
+
+    for i in range(0, len(file), 32000):
+        if i + 32000 &gt; len(file):
+            tts_params = {"access_token": access_token, "voice_name": voice_name, 'enable_vad': True, 'align_input': True, "lastpkg": True}
+        else:
+            tts_params = {"access_token": access_token, "voice_name": voice_name, 'enable_vad': True, 'align_input': True, "lastpkg": False}
+        json_data = json.dumps(tts_params)
+        json_data_bi = json_data.encode()
+        length = len(json_data)
+        head_data = length.to_bytes(4, byteorder='big')
+
+        if i + 32000 &gt; len(file):
+            data.append(head_data + json_data_bi + file[i:])
+        else:
+            data.append(head_data + json_data_bi + file[i: i + 32000])
+
+    return data
+
+
+# 获取命令行输入参数
+def get_args():
+    text = "今天天气不错哦！"
+    parser = argparse.ArgumentParser(description='ASR')
+    parser.add_argument('-client_secret', type=str, required=True)
+    parser.add_argument('-client_id', type=str, required=True)
+    parser.add_argument('-file_path', type=str, required=True)
+    parser.add_argument('-file_save_path', type=str, required=True)
+    parser.add_argument('--voice_name', type=str, default='Vc_baklong')
+    args = parser.parse_args()
+
+    return args
+
+
+# 获取access_token用于鉴权
+def get_access_token(client_secret, client_id):
+    grant_type = "client_credentials"
+    url = "https://openapi.data-baker.com/oauth/2.0/token?grant_type={}&amp;client_secret={}&amp;client_id={}" \
+        .format(grant_type, client_secret, client_id)
+
+    try:
+        response = requests.post(url)
+        response.raise_for_status()
+    except Exception as e:
+        print(response.text)
+        raise Exception
+    else:
+        access_token = json.loads(response.text).get('access_token')
+        return access_token
+
+
+if __name__ == '__main__':
+    try:
+        args = get_args()
+
+        # 获取access_token
+        client_secret = args.client_secret
+        client_id = args.client_id
+        access_token = access_token = get_access_token(client_secret, client_id)
+
+        # 准备数据
+        data = prepare_data(args, access_token)
+
+        uri = "wss://openapi.data-baker.com/ws/voice_conversion"
+        # 建立Websocket连接
+        client = Client(data, uri, args.file_save_path)
+        client.connect()
+    except Exception as e:
+        print(e)
+      <button class="copyClass">copy</button></pre> <p data-v-b23ec376="">命令行执行</p> <p data-v-b23ec376="">如有需要可自行修改参数</p> <pre class="doc-sample doc-code" data-v-b23ec376="">voice_conversion.py -client_secret=您的client_secret -client_id=您的client_id -file_path=test.pcm -file_save_path=output.wav
+      <button class="copyClass">copy</button></pre></section> <h3 data-v-b23ec376="">JAVA示例代码</h3> <section data-v-b23ec376=""><pre class="doc-sample doc-code" data-v-b23ec376="">package com.databaker.web.vc;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import okhttp3.*;
+import okio.ByteString;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.ArrayUtils;
+
+import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+/**
+ * 声音转换WebSocket API接口调用示例
+ * 附：声音转换Websocket API文档 【https://www.data-baker.com/specs/file/vc_api_websocket】
+ * &lt;p&gt;
+ * 注意：仅作为demo示例,失败重试、token过期重新获取、日志打印等优化工作需要开发者自行完成
+ *
+ * @author data-baker
+ */
+public class VcWebSocketDemo extends WebSocketListener {
+    /**
+     * 授权：需要在开放平台获取【https://ai.data-baker.com/】
+     */
+    private static final String clientId = "YOUR_CLIENT_ID";
+    private static final String clientSecret = "YOUR_CLIENT_SECRET";
+
+    /**
+     * 获取token的地址信息
+     */
+    public static String tokenUrl = "https://openapi.data-baker.com/oauth/2.0/token?grant_type=client_credentials&amp;client_secret=%s&amp;client_id=%s";
+
+    private static final String hostUrl = "wss://openapi.data-baker.com/ws/voice_conversion";
+
+    /**
+     * 文件路径【开发者需要根据实际路径调整。支持的音频编码格式:PCM,采样率16K,位深16bit,中文普通话,时长不超过180分钟】
+     */
+    private static final String pcmFile = "/home/asr/16k_16bit.pcm";
+    /**
+     * 文件夹路径【声音转换后文件存放地址，开发者需要根据实际路径调整。】
+     */
+    private static final String dic = "/home/asr";
+
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd HH:mm:ss.SSS");
+
+    // 开始时间
+    private static ThreadLocal&lt;Date&gt; timeBegin = ThreadLocal.withInitial(() -&gt; new Date());
+
+    // 结束时间
+    private static ThreadLocal&lt;Date&gt; timeEnd = ThreadLocal.withInitial(() -&gt; new Date());
+
+    // 发音人
+    private String voiceName = "Vc_baklong";
+
+    private Date startTime;
+
+    private String accessToken = getAccessToken();
+
+    @Override
+    public void onOpen(WebSocket webSocket, Response response) {
+        super.onOpen(webSocket, response);
+        this.startTime = timeBegin.get();
+        // 该demo直接从文件中读取音频流【实际场景可能是实时从麦克风获取音频流，开发者自行修改获取音频流的逻辑即可】
+        new Thread(() -&gt; {
+            File file = new File(pcmFile);
+            // 连接成功，开始发送数据
+            // 第二部分是一个JSON的字符串
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("access_token", accessToken);
+            jsonObject.put("voice_name", voiceName);
+            jsonObject.put("enable_vad", true);
+            jsonObject.put("align_input", true);
+            jsonObject.put("lastpkg", false);
+
+            int length = jsonObject.toJSONString().getBytes().length;
+            // 第一部分
+            byte[] b = new byte[4];
+            b[0] = (byte) (length &gt;&gt; 24 &amp; 0xFF);
+            b[1] = (byte) (length &gt;&gt; 16 &amp; 0xFF);
+            b[2] = (byte) (length &gt;&gt; 8 &amp; 0xFF);
+            b[3] = (byte) (length &amp; 0xFF);
+
+            FileInputStream fileInputStream = null;
+            ByteArrayOutputStream byteOut = null;
+            try {
+                fileInputStream = new FileInputStream(file);
+                byteOut = new ByteArrayOutputStream();
+                int size = 32000;
+                byte[] byteArray = new byte[size];
+                int totalLength = 0;
+                int read = 0;
+                // 发送音频
+                while ((read = fileInputStream.read(byteArray, 0, size)) &gt; 0) {
+                    totalLength += read;
+                    System.out.println();
+                    if (read == size &amp;&amp; totalLength &lt; file.length()) {
+                        byte[] bytes = ArrayUtils.addAll(ArrayUtils.addAll(b, jsonObject.toJSONString().getBytes()), byteArray);
+                        webSocket.send(new ByteString(bytes));
+                        Thread.sleep(40);
+                    } else {
+                        // 最后一包
+                        jsonObject.put("lastpkg", true);
+                        length = jsonObject.toJSONString().getBytes().length;
+                        b[0] = (byte) (length &gt;&gt; 24 &amp; 0xFF);
+                        b[1] = (byte) (length &gt;&gt; 16 &amp; 0xFF);
+                        b[2] = (byte) (length &gt;&gt; 8 &amp; 0xFF);
+                        b[3] = (byte) (length &amp; 0xFF);
+                        byte[] subarray = ArrayUtils.subarray(byteArray, 0, read);
+                        byte[] bytes = ArrayUtils.addAll(ArrayUtils.addAll(b, jsonObject.toJSONString().getBytes()), subarray);
+                        webSocket.send(new ByteString(bytes));
+                    }
+                }
+                System.out.println("all data is send");
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (fileInputStream != null) {
+                    try {
+                        fileInputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (byteOut != null) {
+                    try {
+                        byteOut.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+    }
+
+    @Override
+    public void onMessage(WebSocket webSocket, String text) {
+        super.onMessage(webSocket, text);
+    }
+
+    @Override
+    public void onMessage(WebSocket webSocket, ByteString bytes) {
+        super.onMessage(webSocket, bytes);
+        byte[] byteArray = bytes.toByteArray();
+        // byte[]转length
+        int length = (byteArray[0] &lt;&lt; 24) + (byteArray[1] &lt;&lt; 16) + (byteArray[2] &lt;&lt; 8) + byteArray[3];
+        byte[] jsonArray = ArrayUtils.subarray(byteArray, 4, 4 + length);
+        String jsonStr = new String(jsonArray);
+        JSONObject jsonObject = JSONObject.parseObject(jsonStr);
+        byte[] subarray = ArrayUtils.subarray(byteArray, 4 + length, byteArray.length);
+        File resultPcmFile = new File(dic, new File(pcmFile).getName().replace(".pcm", "_result.pcm"));
+        if (!resultPcmFile.exists()) {
+            try {
+                resultPcmFile.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            // 写入文件
+            FileOutputStream outputStream = new FileOutputStream(resultPcmFile, true);
+            IOUtils.write(subarray, outputStream);
+            IOUtils.closeQuietly(outputStream);
+            if ((int) jsonObject.get("errcode") == 0) {
+                if (jsonObject.getBoolean("lastpkg")) {
+                    //说明数据全部返回完毕，可以关闭连接，释放资源
+                    System.out.println("session end ");
+                    System.out.println(sdf.format(startTime) + "开始");
+                    System.out.println(sdf.format(timeEnd.get()) + "结束");
+                    System.out.println("耗时:" + (timeEnd.get().getTime() - startTime.getTime()) + "ms");
+                    System.out.println("本次声音转换traceId ==》" + jsonObject.getString("traceid"));
+                    webSocket.close(1000, "");
+                }
+            } else {
+                System.out.println("errCode=&gt;" + jsonObject.getInteger("errcode") + " errMsg=&gt;" + jsonObject.getString("errmsg") + " traceId=" + jsonObject.getString("traceid"));
+                // 关闭连接
+                webSocket.close(1000, "");
+                System.out.println("发生错误，关闭连接");
+                return;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onFailure(WebSocket webSocket, Throwable t, Response response) {
+        super.onFailure(webSocket, t, response);
+        try {
+            if (null != response) {
+                int code = response.code();
+                System.out.println("onFailure code:" + code);
+                System.out.println("onFailure body:" + response.body().string());
+            }
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) {
+        OkHttpClient client = new OkHttpClient.Builder().build();
+        Request request = new Request.Builder().url(hostUrl).build();
+        client.newWebSocket(request, new VcWebSocketDemo());
+    }
+
+    public static String getAccessToken() {
+        String accessToken = "";
+        OkHttpClient client = new OkHttpClient();
+        // request 默认是get请求
+        String url = String.format(tokenUrl, clientSecret, clientId);
+        Request request = new Request.Builder().url(url).build();
+        JSONObject jsonObject;
+        try {
+            Response response = client.newCall(request).execute();
+            if (response.isSuccessful()) {
+                // 解析
+                String resultJson = response.body().string();
+                jsonObject = JSON.parseObject(resultJson);
+                accessToken = jsonObject.getString("access_token");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return accessToken;
+    }
 }
-
-ws = websocket.create_connection("wss://openapi.data-baker.com/ws/voice_conversion")
-with open("origin.pcm", "rb") as f:
-    chunks = iter(lambda: f.read(32000), b"")
-    for chunk in chunks:
-        params["lastpkg"] = len(chunk) < 32000
-        ws.send_binary(make_packet(params, chunk))
-
-converted = bytearray()
-while True:
-    message = ws.recv()
-    length = int.from_bytes(message[:4], byteorder="big")
-    result = json.loads(message[4:4 + length].decode("utf-8"))
-    converted.extend(message[4 + length:])
-    if result.get("lastpkg") or result.get("errcode") != 0:
-        break
-ws.close()
-open("result.pcm", "wb").write(converted)</code></pre>
-
-<h2 id="voice-convert-ws-response">响应结果</h2>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>参数名</th><th>类型</th><th>说明</th></tr>
-<tr><td><code>errcode</code></td><td>int</td><td><code>0</code> 表示当前包处理成功，非 <code>0</code> 表示出现错误。</td></tr>
-<tr><td><code>errmsg</code></td><td>string</td><td>错误信息。</td></tr>
-<tr><td><code>traceid</code></td><td>string</td><td>链路追踪 ID，可用于问题排查。</td></tr>
-<tr><td><code>lastpkg</code></td><td>bool</td><td>是否为最后一包。为 <code>true</code> 时，表示转换数据已返回完毕。</td></tr>
-<tr><td>音频数据</td><td>binary</td><td>JSON 之后的二进制部分为转换后的音频数据。</td></tr>
-</table>
-</div>
-
-<h2 id="voice-convert-ws-errors">常见错误码</h2>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>错误码</th><th>说明</th><th>类别</th></tr>
-<tr><td><code>10000</code></td><td>WS 数据包解析错误。</td><td>请求参数错误</td></tr>
-<tr><td><code>10001</code></td><td>WS 数据包 JSON 解析错误。</td><td>请求参数错误</td></tr>
-<tr><td><code>10002</code></td><td>请求参数缺少 <code>access_token</code>。</td><td>请求参数错误</td></tr>
-<tr><td><code>10003</code></td><td><code>access_token</code> 过期或不合法。</td><td>请求参数错误</td></tr>
-<tr><td><code>10004</code></td><td>请求参数缺少 <code>voice_name</code>。</td><td>请求参数错误</td></tr>
-<tr><td><code>10005</code></td><td><code>voice_name</code> 不存在。</td><td>请求参数错误</td></tr>
-<tr><td><code>20000</code></td><td>引擎资源不足，拒绝新建会话。</td><td>服务端错误</td></tr>
-<tr><td><code>20001</code></td><td>声音转换出错。</td><td>服务端错误</td></tr>
-<tr><td><code>20002</code></td><td>动态内存申请失败。</td><td>服务端错误</td></tr>
-<tr><td><code>20003</code></td><td>向客户端推送响应失败。</td><td>服务端错误</td></tr>
-<tr><td><code>20004</code></td><td>其他未定义的内部错误。</td><td>服务端错误</td></tr>
-<tr><td><code>30000</code></td><td>会话进行时客户端主动关闭。</td><td>客户端错误</td></tr>
-<tr><td><code>30001</code></td><td>会话空闲超时，超过一定时间没有数据传输导致主动断开连接。</td><td>客户端错误</td></tr>
-</table>
-</div>
+      <button class="copyClass">copy</button></pre></section> <h3 data-v-b23ec376="" id="vcApi-2">响应结果</h3> <section data-v-b23ec376=""><div class="table-wrap"><table class="doc-table" data-v-b23ec376="" border="0" cellspacing="0" cellpadding="0"><thead data-v-b23ec376=""><tr data-v-b23ec376=""><th data-v-b23ec376="">参数名</th> <th data-v-b23ec376="">参数格式</th> <th data-v-b23ec376="">是否必填</th> <th data-v-b23ec376="">说明</th></tr></thead> <tbody data-v-b23ec376=""><tr data-v-b23ec376=""><td data-v-b23ec376="">errcode</td> <td data-v-b23ec376="">int</td> <td data-v-b23ec376="">是</td> <td data-v-b23ec376="">错误码，0 代表成功其他代表识别，参考错误码说明</td></tr> <tr data-v-b23ec376=""><td data-v-b23ec376="">errmsg</td> <td data-v-b23ec376="">string</td> <td data-v-b23ec376="">是</td> <td data-v-b23ec376="">错误信息描述</td></tr> <tr data-v-b23ec376=""><td data-v-b23ec376="">traceid</td> <td data-v-b23ec376="">string</td> <td data-v-b23ec376="">是</td> <td data-v-b23ec376="">会话唯一id，用于追踪定位问题</td></tr> <tr data-v-b23ec376=""><td data-v-b23ec376="">lastpkg</td> <td data-v-b23ec376="">bool</td> <td data-v-b23ec376="">是</td> <td data-v-b23ec376="">
+              是否为最后一包，当时发送最后一包数据时设置为true
+              告诉调用方输出完成
+            </td></tr></tbody></table></div> <p data-v-b23ec376="">成功时：</p> <pre class="doc-sample doc-code" data-v-b23ec376="">'\x00\x00\x00Q{"errcode":0,"errmsg":"success","lastpkg":false,"traceid":"7018124205863151147"}\n\xfc\xff\xfc\xff\x03\x00\x02\x00\x02\x00\x02\x00\x01\x00\x01\x00\x01\x00\x01\x00\x01\x00\x00\x00\x00\x00\x00\x00\x06\x00\x04\x00\x04\x00\x04\x00\xfd\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x00\x00\x00\x00\x00\x00\xfa\xff\xfc\xff\xfc\xff\xf7\xff\xf9\xff\xf9\xff\xfa\xff\xfb\xff\xfb\xff\xfc\xff\xfd\xff\xfd\xff\xfe\xff\xfe\xff\xfe\xff\xff\xff\xff\xff\xf9\xff\xfb\xff\xfb\xff\xfc\xff\xfc\xff\x02\x00\x01\x00\x01\x00\x01\x00\x01\x00\x02\x00\x01\x00\x01\x00\x01\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\xfa\xff\xfc\xff\xfd\xff\xfd\xff\xf8\xff\xf9\xff\xfa\xff\xfb\xff\xfc\xff\xfc\xff\x02\x00\x01\x00\x01\x00\x01\x00\x01\x00\x01\x00\x01\x00\x01\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xfb\xff\x02\x00\x01\x00\x01\x00\x01\x00\x00\x00\x06\x00\x05\x00\x04\x00\t\x00\x07\x00\x07\x00\x06\x00\x05\x00\x05\x00\x04\x00\x03\x00\x03\x00\x02\x00\x07\x00\x06\x00\x05\x00\x05\x00\x04\x00\x04\x00\x04\x00\x03\x00\x02\x00\x02\x00\x02\x00\x01\x00\x01\x00\x01\x00\x01\x00\x01\x00\x01\x00\x06\x00\xff\xff\x00\x00\x00\x00\x06\x00\x05\x00\t\x00\x07\x00\x06\x00\x06\x00\x05\x00\x05\x00\x04\x00\x03\x00\x03\x00\x02\x00\x02\x00\x02\x00\x01\x00\x01\x00\x01\x00\x01\x00\x01\x00\xfb\xff\xfd\xff\xfd\xff\xfd\xff\xfe\xff\xfe\xff\xfe\xff\xf9\xff'
+      <button class="copyClass">copy</button></pre> <p data-v-b23ec376="">失败时：</p> <pre class="doc-sample doc-code" data-v-b23ec376="">'\x00\x00\x00s{"errcode":10000,"errmsg":"Param error cause parse payload failed","lastpkg":true,"traceid":"7017724786985292155"}\n'<button class="copyClass">copy</button></pre></section> <h3 data-v-b23ec376="">错误码</h3> <section data-v-b23ec376=""><div class="table-wrap"><table class="doc-table" data-v-b23ec376="" border="0" cellspacing="0" cellpadding="0"><thead data-v-b23ec376=""><tr data-v-b23ec376=""><th data-v-b23ec376="">错误码</th> <th data-v-b23ec376="">含义</th> <th data-v-b23ec376="">类别</th></tr></thead> <tbody data-v-b23ec376=""><tr data-v-b23ec376=""><td data-v-b23ec376="">0</td> <td data-v-b23ec376="">成功</td> <td data-v-b23ec376="" rowspan="7">请求参数错误</td></tr> <tr data-v-b23ec376=""><td data-v-b23ec376="">10000</td> <td data-v-b23ec376="">ws数据包解析错误</td></tr> <tr data-v-b23ec376=""><td data-v-b23ec376="">10001</td> <td data-v-b23ec376="">ws数据包json解析错误</td></tr> <tr data-v-b23ec376=""><td data-v-b23ec376="">10002</td> <td data-v-b23ec376="">请求参数缺少access token</td></tr> <tr data-v-b23ec376=""><td data-v-b23ec376="">10003</td> <td data-v-b23ec376="">access token过期或不合法</td></tr> <tr data-v-b23ec376=""><td data-v-b23ec376="">10004</td> <td data-v-b23ec376="">请求参数缺少 voice name</td></tr> <tr data-v-b23ec376=""><td data-v-b23ec376="">10005</td> <td data-v-b23ec376="">voice name 不存在</td></tr> <tr data-v-b23ec376=""><td data-v-b23ec376="">20000</td> <td data-v-b23ec376="">引擎资源不足，拒绝新建会话</td> <td data-v-b23ec376="" rowspan="5">服务端错误</td></tr> <tr data-v-b23ec376=""><td data-v-b23ec376="">20001</td> <td data-v-b23ec376="">声音转换出错</td></tr> <tr data-v-b23ec376=""><td data-v-b23ec376="">20002</td> <td data-v-b23ec376="">动态内存申请失败</td></tr> <tr data-v-b23ec376=""><td data-v-b23ec376="">20003</td> <td data-v-b23ec376="">向客户端推送响应失败</td></tr> <tr data-v-b23ec376=""><td data-v-b23ec376="">20004</td> <td data-v-b23ec376="">其他未定义的内部错误</td></tr> <tr data-v-b23ec376=""><td data-v-b23ec376="">30000</td> <td data-v-b23ec376="">会话进行时客户端主动关闭</td> <td data-v-b23ec376="" rowspan="2">客户端错误</td></tr> <tr data-v-b23ec376=""><td data-v-b23ec376="">30001</td> <td data-v-b23ec376="">
+              会话空闲超时，超过一定时间没有数据传输导致会话空闲超时，主动断开连接
+            </td></tr></tbody></table></div></section></div>

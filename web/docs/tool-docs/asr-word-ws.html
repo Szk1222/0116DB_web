@@ -1,136 +1,828 @@
-<h1>一句话识别 Websocket API</h1>
-<p class="doc-lead">一句话识别 Websocket API 用于识别不超过 60 秒的短语音。相比 RESTful API，WebSocket 支持持续返回中间识别结果，可用于连续上屏、实时交互等场景。</p>
+<div data-v-23870275=""><h2 data-v-23870275="">一句话识别Websocket API</h2> <h3 data-v-23870275="">功能介绍</h3> <section data-v-23870275=""><p data-v-23870275="">识别不超过60s的语音，适用于语音交互、控制口令、对话聊天等场景。</p> <ul data-v-23870275=""><li data-v-23870275="">支持语言：中文普通话、中英自由说、英文、粤语、维语</li> <li data-v-23870275="">支持添加标点，支持将中文数字转换为阿拉伯数字进行输出</li> <li data-v-23870275="">支持连续返回中间识别结果，实现连续上屏效果</li></ul></section> <h3 data-v-23870275="">音频要求</h3> <section data-v-23870275=""><ul data-v-23870275=""><li data-v-23870275=""><b data-v-23870275="">时长限制</b>：60秒以内</li> <li data-v-23870275=""><b data-v-23870275="">支持音频格式</b>：wav, pcm</li> <li data-v-23870275=""><b data-v-23870275="">音频采样率</b>：8000Hz，16000Hz</li> <li data-v-23870275=""><b data-v-23870275="">位深</b>：16bits</li> <li data-v-23870275=""><b data-v-23870275="">声道</b>：单声道</li></ul></section> <h3 data-v-23870275="">使用方法</h3> <section data-v-23870275=""><p data-v-23870275="">1. 创建账号和应用，详见<a data-v-23870275="" href="https://www.data-baker.com/specs/file/guide">平台新手指引</a>，通过<a data-v-23870275="" href="https://ai.data-baker.com/">标贝开放平台</a>/应用/服务获取client_id，client_secret</p> <p data-v-23870275="">2. 发送请求获取access_token，详见<a data-v-23870275="" href="https://www.data-baker.com/specs/file/access_token">获取访问令牌</a></p> <p data-v-23870275="">3. 建立websocket连接</p> <p data-v-23870275="">4. 实时发送需要识别的音频，具体参数详见 <a data-v-23870275="" href="/specs/file/asr_word_api_websocket#asrApi-1">请求参数</a>。</p> <p data-v-23870275="">5. 接收返回结果，具体参数定义详见<a data-v-23870275="" href="/specs/file/asr_word_api_websocket#asrApi-2">响应结果</a>说明。</p> <p data-v-23870275="">6. 关闭连接。</p> <div data-v-23870275="" style="color: red;"><p data-v-23870275="" style="color: red;">7. 注意：</p> <div data-v-23870275="" style="margin-left: 10px;"><p data-v-23870275="" style="color: red;">1)、 开始识别时，websocket握手建立会话根据网络环境会有一定延迟，需根据实际测试进行处理</p> <p data-v-23870275="" style="color: red;">2)、 结束识别时，不要立刻关闭麦克风，可以再延迟几百毫秒，收一部分环境静音，有助于vad快速结束。</p> <p data-v-23870275="" style="color: red;">3)、 最后一个数据包发送出去后，等待最终识别结果返回，返回参数end_flag=1时为最后一个包，不要提前关闭会话。</p></div></div></section> <h3 data-v-23870275="">服务地址</h3> <section data-v-23870275=""><div class="table-wrap"><table class="doc-table" data-v-23870275="" border="0" cellspacing="0" cellpadding="0"><thead data-v-23870275=""><tr data-v-23870275=""><th data-v-23870275="">访问类型</th> <th data-v-23870275="">说明</th> <th data-v-23870275="">URL</th> <th data-v-23870275="">Host</th></tr></thead> <tbody data-v-23870275=""><tr data-v-23870275=""><td data-v-23870275="">外网访问</td> <td data-v-23870275="">支持中文普通话、中英自由说、英文、粤语、维语</td> <td data-v-23870275="">wss://openapi.data-baker.com/asr/wsapi/</td> <td data-v-23870275="">openapi.data-baker.com</td></tr></tbody></table></div></section> <h3 data-v-23870275="">交互流程</h3> <section data-v-23870275=""><img data-v-23870275="" src="https://databaker-gw-static.oss-accelerate.aliyuncs.com/assets/images/specs/document5.png" alt="" style="width: 600px; height: 543px;"></section> <h3 data-v-23870275="">测试音频</h3> <section data-v-23870275=""><a data-v-23870275="" href="https://databaker-of-yuedu.oss-cn-huhehaote.aliyuncs.com/gw/test.wav?OSSAccessKeyId=LTAI4Fktx2ckBLU3ZJizYTuW&amp;Expires=5286041033&amp;Signature=f3%2FFOHDp37Kw8XM%2BGqOXlB7M7IY%3D" target="_blank">测试音频</a></section> <h3 data-v-23870275="" id="asrApi-1">请求参数</h3> <section data-v-23870275=""><strong data-v-23870275="">请求消息和回应消息均序列化为json格式。</strong> <div class="table-wrap"><table class="doc-table" data-v-23870275="" border="0" cellspacing="0" cellpadding="0" style="margin: 20px 0px;"><thead data-v-23870275=""><tr data-v-23870275=""><th data-v-23870275="">参数名称</th> <th data-v-23870275="">类型</th> <th data-v-23870275="" style="white-space: nowrap;">是否必填项</th> <th data-v-23870275="">说明</th></tr></thead> <tbody data-v-23870275=""><tr data-v-23870275=""><td data-v-23870275="">access_token</td> <td data-v-23870275="">string</td> <td data-v-23870275="">yes</td> <td data-v-23870275="">
+              通过client_id，client_secret调用授权服务获得见
+              <a data-v-23870275="" href="/specs/file/access_token" class="">获取访问令牌</a></td></tr> <tr data-v-23870275=""><td data-v-23870275="">version</td> <td data-v-23870275="">string</td> <td data-v-23870275="">yes</td> <td data-v-23870275="">版本信息，目前为1.0</td></tr> <tr data-v-23870275=""><td data-v-23870275="">asr_params</td> <td data-v-23870275="">
+              jsonObject，其中
+              <span data-v-23870275="" style="color: red;">audio_data</span>字段是必需字段且需使用base64进行编码
+            </td> <td data-v-23870275="">yes</td> <td data-v-23870275="">asr相关参数</td></tr></tbody></table></div> <p data-v-23870275="" style="margin: 20px 0px;">asr相关参数如下:</p> <div class="table-wrap"><table class="doc-table" data-v-23870275="" border="0" cellspacing="0" cellpadding="0"><thead data-v-23870275=""><tr data-v-23870275=""><th data-v-23870275="">参数名称</th> <th data-v-23870275="">类型</th> <th data-v-23870275="" style="white-space: nowrap;">是否必填项</th> <th data-v-23870275="">说明</th></tr></thead> <tbody data-v-23870275=""><tr data-v-23870275=""><td data-v-23870275="">audio_data</td> <td data-v-23870275="">string</td> <td data-v-23870275="">是</td> <td data-v-23870275="">
+              流式接口需要将音频分包发送，具体步骤如下： <br data-v-23870275="">
+              1. 除最后一包外，每包长度固定为5120字节，最后一包如音频长度不足5120字节时，可直接发送剩余全部数据 <br data-v-23870275="">
+              2. 对音频进行base64编码 <br data-v-23870275=""></td></tr> <tr data-v-23870275=""><td data-v-23870275="">audio_format</td> <td data-v-23870275="">string</td> <td data-v-23870275="">是</td> <td data-v-23870275="">音频编码格式<br data-v-23870275="">pcm<br data-v-23870275="">wav</td></tr> <tr data-v-23870275=""><td data-v-23870275="">sample_rate</td> <td data-v-23870275="">int</td> <td data-v-23870275="">是</td> <td data-v-23870275="">音频采样率<br data-v-23870275="">8000<br data-v-23870275="">16000</td></tr> <tr data-v-23870275=""><td data-v-23870275="">req_idx</td> <td data-v-23870275="">int</td> <td data-v-23870275="">是</td> <td data-v-23870275="">
+              音频序号索引，步长为1递增 0：起始音频帧 &gt;0：中间音频帧（如1 2 3 4 … 1000） -n：结束音频帧（如-1001)
+            </td></tr> <tr data-v-23870275=""><td data-v-23870275="">domain</td> <td data-v-23870275="">string</td> <td data-v-23870275="">否</td> <td data-v-23870275="">
+              模型名称 <br data-v-23870275=""> <b data-v-23870275="">16k采样率支持模型：</b><br data-v-23870275="">
+              中文通用模型 "common"，<b data-v-23870275="">默认值</b><br data-v-23870275="">
+              中英自由说模型 "cn-en-mixed" <br data-v-23870275="">
+              英文模型 "english"，<br data-v-23870275="">
+              粤语模型 "cantonese"，<br data-v-23870275="">
+              维语模型 "uighur"，<br data-v-23870275=""> <b data-v-23870275="">8k采样率支持模型：</b><br data-v-23870275="">
+              中文客服模型 "kefu"<br data-v-23870275=""></td></tr> <tr data-v-23870275=""><td data-v-23870275="">add_pct</td> <td data-v-23870275="">boolean</td> <td data-v-23870275="">no</td> <td data-v-23870275="">true: 加标点，<b data-v-23870275="">默认值</b><br data-v-23870275="">false：不添加标点</td></tr> <tr data-v-23870275=""><td data-v-23870275="">hotwordid</td> <td data-v-23870275="">string</td> <td data-v-23870275="">no</td> <td data-v-23870275="">配置的热词组的id</td></tr> <tr data-v-23870275=""><td data-v-23870275="">diylmid</td> <td data-v-23870275="">string</td> <td data-v-23870275="">no</td> <td data-v-23870275="">asr个性化模型的id</td></tr> <tr data-v-23870275=""><td data-v-23870275="">enable_vad</td> <td data-v-23870275="">bool</td> <td data-v-23870275="">否</td> <td data-v-23870275="">
+              False: 关闭静音检测（默认）<br data-v-23870275="">
+              True：开启静音检测
+            </td></tr> <tr data-v-23870275=""><td data-v-23870275="">max_begin_silence</td> <td data-v-23870275="">int</td> <td data-v-23870275="">否</td> <td data-v-23870275="">
+              当enable_vad为true时有效，表示允许的最大开始静音时长<br data-v-23870275="">
+              单位：毫秒，取值范围[200,60000]，输入超过范围取临近值，该值是一个参考值，具体可能会根据音频不同有少量浮动。<br data-v-23870275="">
+              超出规定范围后，即开始识别后多长时间没有检测到语音，服务端将会发送错误码90002，表示没有检测到语音，结束本次识别。
+            </td></tr> <tr data-v-23870275=""><td data-v-23870275="">max_end_silence</td> <td data-v-23870275="">int</td> <td data-v-23870275="">否</td> <td data-v-23870275="">
+              当enable_vad为true时有效，表示允许的最大结束静音时长<br data-v-23870275="">
+              单位：毫秒，取值范围[200, 5000]，输入超过范围取临近值，该值是一个参考值，具体可能会根据音频不同有少量浮动。<br data-v-23870275="">
+              超出规定范围后，即在上句话识别后，间隔多长时间没有检测到语音，结束本次识别，间隔后如果还有后续语音则不会被识别。
+            </td></tr> <tr data-v-23870275=""><td data-v-23870275="">enable_itn</td> <td data-v-23870275="">boolean</td> <td data-v-23870275="">否</td> <td data-v-23870275="">
+              中文数字转换为阿拉伯数字（仅支持3位及以上数字串）<br data-v-23870275="">
+              ‘true’: 开启<br data-v-23870275="">
+              ‘false’: 关闭
+            </td></tr></tbody></table></div></section> <h3 data-v-23870275="">请求示例</h3> <section data-v-23870275=""><pre class="doc-sample doc-code" data-v-23870275="">{
+    "access_token":" 1ccbbc2d************0cfce63eec55",
+    "version":"1.0",
+    "asr_params":{
+        "audio_data":"AAAAAAAAAA",
+        "audio_format":"pcm",
+        "sample_rate":16000,
+        "req_idx":0,
+        "domain":"xxx"  //非必填
+    }
+}<button class="copyClass">copy</button></pre></section> <h3 data-v-23870275="">Python示例代码</h3> <section data-v-23870275=""><p data-v-23870275="">代码地址：<a data-v-23870275="" href="https://github.com/data-baker/BakerSpeechApiDemo/tree/main/asr-websoket-api/single_sentence_recognition" target="_blank">Github</a></p> <p data-v-23870275="">Python3示例：</p> <pre class="doc-sample doc-code" data-v-23870275="">import argparse
+import json
+import base64
+from threading import Thread
 
-<h2 id="asr-word-ws-intro">功能介绍</h2>
-<ul>
-<li>支持语言：中文普通话、中英自由说、英文、粤语、维语。</li>
-<li>支持添加标点，支持将中文数字转换为阿拉伯数字输出。</li>
-<li>支持连续返回中间识别结果，实现连续上屏效果。</li>
-<li>时长限制：60 秒以内。</li>
-<li>支持音频格式：<code>wav</code>、<code>pcm</code>；采样率：<code>8000Hz</code>、<code>16000Hz</code>；位深：<code>16bits</code>；声道：单声道。</li>
-</ul>
+import requests
+import websocket
 
-<h2 id="asr-word-ws-usage">使用方法</h2>
-<ol>
-<li>创建账号和应用，在开放平台应用服务中获取 <code>client_id</code> 与 <code>client_secret</code>。</li>
-<li>调用授权服务获取 <code>access_token</code>。</li>
-<li>建立 WebSocket 连接。</li>
-<li>实时发送需要识别的音频分包。</li>
-<li>接收返回结果，读取中间结果和最终结果。</li>
-<li>收到最终包后关闭连接。</li>
-</ol>
-<ul>
-<li>建立 WebSocket 会话会受网络环境影响产生延迟，接入侧需要按实际测试结果处理。</li>
-<li>结束识别时不要立刻关闭麦克风，可延迟数百毫秒保留部分环境静音，有助于 VAD 快速结束。</li>
-<li>最后一个数据包发送后，应等待最终识别结果返回；响应参数 <code>end_flag=1</code> 表示最后一个包。</li>
-</ul>
 
-<h2 id="asr-word-ws-endpoint">服务地址</h2>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>访问类型</th><th>说明</th><th>URL</th><th>Host</th></tr>
-<tr><td>外网访问</td><td>支持中文普通话、中英自由说、英文、粤语、维语。</td><td><code>wss://openapi.data-baker.com/asr/wsapi/</code></td><td><code>openapi.data-baker.com</code></td></tr>
-</table>
-</div>
+class Client:
+    def __init__(self, data, uri):
+        self.data = data
+        self.uri = uri
 
-<h2 id="asr-word-ws-message">请求消息</h2>
-<p>请求消息和响应消息均序列化为 JSON 格式。请求顶层包含 <code>access_token</code>、<code>version</code> 和 <code>asr_params</code>。</p>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>参数名称</th><th>类型</th><th>是否必填</th><th>说明</th></tr>
-<tr><td><code>access_token</code></td><td>string</td><td>是</td><td>通过授权服务获得的访问令牌。</td></tr>
-<tr><td><code>version</code></td><td>string</td><td>是</td><td>版本信息，旧站文档标注当前为 <code>1.0</code>。</td></tr>
-<tr><td><code>asr_params</code></td><td>object</td><td>是</td><td>ASR 识别参数对象，其中 <code>audio_data</code> 为必需字段，且需使用 Base64 编码。</td></tr>
-</table>
-</div>
+    #建立连接
+    def connect(self):
+        ws_app = websocket.WebSocketApp(uri,
+                                        on_open=self.on_open,
+                                        on_message=self.on_message,
+                                        on_error=self.on_error,
+                                        on_close=self.on_close)
+        ws_app.run_forever()
 
-<h2 id="asr-word-ws-asr-params">asr_params 参数</h2>
-<p>流式接口需要将音频分包发送：除最后一包外，每包长度固定为 <code>5120</code> 字节；最后一包不足 <code>5120</code> 字节时发送剩余全部数据。每包音频需进行 Base64 编码。</p>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>参数名称</th><th>类型</th><th>是否必填</th><th>说明</th></tr>
-<tr><td><code>audio_data</code></td><td>string</td><td>是</td><td>Base64 编码后的音频分包。</td></tr>
-<tr><td><code>audio_format</code></td><td>string</td><td>是</td><td>音频编码格式，支持 <code>pcm</code>、<code>wav</code>。</td></tr>
-<tr><td><code>sample_rate</code></td><td>int</td><td>是</td><td>音频采样率，支持 <code>8000</code>、<code>16000</code>。</td></tr>
-<tr><td><code>req_idx</code></td><td>int</td><td>是</td><td>音频序号索引，步长为 1 递增；<code>0</code> 为起始音频帧，正数为中间音频帧，负数为结束音频帧。</td></tr>
-<tr><td><code>domain</code></td><td>string</td><td>否</td><td>模型名称。16k 支持 <code>common</code>、<code>cn-en-mixed</code>、<code>english</code>、<code>cantonese</code>、<code>uighur</code>；8k 支持 <code>kefu</code>。</td></tr>
-<tr><td><code>add_pct</code></td><td>boolean</td><td>否</td><td>是否添加标点：<code>true</code> 添加，<code>false</code> 不添加。</td></tr>
-<tr><td><code>hotwordid</code></td><td>string</td><td>否</td><td>配置的热词组 ID。</td></tr>
-<tr><td><code>diylmid</code></td><td>string</td><td>否</td><td>ASR 个性化模型 ID。</td></tr>
-<tr><td><code>enable_itn</code></td><td>boolean</td><td>否</td><td>中文数字转换为阿拉伯数字，仅支持 3 位及以上数字串。</td></tr>
-<tr><td><code>enable_vad</code></td><td>boolean</td><td>否</td><td>是否开启静音检测：<code>false</code> 关闭，<code>true</code> 开启。</td></tr>
-<tr><td><code>max_begin_silence</code></td><td>int</td><td>否</td><td><code>enable_vad=true</code> 时有效，允许的最大开始静音时长，单位毫秒，范围 <code>200-60000</code>。</td></tr>
-<tr><td><code>max_end_silence</code></td><td>int</td><td>否</td><td><code>enable_vad=true</code> 时有效，允许的最大结束静音时长，单位毫秒，范围 <code>200-5000</code>。</td></tr>
-</table>
-</div>
+    # 建立连接后发送消息
+    def on_open(self, ws):
+        print("sending..")
+        def run(*args):
+            for i in range(len(self.data)):
+                ws.send(self.data[i])
 
-<h2 id="asr-word-ws-example">请求示例</h2>
-<pre><code class="language-json">{
-  "access_token": "ACCESS_TOKEN",
-  "version": "1.0",
-  "asr_params": {
-    "audio_format": "wav",
-    "sample_rate": 16000,
-    "req_idx": 0,
-    "audio_data": "BASE64_AUDIO_CHUNK",
-    "add_pct": true,
-    "enable_itn": true
-  }
-}</code></pre>
+        Thread(target=run).start()
 
-<h2 id="asr-word-ws-response">响应结果参数</h2>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>字段名</th><th>类型</th><th>描述</th></tr>
-<tr><td><code>code</code></td><td>int</td><td>错误码，<code>4xxxx</code> 表示客户端参数错误，<code>5xxxx</code> 表示服务端内部错误。</td></tr>
-<tr><td><code>message</code></td><td>string</td><td>错误描述或成功提示。</td></tr>
-<tr><td><code>trace_id</code></td><td>string</td><td>任务 ID，用于定位错误和跟踪日志。</td></tr>
-<tr><td><code>data</code></td><td>object</td><td>识别结果数据。</td></tr>
-</table>
-</div>
+    # 接收消息
+    def on_message(self, ws, message):
+        code = json.loads(message).get("code")
 
-<h2 id="asr-word-ws-data">data 内部结构</h2>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>字段名</th><th>类型</th><th>描述</th></tr>
-<tr><td><code>res_idx</code></td><td>int</td><td>数据块序列号，由服务端生成，从 1 递增。</td></tr>
-<tr><td><code>nbest</code></td><td>array</td><td>候选识别结果。</td></tr>
-<tr><td><code>end_flag</code></td><td>int</td><td>是否最后一个数据块：<code>0</code> 否，<code>1</code> 是。</td></tr>
-<tr><td><code>text</code></td><td>string</td><td>语音识别结果，失败时为空。</td></tr>
-<tr><td><code>confidence</code></td><td>int</td><td>整句置信度，范围 <code>0-100</code>，值越大表示置信度越高。</td></tr>
-<tr><td><code>speed</code></td><td>int</td><td>语速，范围 <code>0-2000</code>。</td></tr>
-<tr><td><code>speed_label</code></td><td>string</td><td>语速标签：<code>FAST</code>、<code>MEDIUM</code>、<code>SLOW</code>。</td></tr>
-<tr><td><code>volume</code></td><td>int</td><td>音量，范围 <code>0-100</code>。</td></tr>
-<tr><td><code>volume_label</code></td><td>string</td><td>音量标签：<code>SILENT</code>、<code>XSOFT</code>、<code>SOFT</code>、<code>MEDIUM</code>、<code>LOUD</code>、<code>XLOUD</code>。</td></tr>
-<tr><td><code>words</code></td><td>array</td><td>词级别识别结果，结构与 RESTful API 一致，包含 <code>word</code>、<code>sos</code>、<code>eos</code>、<code>confidence</code>。</td></tr>
-</table>
-</div>
+        if code != 90000:
+            # 打印接口错误
+            print(message)
+        if json.loads(message).get('data')['end_flag'] == 1:
+            print(json.loads(message).get('data')['nbest'][0])
 
-<h2 id="asr-word-ws-response-example">响应结果示例</h2>
-<pre><code class="language-json">{
-  "code": 90000,
-  "message": "Success",
-  "trace_id": "TRACE_ID",
-  "data": {
-    "res_idx": 1,
-    "end_flag": 1,
-    "nbest": ["你好标贝科技"],
-    "text": "你好标贝科技",
-    "confidence": 92,
-    "words": []
-  }
-}</code></pre>
+    # 打印错误
+    def on_error(slef, ws, error):
+        print("error: ", str(error))
 
-<h2 id="asr-word-ws-errors">错误码</h2>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>错误码</th><th>说明</th><th>解决方案</th></tr>
-<tr><td><code>90000</code></td><td>文本数据。</td><td>正常读取识别结果。</td></tr>
-<tr><td><code>90001</code></td><td>检测到音频。</td><td>正常。</td></tr>
-<tr><td><code>90002</code></td><td>未检测到音频，超过最大开始静音时长。</td><td>检查音频有效长度，或调整最大开始静音时长参数。</td></tr>
-<tr><td><code>30001</code></td><td>HTTP 请求参数错误。</td><td>检查请求参数和音频分包。</td></tr>
-<tr><td><code>30002</code></td><td>服务内部错误。</td><td>保留 <code>trace_id</code> 并反馈排查。</td></tr>
-<tr><td><code>30005</code></td><td>语音质量问题。</td><td>检查录音质量、噪声、音量和采样参数。</td></tr>
-<tr><td><code>30006</code></td><td>输入语音过长。</td><td>确保单次语音不超过 60 秒。</td></tr>
-</table>
-</div>
+    # 关闭连接
+    def on_close(ws):
+        print("client closed.")
+
+
+# 准备数据
+def prepare_data(args, access_token):
+    # 读取音频文件
+    with open(args.file_path, 'rb') as f:
+        file = f.read()
+
+    # 填写Header信息
+    audio_format = args.audio_format
+    sample_rate = args.sample_rate
+
+    splited_data = [str(base64.b64encode(file[i:i + 5120]), encoding='utf-8') for i in range(0, len(file), 5120)]
+    asr_params = {"audio_format": audio_format, "sample_rate": int(sample_rate), "speech_type": 1}
+
+    json_list = []
+    for i in range(len(splited_data)):
+        if i != len(splited_data) - 1:
+            asr_params['req_idx'] = i
+        else:
+            asr_params['req_idx'] = -len(splited_data) + 1
+        asr_params["audio_data"] = splited_data[i]
+        data = {"access_token": access_token, "version": "1.0", "asr_params": asr_params}
+        json_list.append(json.dumps(data))
+
+    return json_list
+
+
+# 获取命令行输入参数
+def get_args():
+    parser = argparse.ArgumentParser(description='ASR')
+    parser.add_argument('-client_secret', type=str, required=True)
+    parser.add_argument('-client_id', type=str, required=True)
+    parser.add_argument('-file_path', type=str, required=True)
+    parser.add_argument('--audio_format', type=str, default='wav')
+    parser.add_argument('--sample_rate', type=str, default='16000')
+    args = parser.parse_args()
+
+    return args
+
+
+# 获取access_token用于鉴权
+def get_access_token(client_secret, client_id):
+    grant_type = "client_credentials"
+    url = "https://openapi.data-baker.com/oauth/2.0/token?grant_type={}&amp;client_secret={}&amp;client_id={}" \
+        .format(grant_type, client_secret, client_id)
+
+    try:
+        response = requests.post(url)
+        response.raise_for_status()
+    except Exception as e:
+        print(response.text)
+        raise Exception
+    else:
+        access_token = json.loads(response.text).get('access_token')
+        return access_token
+
+
+if __name__ == '__main__':
+    try:
+        args = get_args()
+
+        # 获取access_token
+        client_secret = args.client_secret
+        client_id = args.client_id
+        access_token = get_access_token(client_secret, client_id)
+
+        # 准备数据
+        data = prepare_data(args, access_token)
+
+        uri = "wss://openapi.data-baker.com/asr/wsapi/"
+        # 建立Websocket连接
+        client = Client(data, uri)
+        client.connect()
+    except Exception as e:
+        print(e)<button class="copyClass">copy</button></pre> <p data-v-23870275=""><b data-v-23870275="">命令行执行:</b></p> <p data-v-23870275="">默认wav格式，16000采样率</p> <pre class="doc-sample doc-code" data-v-23870275="">python single_sentence_recognition.py -client_secret=你的client_secret -client_id=你的client_id -file_path=test.wav<button class="copyClass">copy</button></pre> <p data-v-23870275=""><b data-v-23870275="">如有需要可自行修改参数</b></p> <pre class="doc-sample doc-code" data-v-23870275="">python single_sentence_recognition.py -client_secret=你的client_secret -client_id=你的client_id -file_path=test.wav --audio_format=wav --sample_rate=16000<button class="copyClass">copy</button></pre></section> <h3 data-v-23870275="">JAVA示例代码</h3> <section data-v-23870275=""><pre class="doc-sample doc-code" data-v-23870275="">package com.databaker.web.asr;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import okhttp3.*;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Base64;
+import java.util.Date;
+
+/**
+ * 一句话语音识别 webSocket接口调用示例
+ * 附：一句话识别Websocket API文档 【https://www.data-baker.com/specs/file/asr_word_api_websocket】
+ *
+ * 注意：
+ * 1.作为demo,进行了一些简化,采用直接从文件中读取的方式获取音频流,实际场景很可能是从麦克风获取音频流。
+ * 2.如果从麦克风获取音频流,请注意每次发送的数据流大小为52K,不足时补静音段。
+ * 3.本demo仅完成基本的接口调用，失败重试、token过期重新获取、日志打印等优化工作需要开发者自行完成。
+ *
+ * @author data-baker
+ */
+
+public class AsrWebSocketDemo extends WebSocketListener {
+    /**
+     * 授权：需要在开放平台获取【https://ai.data-baker.com/】
+     */
+    private static final String clientId = "YOUR_CLIENT_ID";
+    private static final String clientSecret = "YOUR_CLIENT_SECRET";
+    /**
+     * 获取token的地址信息
+     */
+    public static String tokenUrl = "https://openapi.data-baker.com/oauth/2.0/token?grant_type=client_credentials&amp;client_secret=%s&amp;client_id=%s";
+
+    private static final String hostUrl = "wss://openapi.data-baker.com/asr/wsapi";
+    /**
+     * 文件路径【开发者需要根据实际路径调整。支持的音频编码格式:PCM(无压缩的PCM文件或WAV文件),采样率8K或16K,位深16bit,单声道】
+     */
+    private static final String file = "/home/asr/16bit_16k.pcm";
+
+
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd HH:mm:ss.SSS");
+
+    // 开始时间
+    private static ThreadLocal&lt;Date&gt; timeBegin = ThreadLocal.withInitial(() -&gt; new Date());
+
+    // 结束时间
+    private static ThreadLocal&lt;Date&gt; timeEnd = ThreadLocal.withInitial(() -&gt; new Date());
+
+    private Date startTime;
+
+    private String accessToken = getAccessToken();
+
+    private StringBuilder resultAsr = new StringBuilder();
+
+    @Override
+    public void onOpen(WebSocket webSocket, Response response) {
+        super.onOpen(webSocket, response);
+        this.startTime = timeBegin.get();
+        //该demo直接从文件中读取音频流【实际场景可能是实时从麦克风获取音频流，开发者自行修改获取音频流的逻辑即可】
+        new Thread(() -&gt; {
+            //连接成功，开始发送数据
+            //每一帧音频的大小,固定值,具体参考接口文档
+            int frameSize = 5120;
+            int interval = 40;
+            // 音频的序号
+            int req_idx = 0;
+            try (FileInputStream fs = new FileInputStream(file)) {
+                byte[] buffer = new byte[frameSize];
+                // 发送音频
+                while (true) {
+                    int len = fs.read(buffer);
+                    if (len &lt; frameSize) {
+                        //文件已读完
+                        req_idx = -1 - req_idx;
+                    }
+                    //发送音频
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("access_token", accessToken);
+                    jsonObject.put("version", "1.0");
+                    //填充asr_params
+                    JSONObject asrParams = new JSONObject();
+                    //domain非必填
+                    asrParams.put("domain", "common");
+                    asrParams.put("audio_format", "pcm");
+                    asrParams.put("sample_rate", 16000);
+                    asrParams.put("req_idx", req_idx);
+                    asrParams.put("audio_data", Base64.getEncoder().encodeToString(Arrays.copyOf(buffer, len&lt;0?0:len)));
+                    jsonObject.put("asr_params", asrParams);
+                    webSocket.send(jsonObject.toString());
+                    if (req_idx &gt;= 0) {
+                        req_idx++;
+                    }else {
+                        break;
+                    }
+                    //模拟音频采样延时【如果从麦克风获取音频流，可删除这句代码】
+                    Thread.sleep(interval);
+                }
+                System.out.println("all data is send");
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
+    @Override
+    public void onMessage(WebSocket webSocket, String text) {
+        super.onMessage(webSocket, text);
+        ResponseData resp = JSON.parseObject(text, ResponseData.class);
+        if (resp != null) {
+            if (resp.getCode() != 90000) {
+                System.out.println("code=&gt;" + resp.getCode() + " error=&gt;" + resp.getMessage() + " trace_id=" + resp.getTrace_id());
+                //关闭连接
+                webSocket.close(1000, "");
+                System.out.println("发生错误，关闭连接");
+                return;
+            }
+            if (resp.getData() != null) {
+                if (Integer.valueOf(1).equals(resp.getData().getEnd_flag())) {
+                    resultAsr.append(resp.getData().nbest);
+                    System.out.println("当前句子识别结束，识别结果 ==》" + resp.getData().nbest);
+                } else {
+                    System.out.println("当前句子识别未结束，中间识别结果 ==》" + resp.getData().nbest);
+                }
+            } else {
+                // todo 根据返回的数据处理
+            }
+        }
+    }
+
+    @Override
+    public void onFailure(WebSocket webSocket, Throwable t, Response response) {
+        super.onFailure(webSocket, t, response);
+        try {
+            if (null != response) {
+                int code = response.code();
+                System.out.println("onFailure code:" + code);
+                System.out.println("onFailure body:" + response.body().string());
+                if (101 != code) {
+                    System.out.println("connection failed");
+                    System.exit(0);
+                }
+            }
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 测试方法
+     *
+     * @param args
+     * @throws Exception
+     */
+    public static void main(String[] args) throws Exception {
+        OkHttpClient client = new OkHttpClient.Builder().build();
+        Request request = new Request.Builder().url(hostUrl).build();
+        client.newWebSocket(request, new AsrWebSocketDemo());
+    }
+
+    public static String getAccessToken() {
+        String accessToken = "";
+        OkHttpClient client = new OkHttpClient();
+        //request 默认是get请求
+        String url = String.format(tokenUrl, clientSecret, clientId);
+        Request request = new Request.Builder().url(url).build();
+        JSONObject jsonObject;
+        try {
+            Response response = client.newCall(request).execute();
+            if (response.isSuccessful()) {
+                //解析
+                String resultJson = response.body().string();
+                jsonObject = JSON.parseObject(resultJson);
+                accessToken = jsonObject.getString("access_token");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return accessToken;
+    }
+
+    public static class ResponseData {
+        /**
+         * 状态码（4xxxx表示客户端参数错误，5xxxx表示服务端内部错误）
+         */
+        private Integer code;
+        /**
+         * 错误描述
+         */
+        private String message;
+        /**
+         * 任务id
+         */
+        private String trace_id;
+        /**
+         * 会话id
+         */
+        private String sid;
+        /**
+         * payload数据
+         */
+        private Data data;
+
+
+        public Integer getCode() {
+            return code;
+        }
+
+        public void setCode(Integer code) {
+            this.code = code;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
+
+        public String getTrace_id() {
+            return trace_id;
+        }
+
+        public void setTrace_id(String trace_id) {
+            this.trace_id = trace_id;
+        }
+
+        public String getSid() {
+            return sid;
+        }
+
+        public void setSid(String sid) {
+            this.sid = sid;
+        }
+
+        public Data getData() {
+            return data;
+        }
+
+        public void setData(Data data) {
+            this.data = data;
+        }
+    }
+
+    /**
+     * payload类
+     */
+    public static class Data{
+        /**
+         * 数据块序列号，请求内容会以流式的数据块方式返回给客户端。服务器端生成，从1递增
+         */
+        private Integer res_idx;
+        /**
+         * 识别结果
+         */
+        private String nbest;
+        /**
+         * 识别结果预测
+         */
+        private String uncertain;
+        /**
+         * 是否是最后一个数据块，0：否，1：是
+         */
+        private Integer end_flag;
+
+        public Integer getRes_idx() {
+            return res_idx;
+        }
+
+        public void setRes_idx(Integer res_idx) {
+            this.res_idx = res_idx;
+        }
+
+        public String getNbest() {
+            return nbest;
+        }
+
+        public void setNbest(String nbest) {
+            this.nbest = nbest;
+        }
+
+        public String getUncertain() {
+            return uncertain;
+        }
+
+        public void setUncertain(String uncertain) {
+            this.uncertain = uncertain;
+        }
+
+        public Integer getEnd_flag() {
+            return end_flag;
+        }
+
+        public void setEnd_flag(Integer end_flag) {
+            this.end_flag = end_flag;
+        }
+    }
+}
+        <button class="copyClass">copy</button></pre></section> <h3 data-v-23870275="">PHP示例代码</h3> <section data-v-23870275=""><pre class="doc-sample doc-code" data-v-23870275="">&lt;?php
+    ini_set("max_execution_time", "300");
+    require_once "websocket-php/vendor/autoload.php";
+    //1.获取token
+    $client_secret = '***'; //应用secret
+    $client_id = '***'; //应用id
+    $grant_type = 'client_credentials'; //固定格式
+    $url = 'https://openapi.data-baker.com/oauth/2.0/token?grant_type='.$grant_type.'&amp;client_id='.$client_id.'&amp;client_secret='.$client_secret;
+
+    //curl get请求
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); //信任任何证书
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0); // 检查证书中是否设置域名,0不验证
+    $token_res = curl_exec($ch);
+
+    //如果错误 查看错误信息
+    if(curl_errno($ch))
+    {
+        print curl_error($ch);
+    }
+    curl_close($ch);
+
+    //进行token信息解析
+    $token_info = json_decode($token_res,1);
+    $access_token = $token_info['access_token'];    //获取到的token信息
+    //var_dump($access_token);die;
+    //$access_token = '***';
+
+    //2.一句话识别请求
+    $url = 'wss://openapi.data-baker.com/asr/wsapi/';
+    $file_path = './test.wav';//文件路径
+
+    //定义请求方法
+    $data_param['access_token'] = $access_token;
+    $data_param['version'] = '1.0';
+    $data_param['asr_params']['audio_format'] = 'wav';
+    $data_param['asr_params']['sample_rate'] = 16000;
+
+
+    //读取文件 发送数据请求
+    $client = new \WebSocket\Client($url); //实例化
+    $file_size = filesize($file_path); //获取文件大小
+    if(!$file_size) die("文件大小不能为0");
+    $package_nums = ceil($file_size/5120); //计算要发送的包数量
+    $handle = fopen($file_path,'rb');
+    $i=0; //起始音频编号
+
+    while (!feof($handle)){
+        if($i == $package_nums-1){
+            $data_param['asr_params']['req_idx'] = -$i;
+        }else{
+            $data_param['asr_params']['req_idx'] = $i;
+        }
+        $audio_info = fread($handle,5120);
+        $data_param['asr_params']['audio_data'] = base64_encode($audio_info);
+        $data = json_encode($data_param);
+        $client-&gt;send($data); //发送数据
+        $i++;
+    }
+
+    //监听数据
+    $flag = true;
+    while ($flag) {
+        try {
+            $message = $client-&gt;receive();//获取数据
+            $result_info = json_decode($message,1);
+            if($result_info['code'] == 90000){
+                if($result_info['data']['end_flag']==1){
+                    //(说明，根据业务逻辑情况使用，本示例对返回完整信息进行展示)
+                    $flag=false;//最后一包数据获取完成 停止获取数据
+                    var_dump($result_info['data']['nbest']);
+                }
+            }else{
+                throw new Exception($result_info['message']);
+            }
+
+        } catch (\WebSocket\ConnectionException $e) {
+            die($e-&gt;getMessage());
+        }
+    }<button class="copyClass">copy</button></pre></section> <h3 data-v-23870275="">GO示例代码</h3> <section data-v-23870275=""><pre class="doc-sample doc-code" data-v-23870275="">package main
+
+import (
+	"encoding/base64"
+	"encoding/json"
+	"errors"
+	"flag"
+	"fmt"
+	"github.com/gorilla/websocket"
+	"io/ioutil"
+	"net/http"
+	"net/url"
+	"os"
+	"time"
+)
+
+type AuthInfo struct {
+	AccessToken string `json:"access_token"`
+	ExpiresIn   int    `json:"expires_in"`
+	Scope       string `json:"scope"`
+}
+
+type ReqParams struct {
+	AudioData       string `json:"audio_data"`
+	AudioFormat     string `json:"audio_format"`
+	SampleRate      int    `json:"sample_rate"`
+	ReqIdx          int    `json:"req_idx"`
+	Domain          string `json:"domain,omitempty"`
+	AddPct          bool   `json:"add_pct"`
+	Hotwordid       string `json:"hotwordid,omitempty"`
+	Diylmid         string `json:"diylmid,omitempty"`
+	EnableVad       bool   `json:"enable_vad"`
+	MaxBeginSilence int    `json:"max_begin_silence,omitempty"`
+	MaxEndSilence   int    `json:"max_end_silence,omitempty"`
+}
+type WsReqParam struct {
+	AccessToken string    `json:"access_token"`
+	Version     string    `json:"version"`
+	Params      ReqParams `json:"asr_params"`
+}
+
+type WsMsgData struct {
+	ResIdx    int      `json:"res_idx"`
+	Nbest     []string `json:"nbest"`
+	Uncertain []string `json:"uncertain"`
+	EndFlag   int      `json:"end_flag"`
+}
+type WsMsg struct {
+	Code    int       `json:"code"`
+	Message string    `json:"message"`
+	TraceId string    `json:"trace_id"`
+	Data    WsMsgData `json:"data"`
+}
+
+const grantType string = "client_credentials"
+
+func GetToken(reqUrl, clientId, clientSecret string) (string, error) {
+	// 超时时间：60秒
+	client := &amp;http.Client{Timeout: 60 * time.Second}
+	urlParams := url.Values{}
+	urlParams.Add("grant_type", grantType)
+	urlParams.Add("client_id", clientId)
+	urlParams.Add("client_secret", clientSecret)
+	httpUrl := reqUrl
+	httpUrl += "?"
+	httpUrl += urlParams.Encode()
+	fmt.Printf("httpUrl: %s\n\n", httpUrl)
+	resp, err := client.Get(httpUrl)
+	if err != nil {
+		fmt.Printf("send http get token request failed, err: %s\n", err)
+		return "", err
+	}
+	defer resp.Body.Close()
+	result, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Printf("http get token request, readall body failed, err: %s\n", err)
+		return "", err
+	}
+	authInfo := AuthInfo{}
+	err = json.Unmarshal(result, &amp;authInfo)
+	if err != nil {
+		fmt.Printf("auth info json.Unmarshal err: %s \n", err)
+		return "", err
+	}
+	if len(authInfo.AccessToken) &lt;= 0 {
+		return "", errors.New("access token is null")
+	}
+	fmt.Printf("get token success. info: %#v \n", authInfo)
+	return authInfo.AccessToken, nil
+}
+
+func RecvMsg(conn *websocket.Conn, chn chan error) {
+	var err error
+	for {
+		msg := WsMsg{}
+		err = conn.ReadJSON(&amp;msg)
+		if err != nil {
+			fmt.Printf("websocket read json failed.\n")
+			break
+		}
+		if msg.Code != 90000 {
+			err = fmt.Errorf("error_code %d, msg: %s traceId: %s ", msg.Code, msg.Message, msg.TraceId)
+			break
+		}
+		fmt.Printf("ResIdx:\t%d\nnbest:\t%v\n", msg.Data.ResIdx, msg.Data.Nbest)
+		if len(msg.Data.Uncertain) &gt; 0 {
+			fmt.Printf("uncertain:\t%v\n", msg.Data.Uncertain)
+		}
+		fmt.Printf("endflag:\t%d\n\n", msg.Data.EndFlag)
+		if msg.Data.EndFlag == 1 {
+			break
+		}
+	}
+	chn &lt;- err
+}
+
+func SendAsr(urlStr, file string, reqParam WsReqParam) error {
+	conn, _, err := websocket.DefaultDialer.Dial(urlStr, nil)
+	if err != nil {
+		fmt.Printf("websocket dial failed. url: %s\n", urlStr)
+		return err
+	}
+	defer conn.Close()
+
+	audioData, err := ioutil.ReadFile(file)
+	if err != nil {
+		fmt.Println("read file failed!!!")
+		return err
+	}
+	// channel 等待返回使用
+	chn := make(chan error)
+	// 开启接收websocket 消息 协程
+	go RecvMsg(conn, chn)
+
+	for index := 0; index &lt; len(audioData); index += 5120 {
+		reqIdx := index / 5120
+		if index+5120 &gt;= len(audioData) {
+			reqIdx = -reqIdx
+			audio := audioData[index:]
+			reqParam.Params.AudioData = base64.StdEncoding.EncodeToString(audio)
+		} else {
+			audio := audioData[index : index+5120]
+			reqParam.Params.AudioData = base64.StdEncoding.EncodeToString(audio)
+		}
+		reqParam.Params.ReqIdx = reqIdx
+		fmt.Printf("send req_idx: %d\n", reqIdx)
+		err = conn.WriteJSON(reqParam)
+		if err != nil {
+			fmt.Printf("websocket write json failed. url: %s\n", urlStr)
+			chn &lt;- err
+			break
+		}
+	}
+	fmt.Println("send audio data finish.")
+	// 等待channel 返回
+	err = &lt;-chn
+	return err
+}
+
+func main() {
+	var (
+		clientId, clientSecret, file, AudioFormat, domain, hotwordid, diylmid string
+		SampleRate, maxBeginSilence, maxEndSilence                            int
+		addPct, enableVad                                                     bool
+	)
+	flag.StringVar(&amp;clientId, "cid", "", "client id")
+	flag.StringVar(&amp;clientSecret, "cs", "", "client secret")
+	flag.StringVar(&amp;file, "f", "", "识别音频文件")
+	flag.StringVar(&amp;AudioFormat, "audio_format", "wav", "音频编码格式wav, pcm")
+	flag.IntVar(&amp;SampleRate, "sample_rate", 16000, "音频采样率8000, 16000")
+	flag.StringVar(&amp;domain, "domain", "", "模型名称")
+	flag.BoolVar(&amp;addPct, "add_pct", true, "加标点")
+	flag.StringVar(&amp;hotwordid, "hotwordid", "", "配置的热词组的id")
+	flag.StringVar(&amp;diylmid, "diylmid", "", "asr个性化模型的id")
+	flag.BoolVar(&amp;enableVad, "enable_vad", false, "静音检测")
+	flag.Parse()
+	if len(os.Args) &lt; 2 {
+		flag.Usage()
+		return
+	}
+	if len(clientId) &lt;= 0 || len(clientSecret) &lt;= 0 || len(file) &lt;= 0 || len(AudioFormat) &lt;= 0 {
+		fmt.Println("parameter error!!!")
+		return
+	}
+	accessToken, err := GetToken("https://openapi.data-baker.com/oauth/2.0/token",
+		clientId,
+		clientSecret,
+	)
+	if err != nil {
+		fmt.Println("get access token failed!!!! please check your client_id and client_secret.")
+		return
+	}
+	param := WsReqParam{
+		AccessToken: accessToken,
+		Version:     "1.0",
+		Params: ReqParams{
+			AudioFormat:     AudioFormat,
+			SampleRate:      SampleRate,
+			ReqIdx:          0,
+			Domain:          domain,
+			AddPct:          addPct,
+			Hotwordid:       hotwordid,
+			Diylmid:         diylmid,
+			EnableVad:       enableVad,
+			MaxBeginSilence: maxBeginSilence,
+			MaxEndSilence:   maxEndSilence,
+		},
+	}
+	err = SendAsr("wss://openapi.data-baker.com/asr/wsapi", file, param)
+	if err != nil {
+		fmt.Printf("send websocket request failed. err: %s \n", err.Error())
+		return
+	}
+	fmt.Println("send websocket request success.")
+}<button class="copyClass">copy</button></pre></section> <h3 data-v-23870275="">C示例代码</h3> <section data-v-23870275=""><p data-v-23870275="">代码地址：<a data-v-23870275="" href="https://github.com/data-baker/BakerSpeechApiDemo/tree/main/asr-websoket-api/single_sentence_recognition" target="_blank">Github</a></p></section> <h3 data-v-23870275="" id="asrApi-2">响应结果参数</h3> <section data-v-23870275=""><strong data-v-23870275="">1.成功时</strong> <div class="table-wrap"><table class="doc-table" data-v-23870275="" border="0" cellspacing="0" cellpadding="0" style="margin: 20px 0px;"><thead data-v-23870275=""><tr data-v-23870275=""><th data-v-23870275="" style="white-space: nowrap;">参数名称</th> <th data-v-23870275="">类型</th> <th data-v-23870275="">描述</th></tr></thead> <tbody data-v-23870275=""><tr data-v-23870275=""><td data-v-23870275="">code</td> <td data-v-23870275="">int</td> <td data-v-23870275="">错误码4xxxx表示客户端参数错误，5xxxx表示服务端内部错误</td></tr> <tr data-v-23870275=""><td data-v-23870275="">message</td> <td data-v-23870275="">string</td> <td data-v-23870275="">错误描述</td></tr> <tr data-v-23870275=""><td data-v-23870275="">trace_id</td> <td data-v-23870275="">string</td> <td data-v-23870275="">任务id 用于定位错误跟踪日志</td></tr> <tr data-v-23870275=""><td data-v-23870275="">data</td> <td data-v-23870275="">Object</td> <td data-v-23870275="">识别结果</td></tr></tbody></table></div> <p data-v-23870275="">data内部结构：</p> <div class="table-wrap"><table class="doc-table" data-v-23870275="" border="0" cellspacing="0" cellpadding="0" style="margin: 20px 0px;"><thead data-v-23870275=""><tr data-v-23870275=""><th data-v-23870275="" style="white-space: nowrap;">参数名称</th> <th data-v-23870275="">类型</th> <th data-v-23870275="">描述</th></tr></thead> <tbody data-v-23870275=""><tr data-v-23870275=""><td data-v-23870275="">res_idx</td> <td data-v-23870275="">int</td> <td data-v-23870275="">数据块序列号，请求内容会以流式的数据块方式返回给客户端。服务器端生成，从1递增</td></tr> <tr data-v-23870275=""><td data-v-23870275="">nbest</td> <td data-v-23870275="">stringArray</td> <td data-v-23870275="">识别结果</td></tr> <tr data-v-23870275=""><td data-v-23870275="">end_flag</td> <td data-v-23870275="">int</td> <td data-v-23870275="">是否是最后一个数据块，0：否，1：是</td></tr> <tr data-v-23870275=""><td data-v-23870275="">text</td> <td data-v-23870275="">string</td> <td data-v-23870275="">语音识别结果，失败时为空</td></tr> <tr data-v-23870275=""><td data-v-23870275="">confidence</td> <td data-v-23870275="">string</td> <td data-v-23870275="">整句置信度[0-100]，值越大表示置信度越高。</td></tr> <tr data-v-23870275=""><td data-v-23870275="">speed</td> <td data-v-23870275="">int</td> <td data-v-23870275="">语速，取值[0-2000]</td></tr> <tr data-v-23870275=""><td data-v-23870275="">speed_label</td> <td data-v-23870275="">string</td> <td data-v-23870275="">
+              语速标签：<br data-v-23870275="">
+              15以下：FAST 快<br data-v-23870275="">
+              15-30 : MEDIUM 适中<br data-v-23870275="">
+              30-2000：SLOW 慢
+            </td></tr> <tr data-v-23870275=""><td data-v-23870275="">volume</td> <td data-v-23870275="">int</td> <td data-v-23870275="">音量，取值[0-100]</td></tr> <tr data-v-23870275=""><td data-v-23870275="">volume_label</td> <td data-v-23870275="">string</td> <td data-v-23870275="">
+              音量标签：<br data-v-23870275="">
+              SILENT：0-15 静音<br data-v-23870275="">
+              XSOFT：15-30 音量很小<br data-v-23870275="">
+              SOFT：30-50 音量小<br data-v-23870275="">
+              MEDIUM：50-70 音量适中<br data-v-23870275="">
+              LOAD：70-85 音量大<br data-v-23870275="">
+              XLOUD：85-100 音量很大
+            </td></tr> <tr data-v-23870275=""><td data-v-23870275="">words</td> <td data-v-23870275="">array</td> <td data-v-23870275="">词级别识别结果</td></tr></tbody></table></div> <p data-v-23870275="">words内部结构:</p> <div class="table-wrap"><table class="doc-table" data-v-23870275="" border="0" cellspacing="0" cellpadding="0" style="margin: 20px 0px;"><thead data-v-23870275=""><tr data-v-23870275=""><th data-v-23870275="" style="white-space: nowrap;">参数名称</th> <th data-v-23870275="">类型</th> <th data-v-23870275="">描述</th></tr></thead> <tbody data-v-23870275=""><tr data-v-23870275=""><td data-v-23870275="">confidence</td> <td data-v-23870275="">string</td> <td data-v-23870275="">词置信度[0-1]，值越大表示置信度越高。</td></tr> <tr data-v-23870275=""><td data-v-23870275="">sos</td> <td data-v-23870275="">string</td> <td data-v-23870275="">词在音频中的绝对开始时间点 单位：秒</td></tr> <tr data-v-23870275=""><td data-v-23870275="">eos</td> <td data-v-23870275="">string</td> <td data-v-23870275="">词在音频中的绝对结束时间点 单位：秒</td></tr> <tr data-v-23870275=""><td data-v-23870275="">word</td> <td data-v-23870275="">string</td> <td data-v-23870275="">词</td></tr></tbody></table></div></section> <h3 data-v-23870275="">响应结果示例</h3> <section data-v-23870275=""><pre class="doc-sample doc-code" data-v-23870275="">{
+	"code": 90000,
+	"data": {
+		"confidence": "68.31",
+		"end_flag": 1,
+		"nbest": ["欢迎使用标贝科技开放平台。"],
+		"res_idx": 20,
+		"speed": 26,
+		"speed_label": "MEDIUM",
+		"text": "欢迎使用标贝科技开放平台。",
+		"volume": 45,
+		"volume_label": "SOFT",
+		"words": [{
+			"confidence": "0.40",
+			"eos": "0.51",
+			"sos": "0.06",
+			"word": "欢迎"
+		}, {
+			"confidence": "0.80",
+			"eos": "1.05",
+			"sos": "0.51",
+			"word": "使用"
+		}, {
+			"confidence": "0.40",
+			"eos": "1.52",
+			"sos": "1.05",
+			"word": "标贝"
+		}, {
+			"confidence": "1.00",
+			"eos": "1.95",
+			"sos": "1.52",
+			"word": "科技"
+		}, {
+			"confidence": "0.50",
+			"eos": "2.40",
+			"sos": "1.95",
+			"word": "开放"
+		}, {
+			"confidence": "1.00",
+			"eos": "3.12",
+			"sos": "2.40",
+			"word": "平台"
+		}]
+	},
+	"message": "Success",
+	"trace_id": "1652148314904999"
+}<button class="copyClass">copy</button></pre></section> <h3 data-v-23870275="">错误码</h3> <section data-v-23870275=""><div class="table-wrap"><table class="doc-table" data-v-23870275="" border="0" cellspacing="0" cellpadding="0"><thead data-v-23870275=""><tr data-v-23870275=""><th data-v-23870275="">错误码</th> <th data-v-23870275="">描述</th> <th data-v-23870275="">解决方案</th></tr></thead> <tbody data-v-23870275=""><tr data-v-23870275=""><td data-v-23870275="">90000</td> <td data-v-23870275="">文本数据</td> <td data-v-23870275=""></td></tr> <tr data-v-23870275=""><td data-v-23870275="">90001</td> <td data-v-23870275="">检测到音频</td> <td data-v-23870275="">正常</td></tr> <tr data-v-23870275=""><td data-v-23870275="">90002</td> <td data-v-23870275="">未检测到音频，超过最大开始静音时长</td> <td data-v-23870275="">请检查音频有效长度，或者调整最大开始静音时长参数</td></tr> <tr data-v-23870275=""><td data-v-23870275="">30001</td> <td data-v-23870275="">HTTP请求参数错误</td> <td data-v-23870275="" rowspan="16">服务器内部错误，提交traceid，标贝后台进行排查。</td></tr> <tr data-v-23870275=""><td data-v-23870275="">30002</td> <td data-v-23870275="">服务内部错误</td></tr> <tr data-v-23870275=""><td data-v-23870275="">30003</td> <td data-v-23870275="">识别结果解析出错</td></tr> <tr data-v-23870275=""><td data-v-23870275="">30004</td> <td data-v-23870275="">应用包名未知</td></tr> <tr data-v-23870275=""><td data-v-23870275="">30005</td> <td data-v-23870275="">语音质量问题</td></tr> <tr data-v-23870275=""><td data-v-23870275="">30006</td> <td data-v-23870275="">输入语音过长</td></tr> <tr data-v-23870275=""><td data-v-23870275="">30007</td> <td data-v-23870275="">连接识别引擎失败</td></tr> <tr data-v-23870275=""><td data-v-23870275="">30008</td> <td data-v-23870275="">会话id不存在</td></tr> <tr data-v-23870275=""><td data-v-23870275="">30009</td> <td data-v-23870275="">Rpc调用非法</td></tr> <tr data-v-23870275=""><td data-v-23870275="">30010</td> <td data-v-23870275="">redis rpop操作返回空</td></tr> <tr data-v-23870275=""><td data-v-23870275="">30011</td> <td data-v-23870275="">redis rpop值不合法</td></tr> <tr data-v-23870275=""><td data-v-23870275="">30012</td> <td data-v-23870275="">rpc调用识别引擎失败</td></tr> <tr data-v-23870275=""><td data-v-23870275="">30013</td> <td data-v-23870275="">Redis rpop操作失败</td></tr> <tr data-v-23870275=""><td data-v-23870275="">30014</td> <td data-v-23870275="">redis lpush操作失败</td></tr> <tr data-v-23870275=""><td data-v-23870275="">30015</td> <td data-v-23870275="">单个语音分片过长</td></tr> <tr data-v-23870275=""><td data-v-23870275="">30016</td> <td data-v-23870275="">回调url失败</td></tr> <tr data-v-23870275=""><td data-v-23870275="">40001</td> <td data-v-23870275="">json解析失败</td> <td data-v-23870275="">将请求序列化为json结构</td></tr> <tr data-v-23870275=""><td data-v-23870275="">40002</td> <td data-v-23870275="">json字段不全</td> <td data-v-23870275="" rowspan="4">检查对应的参数是否正确</td></tr> <tr data-v-23870275=""><td data-v-23870275="">40003</td> <td data-v-23870275="">版本错误</td></tr> <tr data-v-23870275=""><td data-v-23870275="">40004</td> <td data-v-23870275="">json字段值类型错误</td></tr> <tr data-v-23870275=""><td data-v-23870275="">40005</td> <td data-v-23870275="">参数错误</td></tr> <tr data-v-23870275=""><td data-v-23870275="">40006</td> <td data-v-23870275="">idx超时</td> <td data-v-23870275="">相邻idx间隔超过设置超时值（默认60s）</td></tr> <tr data-v-23870275=""><td data-v-23870275="">40007</td> <td data-v-23870275="">idx顺序错误</td> <td data-v-23870275="">idx乱序</td></tr> <tr data-v-23870275=""><td data-v-23870275="">40008</td> <td data-v-23870275="">token校验失败</td> <td data-v-23870275=""></td></tr> <tr data-v-23870275=""><td data-v-23870275="">40009</td> <td data-v-23870275="">token处于未激活状态</td> <td data-v-23870275="">检查相应的client_id</td></tr> <tr data-v-23870275=""><td data-v-23870275="">40010</td> <td data-v-23870275="">token已过期</td> <td data-v-23870275="">重新获取token</td></tr> <tr data-v-23870275=""><td data-v-23870275="">40011</td> <td data-v-23870275="">使用量已超过购买量</td> <td data-v-23870275="">检查相应的client_id</td></tr> <tr data-v-23870275=""><td data-v-23870275="">40012</td> <td data-v-23870275="">qps错误</td> <td data-v-23870275="">增大qps</td></tr> <tr data-v-23870275=""><td data-v-23870275="">50001</td> <td data-v-23870275="">处理超时</td> <td data-v-23870275="" rowspan="4"></td></tr> <tr data-v-23870275=""><td data-v-23870275="">50002</td> <td data-v-23870275="">内部 rpc 调用失败</td></tr> <tr data-v-23870275=""><td data-v-23870275="">50003</td> <td data-v-23870275="">服务端繁忙</td></tr> <tr data-v-23870275=""><td data-v-23870275="">50004</td> <td data-v-23870275="">其他内部错误</td></tr> <tr data-v-23870275=""><td data-v-23870275="">50005</td> <td data-v-23870275="">vad检测过程异常报错</td> <td data-v-23870275="">服务内部错误，提交traceid，标贝后台进行排查。</td></tr></tbody></table></div></section></div>

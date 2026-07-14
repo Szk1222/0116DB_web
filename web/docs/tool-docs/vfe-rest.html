@@ -1,50 +1,25 @@
-<h1>声音理解 RESTful API</h1>
-<p class="doc-lead">声音理解接口根据音频数据分析说话人的性别、年龄和音频类别，返回结构化结果。</p>
-
-<h2>音频要求</h2>
-<ul>
-<li>格式：PCM。</li>
-<li>采样率：16000Hz。</li>
-<li>位深：16bit。</li>
-<li>声道：单声道。</li>
-<li>时长：最短 1 秒，最长 30 秒。</li>
-<li>音频需要先进行 Base64 编码。</li>
-</ul>
-
-<h2>调用流程</h2>
-<ol>
-<li>在开放平台创建账号和应用，获取 <code>client_id</code> 与 <code>client_secret</code>。</li>
-<li>调用访问令牌接口获取 <code>access_token</code>。</li>
-<li>向声音理解接口提交 JSON 请求。</li>
-</ol>
-
-<h2 id="request">请求说明</h2>
-<p>接口类型：REST API。</p>
-<p>服务接口：<a href="https://openapi.data-baker.com/vcf/voiceClassification" target="_blank" rel="noopener">https://openapi.data-baker.com/vcf/voiceClassification</a></p>
-<p>请求方法：<code>POST</code>。请求头：<code>Content-Type: application/json</code>。</p>
-
-<h3>请求参数</h3>
-<div class="table-wrap">
-<table class="doc-table">
-<thead><tr><th>参数</th><th>类型</th><th>必填</th><th>说明</th></tr></thead>
-<tbody>
-<tr><td><code>access_token</code></td><td>String</td><td>是</td><td>访问令牌。</td></tr>
-<tr><td><code>format</code></td><td>String</td><td>是</td><td>固定为 <code>pcm</code>。</td></tr>
-<tr><td><code>audio</code></td><td>String</td><td>是</td><td>Base64 编码后的音频数据，需满足音频要求。</td></tr>
-<tr><td><code>request_type</code></td><td>String</td><td>是</td><td><code>gender</code> 性别，<code>age</code> 年龄，<code>category</code> 类别，<code>all</code> 全部返回。</td></tr>
-</tbody>
-</table>
-</div>
-<pre><code class="language-json">{
-  "access_token": "your_access_token",
-  "format": "pcm",
-  "audio": "BASE64_AUDIO",
-  "request_type": "all"
-}</code></pre>
-
-<h2>返回结果</h2>
-<p>返回数据为 JSON 格式，<code>err_msg</code> 为 <code>SUCCESS</code> 表示调用成功。</p>
-<pre><code class="language-json">{
+<div data-v-213fe379=""><h2 data-v-213fe379="">声音理解 Restful API</h2> <h3 data-v-213fe379="">功能介绍</h3> <section data-v-213fe379="" style="margin-bottom: 25px; color: rgb(51, 51, 51);">机器对说话者的年龄大小、性别属性进行分析，可以通过收到的音频数据判定发音人的基本信息
+    </section> <h3 data-v-213fe379="">音频要求</h3> <section data-v-213fe379=""><ul data-v-213fe379=""><li data-v-213fe379="">音频时长：最小1秒，最大30秒</li> <li data-v-213fe379="">支持音频格式：pcm</li> <li data-v-213fe379="">音频采样率：16000Hz</li> <li data-v-213fe379="">位深：16bit</li></ul></section> <h3 data-v-213fe379="">使用方法</h3> <section data-v-213fe379=""><p data-v-213fe379="">1. 创建账号和应用，详见
+        <a data-v-213fe379="" href="/specs/file/guide" class="">
+          平台新手指引
+        </a>
+        ，通过
+        <a data-v-213fe379="" href="https://ai.data-baker.com/" target="_blank">
+          标贝开放平台
+        </a>
+        应用/服务获取client_id，client_secret
+      </p> <p data-v-213fe379="">
+        2. 发送请求获取access_token，详见
+        <a data-v-213fe379="" href="/specs/file/access_token" class="">获取访问令牌</a></p> <p data-v-213fe379="">
+        3. 获取token后，发送声音理解接口：按照请求说明发送请求，具体参数详见 <a data-v-213fe379="" href="/specs/file/vfe_api_restful#request">请求说明</a>。
+      </p></section> <h3 data-v-213fe379="" id="request">请求说明</h3> <section data-v-213fe379=""><p data-v-213fe379="" class="shortshow"><span data-v-213fe379="">功能介绍：</span>机器对说话者的年龄大小、性别属性进行分析，可以通过收到的音频数据判定发音人的基本信息</p> <p data-v-213fe379="" class="shortshow"><span data-v-213fe379="">接口类型：</span> REST API</p> <h4 data-v-213fe379="">服务接口</h4> <p data-v-213fe379=""><a data-v-213fe379="" href="https://openapi.data-baker.com/vcf/voiceClassification" target="_blank">https://openapi.data-baker.com/vcf/voiceClassification</a></p> <h4 data-v-213fe379="">请求参数</h4> <p data-v-213fe379="">请求参数采用json方式，content_type为application/json</p> <h4 data-v-213fe379="">请求示例</h4> <pre class="doc-sample doc-code" data-v-213fe379="">{
+  "access_token":" your_access_token",
+  "format":"wav",
+  "audio":"AAAAAA",
+  "request_type":"all"
+}<button class="copyClass">copy</button></pre> <p data-v-213fe379="">params字段说明</p> <div class="table-wrap"><table class="doc-table" data-v-213fe379="" border="0" cellspacing="0" cellpadding="0"><thead data-v-213fe379=""><tr data-v-213fe379=""><th data-v-213fe379="" style="width: 100px;">参数名称</th> <th data-v-213fe379="" style="width: 70px;">类型</th> <th data-v-213fe379="" style="width: 70px;">是否必填项</th> <th data-v-213fe379="">说明</th></tr></thead> <tbody data-v-213fe379=""><tr data-v-213fe379=""><td data-v-213fe379="">access_token</td> <td data-v-213fe379="">string</td> <td data-v-213fe379="">yes</td> <td data-v-213fe379="">
+              通过 client_id，client_secret 调用授权服务获得见
+              <a data-v-213fe379="" href="/specs/file/access_token" class="">获取访问令牌</a></td></tr> <tr data-v-213fe379=""><td data-v-213fe379="">format</td> <td data-v-213fe379="">string</td> <td data-v-213fe379="">yes</td> <td data-v-213fe379="">pcm</td></tr> <tr data-v-213fe379=""><td data-v-213fe379="">audio</td> <td data-v-213fe379="">string</td> <td data-v-213fe379="">yes</td> <td data-v-213fe379="">音频数据需进行base64（单声道，采样率16K，位深16位，pcm音频，最短1秒，最长30秒）</td></tr> <tr data-v-213fe379=""><td data-v-213fe379="">request_type</td> <td data-v-213fe379="">string</td> <td data-v-213fe379="">yes</td> <td data-v-213fe379="">gender:性别，<br data-v-213fe379="">age:年龄,<br data-v-213fe379=""> category:类别，<br data-v-213fe379="">all:全部</td></tr></tbody></table></div> <h4 data-v-213fe379="">返回示例</h4> <pre class="doc-sample doc-code" data-v-213fe379="">{
   "err_msg": "SUCCESS",
   "log_id": "1637549378324843",
   "err_no": 90000,
@@ -53,30 +28,4 @@
     "category": "speech",
     "gender": "male"
   }
-}</code></pre>
-<div class="table-wrap">
-<table class="doc-table">
-<thead><tr><th>字段</th><th>类型</th><th>说明</th></tr></thead>
-<tbody>
-<tr><td><code>gender</code></td><td>String</td><td><code>male</code> 或 <code>female</code>。</td></tr>
-<tr><td><code>age</code></td><td>String</td><td><code>child</code>、<code>middle</code> 或 <code>old</code>。</td></tr>
-<tr><td><code>category</code></td><td>String</td><td><code>speech</code> 或 <code>noise</code>。</td></tr>
-</tbody>
-</table>
-</div>
-
-<h2>错误码</h2>
-<div class="table-wrap">
-<table class="doc-table">
-<thead><tr><th>错误码</th><th>说明</th></tr></thead>
-<tbody>
-<tr><td><code>90000</code></td><td>成功。</td></tr>
-<tr><td><code>10001</code> - <code>10003</code></td><td>请求参数、请求体或请求头错误。</td></tr>
-<tr><td><code>20001</code> - <code>20003</code></td><td>数据库、资源或缓存服务错误。</td></tr>
-<tr><td><code>30001</code> - <code>30005</code></td><td>音频过长、过短、数据错误、调用次数或并发超限。</td></tr>
-<tr><td><code>30006</code></td><td>请求类型错误。</td></tr>
-<tr><td><code>40001</code></td><td>引擎内部错误。</td></tr>
-<tr><td><code>50001</code> - <code>50002</code></td><td>访问令牌校验失败或无效。</td></tr>
-</tbody>
-</table>
-</div>
+}<button class="copyClass">copy</button></pre> <h4 data-v-213fe379="">响应结果</h4> <p data-v-213fe379="">Content-Type 为 application/json</p> <p data-v-213fe379="">返回数据为 json 格式，err_msg 字段为 SUCCESS 表示调用成功</p> <div class="table-wrap"><table class="doc-table" data-v-213fe379="" border="0" cellspacing="0" cellpadding="0"><thead data-v-213fe379=""><tr data-v-213fe379=""><th data-v-213fe379="">参数名称</th> <th data-v-213fe379="">类型</th> <th data-v-213fe379="">说明</th></tr></thead> <tbody data-v-213fe379=""><tr data-v-213fe379=""><td data-v-213fe379="">err_msg</td> <td data-v-213fe379="">String</td> <td data-v-213fe379="">错误信息</td></tr> <tr data-v-213fe379=""><td data-v-213fe379="">log_id</td> <td data-v-213fe379="">String</td> <td data-v-213fe379="">日志标识</td></tr> <tr data-v-213fe379=""><td data-v-213fe379="">err_no</td> <td data-v-213fe379="">Int</td> <td data-v-213fe379="">错误码</td></tr> <tr data-v-213fe379=""><td data-v-213fe379="">result</td> <td data-v-213fe379="">Object</td> <td data-v-213fe379="">返回结果数据</td></tr></tbody></table></div> <p data-v-213fe379="" style="margin-top: 15px; margin-bottom: 15px;"><b data-v-213fe379="">result：</b></p> <div class="table-wrap"><table class="doc-table" data-v-213fe379="" border="0" cellspacing="0" cellpadding="0"><thead data-v-213fe379=""><tr data-v-213fe379=""><th data-v-213fe379="">参数名称</th> <th data-v-213fe379="">类型</th> <th data-v-213fe379="">说明</th></tr></thead> <tbody data-v-213fe379=""><tr data-v-213fe379=""><td data-v-213fe379="">gender</td> <td data-v-213fe379="">String</td> <td data-v-213fe379="">性别：male,female</td></tr> <tr data-v-213fe379=""><td data-v-213fe379="">age</td> <td data-v-213fe379="">String</td> <td data-v-213fe379="">年龄：child,middle,old</td></tr> <tr data-v-213fe379=""><td data-v-213fe379="">category</td> <td data-v-213fe379="">String</td> <td data-v-213fe379="">类型：speech,noise</td></tr></tbody></table></div></section> <h3 data-v-213fe379="">错误码</h3> <section data-v-213fe379=""><h4 data-v-213fe379="">错误码分类</h4> <div class="table-wrap"><table class="doc-table" data-v-213fe379="" border="0" cellspacing="0" cellpadding="0"><thead data-v-213fe379=""><tr data-v-213fe379=""><th data-v-213fe379="">err_no</th> <th data-v-213fe379="">描述</th></tr></thead> <tbody data-v-213fe379=""><tr data-v-213fe379=""><td data-v-213fe379="">100xx</td> <td data-v-213fe379="">请求参数错误</td></tr> <tr data-v-213fe379=""><td data-v-213fe379="">200xx</td> <td data-v-213fe379="">链接服务器错误</td></tr> <tr data-v-213fe379=""><td data-v-213fe379="">300xx</td> <td data-v-213fe379="">业务调用错误</td></tr> <tr data-v-213fe379=""><td data-v-213fe379="">400xx</td> <td data-v-213fe379="">引擎内部错误</td></tr> <tr data-v-213fe379=""><td data-v-213fe379="">500xx</td> <td data-v-213fe379="">授权相关错误</td></tr></tbody></table></div> <h4 data-v-213fe379="">详细错误码</h4> <div class="table-wrap"><table class="doc-table" data-v-213fe379="" border="0" cellspacing="0" cellpadding="0"><thead data-v-213fe379=""><tr data-v-213fe379=""><th data-v-213fe379="">err_no</th> <th data-v-213fe379="">描述</th></tr></thead> <tbody data-v-213fe379=""><tr data-v-213fe379=""><td data-v-213fe379="">90000</td> <td data-v-213fe379="">成功</td></tr> <tr data-v-213fe379=""><td data-v-213fe379="">10001</td> <td data-v-213fe379="">请求参数错误</td></tr> <tr data-v-213fe379=""><td data-v-213fe379="">10002</td> <td data-v-213fe379="">请求体格式错误</td></tr> <tr data-v-213fe379=""><td data-v-213fe379="">10003</td> <td data-v-213fe379="">请求头错误</td></tr> <tr data-v-213fe379=""><td data-v-213fe379="">20001</td> <td data-v-213fe379="">数据库错误</td></tr> <tr data-v-213fe379=""><td data-v-213fe379="">20002</td> <td data-v-213fe379="">资源请求错误</td></tr> <tr data-v-213fe379=""><td data-v-213fe379="">20003</td> <td data-v-213fe379="">REDIS数据库错误</td></tr> <tr data-v-213fe379=""><td data-v-213fe379="">30001</td> <td data-v-213fe379="">语音过长错误</td></tr> <tr data-v-213fe379=""><td data-v-213fe379="">30002</td> <td data-v-213fe379="">语音过短错误</td></tr> <tr data-v-213fe379=""><td data-v-213fe379="">30003</td> <td data-v-213fe379="">语音数据错误</td></tr> <tr data-v-213fe379=""><td data-v-213fe379="">30004</td> <td data-v-213fe379="">调用数量已达上限</td></tr> <tr data-v-213fe379=""><td data-v-213fe379="">30005</td> <td data-v-213fe379="">并发超出限制</td></tr> <tr data-v-213fe379=""><td data-v-213fe379="">30006</td> <td data-v-213fe379="">请求类型错误</td></tr> <tr data-v-213fe379=""><td data-v-213fe379="">40001</td> <td data-v-213fe379="">引擎内部错误</td></tr> <tr data-v-213fe379=""><td data-v-213fe379="">50001</td> <td data-v-213fe379="">校验token错误</td></tr> <tr data-v-213fe379=""><td data-v-213fe379="">50002</td> <td data-v-213fe379="">token无效错误</td></tr></tbody></table></div></section></div>

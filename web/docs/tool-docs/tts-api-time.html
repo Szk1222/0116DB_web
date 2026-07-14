@@ -1,0 +1,330 @@
+<div data-v-16a60a30=""><h2 data-v-16a60a30="">语音合成时间戳功能介绍</h2> <h3 data-v-16a60a30="">功能介绍</h3> <section data-v-16a60a30=""><div data-v-16a60a30=""><div data-v-16a60a30="">标贝语音合成服务提供时间戳功能，在输出音频流的同时，可输出每个汉字或英文单词在音频中的时间位置，即时间戳功能。针对使用场景不同，时间戳功能分为两种：</div> <div data-v-16a60a30="" style="margin-top: 10px;">1. 音子级别时间戳</div> <div data-v-16a60a30="">音子级别时间戳主要用于驱动虚拟人口型。</div> <div data-v-16a60a30="" style="margin-top: 10px;">2. 字级别时间戳</div> <div data-v-16a60a30="">字级别时间戳主要用于视频配音字幕，有声书朗读等。</div> <div data-v-16a60a30="" style="margin-top: 10px; color: red;">注意：</div> <ul data-v-16a60a30="" style="margin-left: 10px;"><li data-v-16a60a30="" style="color: red;">● 只有支持音子级别时间戳的音色可以使用该功能，详见发音人列表</li> <li data-v-16a60a30="" style="color: red;">● 在长文本任务中，使用多个发音人时，所选音色需要都支持音子/字级别时间戳，音色是否支持音子/字级别时间戳可查询语音合成-发音人列表。</li> <li data-v-16a60a30="" style="color: red;">● 开启时间戳功能后，响应结果数据格式发生变化，具体参考下文</li></ul></div></section> <h2 data-v-16a60a30="">短文本合成RESTful API</h2> <h3 data-v-16a60a30="">RESTful参数设置</h3> <section data-v-16a60a30=""><div class="table-wrap"><table class="doc-table" data-v-16a60a30="" border="0" cellspacing="0" cellpadding="0"><thead data-v-16a60a30=""><tr data-v-16a60a30=""><th data-v-16a60a30="">参数名称</th> <th data-v-16a60a30="">是否必填</th> <th data-v-16a60a30="">名称</th> <th data-v-16a60a30="">说明</th></tr></thead> <tbody data-v-16a60a30=""><tr data-v-16a60a30=""><td data-v-16a60a30="">interval</td> <td data-v-16a60a30="">否</td> <td data-v-16a60a30="">音子边界时间戳</td> <td data-v-16a60a30="">
+            音子级别时间戳功能：<br data-v-16a60a30="">
+            '0':关闭音子级别时间戳功能<br data-v-16a60a30="">
+            '1':开启音子级别时间戳功能<br data-v-16a60a30=""></td></tr> <tr data-v-16a60a30=""><td data-v-16a60a30="">enable_subtitles</td> <td data-v-16a60a30="">否</td> <td data-v-16a60a30="">字级别时间戳</td> <td data-v-16a60a30="">
+            字级别时间戳功能，<b data-v-16a60a30="">同interval=1一起使用：</b><br data-v-16a60a30="">
+            '0':关闭字级别时间戳功能<br data-v-16a60a30="">
+            '1':开启字级别时间戳功能<br data-v-16a60a30=""></td></tr></tbody></table></div></section> <h3 data-v-16a60a30="">RESTful示例代码</h3> <section data-v-16a60a30=""><pre class="doc-sample doc-code" data-v-16a60a30="">#!/usr/bin/env python
+#coding: utf-8
+import requests
+import json
+import argparse
+import base64
+
+
+# 获取access_token用于鉴权
+def get_access_token(client_secret, client_id):
+    grant_type = "client_credentials"
+    url = "https://openapi.data-baker.com/oauth/2.0/token?grant_type={}&amp;client_secret={}&amp;client_id={}".format(grant_type, client_secret, client_id)
+    response = requests.post(url)
+    access_token = json.loads(response.text).get('access_token')
+
+    return access_token
+
+
+# 获取转换后音频
+def get_audio(data):
+    url = "https://openapi.data-baker.com/tts?access_token={}&amp;domain={}&amp;language={}&amp;voice_name={}&amp;text={}&amp;audiotype={}" \
+          "&amp;enable_subtitles={}&amp;interval={}".format(data['access_domain'], data['domain'], data['language'],
+           data['voice_name'], data['text'], data['audiotype'], data['enable_subtitles'], data['interval'])
+    response = requests.post(url)
+    content_type = response.headers['Content-Type']
+    if 'audio' not in content_type:
+        raise Exception(response.text)
+
+    length = int.from_bytes(response.content[:4], byteorder='big', signed=False)
+    json_data = json.loads((response.content[4: length + 4]).decode(encoding='gbk'))
+    subtitles_list = json.loads((base64.b64decode(json_data.get('data')['interval-subtitles'])).decode()).get('subtitles_list')
+    for subtitles in subtitles_list:
+        print(subtitles)
+    return response.content[length + 4:]
+
+# 获取命令行输入参数
+def get_args():
+    text = '标贝科技'
+    parser = argparse.ArgumentParser(description='ASR')
+    parser.add_argument('-client_secret', type=str, required=True)
+    parser.add_argument('-client_id', type=str, required=True)
+    parser.add_argument('-file_save_path', type=str, required=True)
+    parser.add_argument('--text', type=str, default=text)
+    parser.add_argument('--audiotype', type=str, default='6')
+    parser.add_argument('--domain', type=str, default='1')
+    parser.add_argument('--language', type=str, default='zh')
+    parser.add_argument('--voice_name', type=str, default='Jiaojiao')
+    args = parser.parse_args()
+
+    return args
+
+
+if __name__ == '__main__':
+    try:
+        args = get_args()
+
+        # 获取access_token
+        client_secret = args.client_secret
+        client_id = args.client_id
+        access_token = get_access_token(client_secret, client_id)
+
+        # 读取参数
+        audiotype = args.audiotype
+        domain = args.domain
+        language = args.language
+        voice_name = args.voice_name
+        text = args.text
+        data = {'access_domain': access_token, 'audiotype': audiotype, 'domain': domain, 'language': language,
+                'voice_name': voice_name, 'text': text, 'enable_subtitles': "1", 'interval': '1'}
+        content = get_audio(data)
+
+        #保存音频文件
+        with open('test.wav', 'wb') as audio:
+            audio.write(content)
+        print("task finished successfully")
+    except Exception as e:
+        print(e)
+<button class="copyClass">copy</button></pre></section> <h3 data-v-16a60a30="">RESTful响应结果</h3> <section data-v-16a60a30=""><p data-v-16a60a30="">检查http 响应头Content-Type判断合成请求是否成功，如返回Content-Type以audio开头说明合成成功，响应结构如下。</p> <img data-v-16a60a30="" src="https://databaker-gw-static.oss-accelerate.aliyuncs.com/assets/images/local/tts_api_time.png" alt="" style="width: 700px;"> <p data-v-16a60a30="">如返回Content-Type:application/json说明合成出现错误，响应体为json格式</p></section> <h3 data-v-16a60a30="">RESTful响应参数</h3> <section data-v-16a60a30=""><div class="table-wrap"><table class="doc-table" data-v-16a60a30="" border="0" cellspacing="0" cellpadding="0"><thead data-v-16a60a30=""><tr data-v-16a60a30=""><th data-v-16a60a30="">字段名</th> <th data-v-16a60a30="">类型</th> <th data-v-16a60a30="">描述</th></tr></thead> <tbody data-v-16a60a30=""><tr data-v-16a60a30=""><td data-v-16a60a30="">data</td> <td data-v-16a60a30="">object</td> <td data-v-16a60a30="">时间戳信息</td></tr> <tr data-v-16a60a30=""><td data-v-16a60a30="">err_msg</td> <td data-v-16a60a30="">string</td> <td data-v-16a60a30="">错误信息</td></tr> <tr data-v-16a60a30=""><td data-v-16a60a30="">err_no</td> <td data-v-16a60a30="">int</td> <td data-v-16a60a30="">错误码</td></tr> <tr data-v-16a60a30=""><td data-v-16a60a30="">log_id</td> <td data-v-16a60a30="">int</td> <td data-v-16a60a30="">日志id</td></tr> <tr data-v-16a60a30=""><td data-v-16a60a30="">sn</td> <td data-v-16a60a30="">string</td> <td data-v-16a60a30="">系统内部使用信息</td></tr></tbody></table></div> <p data-v-16a60a30="" style="margin: 10px 0px;">data内部结构：</p> <div class="table-wrap"><table class="doc-table" data-v-16a60a30="" border="0" cellspacing="0" cellpadding="0"><thead data-v-16a60a30=""><tr data-v-16a60a30=""><th data-v-16a60a30="" style="width: 140px;">字段名</th> <th data-v-16a60a30="" style="width: 50px;">类型</th> <th data-v-16a60a30="">描述</th></tr></thead> <tbody data-v-16a60a30=""><tr data-v-16a60a30=""><td data-v-16a60a30="">interval-info</td> <td data-v-16a60a30="">string</td> <td data-v-16a60a30="">音子级别时间戳</td></tr> <tr data-v-16a60a30=""><td data-v-16a60a30="">interval-info-x</td> <td data-v-16a60a30="">string</td> <td data-v-16a60a30="">
+            interval-info-x: L=1&amp;T=1,L=1&amp;T=2,L=1&amp;T=1,L=1&amp;T=2,L=1&amp;T=5 <br data-v-16a60a30="">
+            L:表示语言种类，目前支持1：纯中文，5：中英混<br data-v-16a60a30="">
+            T:表示interval类型，0：默认值，1：声母，2：韵母，3：儿化韵母，4：英文，5：#3静音
+          </td></tr> <tr data-v-16a60a30=""><td data-v-16a60a30="">interval-subtitles</td> <td data-v-16a60a30="">string</td> <td data-v-16a60a30="">字级别时间戳，返回结果是base64编码，需解码后使用</td></tr></tbody></table></div> <p data-v-16a60a30="" style="margin: 10px 0px;">interval-subtitles内部结构：</p> <div class="table-wrap"><table class="doc-table" data-v-16a60a30="" border="0" cellspacing="0" cellpadding="0"><thead data-v-16a60a30=""><tr data-v-16a60a30=""><th data-v-16a60a30="" style="width: 140px;">字段名</th> <th data-v-16a60a30="" style="width: 50px;">类型</th> <th data-v-16a60a30="">描述</th></tr></thead> <tbody data-v-16a60a30=""><tr data-v-16a60a30=""><td data-v-16a60a30="">subtitles_list</td> <td data-v-16a60a30="">list</td> <td data-v-16a60a30="">时间戳信息list</td></tr></tbody></table></div> <p data-v-16a60a30="" style="margin: 10px 0px;">subtitles_list内部结构：</p> <div class="table-wrap"><table class="doc-table" data-v-16a60a30="" border="0" cellspacing="0" cellpadding="0"><thead data-v-16a60a30=""><tr data-v-16a60a30=""><th data-v-16a60a30="" style="width: 140px;">字段名</th> <th data-v-16a60a30="" style="width: 50px;">类型</th> <th data-v-16a60a30="">描述</th></tr></thead> <tbody data-v-16a60a30=""><tr data-v-16a60a30=""><td data-v-16a60a30="">subtitles</td> <td data-v-16a60a30="">list</td> <td data-v-16a60a30="">音子级别时间戳</td></tr> <tr data-v-16a60a30=""><td data-v-16a60a30="">text</td> <td data-v-16a60a30="">string</td> <td data-v-16a60a30="">句子级别文本</td></tr></tbody></table></div> <p data-v-16a60a30="" style="margin: 10px 0px;">subtitles内部结构：</p> <div class="table-wrap"><table class="doc-table" data-v-16a60a30="" border="0" cellspacing="0" cellpadding="0"><thead data-v-16a60a30=""><tr data-v-16a60a30=""><th data-v-16a60a30="" style="width: 140px;">字段名</th> <th data-v-16a60a30="" style="width: 50px;">类型</th> <th data-v-16a60a30="">描述</th></tr></thead> <tbody data-v-16a60a30=""><tr data-v-16a60a30=""><td data-v-16a60a30="">begin_index</td> <td data-v-16a60a30="">int</td> <td data-v-16a60a30="">文本对应当前句中起始索引</td></tr> <tr data-v-16a60a30=""><td data-v-16a60a30="">begin_time</td> <td data-v-16a60a30="">int</td> <td data-v-16a60a30="">文本对应音频中起始时间戳，单位毫秒</td></tr> <tr data-v-16a60a30=""><td data-v-16a60a30="">end_index</td> <td data-v-16a60a30="">int</td> <td data-v-16a60a30="">文本对应当前句中结束索引</td></tr> <tr data-v-16a60a30=""><td data-v-16a60a30="">end_time</td> <td data-v-16a60a30="">int</td> <td data-v-16a60a30="">文本对应音频中结束时间戳，单位毫秒</td></tr> <tr data-v-16a60a30=""><td data-v-16a60a30="">prosody</td> <td data-v-16a60a30="">string</td> <td data-v-16a60a30="">
+            停顿类型：<br data-v-16a60a30="">
+            SP0<br data-v-16a60a30="">
+            SP1<br data-v-16a60a30="">
+            SP2<br data-v-16a60a30="">
+            SP3<br data-v-16a60a30=""></td></tr> <tr data-v-16a60a30=""><td data-v-16a60a30="">text</td> <td data-v-16a60a30="">string</td> <td data-v-16a60a30="">文本信息</td></tr></tbody></table></div></section> <h3 data-v-16a60a30="">RESTful响应示例</h3> <section data-v-16a60a30=""><pre class="doc-sample doc-code" data-v-16a60a30="">{
+  'data': {
+'interval-info': 'b=0.072346&amp;iao=0.238304&amp;b=0.295952&amp;ei=0.409770&amp;k=0.519053&amp;e=0.630216&amp;j=0.775269&amp;i=0.936000&amp;SIL=1.236000',
+'interval-info-x': 'L=1&amp;T=1,L=1&amp;T=2,L=1&amp;T=1,L=1&amp;T=2,L=1&amp;T=1,L=1&amp;T=2,L=1&amp;T=1,L=1&amp;T=2,L=1&amp;T=5',
+'interval-subtitles': 'eyJzdWJ0aXRsZXNfbGlzdCI6W3sic3VidGl0bGVzIjpbeyJiZWdpbl9pbmRleCI6MCwiYmVnaW5fdGltZSI6MCwiZW5kX2luZGV4IjoyLCJlbmRfdGltZSI6MjM4LCJwcm9zb2R5IjoiU1AwIiwidGV4dCI6IuaghyJ9LHsiYmVnaW5faW5kZXgiOjMsImJlZ2luX3RpbWUiOjIzOCwiZW5kX2luZGV4Ijo1LCJlbmRfdGltZSI6NDA5LCJwcm9zb2R5IjoiU1AwIiwidGV4dCI6Iui0nSJ9LHsiYmVnaW5faW5kZXgiOjYsImJlZ2luX3RpbWUiOjQwOSwiZW5kX2luZGV4Ijo4LCJlbmRfdGltZSI6NjMwLCJwcm9zb2R5IjoiU1AwIiwidGV4dCI6IuenkSJ9LHsiYmVnaW5faW5kZXgiOjksImJlZ2luX3RpbWUiOjYzMCwiZW5kX2luZGV4IjoxMSwiZW5kX3RpbWUiOjkzNiwicHJvc29keSI6IlNQMyIsInRleHQiOiLmioAifV0sInRleHQiOiLmoIfotJ3np5HmioAifV19Cg=='
+	},
+	'err_msg': 'succ',
+	'err_no': 0,
+	'log_id': 1233745494,
+	'sn': '60bb11ab-c8ea-4305-b689-aa912248a4fc'
+}<button class="copyClass">copy</button></pre> <p data-v-16a60a30="" style="margin: 10px 0px;">interval-subtitles解码后结构：</p> <pre class="doc-sample doc-code" data-v-16a60a30="">'interval-subtitles': {
+	'subtitles_list': [{
+		'subtitles': [{
+			'begin_index': 0,
+			'begin_time': 0,
+			'end_index': 2,
+			'end_time': 238,
+			'prosody': 'SP0',
+			'text': '标'
+		}, {
+			'begin_index': 3,
+			'begin_time': 238,
+			'end_index': 5,
+			'end_time': 409,
+			'prosody': 'SP0',
+			'text': '贝'
+		}, {
+			'begin_index': 6,
+			'begin_time': 409,
+			'end_index': 8,
+			'end_time': 630,
+			'prosody': 'SP0',
+			'text': '科'
+		}, {
+			'begin_index': 9,
+			'begin_time': 630,
+			'end_index': 11,
+			'end_time': 936,
+			'prosody': 'SP3',
+			'text': '技'
+		}],
+		'text': '标贝科技'
+	}]
+}<button class="copyClass">copy</button></pre></section> <h2 data-v-16a60a30="">短文本合成Websocket API</h2> <p data-v-16a60a30="" style="color: red; margin-bottom: 15px;">注意：短文本合成Websocket API开启时间戳功能后，时间戳信息会保存在subtitles_list参数中。由于时间戳信息会在整句音频生成完毕后给出，故并非所有数据包包含时间戳信息，需要客户端校验subtitles_list参数，存在该参数后方可获取时间戳信息。</p> <h3 data-v-16a60a30="">webSocket参数设置</h3> <section data-v-16a60a30=""><div class="table-wrap"><table class="doc-table" data-v-16a60a30="" border="0" cellspacing="0" cellpadding="0"><thead data-v-16a60a30=""><tr data-v-16a60a30=""><th data-v-16a60a30="">参数名称</th> <th data-v-16a60a30="">是否必填</th> <th data-v-16a60a30="">名称</th> <th data-v-16a60a30="">说明</th></tr></thead> <tbody data-v-16a60a30=""><tr data-v-16a60a30=""><td data-v-16a60a30="">interval</td> <td data-v-16a60a30="">否</td> <td data-v-16a60a30="">音子边界时间戳</td> <td data-v-16a60a30="">
+            音子级别时间戳功能：<br data-v-16a60a30="">
+            '0':关闭音子级别时间戳功能<br data-v-16a60a30="">
+            '1':开启音子级别时间戳功能<br data-v-16a60a30=""></td></tr> <tr data-v-16a60a30=""><td data-v-16a60a30="">enable_subtitles</td> <td data-v-16a60a30="">否</td> <td data-v-16a60a30="">字级别时间戳</td> <td data-v-16a60a30="">
+            字级别时间戳功能，<b data-v-16a60a30="">同interval=1一起使用：</b><br data-v-16a60a30="">
+            '0':关闭字级别时间戳功能<br data-v-16a60a30="">
+            '1':开启字级别时间戳功能<br data-v-16a60a30=""></td></tr></tbody></table></div></section> <h3 data-v-16a60a30="">webSocket示例代码</h3> <section data-v-16a60a30=""><pre class="doc-sample doc-code" data-v-16a60a30="">import argparse
+import json
+import base64
+from threading import Thread
+import requests
+import websocket
+import wave
+
+
+#websocket客户端
+class Client:
+    def __init__(self, data, uri):
+        self.data = data
+        self.uri = uri
+        self.audio_data = b""
+
+    #建立连接
+    def connect(self):
+        ws_app = websocket.WebSocketApp(uri,
+                                        on_open=self.on_open,
+                                        on_message=self.on_message,
+                                        on_error=self.on_error,
+                                        on_close=self.on_close)
+        ws_app.run_forever()
+
+    # 建立连接后发送消息
+    def on_open(self, ws):
+        print("sending..")
+        def run(*args):
+            ws.send(self.data)
+
+        Thread(target=run).start()
+
+    # 接收消息
+    def on_message(self, ws, message):
+        message = json.loads(message)
+        code = message["code"]
+        if 'subtitles_list' in message["data"]:
+            print(message["data"]['subtitles_list'])
+        if code != 90000:
+            # 打印接口错误
+            print(message)
+        else:
+            self.audio_data += base64.b64decode(bytes(message["data"]["audio_data"], encoding='utf-8'))
+            if message.get("data")["end_flag"] == 1:
+                with wave.open('test.wav', 'wb') as wavfile:
+                    wavfile.setparams((1, 2, 16000, 0, 'NONE', 'NONE'))
+                    wavfile.writeframes(self.audio_data)
+                ws.close()
+                print("task finished successfully")
+
+    # 打印错误
+    def on_error(self, ws, error):
+        print("error: ", str(error))
+
+    # 关闭连接
+    def on_close(ws):
+        print("client closed.")
+
+
+# 准备数据
+def prepare_data(args, access_token):
+
+    # 填写Header信息
+    audiotype= args.audiotype
+    voice_name = args.voice_name
+
+    text = args.text
+    # 单次调用最长300个汉字
+    if len(text) &gt; 300:
+        raise Exception("Text is too long. The maximum length of chinese character is 300")
+    text_bytes = text.encode(encoding='UTF-8')
+    text = str(base64.b64encode(text_bytes), encoding='UTF-8')
+    tts_params = {"language": "ZH", "voice_name": voice_name, "audiotype": audiotype, "domain": "1", "text": text, 'interval': '1', 'enable_subtitles': '1'}
+
+    data = {"access_token": access_token, "version": "1.0", "tts_params": tts_params}
+    data = json.dumps(data)
+
+    return data
+
+
+# 获取命令行输入参数
+def get_args():
+    text = '标贝科技'
+    parser = argparse.ArgumentParser(description='tts')
+    parser.add_argument('-client_secret', type=str, required=True)
+    parser.add_argument('-client_id', type=str, required=True)
+    parser.add_argument('-file_save_path', type=str, required=True)
+    parser.add_argument('--text', type=str, default=text)
+    parser.add_argument('--audiotype', type=str, default='4')
+    parser.add_argument('--voice_name', type=str, default='beixi')
+    args = parser.parse_args()
+
+    return args
+
+
+# 获取access_token用于鉴权
+def get_access_token(client_secret, client_id):
+    grant_type = "client_credentials"
+    url = "https://openapi.data-baker.com/oauth/2.0/token?grant_type={}&amp;client_secret={}&amp;client_id={}" \
+        .format(grant_type, client_secret, client_id)
+
+    try:
+        response = requests.post(url)
+        response.raise_for_status()
+    except Exception as e:
+        print(response.text)
+        raise Exception
+    else:
+        access_token = json.loads(response.text).get('access_token')
+        return access_token
+
+
+if __name__ == '__main__':
+    try:
+        args = get_args()
+
+        # 获取access_token
+        client_secret = args.client_secret
+        client_id = args.client_id
+        access_token = get_access_token(client_secret, client_id)
+
+        # 准备数据
+        data = prepare_data(args, access_token)
+
+        uri = "wss://openapi.data-baker.com/tts/wsapi"
+        # 建立Websocket连接
+        client = Client(data, uri)
+        client.connect()
+
+        print('end')
+    except Exception as e:
+        print(e)
+<button class="copyClass">copy</button></pre></section> <h3 data-v-16a60a30="">webSocket响应结果</h3> <section data-v-16a60a30=""><div class="table-wrap"><table class="doc-table" data-v-16a60a30="" border="0" cellspacing="0" cellpadding="0"><thead data-v-16a60a30=""><tr data-v-16a60a30=""><th data-v-16a60a30="">参数名称</th> <th data-v-16a60a30="">类型</th> <th data-v-16a60a30="">描述</th></tr></thead> <tbody data-v-16a60a30=""><tr data-v-16a60a30=""><td data-v-16a60a30="">code</td> <td data-v-16a60a30="">int</td> <td data-v-16a60a30="">错误码4xxxx表示客户端参数错误，5xxxx表示服务端内部错误</td></tr> <tr data-v-16a60a30=""><td data-v-16a60a30="">message</td> <td data-v-16a60a30="">string</td> <td data-v-16a60a30="">错误描述</td></tr> <tr data-v-16a60a30=""><td data-v-16a60a30="">trace_id</td> <td data-v-16a60a30="">string</td> <td data-v-16a60a30="">任务id</td></tr> <tr data-v-16a60a30=""><td data-v-16a60a30="">data</td> <td data-v-16a60a30="">object</td> <td data-v-16a60a30="">合成音频数据</td></tr></tbody></table></div> <p data-v-16a60a30="" style="margin: 10px 0px;">data内部结构：</p> <div class="table-wrap"><table class="doc-table" data-v-16a60a30="" border="0" cellspacing="0" cellpadding="0"><thead data-v-16a60a30=""><tr data-v-16a60a30=""><th data-v-16a60a30="" style="width: 140px;">参数名称</th> <th data-v-16a60a30="" style="width: 50px;">类型</th> <th data-v-16a60a30="">描述</th></tr></thead> <tbody data-v-16a60a30=""><tr data-v-16a60a30=""><td data-v-16a60a30="">idx</td> <td data-v-16a60a30="">int</td> <td data-v-16a60a30="">包序号</td></tr> <tr data-v-16a60a30=""><td data-v-16a60a30="">audio_data</td> <td data-v-16a60a30="">string</td> <td data-v-16a60a30="">base64编码后的音频数据，需要解码后使用</td></tr> <tr data-v-16a60a30=""><td data-v-16a60a30="">audio_type</td> <td data-v-16a60a30="">string</td> <td data-v-16a60a30="">音频格式</td></tr> <tr data-v-16a60a30=""><td data-v-16a60a30="">interval</td> <td data-v-16a60a30="">string</td> <td data-v-16a60a30="">音子边界信息</td></tr> <tr data-v-16a60a30=""><td data-v-16a60a30="">end_flag</td> <td data-v-16a60a30="">int</td> <td data-v-16a60a30="">
+            结束标志：<br data-v-16a60a30="">
+            0：未结束<br data-v-16a60a30="">
+            1：结束<br data-v-16a60a30=""></td></tr> <tr data-v-16a60a30=""><td data-v-16a60a30="">interval_x</td> <td data-v-16a60a30="">string</td> <td data-v-16a60a30="">
+            interval-info-x: L=1&amp;T=1,L=1&amp;T=2,L=1&amp;T=1,L=1&amp;T=2,L=1&amp;T=5 <br data-v-16a60a30="">
+            L：表示语言种类，目前支持1：纯中文，5：中英混<br data-v-16a60a30="">
+            T：表示interval类型，0：默认值，1：声母，2：韵母，3：儿化韵母，4：英文，5：#3静音<br data-v-16a60a30=""></td></tr> <tr data-v-16a60a30=""><td data-v-16a60a30="">subtitles_list</td> <td data-v-16a60a30="">list</td> <td data-v-16a60a30="">时间戳信息list</td></tr></tbody></table></div> <p data-v-16a60a30="" style="margin: 10px 0px;">subtitles_list内部结构：</p> <div class="table-wrap"><table class="doc-table" data-v-16a60a30="" border="0" cellspacing="0" cellpadding="0"><thead data-v-16a60a30=""><tr data-v-16a60a30=""><th data-v-16a60a30="" style="width: 140px;">字段名</th> <th data-v-16a60a30="" style="width: 50px;">类型</th> <th data-v-16a60a30="">描述</th></tr></thead> <tbody data-v-16a60a30=""><tr data-v-16a60a30=""><td data-v-16a60a30="">subtitles</td> <td data-v-16a60a30="">list</td> <td data-v-16a60a30="">音子级别时间戳</td></tr> <tr data-v-16a60a30=""><td data-v-16a60a30="">text</td> <td data-v-16a60a30="">string</td> <td data-v-16a60a30="">句子级别文本</td></tr></tbody></table></div> <p data-v-16a60a30="" style="margin: 10px 0px;">subtitles内部结构：</p> <div class="table-wrap"><table class="doc-table" data-v-16a60a30="" border="0" cellspacing="0" cellpadding="0"><thead data-v-16a60a30=""><tr data-v-16a60a30=""><th data-v-16a60a30="" style="width: 140px;">字段名</th> <th data-v-16a60a30="" style="width: 50px;">类型</th> <th data-v-16a60a30="">描述</th></tr></thead> <tbody data-v-16a60a30=""><tr data-v-16a60a30=""><td data-v-16a60a30="">begin_index</td> <td data-v-16a60a30="">int</td> <td data-v-16a60a30="">文本对应当前句中起始索引</td></tr> <tr data-v-16a60a30=""><td data-v-16a60a30="">begin_time</td> <td data-v-16a60a30="">int</td> <td data-v-16a60a30="">文本对应音频中起始时间戳，单位毫秒</td></tr> <tr data-v-16a60a30=""><td data-v-16a60a30="">end_index</td> <td data-v-16a60a30="">int</td> <td data-v-16a60a30="">文本对应当前句中结束索引</td></tr> <tr data-v-16a60a30=""><td data-v-16a60a30="">end_time</td> <td data-v-16a60a30="">int</td> <td data-v-16a60a30="">文本对应音频中结束时间戳，单位毫秒</td></tr> <tr data-v-16a60a30=""><td data-v-16a60a30="">prosody</td> <td data-v-16a60a30="">string</td> <td data-v-16a60a30="">
+            停顿类型：<br data-v-16a60a30="">
+            SP0<br data-v-16a60a30="">
+            SP1<br data-v-16a60a30="">
+            SP2<br data-v-16a60a30="">
+            SP3<br data-v-16a60a30=""></td></tr> <tr data-v-16a60a30=""><td data-v-16a60a30="">text</td> <td data-v-16a60a30="">string</td> <td data-v-16a60a30="">文本信息</td></tr></tbody></table></div></section> <h3 data-v-16a60a30="">webSocket响应示例</h3> <section data-v-16a60a30=""><pre class="doc-sample doc-code" data-v-16a60a30="">{
+	'code': 90000,
+	'data': {
+		'audio_data': '音频数据',
+		'audio_type': 'audio/pcm',
+		'end_flag': 1,
+		'idx': 1,
+		'interval': 'b=0.072346&amp;iao=0.238304&amp;b=0.295952&amp;ei=0.409770&amp;k=0.519053&amp;e=0.630216&amp;j=0.775269&amp;i=0.936000&amp;SIL=1.236000',
+		'interval_x': 'L=1&amp;T=1,L=1&amp;T=2,L=1&amp;T=1,L=1&amp;T=2,L=1&amp;T=1,L=1&amp;T=2,L=1&amp;T=1,L=1&amp;T=2,L=1&amp;T=5',
+		'subtitles_list': [{
+			'subtitles': [{
+				'begin_index': 0,
+				'begin_time': 0,
+				'end_index': 2,
+				'end_time': 238,
+				'prosody': 'SP0',
+				'text': '标'
+			}, {
+				'begin_index': 3,
+				'begin_time': 238,
+				'end_index': 5,
+				'end_time': 409,
+				'prosody': 'SP0',
+				'text': '贝'
+			}, {
+				'begin_index': 6,
+				'begin_time': 409,
+				'end_index': 8,
+				'end_time': 630,
+				'prosody': 'SP0',
+				'text': '科'
+			}, {
+				'begin_index': 9,
+				'begin_time': 630,
+				'end_index': 11,
+				'end_time': 936,
+				'prosody': 'SP3',
+				'text': '技'
+			}],
+			'text': '标贝科技'
+		}]
+	},
+	'message': 'Success',
+	'trace_id': '1656986976642904'
+}<button class="copyClass">copy</button></pre></section></div>

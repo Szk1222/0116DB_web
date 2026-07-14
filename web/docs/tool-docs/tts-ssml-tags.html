@@ -1,0 +1,196 @@
+<div data-v-dbf8fa46=""><h2 data-v-dbf8fa46="">SSML标记语言</h2> <h3 data-v-dbf8fa46="">概述</h3> <section data-v-dbf8fa46=""><p data-v-dbf8fa46="">
+        SSML是一种基于XML的标记语言，它的主要功能是为语音合成用户提供一种标准方法，在使用语音合成功能时，用户可以使用SSML控制语音合成的效果，主要功能如下：
+      </p> <h4 data-v-dbf8fa46="" class="top-title"><a data-v-dbf8fa46="" href="/specs/file/ssml_explain#base">基本功能</a></h4> <ul data-v-dbf8fa46=""><li data-v-dbf8fa46="">音色</li> <li data-v-dbf8fa46="">文件类型</li> <li data-v-dbf8fa46="">采样率</li> <li data-v-dbf8fa46="">码率</li> <li data-v-dbf8fa46="">语速</li> <li data-v-dbf8fa46="">音调</li> <li data-v-dbf8fa46="">音量</li> <li data-v-dbf8fa46="">添加背景音乐</li> <li data-v-dbf8fa46="">背景音乐音量</li></ul> <h4 data-v-dbf8fa46="" class="top-title"><a data-v-dbf8fa46="" href="/specs/file/ssml_explain#person">个性化功能</a></h4> <ul data-v-dbf8fa46=""><li data-v-dbf8fa46=""><a data-v-dbf8fa46="" href="/specs/file/ssml_explain#break">停顿时间&lt;break&gt;</a></li> <li data-v-dbf8fa46=""><a data-v-dbf8fa46="" href="/specs/file/ssml_explain#s">自定义文本结构&lt;s&gt;</a></li> <li data-v-dbf8fa46=""><a data-v-dbf8fa46="" href="/specs/file/ssml_explain#sub">别名&lt;sub&gt;</a></li> <li data-v-dbf8fa46=""><a data-v-dbf8fa46="" href="/specs/file/ssml_explain#w">词组分词&lt;w&gt;</a></li> <li data-v-dbf8fa46=""><a data-v-dbf8fa46="" href="/specs/file/ssml_explain#phoneme">读音更改&lt;phoneme&gt;</a></li> <li data-v-dbf8fa46=""><a data-v-dbf8fa46="" href="/specs/file/ssml_explain#soundEvent">添加提示音&lt;soundEvent&gt;</a></li> <li data-v-dbf8fa46=""><a data-v-dbf8fa46="" href="/specs/file/ssml_explain#say-as">选择指定场景读法&lt;say-as&gt;</a></li></ul> <h4 data-v-dbf8fa46="" class="top-title" style="color: red;">注意</h4> <div data-v-dbf8fa46="" class="attention"><p data-v-dbf8fa46="">1. SSML标记语言和标贝XML标签不可混用。</p> <p data-v-dbf8fa46="">2. 使用SSML标记语言后，以SSML标记语言选定参数为准，优先级高于接口请求参数。</p> <p data-v-dbf8fa46="">3. 目前仅支持中文音色</p> <p data-v-dbf8fa46="">4. 所有文本需放在&lt;speak&gt;&lt;/speak&gt;标签之内，且每个语音合成任务只能包含一个&lt;speak&gt;&lt;/speak&gt;标签。长文本合成可以含多个成对的&lt;speak&gt;&lt;/speak&gt;标签。当调用多个ssml标签时，文本中间不能有多余的空格。</p> <p data-v-dbf8fa46="">5. 标签内的文字内容如果包含XML的特殊字符，需要做字符转义，常用的特殊字符对应关系如下：</p></div> <ul data-v-dbf8fa46="" class="redsign"><li data-v-dbf8fa46="">"（双引号）对应：&amp;quot;</li> <li data-v-dbf8fa46="">'（撇号或单引号）对应：&amp;apos;</li> <li data-v-dbf8fa46="">&amp;（表示和的符号）对应：&amp;amp;</li> <li data-v-dbf8fa46="">&lt; （小于号）对应：&amp;lt; </li> <li data-v-dbf8fa46="">&gt;（大于号）对应：&amp;gt;</li></ul></section> <h3 data-v-dbf8fa46="">使用方式</h3> <section data-v-dbf8fa46=""><p data-v-dbf8fa46="">发送请求给语音合成服务, http post请求头需要添加`Content-Type:application/json` , 请求body内容如下：</p> <pre class="doc-sample doc-code" data-v-dbf8fa46="">{
+    "domain": "1",
+    "access_token": "xxxxxxxxxxxxxxxxxxxx",
+    "voice_name": "Jiaojiao",
+    "language": "zh",
+    "interval": "1",
+    "version": "2",
+    "text": "&lt;speak&gt;请找一个舒适的地方坐下&lt;break time=\"500ms\"/&gt;慢慢放松呼吸。&lt;/speak&gt;"
+}
+      <button class="copyClass">copy</button></pre></section> <h3 data-v-dbf8fa46="" id="base">基本功能</h3> <section data-v-dbf8fa46=""><h4 data-v-dbf8fa46="">&lt;speak&gt;</h4> <ul data-v-dbf8fa46=""><li data-v-dbf8fa46=""><h4 data-v-dbf8fa46="">描述</h4> <p data-v-dbf8fa46="">
+            &lt;speak&gt;标签是所有待支持SSML标签的根节点。<span data-v-dbf8fa46="" style="color: red;">所有调用SSML标签的文本都要包含在&lt;speak&gt;&lt;/speak&gt;中。</span></p></li> <li data-v-dbf8fa46=""><h4 data-v-dbf8fa46="">语法</h4> <pre class="doc-sample doc-code" data-v-dbf8fa46="">        &lt;speak&gt;需要调用SSML标签的文本&lt;/speak&gt;
+      <button class="copyClass">copy</button></pre></li> <li data-v-dbf8fa46=""><h4 data-v-dbf8fa46="">属性</h4> <p data-v-dbf8fa46="">&lt;speak&gt;标签支持如下属性。</p> <div class="table-wrap"><table class="doc-table" data-v-dbf8fa46=""><thead data-v-dbf8fa46=""><tr data-v-dbf8fa46=""><th data-v-dbf8fa46="" style="width: 70px;">参数说明</th> <th data-v-dbf8fa46="" style="width: 70px;">类型</th> <th data-v-dbf8fa46="" style="width: 60px;">是否必选</th> <th data-v-dbf8fa46="">说明</th></tr></thead> <tbody data-v-dbf8fa46=""><tr data-v-dbf8fa46=""><td data-v-dbf8fa46="">voice</td> <td data-v-dbf8fa46="">String</td> <td data-v-dbf8fa46="">否</td> <td data-v-dbf8fa46="">在合成时，指定线上可调用的发音人的名称代号，voice参数值，如”Jingjing”。<br data-v-dbf8fa46=""><span data-v-dbf8fa46="" style="color: red;">优先级高于接口请求参数`voice_name`指定的发音人。长文本任务允许多个ssml标签使用不同的音色，接口处、标签内所选音色的采样率都需要保持一致，如果不一致会报错（音色支持采样率可查询语音合成-<a data-v-dbf8fa46="" href="/specs/file/tts_voice_list" class="">发音人列表
+              </a>）。</span></td></tr> <tr data-v-dbf8fa46=""><td data-v-dbf8fa46="">audiotype</td> <td data-v-dbf8fa46="">String</td> <td data-v-dbf8fa46="">否</td> <td data-v-dbf8fa46="">在合成时，指定音频文件格式：<br data-v-dbf8fa46=""><span data-v-dbf8fa46="" style="color: red;">优先级高于接口请求参数`audiotype`指定的文件格式。长文本任务在SSML标签中设置audiotype参数无效。</span><br data-v-dbf8fa46="">可不填，不填时默认为3，表示mp3格式<br data-v-dbf8fa46="">audiotype=3
+                  ：返回16K采样率的mp3格式<br data-v-dbf8fa46="">audiotype=4 ：返回16K采样率的pcm格式<br data-v-dbf8fa46="">audiotype=5
+                  ：返回8K采样率的pcm格式<br data-v-dbf8fa46="">audiotype=6 ：返回16K采样率的wav格式<br data-v-dbf8fa46="">audiotype=6&amp;rate=1
+                  ：返回8K的wav格式<br data-v-dbf8fa46="">audiotype=7 ：返回8k8bit的alaw格式文件<br data-v-dbf8fa46="">audiotype=8
+                  ：返回8k8bit的ulaw格式文件<br data-v-dbf8fa46="">audiotype=9&amp;rate=1 返回8K采样率的mp3
+                </td></tr> <tr data-v-dbf8fa46=""><td data-v-dbf8fa46="">rate</td> <td data-v-dbf8fa46="">String</td> <td data-v-dbf8fa46="">否</td> <td data-v-dbf8fa46="">在合成时，指定音频的码率：<br data-v-dbf8fa46=""><span data-v-dbf8fa46="" style="color: red;">优先级高于接口请求参数`rate`指定的码率。长文本任务在在SSML标签中设置rate参数无效。</span><br data-v-dbf8fa46="">可不填，不填时默认为2，取值范围1-8，2以上的值仅针对返回MP3格式，对应的码率为：<br data-v-dbf8fa46="">1
+                  —— 8kbps<br data-v-dbf8fa46="">2 —— 16kbps<br data-v-dbf8fa46="">3 —— 24kbps<br data-v-dbf8fa46="">4 —— 32kbps<br data-v-dbf8fa46="">5 ——
+                  40kbps<br data-v-dbf8fa46="">6 ——
+                  48kbps<br data-v-dbf8fa46="">7 —— 56kbps<br data-v-dbf8fa46="">8 —— 64kbps
+                </td></tr> <tr data-v-dbf8fa46=""><td data-v-dbf8fa46="">speed</td> <td data-v-dbf8fa46="">String</td> <td data-v-dbf8fa46="">否</td> <td data-v-dbf8fa46="">在合成时，指定音频的语速，在0～9之间（支持浮点值），不传时默认为5<br data-v-dbf8fa46=""><span data-v-dbf8fa46="" style="color: red;">优先级高于接口请求参数`speed`指定的语速</span></td></tr> <tr data-v-dbf8fa46=""><td data-v-dbf8fa46="">pitch</td> <td data-v-dbf8fa46="">String</td> <td data-v-dbf8fa46="">否</td> <td data-v-dbf8fa46="">在合成时，指定音频的音调，取值0～9之间，不传时默认为5，中语调<br data-v-dbf8fa46=""><span data-v-dbf8fa46="" style="color: red;">优先级高于接口请求参数`pitch`指定的音高。</span></td></tr> <tr data-v-dbf8fa46=""><td data-v-dbf8fa46="">volume</td> <td data-v-dbf8fa46="">String</td> <td data-v-dbf8fa46="">否</td> <td data-v-dbf8fa46="">在合成时，指定音频的音量，在0～9之间（只支持整型值），不传时默认为5<br data-v-dbf8fa46=""><span data-v-dbf8fa46="" style="color: red;">优先级高于接口请求参数`volume`指定的音量。</span></td></tr> <tr data-v-dbf8fa46=""><td data-v-dbf8fa46="">bgm</td> <td data-v-dbf8fa46="">String</td> <td data-v-dbf8fa46="">否</td> <td data-v-dbf8fa46="">为合成的语音添加指定的背景音乐。
+                </td></tr> <tr data-v-dbf8fa46=""><td data-v-dbf8fa46="">backgroundMusicVolume</td> <td data-v-dbf8fa46="">String</td> <td data-v-dbf8fa46="">否</td> <td data-v-dbf8fa46="">控制背景音乐的音量。<br data-v-dbf8fa46="">[0,100]之间的整数。默认值为50。大于50表示增大音量。小于50表示减小音量。</td></tr></tbody></table></div></li> <li data-v-dbf8fa46=""><h4 data-v-dbf8fa46="">示例</h4> <ul data-v-dbf8fa46=""><li data-v-dbf8fa46=""><p data-v-dbf8fa46="">空属性</p> <pre class="doc-sample doc-code" data-v-dbf8fa46="">&lt;speak&gt;
+  测试SSML标签的文本
+&lt;/speak&gt;
+      <button class="copyClass">copy</button></pre></li> <li data-v-dbf8fa46=""><p data-v-dbf8fa46="">voice属性，选择音色</p> <pre class="doc-sample doc-code" data-v-dbf8fa46="">&lt;speak voice="Jingjing"&gt;
+  我是静静。
+&lt;/speak&gt;
+      <button class="copyClass">copy</button></pre> <p data-v-dbf8fa46="" class="play_btn">测试音频（点击播放）</p></li> <li data-v-dbf8fa46=""><p data-v-dbf8fa46="">audiotype属性，选择音频格式</p> <pre class="doc-sample doc-code" data-v-dbf8fa46="">&lt;speak audiotype="3"&gt;
+  我可以生成指定格式的音频哦。
+&lt;/speak&gt;
+      <button class="copyClass">copy</button></pre> <p data-v-dbf8fa46="" class="play_btn">测试音频（点击播放）</p></li> <li data-v-dbf8fa46=""><p data-v-dbf8fa46="">rate属性，选择码率</p> <pre class="doc-sample doc-code" data-v-dbf8fa46="">&lt;speak rate="1" audiotype="9"&gt;
+  我可以生成指定码率的文件。
+&lt;/speak&gt;
+      <button class="copyClass">copy</button></pre> <p data-v-dbf8fa46="" class="play_btn">测试音频（点击播放）</p></li> <li data-v-dbf8fa46=""><p data-v-dbf8fa46="">speed属性，选择语速</p> <pre class="doc-sample doc-code" data-v-dbf8fa46="">&lt;speak speed="7"&gt;
+  我的语速可以随意改变，快来试试吧。
+&lt;/speak&gt;
+      <button class="copyClass">copy</button></pre> <p data-v-dbf8fa46="" class="play_btn">测试音频（点击播放）</p></li> <li data-v-dbf8fa46=""><p data-v-dbf8fa46="">pitch属性，选择音调</p> <pre class="doc-sample doc-code" data-v-dbf8fa46="">&lt;speak pitch="3"&gt;
+  我的音高可以随意改变，快来试试吧。
+&lt;/speak&gt;
+      <button class="copyClass">copy</button></pre> <p data-v-dbf8fa46="" class="play_btn">测试音频（点击播放）</p></li> <li data-v-dbf8fa46=""><p data-v-dbf8fa46="">volume属性，选择音量</p> <pre class="doc-sample doc-code" data-v-dbf8fa46="">&lt;speak volume="8"&gt;
+  我的音量可以随意改变，快来试试吧。
+&lt;/speak&gt;
+      <button class="copyClass">copy</button></pre> <p data-v-dbf8fa46="" class="play_btn">测试音频（点击播放）</p></li> <li data-v-dbf8fa46=""><p data-v-dbf8fa46="">属性组合（空格分隔），不同属性可以组合使用</p> <pre class="doc-sample doc-code" data-v-dbf8fa46="">&lt;speak speed="7" pitch="4" volume="8"&gt;
+  我的声音有很多种变化，可以根据你的需要来改变哦。
+&lt;/speak&gt;
+      <button class="copyClass">copy</button></pre> <p data-v-dbf8fa46="" class="play_btn">测试音频（点击播放）</p></li> <li data-v-dbf8fa46=""><p data-v-dbf8fa46="">bgm属性，添加背景音乐</p> <p data-v-dbf8fa46="">您可以根据需求，使用自定义的背景音。需要将背景音上传到标贝开放平台后台，在后台生成音频链接后，每次使用时在属性值里添加音频链接。长文本合成会分段合成，暂不支持添加长音频背景音乐。</p> <p data-v-dbf8fa46="">音频要求：</p> <ul data-v-dbf8fa46=""><li data-v-dbf8fa46="">采样率：16KHz</li> <li data-v-dbf8fa46="">声道：单声道</li> <li data-v-dbf8fa46="">格式：WAV</li> <li data-v-dbf8fa46="">大小不超过2 MB。</li> <li data-v-dbf8fa46="">合成时长超出背景音时长时，背景音将随合成音频循环播放。</li> <li data-v-dbf8fa46="">如果背景音不是WAV格式，可使用ffmpeg将其转为WAV格式：ffmpeg -i 输入音频 -acodec pcm_s16le -ac 1 -ar 16000
+                  目标.wav。</li> <li data-v-dbf8fa46="">标签内的URL如果包含XML的特殊字符，需要做字符转义。</li></ul></li></ul></li></ul> <h4 data-v-dbf8fa46="" style="color: red;">注意：</h4> <p data-v-dbf8fa46="" style="color: red;">您需要对上传的音频版权承担相应的法律责任。</p> <p data-v-dbf8fa46="">上传bgm位置</p> <div data-v-dbf8fa46="" class="el-image" style="display: block; margin-top: 20px; width: 750px;"><div class="el-image__placeholder"></div><!----></div> <div data-v-dbf8fa46="" class="el-image" style="display: block; margin-top: 20px; width: 750px;"><div class="el-image__placeholder"></div><!----></div> <pre class="doc-sample doc-code" data-v-dbf8fa46="">&lt;speak&nbsp;bgm="https://databaker-speech-saas.oss-cn-huhehaote.aliyuncs.com/ssml_audio_path/3471a984a326fdc74b70bdb903b844b4e722.wav?Expires=1719109096&amp;OSSAccessKeyId=LTAI4FyDF4jkGf4GDXLE9615&amp;Signature=ZzNikjjbcFjL1j18Tg2cKM4%2BZNs%3D"&nbsp;backgroundMusicVolume="30"&nbsp;speed="4"&nbsp;volume="4"&gt;
+  &lt;break&nbsp;time="2s"/&gt;枯藤老树昏鸦
+  &lt;break&nbsp;time="700ms"/&gt;小桥流水人家
+  &lt;break&nbsp;time="700ms"/&gt;古道西风瘦马
+  &lt;break&nbsp;time="700ms"/&gt;夕阳西下，断肠人在天涯
+  &lt;break&nbsp;time="2s"/&gt;
+&lt;/speak&gt;<button class="copyClass">copy</button></pre> <p data-v-dbf8fa46="" class="play_btn">测试音频（点击播放）</p></section> <h3 data-v-dbf8fa46="" id="person">个性化功能</h3> <section data-v-dbf8fa46=""><h4 data-v-dbf8fa46="" id="s">自定义文本结构&lt;s&gt;</h4> <ul data-v-dbf8fa46=""><li data-v-dbf8fa46=""><h4 data-v-dbf8fa46="">描述</h4> <p data-v-dbf8fa46="">用于用户自定义句子结构，该标签是可选标签。</p></li> <li data-v-dbf8fa46=""><h4 data-v-dbf8fa46="">语法</h4> <pre class="doc-sample doc-code" data-v-dbf8fa46="">&lt;s&gt;文本&lt;/s&gt;
+      <button class="copyClass">copy</button></pre></li> <li data-v-dbf8fa46=""><h4 data-v-dbf8fa46="">属性</h4> <p data-v-dbf8fa46="">无</p></li> <li data-v-dbf8fa46=""><h4 data-v-dbf8fa46="">示例</h4> <pre class="doc-sample doc-code" data-v-dbf8fa46="">&lt;speak&gt;&lt;s&gt;这是一句话&lt;/s&gt;&lt;s&gt;现在是另一句话&lt;/s&gt;&lt;/speak&gt;
+      <button class="copyClass">copy</button></pre> <p data-v-dbf8fa46="" class="play_btn">测试音频（点击播放）</p></li></ul> <h4 data-v-dbf8fa46="" id="break">停顿时间&lt;break&gt;
+      </h4> <ul data-v-dbf8fa46=""><li data-v-dbf8fa46=""><h4 data-v-dbf8fa46="">描述</h4> <p data-v-dbf8fa46="">用于在文本中设置停顿时间，该标签是可选标签。</p></li> <li data-v-dbf8fa46=""><h4 data-v-dbf8fa46="">语法</h4> <pre class="doc-sample doc-code" data-v-dbf8fa46=""># 空属性
+&lt;break/&gt;
+# 带time属性
+&lt;break time="string"/&gt;
+      <button class="copyClass">copy</button></pre></li> <li data-v-dbf8fa46=""><h4 data-v-dbf8fa46="">属性</h4> <div class="table-wrap"><table class="doc-table" data-v-dbf8fa46=""><thead data-v-dbf8fa46=""><tr data-v-dbf8fa46=""><th data-v-dbf8fa46="" style="width: 60px;">属性名称</th> <th data-v-dbf8fa46="" style="width: 60px;">属性类型</th> <th data-v-dbf8fa46="">属性值</th> <th data-v-dbf8fa46="" style="width: 60px;">是否必选</th> <th data-v-dbf8fa46="">描述</th></tr></thead> <tbody data-v-dbf8fa46=""><tr data-v-dbf8fa46=""><td data-v-dbf8fa46="">time</td> <td data-v-dbf8fa46="">String</td> <td data-v-dbf8fa46="">[number]s/[number]ms</td> <td data-v-dbf8fa46="">否</td> <td data-v-dbf8fa46="">以秒/毫秒为单位设置停顿的时长 （如“2s“、“50ms”）。<br data-v-dbf8fa46=""> [number]s：以秒为单位，[number]取值范围为[1,
+                  15]的整数。<br data-v-dbf8fa46="">[number]ms：以毫秒为单位，[number]取值范围为[50, 15000]的整数。</td></tr> <tr data-v-dbf8fa46=""><td data-v-dbf8fa46="">strength</td> <td data-v-dbf8fa46="">String</td> <td data-v-dbf8fa46="">
+                  none <br data-v-dbf8fa46="">
+                  x-weak<br data-v-dbf8fa46="">
+                  weak<br data-v-dbf8fa46="">
+                  medium<br data-v-dbf8fa46="">
+                  strong<br data-v-dbf8fa46="">
+                  x-strong<br data-v-dbf8fa46=""></td> <td data-v-dbf8fa46="">否</td> <td data-v-dbf8fa46="">
+                  none: 无停顿。常用于消除默认停顿的部分，对应xml标签&lt;pause type=#0&gt; <br data-v-dbf8fa46="">
+                  x-weak: 无停顿。和none效果一致，对应xml标签&lt;pause type=#1&gt;<br data-v-dbf8fa46="">
+                  weak: 短停顿，停顿时间比标准停顿更短，对应xml标签&lt;pause type=#2&gt;<br data-v-dbf8fa46="">
+                  medium: 标准停顿，相当于标点符号的效果，对应xml标签 &lt;pause type=#3&gt;<br data-v-dbf8fa46="">
+                  strong: 长静音，400ms &lt;silence len=400&gt;<br data-v-dbf8fa46="">
+                  x-strong: 段落静音，500ms &lt;silence len=500&gt;<br data-v-dbf8fa46=""></td></tr></tbody></table></div></li> <li data-v-dbf8fa46=""><h4 data-v-dbf8fa46="">标签关系</h4> <p data-v-dbf8fa46="">
+            &lt;break&gt;是空标签，不能包含任何标签。如果SSML结构中存在&lt;s&gt;标签，请把&lt;break&gt;写在&lt;s&gt;里面，表示对当前段落或句子设置停顿。
+            注：在使用该标签时，<b data-v-dbf8fa46="">需要确保在标签前后不能只是空白或标点符号。</b></p></li> <li data-v-dbf8fa46=""><h4 data-v-dbf8fa46="">示例</h4> <pre class="doc-sample doc-code" data-v-dbf8fa46="">&lt;speak&gt;
+   请找一个舒适的地方坐下&lt;break time="500ms"/&gt;慢慢放松呼吸
+&lt;/speak&gt;<button class="copyClass">copy</button></pre> <p data-v-dbf8fa46="" class="play_btn">测试音频（点击播放）</p></li></ul> <h4 data-v-dbf8fa46="" id="sub">别名&lt;sub&gt;</h4> <ul data-v-dbf8fa46=""><li data-v-dbf8fa46=""><h4 data-v-dbf8fa46="">
+            描述
+          </h4> <p data-v-dbf8fa46="">
+            使用别名替换标签内文本。
+          </p></li> <li data-v-dbf8fa46=""><h4 data-v-dbf8fa46="">
+            语法
+          </h4> <pre class="doc-sample doc-code" data-v-dbf8fa46="">&lt;sub alias="string"&gt;&lt;/sub&gt;
+<button class="copyClass">copy</button></pre></li> <li data-v-dbf8fa46=""><h4 data-v-dbf8fa46="">属性</h4> <div class="table-wrap"><table class="doc-table" data-v-dbf8fa46=""><thead data-v-dbf8fa46=""><tr data-v-dbf8fa46=""><th data-v-dbf8fa46="">属性名称</th> <th data-v-dbf8fa46="">属性类型</th> <th data-v-dbf8fa46="">属性值</th> <th data-v-dbf8fa46="">是否必选</th> <th data-v-dbf8fa46="">描述</th></tr></thead> <tbody data-v-dbf8fa46=""><tr data-v-dbf8fa46=""><td data-v-dbf8fa46="">alias</td> <td data-v-dbf8fa46="">String</td> <td data-v-dbf8fa46="">替换后的内容</td> <td data-v-dbf8fa46="">是</td> <td data-v-dbf8fa46="">用于替换标签内的文本。</td></tr></tbody></table></div></li> <li data-v-dbf8fa46=""><h4 data-v-dbf8fa46="">标签关系</h4> <p data-v-dbf8fa46="">&lt;sub&gt;标签仅包括文本。</p></li> <li data-v-dbf8fa46=""><h4 data-v-dbf8fa46="">示例</h4> <pre class="doc-sample doc-code" data-v-dbf8fa46="">&lt;speak&gt;&lt;sub alias="网络协议标准"&gt;W3C&lt;/sub&gt;&lt;/speak&gt;
+      <button class="copyClass">copy</button></pre> <p data-v-dbf8fa46="" class="play_btn">测试音频（点击播放）</p></li></ul> <h4 data-v-dbf8fa46="" id="w">词组分词&lt;w&gt;
+      </h4> <ul data-v-dbf8fa46=""><li data-v-dbf8fa46=""><h4 data-v-dbf8fa46="">描述</h4> <p data-v-dbf8fa46="">用于表示文本的词语结构，该标签是可选标签。英文文本通常采用空格来进行分词，一般无需使用此标签。</p></li> <li data-v-dbf8fa46=""><h4 data-v-dbf8fa46="">语法</h4> <pre class="doc-sample doc-code" data-v-dbf8fa46="">&lt;w&gt;文本&lt;/w&gt;
+      <button class="copyClass">copy</button></pre></li> <li data-v-dbf8fa46=""><h4 data-v-dbf8fa46="">属性</h4> <p data-v-dbf8fa46="">无</p></li> <li data-v-dbf8fa46=""><h4 data-v-dbf8fa46="">标签关系</h4> <pre class="doc-sample doc-code" data-v-dbf8fa46="">&lt;w&gt;文本&lt;/w&gt;
+      <button class="copyClass">copy</button></pre></li> <li data-v-dbf8fa46=""><h4 data-v-dbf8fa46="">示例</h4> <pre class="doc-sample doc-code" data-v-dbf8fa46="">&lt;speak&gt;武汉市长&lt;w&gt;江大桥&lt;/w&gt;今天发表了演讲。&lt;/speak&gt;
+      <button class="copyClass">copy</button></pre> <p data-v-dbf8fa46="" class="play_btn">测试音频（点击播放）</p></li></ul> <h4 data-v-dbf8fa46="" id="phoneme">读音更改&lt;phoneme&gt;
+      </h4> <ul data-v-dbf8fa46=""><li data-v-dbf8fa46=""><h4 data-v-dbf8fa46="">描述</h4> <p data-v-dbf8fa46="">用于可以指定标签内汉字的拼音，该标签是可选标签。英文文本不支持该标签。</p></li> <li data-v-dbf8fa46=""><h4 data-v-dbf8fa46="">语法</h4> <pre class="doc-sample doc-code" data-v-dbf8fa46="">&lt;phoneme alphabet="string" ph="string"&gt;文本&lt;/phoneme&gt;
+      <button class="copyClass">copy</button></pre></li> <li data-v-dbf8fa46=""><h4 data-v-dbf8fa46="">属性</h4> <div class="table-wrap"><table class="doc-table" data-v-dbf8fa46=""><thead data-v-dbf8fa46=""><tr data-v-dbf8fa46=""><th data-v-dbf8fa46="" style="width: 70px;">属性名称</th> <th data-v-dbf8fa46="" style="width: 60px;">属性类型</th> <th data-v-dbf8fa46="">属性值</th> <th data-v-dbf8fa46="" style="width: 60px;">是否必选</th> <th data-v-dbf8fa46="">描述</th></tr></thead> <tbody data-v-dbf8fa46=""><tr data-v-dbf8fa46=""><td data-v-dbf8fa46="">alphabet</td> <td data-v-dbf8fa46="">String</td> <td data-v-dbf8fa46="">py</td> <td data-v-dbf8fa46="">是</td> <td data-v-dbf8fa46="">“py”表示拼音。</td></tr> <tr data-v-dbf8fa46=""><td data-v-dbf8fa46="">ph</td> <td data-v-dbf8fa46="">String</td> <td data-v-dbf8fa46="">标签内文本对应的拼音串</td> <td data-v-dbf8fa46="">是</td> <td data-v-dbf8fa46="">拼音用法的赋值规范：字与字的拼音用空格分隔，拼音的数目必须与字数相等。每个拼音由发音和音调组成，音调为1~5的数字编号，其中”5”表示轻声。</td></tr></tbody></table></div></li> <li data-v-dbf8fa46=""><h4 data-v-dbf8fa46="">标签关系</h4> <p data-v-dbf8fa46="">&lt;phoneme&gt;标签仅包括文本。</p></li> <li data-v-dbf8fa46=""><h4 data-v-dbf8fa46="">示例</h4> <pre class="doc-sample doc-code" data-v-dbf8fa46="">&lt;speak&gt;
+    你这&lt;phoneme alphabet="py" ph="zhao1"&gt;着&lt;/phoneme&gt;真绝，让他干&lt;phoneme alphabet="py" ph="zhao2 ji2"&gt;着急&lt;/phoneme&gt;
+&lt;/speak&gt;
+      <button class="copyClass">copy</button></pre> <p data-v-dbf8fa46="" class="play_btn">测试音频（点击播放）</p></li></ul> <h4 data-v-dbf8fa46="" id="soundEvent">添加提示音&lt;soundEvent&gt;
+      </h4> <ul data-v-dbf8fa46=""><li data-v-dbf8fa46=""><h4 data-v-dbf8fa46="">描述</h4> <p data-v-dbf8fa46="">提示音标签，通过该标签在任意位置插入提示音，该标签是可选标签。</p></li> <li data-v-dbf8fa46=""><h4 data-v-dbf8fa46="">语法</h4> <pre class="doc-sample doc-code" data-v-dbf8fa46="">&lt;soundEvent src="URL"/&gt;
+      <button class="copyClass">copy</button></pre></li> <li data-v-dbf8fa46=""><h4 data-v-dbf8fa46="">属性</h4> <div class="table-wrap"><table class="doc-table" data-v-dbf8fa46=""><thead data-v-dbf8fa46=""><tr data-v-dbf8fa46=""><th data-v-dbf8fa46="" style="width: 60px;">属性名称</th> <th data-v-dbf8fa46="" style="width: 60px;">属性类型</th> <th data-v-dbf8fa46="">属性值</th> <th data-v-dbf8fa46="" style="width: 60px;">是否必选</th> <th data-v-dbf8fa46="">描述</th></tr></thead> <tbody data-v-dbf8fa46=""><tr data-v-dbf8fa46=""><td data-v-dbf8fa46="">src</td> <td data-v-dbf8fa46="">String</td> <td data-v-dbf8fa46="">URL提示音资源路径</td> <td data-v-dbf8fa46="">是</td> <td data-v-dbf8fa46="">您可以根据需求，使用自定义提示音。<br data-v-dbf8fa46="">1. 采样率：16KHz<br data-v-dbf8fa46="">2. 声道：单声道<br data-v-dbf8fa46="">3. 格式：WAV<br data-v-dbf8fa46="">4. 大小不超过2
+                  MB。<br data-v-dbf8fa46="">5. 如果背景音不是WAV格式，可使用ffmpeg将其转为WAV格式：
+                  <br data-v-dbf8fa46="">
+                  ffmpeg -i 输入音频 -acodec pcm_s16le -ac 1 -ar
+                  16000 目标.wav。<br data-v-dbf8fa46="">6. 标签内的URL如果包含XML的特殊字符，需要做字符转义。<br data-v-dbf8fa46=""><span data-v-dbf8fa46="" style="color: red;">注意：<br data-v-dbf8fa46="">您需要对上传的音频版权承担相应的法律责任。</span></td></tr></tbody></table></div></li> <li data-v-dbf8fa46=""><h4 data-v-dbf8fa46="">标签关系</h4> <p data-v-dbf8fa46="">&lt;soundEvent&gt;是空标签，不可以包含任何标签。</p></li> <li data-v-dbf8fa46=""><p data-v-dbf8fa46="">上传背景音位置</p> <div data-v-dbf8fa46="" class="el-image" style="display: block; margin-top: 20px; width: 750px;"><div class="el-image__placeholder"></div><!----></div> <div data-v-dbf8fa46="" class="el-image" style="display: block; margin-top: 20px; width: 750px;"><div class="el-image__placeholder"></div><!----></div></li> <li data-v-dbf8fa46=""><h4 data-v-dbf8fa46="">示例</h4> <pre class="doc-sample doc-code" data-v-dbf8fa46="">&lt;speak&gt;请感受一下大自然的声音&lt;soundEvent&nbsp;src="https://databaker-speech-saas.oss-cn-huhehaote.aliyuncs.com/ssml_audio_path/3471a6eca4f3f7954280b4505b1af4e23a1d.wav?Expires=1711697827&amp;OSSAccessKeyId=LTAI4FyDF4jkGf4GDXLE9615&amp;Signature=m9iBLiDqHy7DhcEvc24pbmq5YDs%3D"/&gt;你们听到鸟叫了吗&lt;/speak&gt;<button class="copyClass">copy</button></pre> <p data-v-dbf8fa46="" class="play_btn">测试音频（点击播放）</p></li></ul> <h4 data-v-dbf8fa46="" id="say-as">选择指定场景读法&lt;say-as&gt;
+      </h4> <ul data-v-dbf8fa46=""><li data-v-dbf8fa46=""><h4 data-v-dbf8fa46="">描述</h4> <p data-v-dbf8fa46="">用于指示出标签内文本的信息类型，进而按照该类型的默认发音方式发音。</p></li> <li data-v-dbf8fa46=""><h4 data-v-dbf8fa46="">语法</h4> <pre class="doc-sample doc-code" data-v-dbf8fa46="">&lt;say-as interpret-as="string"&gt;文本&lt;/say-as&gt;<button class="copyClass">copy</button></pre></li> <li data-v-dbf8fa46=""><h4 data-v-dbf8fa46="">属性</h4> <div class="table-wrap"><table class="doc-table" data-v-dbf8fa46=""><thead data-v-dbf8fa46=""><tr data-v-dbf8fa46=""><th data-v-dbf8fa46="">属性名称</th> <th data-v-dbf8fa46="">属性类型</th> <th data-v-dbf8fa46="">属性值</th> <th data-v-dbf8fa46="">是否必选</th> <th data-v-dbf8fa46="">描述</th></tr></thead> <tbody data-v-dbf8fa46=""><tr data-v-dbf8fa46=""><td data-v-dbf8fa46="">interpret-as</td> <td data-v-dbf8fa46="">String</td> <td data-v-dbf8fa46="">
+                  cardinal<br data-v-dbf8fa46="">digits<br data-v-dbf8fa46="">telephone<br data-v-dbf8fa46="">name<br data-v-dbf8fa46="">address<br data-v-dbf8fa46="">id<br data-v-dbf8fa46="">characters<br data-v-dbf8fa46="">punctuation<br data-v-dbf8fa46="">date<br data-v-dbf8fa46="">time<br data-v-dbf8fa46="">currency<br data-v-dbf8fa46="">measure
+                </td> <td data-v-dbf8fa46="">是</td> <td data-v-dbf8fa46="">
+                  指示出标签内文本的信息类型：<br data-v-dbf8fa46="">cardinal：数字读法<br data-v-dbf8fa46="">digits：电报读法<br data-v-dbf8fa46="">telephone：按电话号码常用方式发音<br data-v-dbf8fa46="">name：按人名发音<br data-v-dbf8fa46="">address：按地址发音<br data-v-dbf8fa46="">id：适用于账户名、昵称等<br data-v-dbf8fa46="">characters：将标签内的文本按字符一一读出<br data-v-dbf8fa46="">punctuation：将标签内的文本按标点符号的方式读出来<br data-v-dbf8fa46="">date：按日期发音<br data-v-dbf8fa46="">time：按时间发音<br data-v-dbf8fa46="">currency：按金额发音<br data-v-dbf8fa46="">measure：按计量单位发音。
+                </td></tr></tbody></table></div></li> <li data-v-dbf8fa46=""><h4 data-v-dbf8fa46="">标签关系</h4> <p data-v-dbf8fa46="">&lt;say-as&gt;标签仅包括文本。</p></li> <li data-v-dbf8fa46=""><h4 data-v-dbf8fa46="">示例</h4> <ul data-v-dbf8fa46=""><li data-v-dbf8fa46=""><p data-v-dbf8fa46="">cardinal</p> <pre class="doc-sample doc-code" data-v-dbf8fa46="">&lt;speak&gt;
+  &lt;say-as interpret-as="cardinal"&gt;110&lt;/say-as&gt;
+&lt;/speak&gt;
+      <button class="copyClass">copy</button></pre> <p data-v-dbf8fa46="" class="play_btn">测试音频（点击播放）</p></li> <li data-v-dbf8fa46=""><p data-v-dbf8fa46="">digits</p> <pre class="doc-sample doc-code" data-v-dbf8fa46="">&lt;speak&gt;
+ &lt;say-as interpret-as="digits"&gt;110&lt;/say-as&gt;
+&lt;/speak&gt;
+      <button class="copyClass">copy</button></pre> <p data-v-dbf8fa46="" class="play_btn">测试音频（点击播放）</p></li> <li data-v-dbf8fa46=""><p data-v-dbf8fa46="">telephone</p> <pre class="doc-sample doc-code" data-v-dbf8fa46="">&lt;speak&gt;
+  &lt;say-as interpret-as="telephone"&gt;110&lt;/say-as&gt;
+&lt;/speak&gt;
+      <button class="copyClass">copy</button></pre> <p data-v-dbf8fa46="" class="play_btn">测试音频（点击播放）</p></li> <li data-v-dbf8fa46=""><p data-v-dbf8fa46="">name</p> <pre class="doc-sample doc-code" data-v-dbf8fa46="">&lt;speak&gt;
+  他的曾用名是&lt;say-as interpret-as="name"&gt;单红军&lt;/say-as&gt;
+&lt;/speak&gt;
+      <button class="copyClass">copy</button></pre> <p data-v-dbf8fa46="" class="play_btn">测试音频（点击播放）</p></li> <li data-v-dbf8fa46=""><p data-v-dbf8fa46="">address</p> <pre class="doc-sample doc-code" data-v-dbf8fa46="">&lt;speak&gt;
+ &lt;say-as interpret-as="cardinal"&gt;市台路388弄1107-1108号&lt;/say-as&gt;
+&lt;/speak&gt;
+      <button class="copyClass">copy</button></pre> <p data-v-dbf8fa46="" class="play_btn">测试音频（点击播放）</p></li> <li data-v-dbf8fa46=""><p data-v-dbf8fa46="">id</p> <pre class="doc-sample doc-code" data-v-dbf8fa46="">&lt;speak&gt;
+  &lt;say-as interpret-as="id"&gt;lily_878&lt;/say-as&gt;
+&lt;/speak&gt;
+      <button class="copyClass">copy</button></pre> <p data-v-dbf8fa46="" class="play_btn">测试音频（点击播放）</p></li> <li data-v-dbf8fa46=""><p data-v-dbf8fa46="">characters</p> <pre class="doc-sample doc-code" data-v-dbf8fa46="">&lt;speak&gt;
+  &lt;say-as interpret-as="characters"&gt;希腊字母θλ&lt;/say-as&gt;
+&lt;/speak&gt;
+      <button class="copyClass">copy</button></pre> <p data-v-dbf8fa46="" class="play_btn">测试音频（点击播放）</p></li> <li data-v-dbf8fa46=""><p data-v-dbf8fa46="">punctuation</p> <pre class="doc-sample doc-code" data-v-dbf8fa46="">&lt;speak&gt;
+  &lt;say-as interpret-as="punctuation"&gt;?@&lt;/say-as&gt;
+&lt;/speak&gt;
+      <button class="copyClass">copy</button></pre> <p data-v-dbf8fa46="" class="play_btn">测试音频（点击播放）</p></li> <li data-v-dbf8fa46=""><p data-v-dbf8fa46="">date</p> <pre class="doc-sample doc-code" data-v-dbf8fa46="">&lt;speak&gt;
+  &lt;say-as interpret-as="date"&gt;2001-2-28&lt;/say-as&gt;
+&lt;/speak&gt;
+      <button class="copyClass">copy</button></pre> <p data-v-dbf8fa46="" class="play_btn">测试音频（点击播放）</p></li> <li data-v-dbf8fa46=""><p data-v-dbf8fa46="">time</p> <pre class="doc-sample doc-code" data-v-dbf8fa46="">&lt;speak&gt;
+  &lt;say-as interpret-as="time"&gt;2:00pm&lt;/say-as&gt;
+&lt;/speak&gt;
+      <button class="copyClass">copy</button></pre> <p data-v-dbf8fa46="" class="play_btn">测试音频（点击播放）</p></li> <li data-v-dbf8fa46=""><p data-v-dbf8fa46="">currency</p> <pre class="doc-sample doc-code" data-v-dbf8fa46="">&lt;speak&gt;
+  &lt;say-as interpret-as="currency"&gt;8,000,000.00RMB&lt;/say-as&gt;
+&lt;/speak&gt;
+      <button class="copyClass">copy</button></pre> <p data-v-dbf8fa46="" class="play_btn">测试音频（点击播放）</p></li> <li data-v-dbf8fa46=""><p data-v-dbf8fa46="">measure</p> <pre class="doc-sample doc-code" data-v-dbf8fa46="">&lt;speak&gt;
+  &lt;say-as interpret-as="measure"&gt;45m12cm&lt;/say-as&gt;
+&lt;/speak&gt;
+      <button class="copyClass">copy</button></pre> <p data-v-dbf8fa46="" class="play_btn">测试音频（点击播放）</p></li></ul></li></ul></section> <h3 data-v-dbf8fa46="">综合示例</h3> <p data-v-dbf8fa46="">以下示例需要按照&lt;speak&gt;标签分多次进行合成测试</p> <section data-v-dbf8fa46=""><pre class="doc-sample doc-code" data-v-dbf8fa46="">&lt;speak&gt;在&nbsp;
+        &lt;say-as&nbsp;interpret-as="date"&gt;2022-12-31&lt;/say-as&gt;
+        元旦前，&lt;say-as&nbsp;interpret-as="address"&gt;北京&lt;/say-as&gt;
+        某中学的语文课堂上同学们都按奈不住激动地心情，等待着
+        &lt;sub&nbsp;alias="元旦"&gt;01.01&lt;/sub&gt;
+        假期的到来。随着下课铃响起
+        &lt;soundEvent&nbsp;src="https://databaker-speech-saas.oss-cn-huhehaote.aliyuncs.com/ssml_audio_path/34711199cd86d9ec48edb5ca44762c4ac3f2.wav?Expires=1719109090&amp;OSSAccessKeyId=LTAI4FyDF4jkGf4GDXLE9615&amp;Signature=5BxbSPJQesXbIpdpw1JEQGG9054%3D"/&gt;
+        学生们一个个急忙&nbsp;&lt;phoneme&nbsp;alphabet="py"&nbsp;ph="de5"&gt;地&lt;/phoneme&gt;
+        收拾东西。此时班主任
+        &lt;say-as&nbsp;interpret-as="name"&gt;单老师&lt;/say-as&gt;进来了。
+    &lt;/speak&gt;
+
+&lt;speak voice="Tiantian"&gt;
+  “大家放假期间不要去有危险的地方，注意安全，遇到困难一定要拨打
+  &lt;say-as interpret-as="digits"&gt;110&lt;/say-as&gt;。
+ 收假后记得交一篇
+  &lt;say-as interpret-as="cardinal"&gt;500&lt;/say-as&gt;字的作文描写假期活动”。
+ 小明心里默念道：
+&lt;/speak&gt;
+
+&lt;speak voice="Guozi" speed="6"&gt;
+  “快点快点，我要迟到了，已经
+  &lt;say-as interpret-as="time"&gt;18:23:30&lt;/say-as&gt;
+  了，再晚就赶不上公交车了”。
+&lt;/speak&gt;
+
+&lt;speak&gt;
+  &lt;say-as interpret-as="name"&gt;小茜&lt;/say-as&gt;
+  对小明说道：
+&lt;/speak&gt;
+
+&lt;speak voice="Jingjing" speed="6"&gt;
+  别着急，我们赶的上的！
+&lt;/speak&gt;
+
+&lt;speak voice="Tiantian"&gt;
+  “放学”
+&lt;/speak&gt;
+
+&lt;speak&gt;
+  班主任&lt;say-as interpret-as="name"&gt;单老师&lt;/say-as&gt;刚说完，小明一个箭步就冲了出去。
+  &lt;say-as interpret-as="name"&gt;小茜&lt;/say-as&gt;
+  在后面大喊道：&lt;break time=\"50ms\"/&gt;
+&lt;/speak&gt;
+
+&lt;speak voice="Jingjing" vlume="10"&gt;
+  你倒是等等我呀！
+&lt;/speak&gt;
+
+&lt;speak&nbsp;bgm="https://databaker-speech-saas.oss-cn-huhehaote.aliyuncs.com/ssml_audio_path/3471a984a326fdc74b70bdb903b844b4e722.wav?Expires=1719109096&amp;OSSAccessKeyId=LTAI4FyDF4jkGf4GDXLE9615&amp;Signature=ZzNikjjbcFjL1j18Tg2cKM4%2BZNs%3D"&nbsp;backgroundMusicVolume="30"&nbsp;speed="4"&gt;
+  伴随着电台播放的音乐，他们高高兴兴的离开学校，准备在假期里好好休息一下!
+&lt;/speak&gt;
+<button class="copyClass">copy</button></pre></section> <audio data-v-dbf8fa46="" preload="none"></audio></div>

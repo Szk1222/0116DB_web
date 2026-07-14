@@ -1,139 +1,129 @@
-<h1>一句话识别 Android SDK</h1>
-<p class="doc-lead">一句话识别 Android SDK 适用于 60 秒以内短语音识别，支持 SDK 调用麦克风录音识别，也支持接收音频字节流并上传识别。</p>
-
-<h2 id="asr-word-android-download">下载安装</h2>
-<p>SDK 及示例 Demo 下载地址：<a href="https://github.com/data-baker/BakerAndroidSdks" target="_blank" rel="noopener">https://github.com/data-baker/BakerAndroidSdks</a></p>
-<p>项目中使用一句话识别能力时，将以下 AAR 包复制到主 Module 的 <code>libs</code> 目录：</p>
-<pre><code class="language-text">basecomponent-release.aar
+<div data-v-56ffee4c=""><h2 data-v-56ffee4c="">语音识别Android SDK</h2> <h3 data-v-56ffee4c="">下载安装</h3> <section data-v-56ffee4c=""><p data-v-56ffee4c="">
+        SDK及示例demo下载地址:
+        <a data-v-56ffee4c="" target="_blank" href="https://github.com/data-baker/BakerAndroidSdks">https://github.com/data-baker/BakerAndroidSdks</a></p></section> <h3 data-v-56ffee4c="">Android Studio集成SDK（参考demo）</h3> <section data-v-56ffee4c=""><ul data-v-56ffee4c=""><li data-v-56ffee4c="">
+          将以下3个aar包添加至工程主module下，lib文件夹里。
+          <pre class="doc-sample doc-code" data-v-56ffee4c="">basecomponent-release.aar
 bakerasr-release.aar
-bakerhttp-release.aar</code></pre>
-
-<h2 id="asr-word-android-integrate">Android Studio 集成</h2>
-<pre><code class="language-gradle">dependencies {
-  implementation fileTree(dir: 'libs', include: ['*.aar'])
-  implementation 'com.squareup.okhttp3:okhttp:4.2.2'
-  implementation 'com.google.code.gson:gson:2.8.6'
-}</code></pre>
-<p>在 <code>AndroidManifest.xml</code> 中声明网络和录音相关权限；Android 6.0 及以上还需要动态申请 <code>READ_PHONE_STATE</code> 与 <code>RECORD_AUDIO</code>。</p>
-<pre><code class="language-xml">&lt;uses-permission android:name="android.permission.INTERNET" /&gt;
+bakerhttp-release.aar<button class="copyClass">copy</button></pre></li> <li data-v-56ffee4c="">在主module的build.gradle文件里，添加以下代码。</li> <pre class="doc-sample doc-code" data-v-56ffee4c="">dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.aar'])
+    implementation 'com.squareup.okhttp3:okhttp:4.2.2'
+    implementation 'com.google.code.gson:gson:2.8.6'
+}<button class="copyClass">copy</button></pre> <p data-v-56ffee4c="">2021年6月，标贝计划开源sdk源码，所以也可以直接集成源码model。</p> <p data-v-56ffee4c=""><b data-v-56ffee4c="">注意：SDK内使用了okhttp、gson所以需要开发者添加以这两个库，若工程内已存在，无需重复添加。okhttp请使用4.x版本，以免出现版本兼容bug。</b></p> <li data-v-56ffee4c="">在主Module的AndroidManifest.xml文件中添加权限。6.0以上需要动态申请READ_PHONE_STATE、RECORD_AUDIO等权限</li> <pre class="doc-sample doc-code" data-v-56ffee4c="">&lt;uses-permission android:name="android.permission.INTERNET" /&gt;
 &lt;uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /&gt;
 &lt;uses-permission android:name="android.permission.READ_PHONE_STATE" /&gt;
-&lt;uses-permission android:name="android.permission.RECORD_AUDIO" /&gt;</code></pre>
-<p>如需允许明文网络访问，在 <code>application</code> 节点增加：</p>
-<pre><code class="language-xml">android:usesCleartextTraffic="true"</code></pre>
-
-<h2 id="asr-word-android-proguard">混淆配置</h2>
-<pre><code class="language-text">-keep class com.baker.speech.asr.basic.**{*;}
+&lt;uses-permission android:name="android.permission.RECORD_AUDIO" /&gt;<button class="copyClass">copy</button></pre> <li data-v-56ffee4c="">
+          在主Module的AndroidManifest.xml文件中的application节点添加以下属性
+        </li> <xmp data-v-56ffee4c="" style="color: rgb(0, 101, 163);">android:usesCleartextTraffic="true"</xmp> <li data-v-56ffee4c=""><p data-v-56ffee4c="">关于混淆</p> <p data-v-56ffee4c="">
+            SDK中用到了okhttp和gson，所以需要将这两个包的混淆代码添加上。具体混淆代码可以去官方文档上查阅。如果项目中已经有这两个包的混淆代码，不必重复添加。请加上我们SDK其他类的混淆代码，如下：
+          </p> <pre class="doc-sample doc-code" data-v-56ffee4c="">-keep class com.baker.speech.asr.basic.**{*;}
 -keep class com.baker.speech.asr.bean.**{*;}
 -keep class com.baker.speech.asr.utils.**{*;}
 -keep public class com.baker.speech.asr.AsrConstants{*;}
 -keep public class com.baker.speech.asr.AsrErrorConstants{*;}
--keep public class com.baker.speech.asr.BakerRecognizer{ public &lt;methods&gt;; }
+-keep public class com.baker.speech.asr.BakerRecognizer{
+&#32;&#32;&#32;&#32;&#9;&#9;public &lt;methods&gt;;
+}
 -keep public class com.baker.speech.asr.vadJni{*;}
--keep public class com.baker.speech.asr.event.EventManagerMultiNet$BakerWebSocketListener{*;}</code></pre>
-
-<h2 id="asr-word-android-classes">SDK 关键类</h2>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>类名</th><th>说明</th></tr>
-<tr><td><code>BakerRecognizer</code></td><td>一句话识别业务处理类，全局只需一个实例。</td></tr>
-<tr><td><code>BakerRecognizerCallback</code></td><td>实时识别结果、状态和错误信息回调类。</td></tr>
-</table>
-</div>
-
-<h2 id="asr-word-android-init">初始化 SDK</h2>
-<p>调用公共识别服务时，传入授权邮件中的 <code>clientId</code> 与 <code>clientSecret</code>：</p>
-<pre><code class="language-java">BakerRecognizer bakerRecognizer = new BakerRecognizer();
-bakerRecognizer.initSdk(context, clientId, clientSecret, bakerRecognizerCallback);</code></pre>
-<p>私有化部署时，先初始化回调，再设置识别服务器地址：</p>
-<pre><code class="language-java">bakerRecognizer.initSdk(context, bakerRecognizerCallback);
-bakerRecognizer.setUrl("ws://xxxx");</code></pre>
-
-<h2 id="asr-word-android-scenes">识别场景</h2>
-<h3>麦克风录音识别</h3>
-<ol>
-<li>初始化 <code>BakerRecognizer</code> 并配置参数。</li>
-<li>调用 <code>startAsr()</code> 开始录音识别。</li>
-<li>在 <code>BakerRecognizerCallback</code> 中接收状态、识别结果或错误信息。</li>
-<li>开启 VAD 时可由服务端自动结束；未开启时调用 <code>stopAsr()</code> 主动结束。</li>
-</ol>
-<h3>音频字节流识别</h3>
-<ol>
-<li>调用 <code>start()</code> 通知 SDK 准备识别。</li>
-<li>多次调用 <code>send(byte[] data)</code> 输入待识别音频数据。除最后一片外，单次建议固定为 <code>5120</code> 字节。</li>
-<li>最后一片可以小于 <code>5120</code> 字节，也可以发送空包。</li>
-<li>调用 <code>end()</code> 结束识别并释放本次任务。</li>
-</ol>
-
-<h2 id="asr-word-android-params">参数与方法</h2>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>方法</th><th>是否必填</th><th>说明</th></tr>
-<tr><td><code>initSdk</code></td><td>是</td><td>初始化 SDK，设置授权信息和回调。</td></tr>
-<tr><td><code>setUrl</code></td><td>否</td><td>设置识别服务器地址，仅私有化部署需要。</td></tr>
-<tr><td><code>setSampleRate</code></td><td>否</td><td>设置采样率，支持 <code>8000</code>、<code>16000</code>，默认 <code>16000</code>。</td></tr>
-<tr><td><code>setAudioFormat</code></td><td>否</td><td>输入字节流识别时设置音频编码格式，支持 <code>pcm</code>、<code>wav</code>。</td></tr>
-<tr><td><code>setDomain</code></td><td>否</td><td>设置模型名称，默认 <code>common</code>。</td></tr>
-<tr><td><code>setAddPct</code></td><td>否</td><td>设置是否返回标点，默认 <code>true</code>。</td></tr>
-<tr><td><code>setHotwordid</code></td><td>否</td><td>配置热词组 ID。</td></tr>
-<tr><td><code>setDiylmid</code></td><td>否</td><td>配置 ASR 个性化模型 ID。</td></tr>
-<tr><td><code>setEnable_vad</code></td><td>否</td><td>设置是否开启静音检测，默认关闭。</td></tr>
-<tr><td><code>setMax_begin_silence</code></td><td>否</td><td>开启 VAD 后有效，允许的最大开始静音时长，单位毫秒，范围 <code>200-60000</code>。</td></tr>
-<tr><td><code>setMax_end_silence</code></td><td>否</td><td>开启 VAD 后有效，允许的最大结束静音时长，单位毫秒，范围 <code>200-5000</code>。</td></tr>
-<tr><td><code>startAsr</code></td><td>场景相关</td><td>启动麦克风录音识别。</td></tr>
-<tr><td><code>stopAsr</code></td><td>场景相关</td><td>结束麦克风录音识别。</td></tr>
-<tr><td><code>start</code></td><td>场景相关</td><td>启动字节流识别任务。</td></tr>
-<tr><td><code>send(byte[] data)</code></td><td>场景相关</td><td>发送音频字节流分片。</td></tr>
-<tr><td><code>end</code></td><td>场景相关</td><td>结束字节流识别任务。</td></tr>
-</table>
-</div>
-
-<h2 id="asr-word-android-callback">BakerRecognizerCallback 回调</h2>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>方法</th><th>说明</th></tr>
-<tr><td><code>onReadyOfSpeech</code></td><td>授权通过并与服务器连接成功，识别准备就绪。</td></tr>
-<tr><td><code>onBeginOfSpeech</code></td><td>检测到开始说话。</td></tr>
-<tr><td><code>onEndOfSpeech</code></td><td>检测到说话结束。</td></tr>
-<tr><td><code>onVolumeChanged(int volume)</code></td><td>音量变化回调。</td></tr>
-<tr><td><code>onResult(BakerResponse response)</code></td><td>识别结果回调，可能多次返回。可读取 <code>nbest</code>、<code>uncertain</code>、<code>isLast</code> 等信息。</td></tr>
-<tr><td><code>onError</code></td><td>识别出错回调，任务会中断。</td></tr>
-</table>
-</div>
-
-<h2 id="asr-word-android-response">响应结果结构</h2>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>字段</th><th>类型</th><th>说明</th></tr>
-<tr><td><code>res_idx</code></td><td>int</td><td>数据块序列号，从 <code>1</code> 递增。</td></tr>
-<tr><td><code>nbest</code></td><td>array</td><td>识别候选结果。</td></tr>
-<tr><td><code>end_flag</code></td><td>int</td><td>是否最后一个数据块，<code>0</code> 否，<code>1</code> 是。</td></tr>
-<tr><td><code>text</code></td><td>string</td><td>语音识别结果，失败时为空。</td></tr>
-<tr><td><code>confidence</code></td><td>int</td><td>整句置信度，范围 <code>0-100</code>。</td></tr>
-<tr><td><code>speed</code></td><td>int</td><td>语速，范围 <code>0-2000</code>。</td></tr>
-<tr><td><code>speed_label</code></td><td>string</td><td>语速标签：<code>FAST</code>、<code>MEDIUM</code>、<code>SLOW</code>。</td></tr>
-<tr><td><code>volume</code></td><td>int</td><td>音量，范围 <code>0-100</code>。</td></tr>
-<tr><td><code>volume_label</code></td><td>string</td><td>音量标签：<code>SILENT</code>、<code>XSOFT</code>、<code>SOFT</code>、<code>MEDIUM</code>、<code>LOUD</code>、<code>XLOUD</code>。</td></tr>
-<tr><td><code>words</code></td><td>array</td><td>词级别识别结果，包含 <code>confidence</code>、<code>sos</code>、<code>eos</code>、<code>word</code>。</td></tr>
-</table>
-</div>
-
-<h2 id="asr-word-android-errors">错误码说明</h2>
-<div class="table-wrap">
-<table class="doc-table">
-<tr><th>错误码</th><th>含义</th><th>处理建议</th></tr>
-<tr><td><code>13180001</code></td><td>缺少 ClientId</td><td>检查初始化参数。</td></tr>
-<tr><td><code>13180002</code></td><td>缺少 Secret</td><td>检查初始化参数。</td></tr>
-<tr><td><code>13180003</code></td><td>Token 获取失败</td><td>检查授权信息和网络。</td></tr>
-<tr><td><code>13180004</code></td><td>没有录音权限</td><td>检查 Manifest 和动态权限申请。</td></tr>
-<tr><td><code>13180005</code></td><td>本地网络不可用</td><td>检查设备网络。</td></tr>
-<tr><td><code>13180009</code></td><td>发送数据为空</td><td>检查音频分片输入。</td></tr>
-<tr><td><code>13180012</code></td><td>WebSocket 发送错误</td><td>检查连接状态并重试。</td></tr>
-<tr><td><code>90000</code></td><td>文本数据</td><td>按响应结果解析。</td></tr>
-<tr><td><code>30001</code></td><td>HTTP 请求参数错误</td><td>检查请求参数。</td></tr>
-<tr><td><code>40008</code></td><td>Token 校验失败</td><td>重新获取或检查 <code>access_token</code>。</td></tr>
-<tr><td><code>40016</code></td><td>错误的音频格式</td><td>检查 <code>audio_format</code>。</td></tr>
-<tr><td><code>40017</code></td><td>错误的采样率</td><td>检查 <code>sample_rate</code>。</td></tr>
-<tr><td><code>50003</code></td><td>服务端繁忙</td><td>稍后重试。</td></tr>
-</table>
-</div>
+-keep public class com.baker.speech.asr.event.EventManagerMultiNet$BakerWebSocketListener{*;}<button class="copyClass">copy</button></pre></li></ul></section> <h3 data-v-56ffee4c="">SDK关键类</h3> <section data-v-56ffee4c=""><ul data-v-56ffee4c=""><li data-v-56ffee4c="">BakerRecognizer：语音识别关键业务处理类，全局只需一个实例即可。</li> <li data-v-56ffee4c="">
+          BakerRecognizerCallback：实时识别结果源数据回调类。您可以在这些个回调方法中获取到当前识别的各类结果和状态，或者错误信息。您可以在回调方法中处理识别结果。设置参数时请将此callback提交给BakerRecognizer实例。
+        </li></ul></section> <h3 data-v-56ffee4c="">调用说明</h3> <section data-v-56ffee4c=""><ul data-v-56ffee4c=""><li data-v-56ffee4c="">初始化BakerRecognizer类，得到BakerRecognizer的实例。</li> <p data-v-56ffee4c="">
+          如果是调用我们公有云公共识别接口，请采用以下示例代码初始化BakerRecognizer类,传入由我们授权邮件里面给到的账户相关的clientId和clientSecret。
+        </p> <pre class="doc-sample doc-code" data-v-56ffee4c="">BakerRecognizer bakerRecognizer = new BakerRecognizer();
+bakerRecognizer.initSdk(Context, clientId, clientSecret, BakerRecognizerCallback);<button class="copyClass">copy</button></pre> <p data-v-56ffee4c="">
+          如果是私有化部署请采用以下示例代码初始化BakerRecognizer类。并注意需要在参数中设置私有化部署的识别服务器地址，仅私有化部署时需要设置该参数。
+        </p> <pre class="doc-sample doc-code" data-v-56ffee4c="">BakerRecognizer bakerRecognizer = new BakerRecognizer();
+bakerRecognizer.initSdk(Context, BakerRecognizerCallback);
+bakerRecognizer.setUrl("ws://xxxx"); //设置私有化部署的识别服务器地址<button class="copyClass">copy</button></pre> <li data-v-56ffee4c="">
+          设置BakerRecognizer识别所需参数，包括必填参数和非必填参数。请参考demo和注释信息。
+        </li> <li data-v-56ffee4c="">
+          调用BakerRecognizer. startAsr()方法开启语音识别。识别结果反馈在callback类的各个回调方法中，各回调方法的介绍请参考以下BakerRecognizerCallback回调类方法说明。Asr服务器端支持vad功能，若开启vad检测，音频输入后，可等待vad判定识别结束。若未开启vad功能，也可主动调用BakerRecognizer. stopAsr()方法结束识别。
+        </li> <li data-v-56ffee4c="">如果需要发起新的识别请求，可以重复第2-3步。</li> <li data-v-56ffee4c="">针对文件识别或字节流识别功能，1-2步不变，第3步中将做出调整，BakerRecognizer.start();方法开启识别，BakerRecognizer.send(byte[] data)方法发送数据，需要固定大小为5120，最后一包可以小于5120，或者是追加一片空数据，表示完成传输，具体参考demo实现。接口也支持vad设置，也可调用BakerRecognizer.end();主动结束识别。</li></ul></section> <h3 data-v-56ffee4c="">参数说明</h3> <section data-v-56ffee4c=""><div class="table-wrap"><table class="doc-table" data-v-56ffee4c="" border="0" cellspacing="0" cellpadding="0"><thead data-v-56ffee4c=""><tr data-v-56ffee4c=""><th data-v-56ffee4c="">参数</th> <th data-v-56ffee4c="">参数名称</th> <th data-v-56ffee4c="" style="white-space: nowrap;">是否必填</th> <th data-v-56ffee4c="">说明</th></tr></thead> <tbody data-v-56ffee4c=""><tr data-v-56ffee4c=""><td data-v-56ffee4c="">initSdk</td> <td data-v-56ffee4c="">初始化</td> <td data-v-56ffee4c="">是</td> <td data-v-56ffee4c="">设置授权相关信息及回调信息</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">setUrl</td> <td data-v-56ffee4c="">识别服务器地址</td> <td data-v-56ffee4c="">否</td> <td data-v-56ffee4c="">仅私有化部署，需要设置服务器URL。</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">setSampleRate</td> <td data-v-56ffee4c="">音频采样率</td> <td data-v-56ffee4c="">否</td> <td data-v-56ffee4c="">音频采样率8000/16000（默认）</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">setAudioFormat</td> <td data-v-56ffee4c="">音频编码格式</td> <td data-v-56ffee4c="">否</td> <td data-v-56ffee4c="">音频编码格式wav/pcm（默认）</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">setDomain</td> <td data-v-56ffee4c="">设置识别场景</td> <td data-v-56ffee4c="">否</td> <td data-v-56ffee4c="">默认是common。</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">setAddPct</td> <td data-v-56ffee4c="">添加标点</td> <td data-v-56ffee4c="">否</td> <td data-v-56ffee4c="">true: 加标点，默认值 <br data-v-56ffee4c="">
+              false：不添加标点</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">setHotwordid</td> <td data-v-56ffee4c="">配置热词组</td> <td data-v-56ffee4c="">否</td> <td data-v-56ffee4c="">配置的热词组的id</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">setDiylmid</td> <td data-v-56ffee4c="">配置个性化模型</td> <td data-v-56ffee4c="">否</td> <td data-v-56ffee4c="">asr个性化模型的id</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">setEnable_vad</td> <td data-v-56ffee4c="">开启静音检测</td> <td data-v-56ffee4c="">否</td> <td data-v-56ffee4c="">
+              False: 关闭静音检测（默认）<br data-v-56ffee4c="">
+              True：开启静音检测
+            </td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">setMax_begin_silence</td> <td data-v-56ffee4c="">最大开始静音时长</td> <td data-v-56ffee4c="">否</td> <td data-v-56ffee4c="">
+              允许的最大开始静音时长 <br data-v-56ffee4c="">
+              单位：毫秒，取值范围[200,60000]
+            </td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">setMax_end_silence</td> <td data-v-56ffee4c="">最大结束静音时长</td> <td data-v-56ffee4c="">否</td> <td data-v-56ffee4c="">
+              允许的最大结束静音时长 <br data-v-56ffee4c="">
+              单位：毫秒，取值范围[200, 5000]
+            </td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">startAsr</td> <td data-v-56ffee4c="">开启识别</td> <td data-v-56ffee4c="">否</td> <td data-v-56ffee4c="">
+              开启识别时调用
+            </td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">stopAsr</td> <td data-v-56ffee4c="">结束识别</td> <td data-v-56ffee4c="">否</td> <td data-v-56ffee4c="">
+              结束识别时调用
+            </td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">Start()</td> <td data-v-56ffee4c="">开启数据流识别</td> <td data-v-56ffee4c="">否</td> <td data-v-56ffee4c="">
+              开启数据流识别
+            </td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">send(byte[] data)</td> <td data-v-56ffee4c="">发送数据</td> <td data-v-56ffee4c="">否</td> <td data-v-56ffee4c="">
+              每包必须5120字节大小，最后一包可以小于5120，或者是空包。
+            </td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">end()</td> <td data-v-56ffee4c="">结束数据流识别</td> <td data-v-56ffee4c="">否</td> <td data-v-56ffee4c="">
+              主动结束数据流识别
+            </td></tr></tbody></table></div></section> <h3 data-v-56ffee4c="">BakerRecognizerCallback回调类方法说明</h3> <section data-v-56ffee4c=""><div class="table-wrap"><table class="doc-table" data-v-56ffee4c="" border="0" cellspacing="0" cellpadding="0"><thead data-v-56ffee4c=""><tr data-v-56ffee4c=""><th data-v-56ffee4c="">参数</th> <th data-v-56ffee4c="" style="white-space: nowrap;">参数名称</th> <th data-v-56ffee4c="">说明</th></tr></thead> <tbody data-v-56ffee4c=""><tr data-v-56ffee4c=""><td data-v-56ffee4c="">onReadyOfSpeech</td> <td data-v-56ffee4c="">准备就绪</td> <td data-v-56ffee4c="">网络准备就绪后回调</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">onResult(BakerResponse response)</td> <td data-v-56ffee4c="">流式识别持续返回数据的接口回调</td> <td data-v-56ffee4c="">
+              此回调方法会被多次唤起。持续返回实时的识别数据信息。List&lt;String&gt; nbest参数是一个识别结果集合，最优识别结果理论上是nbest(0)，List&lt;String&gt; uncertain参数是一个预测的可能出现的语音识别内容的结果集，供选择使用。boolean isLast 当前结果是否是最终识别数据，false：否，true：是。
+            </td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">onBeginOfSpeech()</td> <td data-v-56ffee4c="">用户开始输入声音</td> <td data-v-56ffee4c="">
+              sdk内部录音,识别到用户开始输入声音时回调。
+            </td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">onEndOfSpeech</td> <td data-v-56ffee4c="">识别正常结束</td> <td data-v-56ffee4c="">
+              正常识别结束时，会唤起此回调方法。正常识别结束时，会唤起此回调方法。
+            </td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">onVolumeChanged (int volume)</td> <td data-v-56ffee4c="">识别音量信息</td> <td data-v-56ffee4c="">
+              volume是取值0-100之间的整数，代表声音的分贝值。
+            </td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">onError</td> <td data-v-56ffee4c="">识别出现错误</td> <td data-v-56ffee4c="">
+              int code是错误码，错误码具体请参考以下错误码对照表。String message是具体的错误信息日志。识别过程中出现各种错误情况都会回调此方法。
+            </td></tr></tbody></table></div></section> <h3 data-v-56ffee4c="">BakerResponse内部结构</h3> <section data-v-56ffee4c=""><div class="table-wrap"><table class="doc-table" data-v-56ffee4c="" border="0" cellspacing="0" cellpadding="0"><thead data-v-56ffee4c=""><tr data-v-56ffee4c=""><th data-v-56ffee4c="">参数</th> <th data-v-56ffee4c="" style="white-space: nowrap;">类型</th> <th data-v-56ffee4c="">说明</th></tr></thead> <tbody data-v-56ffee4c=""><tr data-v-56ffee4c=""><td data-v-56ffee4c="">res_idx</td> <td data-v-56ffee4c="">int</td> <td data-v-56ffee4c="">数据块序列号，请求内容会以流式的数据块方式返回给客户端。服务器端生成，从1递增</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">nbest</td> <td data-v-56ffee4c="">stringArray</td> <td data-v-56ffee4c="">此回调方法会被多次唤起。持续返回实时的识别数据信息。List&lt;String&gt; nbest参数是一个识别结果集合，最优识别结果理论上是nbest(0)， </td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">end_flag</td> <td data-v-56ffee4c="">int</td> <td data-v-56ffee4c="">是否是最后一个数据块，0：否，1：是</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">text</td> <td data-v-56ffee4c="">string</td> <td data-v-56ffee4c="">正常识别结束时，会唤起此回调方法。</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">confidence</td> <td data-v-56ffee4c="">string</td> <td data-v-56ffee4c="">语音识别结果，失败时为空</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">speed</td> <td data-v-56ffee4c="">int</td> <td data-v-56ffee4c="">语速，取值[0-2000]</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">speed_label</td> <td data-v-56ffee4c="">string</td> <td data-v-56ffee4c="">
+              语速标签：<br data-v-56ffee4c="">
+              15以下：FAST 快<br data-v-56ffee4c="">
+              15-30 : MEDIUM 适中<br data-v-56ffee4c="">
+              30-2000：SLOW 慢
+            </td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">volume</td> <td data-v-56ffee4c="">int</td> <td data-v-56ffee4c="">音量，取值[0-100]</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">volume_label</td> <td data-v-56ffee4c="">string</td> <td data-v-56ffee4c="">
+              音量标签：<br data-v-56ffee4c="">
+              SILENT：0-15 静音<br data-v-56ffee4c="">
+              XSOFT：15-30 音量很小<br data-v-56ffee4c="">
+              SOFT：30-50 音量小<br data-v-56ffee4c="">
+              MEDIUM：50-70 音量适中<br data-v-56ffee4c="">
+              LOAD：70-85 音量大<br data-v-56ffee4c="">
+              XLOUD：85-100 音量很大
+            </td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">words</td> <td data-v-56ffee4c="">array</td> <td data-v-56ffee4c="">词级别识别结果</td></tr></tbody></table></div></section> <h3 data-v-56ffee4c="">words内部结构</h3> <section data-v-56ffee4c=""><div class="table-wrap"><table class="doc-table" data-v-56ffee4c="" border="0" cellspacing="0" cellpadding="0"><thead data-v-56ffee4c=""><tr data-v-56ffee4c=""><th data-v-56ffee4c="">参数</th> <th data-v-56ffee4c="" style="white-space: nowrap;">类型</th> <th data-v-56ffee4c="">说明</th></tr></thead> <tbody data-v-56ffee4c=""><tr data-v-56ffee4c=""><td data-v-56ffee4c="">confidence</td> <td data-v-56ffee4c="">string</td> <td data-v-56ffee4c="">词置信度，置信度取值[0-100]</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">sos</td> <td data-v-56ffee4c="">string</td> <td data-v-56ffee4c="">词在音频中的绝对开始时间点 单位：秒</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">eos</td> <td data-v-56ffee4c="">string</td> <td data-v-56ffee4c="">词在音频中的绝对结束时间点 单位：秒</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">word</td> <td data-v-56ffee4c="">string</td> <td data-v-56ffee4c="">词</td></tr></tbody></table></div></section> <h3 data-v-56ffee4c="">响应结果示例</h3> <section data-v-56ffee4c=""><pre class="doc-sample doc-code" data-v-56ffee4c="">{
+	"code": 90000,
+	"data": {
+		"confidence": "68.31",
+		"end_flag": 1,
+		"nbest": ["欢迎使用标贝科技开放平台。"],
+		"res_idx": 20,
+		"speed": 26,
+		"speed_label": "MEDIUM",
+		"text": "欢迎使用标贝科技开放平台。",
+		"volume": 45,
+		"volume_label": "SOFT",
+		"words": [{
+			"confidence": "0.40",
+			"eos": "0.51",
+			"sos": "0.06",
+			"word": "欢迎"
+		}, {
+			"confidence": "0.80",
+			"eos": "1.05",
+			"sos": "0.51",
+			"word": "使用"
+		}, {
+			"confidence": "0.40",
+			"eos": "1.52",
+			"sos": "1.05",
+			"word": "标贝"
+		}, {
+			"confidence": "1.00",
+			"eos": "1.95",
+			"sos": "1.52",
+			"word": "科技"
+		}, {
+			"confidence": "0.50",
+			"eos": "2.40",
+			"sos": "1.95",
+			"word": "开放"
+		}, {
+			"confidence": "1.00",
+			"eos": "3.12",
+			"sos": "2.40",
+			"word": "平台"
+		}]
+	},
+	"message": "Success",
+	"trace_id": "1652148314904999"
+}<button class="copyClass">copy</button></pre></section> <h3 data-v-56ffee4c="">错误码说明</h3> <section data-v-56ffee4c=""><div class="table-wrap"><table class="doc-table" data-v-56ffee4c="" border="0" cellspacing="0" cellpadding="0"><thead data-v-56ffee4c=""><tr data-v-56ffee4c=""><th data-v-56ffee4c="">错误码</th> <th data-v-56ffee4c="">含义</th></tr></thead> <tbody data-v-56ffee4c=""><tr data-v-56ffee4c=""><td data-v-56ffee4c="">13180001</td> <td data-v-56ffee4c="">缺少ClientId</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">13180002</td> <td data-v-56ffee4c="">缺少Secret</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">13180003</td> <td data-v-56ffee4c="">token获取失败</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">13180004</td> <td data-v-56ffee4c="">没有录音权限</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">13180005</td> <td data-v-56ffee4c="">本地网络不可用</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">13180006</td> <td data-v-56ffee4c="">网络未准备好，没有调用start方法</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">13180007</td> <td data-v-56ffee4c="">录音尚未初始化</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">13180008</td> <td data-v-56ffee4c="">正在录音</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">13180009</td> <td data-v-56ffee4c="">发送的数据为空</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">13180010</td> <td data-v-56ffee4c="">response is null</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">13180011</td> <td data-v-56ffee4c="">gson to object error</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">13180012</td> <td data-v-56ffee4c="">websocket发送消息出错</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">13180013</td> <td data-v-56ffee4c="">websocket onFailure error</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">13180014</td> <td data-v-56ffee4c="">录音意外中断</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">90000</td> <td data-v-56ffee4c="">文本数据</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">30001</td> <td data-v-56ffee4c="">HTTP请求参数错误</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">30002</td> <td data-v-56ffee4c="">服务内部错误</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">30003</td> <td data-v-56ffee4c="">识别结果解析出错</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">30004</td> <td data-v-56ffee4c="">应用包名未知</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">30005</td> <td data-v-56ffee4c="">语音质量问题</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">30006</td> <td data-v-56ffee4c="">输入语音过长</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">30007</td> <td data-v-56ffee4c="">连接识别引擎失败</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">30008</td> <td data-v-56ffee4c="">会话id不存在</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">30009</td> <td data-v-56ffee4c="">Rpc调用非法</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">30010</td> <td data-v-56ffee4c="">redis rpop操作返回空</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">30011</td> <td data-v-56ffee4c="">redis rpop值不合法</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">30012</td> <td data-v-56ffee4c="">rpc调用识别引擎失败</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">30013</td> <td data-v-56ffee4c="">Redis rpop操作失败</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">30014</td> <td data-v-56ffee4c="">redis lpush操作失败</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">30015</td> <td data-v-56ffee4c="">单个语音分片过长</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">30016</td> <td data-v-56ffee4c="">回调url失败</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">40001</td> <td data-v-56ffee4c="">json解析失败</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">40002</td> <td data-v-56ffee4c="">json字段不全</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">40003</td> <td data-v-56ffee4c="">版本错误</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">40004</td> <td data-v-56ffee4c="">json字段值类型错误</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">40005</td> <td data-v-56ffee4c="">参数错误</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">40006</td> <td data-v-56ffee4c="">idx超时</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">40007</td> <td data-v-56ffee4c="">idx顺序错误</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">40008</td> <td data-v-56ffee4c="">token校验失败</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">40009</td> <td data-v-56ffee4c="">token处于未激活状态</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">40010</td> <td data-v-56ffee4c="">token已过期</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">40011</td> <td data-v-56ffee4c="">使用量已超过购买量</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">40012</td> <td data-v-56ffee4c="">qps错误</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">50001</td> <td data-v-56ffee4c="">处理超时</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">50002</td> <td data-v-56ffee4c="">内部 rpc 调用失败</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">50003</td> <td data-v-56ffee4c="">服务端繁忙</td></tr> <tr data-v-56ffee4c=""><td data-v-56ffee4c="">50004</td> <td data-v-56ffee4c="">其他内部错误</td></tr></tbody></table></div></section></div>
