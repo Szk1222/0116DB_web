@@ -407,7 +407,6 @@
           </div>
           <div class="footer-bottom">
             <div class="fb-links">
-              <a href="tool_docs.html#agreement">标贝科技服务声明</a>
               <a href="https://www.data-baker.com/m/#/about/personRightFile " target="_blank" rel="noopener noreferrer">个人信息保护政策</a>
               <a href="javascript:void(0)" onclick="openTrialModal()">意见反馈</a>
               <a href="https://beian.miit.gov.cn/#/Integrated/index" target="_blank" rel="noopener noreferrer">鲁ICP备2023038621号</a>
