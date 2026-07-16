@@ -303,17 +303,19 @@
 .map-stats { display: flex; gap: 22px; }
 .map-stat b { font-family: var(--font-tech); font-size: 1.5rem; color: var(--text-hi); display: block; line-height: 1; }
 .map-stat span { color: var(--text-dim); font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; }
+.map-stat:first-child b { color: #ffc850; }
+.map-stat:last-child b { color: var(--cyan-hi); }
 
 .map-body { display: block; }
 .map-canvas {
   position: relative;
-  aspect-ratio: 1600 / 760;
+  aspect-ratio: 1700 / 760;
   width: 100%;
   border: 1px solid var(--line-strong);
   border-radius: var(--r);
   background:
-    radial-gradient(ellipse 60% 80% at 32% 55%, rgba(76,201,240,0.18), transparent 60%),
-    radial-gradient(ellipse 45% 60% at 78% 50%, rgba(103,232,249,0.10), transparent 60%),
+    radial-gradient(ellipse 52% 80% at 25% 54%, rgba(255,200,80,0.15), transparent 62%),
+    radial-gradient(ellipse 45% 60% at 78% 50%, rgba(103,232,249,0.13), transparent 60%),
     radial-gradient(ellipse 70% 50% at 50% 100%, rgba(77, 86, 255, 0.1), transparent 70%),
     linear-gradient(180deg, #050817 0%, #0a1230 60%, #050817 100%);
   overflow: hidden;
@@ -361,23 +363,28 @@
   stroke: rgba(143,224,255,0.95); stroke-width: 1.2; stroke-linejoin: round;
   filter: url(#mapGlow);
 }
-/* China focal layers — brighter, gradient fill, stronger glow */
-.map-svg .country-deep.cn { fill: rgba(48,28,120,0.95); stroke: rgba(15, 32, 185, 0.3); }
-.map-svg .country-mid.cn  { fill: rgba(70,46,170,0.85); stroke: rgba(28, 43, 209, 0.4); }
-.map-svg .country.cn      { fill: url(#cnFill); stroke: rgba(177,224,255,1); stroke-width: 1.6; filter: url(#mapGlowStrong); }
-.map-svg .country-shadow.cn { fill: rgba(76,201,240,0.25); }
+/* China focal layers — warm gold for the complete domestic silhouette */
+.map-svg .country-deep.cn { fill: rgba(104,58,12,0.98); stroke: rgba(255,160,54,0.34); }
+.map-svg .country-mid.cn  { fill: rgba(174,99,24,0.9); stroke: rgba(255,200,80,0.48); }
+.map-svg .country.cn      { fill: url(#cnFill); stroke: rgba(255,231,154,1); stroke-width: 1.55; filter: url(#mapGlowStrong); }
+.map-svg .country-shadow.cn { fill: rgba(255,174,53,0.3); }
+/* Overseas service regions — cool cyan, intentionally distinct from China */
+.map-svg .country-deep.intl { fill: rgba(7,67,101,0.94); stroke: rgba(103,232,249,0.28); }
+.map-svg .country-mid.intl  { fill: rgba(15,105,143,0.82); stroke: rgba(103,232,249,0.38); }
+.map-svg .country.intl      { fill: url(#intlFill); stroke: rgba(137,241,255,0.92); stroke-width: 1.15; filter: url(#mapGlow); }
+.map-svg .country-shadow.intl { fill: rgba(103,232,249,0.2); }
 /* context / overseas region styling — subtler */
 .map-svg .country-deep.ctx { fill: rgba(18,40,80,0.7); stroke: rgba(143,214,255,0.18); }
 .map-svg .country-mid.ctx  { fill: rgba(28,60,110,0.65); stroke: rgba(143,214,255,0.22); }
 .map-svg .country.ctx      { fill: rgba(76,201,240,0.10); stroke: rgba(143,214,255,0.6); stroke-width: 0.9; stroke-dasharray: 3 3; filter: none; }
 .map-svg .country-shadow.ctx { fill: rgba(76,201,240,0.10); }
 
-.map-svg .route       { fill: none; stroke: rgba(76,201,240,0.6); stroke-width: 1; stroke-dasharray: 4 5; filter: drop-shadow(0 0 4px rgba(76,201,240,0.4)); }
-.map-svg .route.dim   { stroke: rgba(77, 101, 255, 0.55); filter: drop-shadow(0 0 4px rgba(77, 157, 255, 0.4)); }
+.map-svg .route       { fill: none; stroke: rgba(255,200,80,0.72); stroke-width: 1; stroke-dasharray: 4 5; filter: drop-shadow(0 0 4px rgba(255,174,53,0.42)); }
+.map-svg .route.overseas { stroke: rgba(103,232,249,0.68); filter: drop-shadow(0 0 4px rgba(103,232,249,0.45)); }
 /* animated route dash flow */
 @keyframes route-flow { to { stroke-dashoffset: -180; } }
 .map-svg .route { animation: route-flow 8s linear infinite; }
-.map-svg .route.dim { animation: route-flow 12s linear infinite; }
+.map-svg .route.overseas { animation: route-flow 12s linear infinite; }
 
 /* pins absolutely positioned over the canvas */
 .map-pin-layer { position: absolute; inset: 0; pointer-events: none; z-index: 3; }
@@ -387,7 +394,7 @@
 }
 .map-pin .dot {
   width: 12px; height: 12px; border-radius: 50%;
-  background: var(--brand-hi); box-shadow: 0 0 0 3px rgba(76,201,240,0.25), 0 0 14px var(--brand-hi);
+  background: #ffc850; box-shadow: 0 0 0 3px rgba(255,200,80,0.24), 0 0 14px rgba(255,200,80,0.92);
   position: relative;
 }
 .map-pin.is-hq .dot { background: var(--magenta); box-shadow: 0 0 0 3px rgba(255,77,203,0.3), 0 0 18px var(--magenta); width: 14px; height: 14px; }
@@ -419,6 +426,8 @@
   font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.08em;
   color: var(--text-dim); text-transform: uppercase;
 }
+.map-pin:not(.is-hq):not(.is-overseas) .label { border-color: rgba(255,200,80,0.38); }
+.map-pin:not(.is-hq):not(.is-overseas) .label small { color: #ffc850; }
 .map-pin.is-hq .label small { color: var(--magenta); }
 .map-pin.is-overseas .label small { color: var(--cyan-hi); }
 .map-pin.is-hq .label { border-color: rgba(255,77,203,0.4); }
@@ -430,7 +439,7 @@
 /* overseas pins are now placed directly on the wider map */
 
 @media (max-width: 980px) {
-  .map-canvas { aspect-ratio: 1600 / 900; }
+  .map-canvas { aspect-ratio: 1700 / 900; }
 }
 
 .map-legend {
@@ -440,7 +449,7 @@
 .map-legend span { color: var(--text-mute); font-family: var(--font-mono); font-size: 11px; display: inline-flex; align-items: center; gap: 8px; letter-spacing: 0.04em; }
 .map-legend span::before { content: ""; width: 10px; height: 10px; border-radius: 50%; }
 .map-legend .lg-hq::before     { background: var(--magenta); box-shadow: 0 0 8px var(--magenta); }
-.map-legend .lg-base::before   { background: var(--brand-hi); box-shadow: 0 0 8px var(--brand-hi); }
+.map-legend .lg-base::before   { background: #ffc850; box-shadow: 0 0 8px rgba(255,200,80,0.9); }
 .map-legend .lg-office::before { background: var(--cyan-hi);  box-shadow: 0 0 8px var(--cyan-hi); }
 
 
@@ -688,7 +697,7 @@
 /* =========================================================
    Section spacing
    ========================================================= */
-.about-section { padding: 100px 0; position: relative; }
+.about-section { padding: 100px 0; position: relative; scroll-margin-top: 96px; }
 .about-section + .about-section { padding-top: 0; }
 
 @media (max-width: 1100px) {
@@ -1014,7 +1023,7 @@
       <div class="map-body">
         <!-- Mercator-projected canvas · 横向「扁平」视图覆盖中国 + 海外服务中心 -->
         <div class="map-canvas" id="mapCanvas">
-          <svg id="mapSvg" class="map-svg" viewBox="-800 -680 1600 760" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+          <svg id="mapSvg" class="map-svg" viewBox="-1100 -680 1700 760" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
             <defs>
               <!-- Country top-layer fill: cyan→violet gradient with subtle vertical falloff -->
               <linearGradient id="countryFill" x1="0" y1="0" x2="0" y2="1">
@@ -1022,9 +1031,13 @@
                 <stop offset="100%" stop-color="rgba(76,201,240,0.18)"/>
               </linearGradient>
               <linearGradient id="cnFill" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%"   stop-color="rgba(76,201,240,0.55)"/>
-                <stop offset="55%"  stop-color="rgba(76,201,240,0.45)"/>
-                <stop offset="100%" stop-color="rgba(103,232,249,0.40)"/>
+                <stop offset="0%"   stop-color="rgba(255,226,126,0.9)"/>
+                <stop offset="52%"  stop-color="rgba(255,181,54,0.8)"/>
+                <stop offset="100%" stop-color="rgba(225,116,29,0.72)"/>
+              </linearGradient>
+              <linearGradient id="intlFill" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%"   stop-color="rgba(103,232,249,0.62)"/>
+                <stop offset="100%" stop-color="rgba(26,132,181,0.42)"/>
               </linearGradient>
               <radialGradient id="oceanGlow" cx="35%" cy="50%" r="55%">
                 <stop offset="0%"   stop-color="rgba(76,201,240,0.20)"/>
@@ -1056,7 +1069,7 @@
               </filter>
             </defs>
 
-            <rect x="-800" y="-680" width="1600" height="760" fill="url(#oceanGlow)"/>
+            <rect x="-1100" y="-680" width="1700" height="760" fill="url(#oceanGlow)"/>
 
             <!-- groups populated by JS — ordered back→front for the pseudo-3D stack -->
             <g id="mapGraticule"></g>
@@ -1464,9 +1477,9 @@
   //   x = (lon - LON0) * SCALE         (longitudes wrap to ±180 around LON0)
   //   y = -ln(tan(π/4 + lat·π/360)) · (180/π) · SCALE   (north up)
   //
-  // viewBox = "-800 -660 1600 700"   覆盖 lon 100°E 经太平洋至 100°W、lat 约 -2..55
+  // viewBox 向西扩展到 73°E，完整容纳中国西部轮廓，并经太平洋覆盖美国西海岸
   const LON0 = 180, SCALE = 10;
-  const VB = { x: -800, y: -680, w: 1600, h: 760 };
+  const VB = { x: -1100, y: -680, w: 1700, h: 760 };
   // Y-offset stack for pseudo-3D depth (deepest at the back, top stays at 0)
   const DEPTH = { shadow: 16, deep: 10, mid: 5, top: 0 };
   function proj(lon, lat) {
@@ -1532,7 +1545,7 @@
   const layerTop    = document.getElementById('mapCountries');
 
   // helper: render one polygon to all 4 stacked layers with Y offsets
-  function renderRegion(latlon, variant /* '' | 'cn' | 'ctx' */) {
+  function renderRegion(latlon, variant /* '' | 'cn' | 'intl' | 'ctx' */) {
     const v = variant ? ' ' + variant : '';
     const d = pathFromLatLon(latlon, true);
     layerShadow.appendChild(el('path', { d, class: 'country-shadow' + v, transform: `translate(0 ${DEPTH.shadow})` }));
@@ -1541,21 +1554,52 @@
     layerTop   .appendChild(el('path', { d, class: 'country'        + v }));
   }
 
-  // simplified China outline (lon, lat) — clockwise from NW Xinjiang
-  const CN_OUTLINE = [
-    [75,38],[75,40.5],[80,45],[83,47],[85,48],[88,49],[90,47.5],[95,49],[102,52],[110,53],
-    [117,53.5],[122,53.5],[127,52],[131,49],[134,48],[135,48],[133,45.5],[131,45],[130,42.5],
-    [128,41.5],[126,41],[124,40.5],[122,40.5],[121,39.5],[119,38.5],[121,37],[122,36.5],
-    [121,35],[121,32],[122,30],[121,28],[119,25],[117.5,23.5],[115,22.5],[113,22],[110,21.5],
-    [110,18.5],[108,18],[107,19.5],[106,21],[105,22],[103,22],[101,22],[99,23],[98,24.5],
-    [98,27],[97,28],[94,28],[91,28],[88,28],[85,28],[82,29.5],[80,30.5],[78,32],[76,35],
-    [75,36],[75,38]
+  // 中国轮廓：Natural Earth 1:110m Admin-0（Public Domain），替代原先的抽象多边形。
+  // 230 个大陆边界点完整保留「公鸡形」轮廓；海南、台湾单独绘制为国内区域。
+  const CN_HAINAN = [
+    [109.475,18.198],[108.655,18.508],[108.626,19.368],[109.119,19.821],[110.212,20.101],
+    [110.787,20.078],[111.01,19.696],[110.571,19.256],[110.339,18.678],[109.475,18.198],
   ];
-  const CN_HAINAN = [[109,20],[110.5,20.2],[111,19.2],[110,18.2],[108.6,18.4],[108.6,19.3],[109,20]];
+  const CN_OUTLINE = [
+    [80.26,42.35],[80.18,42.92],[80.866,43.18],[79.966,44.918],[81.947,45.317],[82.459,45.54],[83.18,47.33],[85.164,47.001],
+    [85.72,47.453],[85.768,48.456],[86.599,48.549],[87.36,49.215],[87.751,49.297],[88.014,48.599],[88.854,48.069],[90.281,47.694],
+    [90.971,46.888],[90.586,45.72],[90.946,45.286],[92.134,45.115],[93.481,44.975],[94.689,44.352],[95.307,44.241],[95.762,43.319],
+    [96.349,42.726],[97.452,42.749],[99.516,42.525],[100.846,42.664],[101.833,42.515],[103.312,41.907],[104.522,41.908],[104.965,41.597],
+    [106.129,42.134],[107.745,42.482],[109.244,42.519],[110.412,42.871],[111.13,43.407],[111.83,43.743],[111.668,44.073],[111.348,44.457],
+    [111.873,45.102],[112.436,45.012],[113.464,44.809],[114.46,45.34],[115.985,45.727],[116.718,46.388],[117.422,46.673],[118.874,46.805],
+    [119.663,46.693],[119.773,47.048],[118.867,47.747],[118.064,48.067],[117.296,47.698],[116.309,47.853],[115.743,47.727],[115.485,48.135],
+    [116.192,49.135],[116.679,49.889],[117.879,49.511],[119.288,50.143],[119.279,50.583],[120.182,51.644],[120.738,51.964],[120.726,52.516],
+    [120.177,52.754],[121.003,53.251],[122.246,53.432],[123.571,53.459],[125.068,53.161],[125.946,52.793],[126.564,51.784],[126.939,51.354],
+    [127.287,50.74],[127.657,49.76],[129.398,49.441],[130.582,48.73],[130.987,47.79],[132.507,47.789],[133.374,48.183],[135.026,48.478],
+    [134.501,47.578],[134.112,47.212],[133.77,46.117],[133.097,45.144],[131.883,45.321],[131.025,44.968],[131.289,44.112],[131.145,42.93],
+    [130.634,42.903],[130.64,42.395],[129.994,42.985],[129.597,42.425],[128.052,41.994],[128.208,41.467],[127.344,41.503],[126.869,41.817],
+    [126.182,41.107],[125.08,40.57],[124.266,39.928],[122.868,39.638],[122.131,39.17],[121.055,38.897],[121.586,39.361],[121.377,39.75],
+    [122.169,40.422],[121.64,40.946],[120.769,40.593],[119.64,39.898],[119.023,39.252],[118.043,39.204],[117.533,38.738],[118.06,38.061],
+    [118.878,37.897],[118.912,37.448],[119.703,37.156],[120.823,37.87],[121.711,37.481],[122.358,37.454],[122.52,36.931],[121.104,36.651],
+    [120.637,36.111],[119.665,35.61],[119.151,34.91],[120.228,34.36],[120.62,33.377],[121.229,32.46],[121.908,31.692],[121.892,30.949],
+    [121.264,30.676],[121.504,30.143],[122.092,29.833],[121.938,29.018],[121.684,28.226],[121.126,28.136],[120.395,27.053],[119.585,25.741],
+    [118.657,24.547],[117.282,23.625],[115.891,22.783],[114.764,22.668],[114.153,22.224],[113.807,22.548],[113.241,22.051],[111.844,21.55],
+    [110.785,21.397],[110.444,20.341],[109.89,20.282],[109.628,21.008],[109.864,21.395],[108.523,21.715],[108.05,21.552],[107.043,21.812],
+    [106.567,22.218],[106.725,22.794],[105.811,22.977],[105.329,23.352],[104.477,22.819],[103.505,22.704],[102.707,22.709],[102.17,22.465],
+    [101.652,22.318],[101.803,21.174],[101.27,21.202],[101.18,21.437],[101.15,21.85],[100.417,21.559],[99.983,21.743],[99.241,22.118],
+    [99.532,22.949],[98.899,23.143],[98.66,24.063],[97.605,23.897],[97.725,25.084],[98.672,25.919],[98.712,26.744],[98.683,27.509],
+    [98.246,27.747],[97.912,28.336],[97.327,28.262],[96.249,28.411],[96.587,28.831],[96.118,29.453],[95.405,29.032],[94.566,29.277],
+    [93.413,28.641],[92.503,27.897],[91.697,27.772],[91.259,28.041],[90.731,28.065],[90.016,28.296],[89.476,28.043],[88.814,27.299],
+    [88.73,28.087],[88.12,27.877],[86.955,27.974],[85.823,28.204],[85.012,28.643],[84.235,28.84],[83.899,29.32],[83.337,29.464],
+    [82.328,30.115],[81.526,30.423],[81.111,30.183],[79.721,30.883],[78.739,31.516],[78.458,32.618],[79.176,32.484],[79.209,32.994],
+    [78.811,33.506],[78.912,34.322],[77.837,35.494],[76.193,35.898],[75.897,36.667],[75.158,37.133],[74.98,37.42],[74.83,37.99],
+    [74.865,38.379],[74.258,38.607],[73.929,38.506],[73.675,39.431],[73.96,39.66],[73.822,39.894],[74.777,40.366],[75.468,40.562],
+    [76.526,40.428],[76.904,41.066],[78.187,41.185],[78.544,41.582],[80.119,42.124],[80.26,42.35],
+  ];
+  const CN_TAIWAN = [
+    [121.778,24.394],[121.176,22.791],[120.747,21.971],[120.22,22.815],[120.106,23.556],
+    [120.695,24.538],[121.495,25.295],[121.951,24.998],[121.778,24.394],
+  ];
   renderRegion(CN_OUTLINE, 'cn');
   renderRegion(CN_HAINAN,  'cn');
+  renderRegion(CN_TAIWAN,  'cn');
 
-  // 美国本土西海岸 + 北美西部 + 阿拉斯加南缘 (context)
+  // 海外服务区域：美国西部与阿拉斯加使用独立青蓝色层
   const USA_WEST = [
     [-125, 49], [-124, 48], [-124, 45], [-123, 42], [-124, 40], [-122, 38],
     [-120, 35], [-118, 34], [-117, 33], [-115, 32.5], [-114, 32.5],
@@ -1565,19 +1609,20 @@
     [-168, 65], [-160, 67], [-155, 70], [-148, 70], [-141, 70], [-141, 60],
     [-148, 60], [-155, 58], [-162, 56], [-167, 60], [-168, 65],
   ];
-  renderRegion(USA_WEST, 'ctx');
-  renderRegion(ALASKA,   'ctx');
+  renderRegion(USA_WEST, 'intl');
+  renderRegion(ALASKA,   'intl');
 
-  // 周边地理上下文 —— 朝鲜半岛 / 日本 / 台湾 / 东南亚 / 印度南端 / 菲律宾 / 斯里兰卡 / 新加坡岛 / 夏威夷
+  const SINGAPORE = [[103.6,1.2],[104,1.2],[104,1.5],[103.6,1.5],[103.6,1.2]];
+  renderRegion(SINGAPORE, 'intl');
+
+  // 周边地理上下文 —— 朝鲜半岛 / 日本 / 东南亚 / 印度南端 / 菲律宾 / 斯里兰卡 / 夏威夷
   const CTX = [
     [[125,38.5],[127,40],[129,38],[129,36],[127.5,35],[126.5,35],[125.5,36.5],[125,38.5]],
     [[131,33.5],[135,34],[139,35.5],[141.5,38],[141.5,41],[140,41],[136,37],[133,34.5],[131,33.5]],
     [[140,42],[145,43],[145.5,45.5],[141,45.5],[140,43],[140,42]],
-    [[120.5,22],[121.5,22],[122,24.5],[121,25.2],[120.3,23],[120.5,22]],
     [[100,20],[102,22],[105,22],[107,18],[109,12],[107,10],[103,5],[100,5],[100,8],[97,12],[98,16],[100,20]],
     [[120,14],[122,18],[121,16.5],[120.5,14],[120,14]],
     [[77,8],[80,13],[82,17],[80,20],[77,16],[76,11],[77,8]],
-    [[103.6,1.2],[104,1.2],[104,1.5],[103.6,1.5],[103.6,1.2]],
     [[-156,19.5],[-154.8,19.5],[-154.8,20.3],[-156,20.3],[-156,19.5]],
   ];
   CTX.forEach(poly => renderRegion(poly, 'ctx'));
@@ -1586,15 +1631,15 @@
   const routes = document.getElementById('mapRoutes');
   const HQ = proj(120.4, 36.1);
   const DESTS = [
-    [116.4, 39.9],  // Beijing
-    [125.3, 43.9],  // Changchun
-    [117.2, 39.1],  // Tianjin
-    [120.2, 30.3],  // Hangzhou
-    [114.1, 22.5],  // Shenzhen
-    [103.8,  1.4],  // Singapore
-    [-122.4, 37.8], // San Francisco · USA
+    { lon: 116.4,  lat: 39.9, overseas: false }, // Beijing
+    { lon: 125.3,  lat: 43.9, overseas: false }, // Changchun
+    { lon: 117.2,  lat: 39.1, overseas: false }, // Tianjin
+    { lon: 120.2,  lat: 30.3, overseas: false }, // Hangzhou
+    { lon: 114.1,  lat: 22.5, overseas: false }, // Shenzhen
+    { lon: 103.8,  lat:  1.4, overseas: true  }, // Singapore
+    { lon: -122.4, lat: 37.8, overseas: true  }, // San Francisco · USA
   ];
-  DESTS.forEach(([lon, lat]) => {
+  DESTS.forEach(({ lon, lat, overseas }) => {
     const to = proj(lon, lat);
     // 跨太平洋的弧线 control point 朝北偏移更明显（大地线效果）
     const dx = to.x - HQ.x, dy = to.y - HQ.y;
@@ -1604,7 +1649,7 @@
     const my = (HQ.y + to.y) / 2 - dx * k;
     routes.appendChild(el('path', {
       d: `M${HQ.x.toFixed(1)} ${HQ.y.toFixed(1)} Q${mx.toFixed(1)} ${my.toFixed(1)} ${to.x.toFixed(1)} ${to.y.toFixed(1)}`,
-      class: dist > 500 ? 'route dim' : 'route',
+      class: overseas ? 'route overseas' : 'route',
     }));
   });
 

@@ -91,7 +91,9 @@
 .ec-serve-row:last-child { border-bottom:0; }
 .ec-serve-row .k { color:var(--brand-hi); font-family:var(--font-display); font-weight:600; font-size:0.92rem; }
 .ec-serve-row .v { color:var(--text); font-size:0.92rem; line-height:1.7; }
-.ec-serve-row .v.hl { color:#ffcc00; font-weight:700; }
+.ec-business-link { appearance:none; border:0; padding:0; background:none; color:#ffcc00; font:inherit; font-weight:700; cursor:pointer; text-decoration:underline; text-decoration-color:rgba(255,204,0,0.42); text-underline-offset:4px; transition:color 180ms ease,text-decoration-color 180ms ease,text-shadow 180ms ease; }
+.ec-business-link:hover { color:#ffe36a; text-decoration-color:currentColor; text-shadow:0 0 14px rgba(255,204,0,0.28); }
+.ec-business-link:focus-visible { outline:2px solid #ffcc00; outline-offset:3px; border-radius:2px; }
 /* 产品特点 */
 .ec-feat-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
 .ec-feat-card { padding:28px 26px; border:1px solid var(--line); border-radius:var(--r-lg); background:linear-gradient(180deg,rgba(13,26,58,0.55),rgba(10,20,46,0.55)); transition:all 240ms ease; text-align:center; }
@@ -256,7 +258,7 @@
       <div class="ec-serve-row"><span class="k">安全性</span><span class="v">平台客户统一采用公有云服务器</span></div>
       <div class="ec-serve-row"><span class="k">便捷性</span><span class="v">统一登录标贝工具平台，无需额外部署，运维由标贝负责</span></div>
       <div class="ec-serve-row"><span class="k">对接方式</span><span class="v">标贝数据工具平台公有云调用</span></div>
-      <div class="ec-serve-row"><span class="k">计费模式</span><span class="v hl">按照账户数量和存储空间计费，具体请对接商务咨询 &gt;</span></div>
+      <div class="ec-serve-row"><span class="k">计费模式</span><span class="v">按照账户数量和存储空间计费，具体请点击 <button class="ec-business-link" type="button" onclick="openTrialModal()" aria-label="打开留言表单，进行商务对接">商务对接</button></span></div>
       <div class="ec-serve-row"><span class="k">售后服务</span><span class="v">客户通过在线咨询工具、统一企业微信社群、电话 400 898 2016 进行沟通及售后服务</span></div>
     </div>
   </div>

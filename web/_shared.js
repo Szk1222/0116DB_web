@@ -365,9 +365,9 @@
             <div class="footer-col">
               <h4>关于我们</h4>
               <a href="about.html">公司介绍</a>
-              <a href="about.html">荣誉资质</a>
-              <a href="homepage.html">最新动态</a>
-              <a href="about.html">联系我们</a>
+              <a href="about.html#honors">荣誉资质</a>
+              <a href="about.html#news">最新资讯</a>
+              <a href="javascript:void(0)" onclick="openTrialModal()" >联系我们</a>
               <a href="https://distribute.ebiaoge.com/sp/formreport/distribute/TY0D2TKKVP/4748489893055628723" target="_blank" rel="noopener">数据供应商加盟</a>
               <a href="https://distribute.ebiaoge.com/sp/formreport/distribute/ty0d2tkkvp/1476002722365784915" target="_blank" rel="noopener">技术产品销售渠道</a>
             </div>
