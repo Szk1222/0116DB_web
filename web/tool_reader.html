@@ -31,13 +31,27 @@
 
 /* 发音人角色 */
 .spk-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:18px; }
-.spk-card{ display:flex; gap:14px; align-items:center; padding:16px; border:1px solid var(--line); border-radius:var(--r-lg); background:linear-gradient(180deg,rgba(13,26,58,0.55),rgba(10,20,46,0.55)); transition:all 220ms ease; }
+.spk-card{ display:flex; gap:14px; align-items:center; min-width:0; padding:16px; border:1px solid var(--line); border-radius:var(--r-lg); background:linear-gradient(180deg,rgba(13,26,58,0.55),rgba(10,20,46,0.55)); transition:transform 220ms ease,border-color 220ms ease,box-shadow 220ms ease; }
 .spk-card:hover{ transform:translateY(-3px); border-color:rgba(255,200,80,0.4); }
+.spk-card.is-playing{ border-color:rgba(255,200,80,0.58); box-shadow:0 12px 30px rgba(0,0,0,0.22),0 0 22px rgba(255,200,80,0.1); }
 .spk-ava{ position:relative; flex:0 0 auto; width:54px; height:54px; border-radius:50%; overflow:hidden; background:rgba(255,200,80,0.14); border:1px solid rgba(255,200,80,0.25); display:grid; place-items:center; color:#ffc850; }
 .spk-ava img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
 .spk-ava svg{ width:26px; height:26px; }
+.spk-meta{ flex:1 1 auto; min-width:0; }
 .spk-meta h4{ font-family:var(--font-display); font-size:1rem; font-weight:600; color:var(--text-hi); margin:0 0 4px; }
 .spk-meta p{ color:var(--text-mute); font-size:0.8rem; line-height:1.55; margin:0; }
+.spk-play{ position:relative; flex:0 0 auto; width:42px; height:42px; padding:0; border:1px solid rgba(255,200,80,0.32); border-radius:50%; display:grid; place-items:center; color:#ffc850; background:rgba(255,200,80,0.09); cursor:pointer; transition:transform 180ms ease,background 180ms ease,border-color 180ms ease,color 180ms ease,box-shadow 180ms ease; }
+.spk-play:hover{ transform:scale(1.07); color:#071322; background:#ffc850; border-color:#ffc850; box-shadow:0 8px 22px rgba(255,200,80,0.26); }
+.spk-play:focus-visible{ outline:2px solid #ffc850; outline-offset:3px; }
+.spk-play svg{ width:17px; height:17px; }
+.spk-play .spk-pause{ display:none; }
+.spk-play.is-playing{ color:#071322; background:#ffc850; border-color:#ffc850; box-shadow:0 8px 22px rgba(255,200,80,0.24); }
+.spk-play.is-playing .spk-start{ display:none; }
+.spk-play.is-playing .spk-pause{ display:block; }
+.spk-play.is-loading::after{ content:""; position:absolute; inset:-4px; border:2px solid transparent; border-top-color:#ffc850; border-radius:50%; animation:spk-spin 700ms linear infinite; }
+.spk-play.is-error{ color:#ff8d8d; border-color:rgba(255,141,141,0.48); background:rgba(255,141,141,0.08); }
+@keyframes spk-spin{ to{ transform:rotate(360deg); } }
+@media(prefers-reduced-motion:reduce){ .spk-card,.spk-play{ transition:none; } .spk-play.is-loading::after{ animation:none; } }
 @media(max-width:900px){ .spk-grid{ grid-template-columns:repeat(2,1fr); } }
 @media(max-width:480px){ .spk-grid{ grid-template-columns:1fr; } }
 
@@ -190,14 +204,14 @@
       <p>覆盖少儿、青年、成熟、知性等多种音色风格，满足不同内容调性的配音需求。</p>
     </div>
     <div class="spk-grid" data-reveal>
-      <div class="spk-card"><span class="spk-ava"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg><img src="images/tool/DByuedu/yuedu/spk-1.png" alt="" loading="lazy" onerror="this.style.display='none'"></span><div class="spk-meta"><h4>以宁</h4><p>知性女声 · 新闻播报</p></div></div>
-      <div class="spk-card"><span class="spk-ava"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg><img src="images/tool/DByuedu/yuedu/spk-2.png" alt="" loading="lazy" onerror="this.style.display='none'"></span><div class="spk-meta"><h4>以辰</h4><p>沉稳男声 · 专题解说</p></div></div>
-      <div class="spk-card"><span class="spk-ava"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg><img src="images/tool/DByuedu/yuedu/spk-3.png" alt="" loading="lazy" onerror="this.style.display='none'"></span><div class="spk-meta"><h4>以萌</h4><p>少儿童声 · 绘本点读</p></div></div>
-      <div class="spk-card"><span class="spk-ava"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg><img src="images/tool/DByuedu/yuedu/spk-4.png" alt="" loading="lazy" onerror="this.style.display='none'"></span><div class="spk-meta"><h4>以柔</h4><p>温柔女声 · 情感电台</p></div></div>
-      <div class="spk-card"><span class="spk-ava"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg><img src="images/tool/DByuedu/yuedu/spk-5.png" alt="" loading="lazy" onerror="this.style.display='none'"></span><div class="spk-meta"><h4>以然</h4><p>阳光男声 · 短视频配音</p></div></div>
-      <div class="spk-card"><span class="spk-ava"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg><img src="images/tool/DByuedu/yuedu/spk-6.png" alt="" loading="lazy" onerror="this.style.display='none'"></span><div class="spk-meta"><h4>以欣</h4><p>甜美女声 · 广告营销</p></div></div>
-      <div class="spk-card"><span class="spk-ava"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg><img src="images/tool/DByuedu/yuedu/spk-7.png" alt="" loading="lazy" onerror="this.style.display='none'"></span><div class="spk-meta"><h4>以白</h4><p>磁性男声 · 有声小说</p></div></div>
-      <div class="spk-card"><span class="spk-ava"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg><img src="images/tool/DByuedu/yuedu/spk-8.png" alt="" loading="lazy" onerror="this.style.display='none'"></span><div class="spk-meta"><h4>以诺</h4><p>活力童声 · 趣味科普</p></div></div>
+      <div class="spk-card"><span class="spk-ava"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg><img src="https://databaker-of-yuedu.oss-cn-huhehaote.aliyuncs.com/story_resource/113e14c797e64892ad46282122ffc48f.png?Expires=2014093666&amp;OSSAccessKeyId=LTAI4Fktx2ckBLU3ZJizYTuW&amp;Signature=fmoWvtbA9j3Po86gK3qNu%2FsPrdc%3D" alt="贝诚头像" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'"></span><div class="spk-meta"><h4>贝诚</h4><p>译制片配音 · 低沉厚实</p></div><button class="spk-play" type="button" aria-label="播放贝诚试听" aria-pressed="false" data-name="贝诚" data-audio="https://databaker-of-yuedu.oss-cn-huhehaote.aliyuncs.com/story_resource/1e0e721a92544a0da78f5eca549e58bf.wav?Expires=2014093666&amp;OSSAccessKeyId=LTAI4Fktx2ckBLU3ZJizYTuW&amp;Signature=5GdjISXTnfDooI%2F9TebNB3QICMw%3D"><svg class="spk-start" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.6v12.8L18.5 12 8 5.6Z"/></svg><svg class="spk-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg></button></div>
+      <div class="spk-card"><span class="spk-ava"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg><img src="https://databaker-of-yuedu.oss-cn-huhehaote.aliyuncs.com/story_resource/3dda70f3c52b45f6b23a8eb77304ece6.png?Expires=2014093666&amp;OSSAccessKeyId=LTAI4Fktx2ckBLU3ZJizYTuW&amp;Signature=RTO4uqeaMHtxe%2FBtFNEniuod7nY%3D" alt="贝小熊头像" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'"></span><div class="spk-meta"><h4>贝小熊</h4><p>熊二模仿 · 俏皮可爱</p></div><button class="spk-play" type="button" aria-label="播放贝小熊试听" aria-pressed="false" data-name="贝小熊" data-audio="https://databaker-of-yuedu.oss-cn-huhehaote.aliyuncs.com/story_resource/bfb937d2a2b44c36b51ceb76ff39e70a.wav?Expires=2014093666&amp;OSSAccessKeyId=LTAI4Fktx2ckBLU3ZJizYTuW&amp;Signature=ITvoVzJ4GpWnyHVFRVTPIOf8ql0%3D"><svg class="spk-start" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.6v12.8L18.5 12 8 5.6Z"/></svg><svg class="spk-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg></button></div>
+      <div class="spk-card"><span class="spk-ava"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg><img src="https://databaker-of-yuedu.oss-cn-huhehaote.aliyuncs.com/story_resource/8308ca6f318a47529e5d7d33350eb023.png?Expires=2014093666&amp;OSSAccessKeyId=LTAI4Fktx2ckBLU3ZJizYTuW&amp;Signature=3%2Ba1ZfVrMQKJhEbb3gTkvzE1s8I%3D" alt="贝小港头像" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'"></span><div class="spk-meta"><h4>贝小港</h4><p>TVB腔 · 温柔港妹</p></div><button class="spk-play" type="button" aria-label="播放贝小港试听" aria-pressed="false" data-name="贝小港" data-audio="https://databaker-of-yuedu.oss-cn-huhehaote.aliyuncs.com/story_resource/1a4b6ea154ae4d068e1aedaa07bf7a0c.wav?Expires=2014093666&amp;OSSAccessKeyId=LTAI4Fktx2ckBLU3ZJizYTuW&amp;Signature=mo6ntDjy8Agb8y5%2Fhk7lCCplMlc%3D"><svg class="spk-start" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.6v12.8L18.5 12 8 5.6Z"/></svg><svg class="spk-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg></button></div>
+      <div class="spk-card"><span class="spk-ava"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg><img src="https://databaker-of-yuedu.oss-cn-huhehaote.aliyuncs.com/story_resource/7a59079715434db485aaa81ab48579d9.png?Expires=2014093666&amp;OSSAccessKeyId=LTAI4Fktx2ckBLU3ZJizYTuW&amp;Signature=GmyoWFZvWM7CgR6fDAW34tI7g0U%3D" alt="贝阿斌头像" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'"></span><div class="spk-meta"><h4>贝阿斌</h4><p>说唱小哥 · 富有节奏</p></div><button class="spk-play" type="button" aria-label="播放贝阿斌试听" aria-pressed="false" data-name="贝阿斌" data-audio="https://databaker-of-yuedu.oss-cn-huhehaote.aliyuncs.com/story_resource/62cbeba730cc43228c7093d5c021e938.wav?Expires=2014093666&amp;OSSAccessKeyId=LTAI4Fktx2ckBLU3ZJizYTuW&amp;Signature=YgKJKnr2XnwS8zPoSiHXYd6G24o%3D"><svg class="spk-start" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.6v12.8L18.5 12 8 5.6Z"/></svg><svg class="spk-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg></button></div>
+      <div class="spk-card"><span class="spk-ava"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg><img src="https://databaker-of-yuedu.oss-cn-huhehaote.aliyuncs.com/story_resource/05bf97ad224a4d56aee478ad29081764.png?Expires=2014093666&amp;OSSAccessKeyId=LTAI4Fktx2ckBLU3ZJizYTuW&amp;Signature=LIBIM06MxivN8Aht7CHv8hfVjkU%3D" alt="贝小空头像" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'"></span><div class="spk-meta"><h4>贝小空</h4><p>悟空模仿 · 活泼顽皮</p></div><button class="spk-play" type="button" aria-label="播放贝小空试听" aria-pressed="false" data-name="贝小空" data-audio="https://databaker-of-yuedu.oss-cn-huhehaote.aliyuncs.com/story_resource/7458aac82fd34a75b65239c2d8f77542.wav?Expires=2014093666&amp;OSSAccessKeyId=LTAI4Fktx2ckBLU3ZJizYTuW&amp;Signature=eAlKW1EcPMRmnnO4QX39j%2FyfRcE%3D"><svg class="spk-start" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.6v12.8L18.5 12 8 5.6Z"/></svg><svg class="spk-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg></button></div>
+      <div class="spk-card"><span class="spk-ava"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg><img src="https://databaker-of-yuedu.oss-cn-huhehaote.aliyuncs.com/story_resource/ac6bff46e0d04378be4f03427bded7ab.png?Expires=2014093666&amp;OSSAccessKeyId=LTAI4Fktx2ckBLU3ZJizYTuW&amp;Signature=nKkYzwbPj4eQwHQo%2F%2BJeHNUTexo%3D" alt="贝吉头像" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'"></span><div class="spk-meta"><h4>贝吉</h4><p>流畅爽朗 · 清晰明亮</p></div><button class="spk-play" type="button" aria-label="播放贝吉试听" aria-pressed="false" data-name="贝吉" data-audio="https://databaker-of-yuedu.oss-cn-huhehaote.aliyuncs.com/story_resource/ba09f3bf5a7e4cd99d1e933759938f7c.wav?Expires=2014093666&amp;OSSAccessKeyId=LTAI4Fktx2ckBLU3ZJizYTuW&amp;Signature=fWB6LSXJGCxEFW8EKA%2F7%2BNyiTok%3D"><svg class="spk-start" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.6v12.8L18.5 12 8 5.6Z"/></svg><svg class="spk-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg></button></div>
+      <div class="spk-card"><span class="spk-ava"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg><img src="https://databaker-of-yuedu.oss-cn-huhehaote.aliyuncs.com/story_resource/c932458671ab47edbb6ce46157da3902.png?Expires=2014093666&amp;OSSAccessKeyId=LTAI4Fktx2ckBLU3ZJizYTuW&amp;Signature=wJqkCQ34VGlaGObP7LQJVwhBaEo%3D" alt="贝薇头像" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'"></span><div class="spk-meta"><h4>贝薇</h4><p>直播专用 · 清脆明亮</p></div><button class="spk-play" type="button" aria-label="播放贝薇试听" aria-pressed="false" data-name="贝薇" data-audio="https://databaker-of-yuedu.oss-cn-huhehaote.aliyuncs.com/story_resource/ff7ef4179e5643e1a1a03716e96f3cc9.wav?Expires=2014093666&amp;OSSAccessKeyId=LTAI4Fktx2ckBLU3ZJizYTuW&amp;Signature=TiSgj5CGcAB84FIJ87pfFXg12H0%3D"><svg class="spk-start" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.6v12.8L18.5 12 8 5.6Z"/></svg><svg class="spk-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg></button></div>
+      <div class="spk-card"><span class="spk-ava"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg><img src="https://databaker-of-yuedu.oss-cn-huhehaote.aliyuncs.com/story_resource/7c5f9d02824647edb974d44b74a6e3d9.png?Expires=1936855120&amp;OSSAccessKeyId=LTAI4Fktx2ckBLU3ZJizYTuW&amp;Signature=BK883sy9sNKwTkIdAvoEFFmzXp8%3D" alt="贝凯头像" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'"></span><div class="spk-meta"><h4>贝凯</h4><p>大气浑厚 · 稳重磁性</p></div><button class="spk-play" type="button" aria-label="播放贝凯试听" aria-pressed="false" data-name="贝凯" data-audio="https://databaker-of-yuedu.oss-cn-huhehaote.aliyuncs.com/story_resource/d354d343f45649dd9ca8ee49121e57ea.wav?Expires=1993548223&amp;OSSAccessKeyId=LTAI4Fktx2ckBLU3ZJizYTuW&amp;Signature=fAa9s7H%2FWVXcXuUocKWiHiXketw%3D"><svg class="spk-start" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.6v12.8L18.5 12 8 5.6Z"/></svg><svg class="spk-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg></button></div>
     </div>
   </div>
 </section>
@@ -310,5 +324,80 @@
 
 <div id="footer-placeholder"></div>
 <script src="_shared.js"></script>
+<script>
+(function(){
+  const buttons = Array.from(document.querySelectorAll('.spk-play'));
+  if (!buttons.length) return;
+
+  const preview = new Audio();
+  preview.preload = 'none';
+  let activeButton = null;
+
+  function setIdle(button){
+    if (!button) return;
+    button.classList.remove('is-playing','is-loading');
+    button.setAttribute('aria-pressed','false');
+    button.setAttribute('aria-label','播放' + button.dataset.name + '试听');
+    button.closest('.spk-card')?.classList.remove('is-playing');
+  }
+
+  function setPlaying(button){
+    button.classList.remove('is-loading','is-error');
+    button.classList.add('is-playing');
+    button.setAttribute('aria-pressed','true');
+    button.setAttribute('aria-label','暂停' + button.dataset.name + '试听');
+    button.closest('.spk-card')?.classList.add('is-playing');
+  }
+
+  buttons.forEach(function(button){
+    button.addEventListener('click', function(){
+      const requestedUrl = button.dataset.audio;
+
+      if (activeButton === button && !preview.paused){
+        preview.pause();
+        setIdle(button);
+        activeButton = null;
+        return;
+      }
+
+      if (activeButton && activeButton !== button){
+        preview.pause();
+        setIdle(activeButton);
+      }
+      activeButton = button;
+      button.classList.remove('is-error');
+      button.classList.add('is-loading');
+
+      if (preview.src !== requestedUrl) preview.src = requestedUrl;
+      preview.play().then(function(){
+        if (activeButton === button) setPlaying(button);
+      }).catch(function(){
+        button.classList.remove('is-loading','is-playing');
+        button.classList.add('is-error');
+        button.setAttribute('aria-label',button.dataset.name + '试听加载失败，请重试');
+        button.closest('.spk-card')?.classList.remove('is-playing');
+      });
+    });
+  });
+
+  preview.addEventListener('waiting', function(){
+    activeButton?.classList.add('is-loading');
+  });
+  preview.addEventListener('playing', function(){
+    if (activeButton) setPlaying(activeButton);
+  });
+  preview.addEventListener('ended', function(){
+    setIdle(activeButton);
+    activeButton = null;
+  });
+  preview.addEventListener('error', function(){
+    if (!activeButton) return;
+    activeButton.classList.remove('is-loading','is-playing');
+    activeButton.classList.add('is-error');
+    activeButton.setAttribute('aria-label',activeButton.dataset.name + '试听加载失败，请重试');
+    activeButton.closest('.spk-card')?.classList.remove('is-playing');
+  });
+})();
+</script>
 </body>
 </html>
