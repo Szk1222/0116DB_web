@@ -434,7 +434,7 @@
         <span class="sb-label">客服</span>
         <div class="sb-qr-pop">
           <h4 class="qr-title">标贝科技</h4>
-          <div class="qr-img"><img src="images/qv.png" alt="客服企微二维码" /></div>
+          <div class="qr-img"><img src="images/qv.jpg" alt="客服企微二维码" /></div>
           <p>扫码加客服企微<br/>提供更多<span class="qr-hl">咨询服务</span></p>
         </div>
       </button>
@@ -491,9 +491,9 @@
             </div>
           </div>
           <div class="mf-row">
-            <div class="mf-field has-icon mf-required">
+            <div class="mf-field has-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg>
-              <input type="email" name="email" placeholder="请填写您的企业邮箱" autocomplete="email" required />
+              <input type="email" name="email" placeholder="请填写您的企业邮箱" autocomplete="email" />
             </div>
           </div>
           <div class="mf-row">
