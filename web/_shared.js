@@ -255,7 +255,7 @@
     if (group === 'solutions') return cur.startsWith('solution_') || cur === 'solutions_overview.html'
                                    || cur === 'voice_ai.html'
                                    || cur.startsWith('data_service_');
-    if (group === 'about')     return cur === 'about.html';
+    if (group === 'about')     return cur === 'about.html' || cur === 'personal_information_policy.html';
     return false;
   }
 
@@ -423,7 +423,7 @@
           </div>
           <div class="footer-bottom">
             <div class="fb-links">
-              <a href="https://www.data-baker.com/m/#/about/personRightFile " target="_blank" rel="noopener noreferrer">个人信息保护政策</a>
+              <a href="personal_information_policy.html" target="_blank" rel="noopener noreferrer">个人信息保护政策</a>
               <a href="javascript:void(0)" onclick="openTrialModal()">意见反馈</a>
               <a href="https://beian.miit.gov.cn/#/Integrated/index" target="_blank" rel="noopener noreferrer">鲁ICP备2023038621号</a>
             </div>
@@ -921,7 +921,7 @@
             <div class="section-head" data-reveal>
               <span class="eyebrow">Use Cases</span>
               <h2 class="display">数据集<span class="glow-text">应用场景</span></h2>
-              <p>从语音交互到大模型训练，覆盖 8 大行业核心场景，支持算法预研到产品商用的全链路 AI 数据需求。</p>
+              <p>从语音交互到大模型训练，覆盖多种行业核心场景，支持算法预研到产品商用的全链路 AI 数据需求。</p>
             </div>
             <div class="scene-acc" data-reveal>
               <div class="sa-item is-active" style="--accent:#4cc9f0;--img:url('images/scenes/embodied.jpg');">
