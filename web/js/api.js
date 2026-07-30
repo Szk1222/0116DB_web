@@ -9,8 +9,8 @@
 (function (global) {
   'use strict';
 
-  // 接口基址（对应 env.js 的 VUE_APP_BASE_API）
-  var BASE_API = 'https://www.data-baker.com/official-website/v1/';
+  // 测试环境接口基址（对应旧官网 env.js 中保留的沙盒配置）
+  var BASE_API = 'https://test.data-baker.com/official-website/v1/';
 
   // 读取百度 SEM bd_vid（参考 plugins/baidu.js 存储 + footerForm.vue 读取）
   function getBdVid() {

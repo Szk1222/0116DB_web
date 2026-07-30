@@ -2,6 +2,22 @@
    标贝 Cyber · 共享行为（Header / Footer / Cursor / Reveal）
    ========================================================= */
 (function () {
+  /* 移动设备访问桌面站时，切换到同域名下的移动站。 */
+  const deviceView = new URLSearchParams(window.location.search).get('view');
+  const mobileUserAgent =
+    /(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i;
+  const isMobileDevice =
+    mobileUserAgent.test(navigator.userAgent) ||
+    (/Macintosh/i.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
+
+  if (
+    deviceView !== 'desktop' &&
+    isMobileDevice &&
+    !window.location.pathname.startsWith('/m')
+  ) {
+    window.location.replace(`${window.location.origin}/m/`);
+    return;
+  }
 
   /* ── 数据源 ─────────────────────────────────────── */
   const BRAND_LOGO = 'images/logo.png';
@@ -141,14 +157,14 @@
       summary: '面向内容平台、电商、本地生活和在线服务场景，提供搜索推荐、商品理解、用户反馈和内容理解数据。',
       meta: ['商品理解', '推荐搜索', '用户反馈'],
       services: [
-        ['商品与内容理解', '标注商品属性、图文描述、类目体系和内容标签。', 'images/scenes/Internet01.png'],
+        ['商品与内容理解', '标注商品属性、图文描述、类目体系和内容标签。', 'images/scenes/Internet01.jpg'],
         ['用户反馈分析', '对评论、客服工单、社区内容进行意图、情绪与主题归因。', 'images/scenes/service.jpg'],
         ['搜索推荐评测', '构建相关性、排序偏好与召回质量评测数据。', 'images/datasets/text.jpg']
       ],
       advantages: ['标签层级灵活扩展', '适配高并发批量交付', '支持图文多模态处理', '指标反馈驱动迭代'],
       cases: [
         ['电商商品属性标注', '对商品图文进行类目、属性、风格与适用场景标注。', 'images/datasets/cat-retail.jpg', ['商品', '属性', '图文']],
-        ['社区评论情绪分析', '为评论治理和推荐策略构建主题与情绪数据。', 'images/scenes/internetcase02.png', ['评论', '情绪', '主题']]
+        ['社区评论情绪分析', '为评论治理和推荐策略构建主题与情绪数据。', 'images/scenes/internetcase02.jpg', ['评论', '情绪', '主题']]
       ]
     },
     terminal: {
@@ -157,8 +173,8 @@
       meta: ['端侧交互', '语音视觉', '低延迟评测'],
       services: [
         ['唤醒与语音交互', '采集多环境、多口音、多距离语音，支持唤醒、识别和意图理解。', 'images/scenes/home.jpg'],
-        ['端侧视觉数据', '构建家庭、办公、户外等真实环境下的视觉识别数据。', 'images/scenes/terminal02.png'],
-        ['设备体验评测', '围绕响应速度、误唤醒、识别准确率和用户体验搭建评测样本。', 'images/scenes/terminal03.png']
+        ['端侧视觉数据', '构建家庭、办公、户外等真实环境下的视觉识别数据。', 'images/scenes/terminal02.jpg'],
+        ['设备体验评测', '围绕响应速度、误唤醒、识别准确率和用户体验搭建评测样本。', 'images/scenes/terminal03.jpg']
       ],
       advantages: ['覆盖真实设备环境', '支持噪声与远场采集', '多语种多口音可扩展', '交付格式适配端侧模型'],
       cases: [
@@ -171,13 +187,13 @@
       summary: '面向平台治理与安全合规场景，提供文本、图像、音视频与多模态内容审核数据、策略评测和模型对齐服务。',
       meta: ['安全合规', '多模态审核', '策略评测'],
       services: [
-        ['违规内容标注', '建设涉政、暴恐、低俗、广告、辱骂等多维审核标签数据。', 'images/scenes/review01.png'],
+        ['违规内容标注', '建设涉政、暴恐、低俗、广告、辱骂等多维审核标签数据。', 'images/scenes/review01.jpg'],
         ['音视频审核数据', '对音频、视频、直播切片进行风险识别、时间戳与证据标注。', 'images/datasets/video.jpg'],
         ['审核策略评测', '构建误判、漏放、边界样本和模型对抗评测集。', 'images/datasets/text.jpg']
       ],
       advantages: ['风险标签体系可配置', '边界样本沉淀能力强', '支持多轮安全复核', '评测结果可回流模型'],
       cases: [
-        ['社区内容安全数据', '对图文帖、评论和短视频进行风险分类和证据标注。', 'images/scenes/reviewcase01.png', ['图文', '短视频', '安全']],
+        ['社区内容安全数据', '对图文帖、评论和短视频进行风险分类和证据标注。', 'images/scenes/reviewcase01.jpg', ['图文', '短视频', '安全']],
         ['模型安全对齐评测', '构建敏感问题、拒答边界与合规回答评测样本。', 'images/scenes/llm.jpg', ['安全', '对齐', '评测']]
       ]
     }
@@ -325,7 +341,7 @@
           <div class="header-cta">
             <a class="nav-tel" href="tel:4008982016">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.45 2 2 0 0 1 3.59 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2z"/></svg>
-              400 898 2016
+              400-898-2016
             </a>
             <a class="btn btn-primary btn-sm" onclick="openTrialModal()" href="javascript:void(0)">
               ${ctaLabel}
@@ -383,7 +399,7 @@
               </div>
               <div class="fi-row">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.45 2 2 0 0 1 3.59 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2z"/></svg>
-                <a href="tel:4008982016">400 898 2016</a>
+                <a href="tel:4008982016">400-898-2016</a>
               </div>
               <div class="fi-row">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg>
@@ -434,8 +450,8 @@
         <span class="sb-label">客服</span>
         <div class="sb-qr-pop">
           <h4 class="qr-title">标贝科技</h4>
-          <div class="qr-img"><img src="images/qv.jpg" alt="客服企微二维码" /></div>
-          <p>扫码加客服企微<br/>提供更多<span class="qr-hl">咨询服务</span></p>
+          <div class="qr-img"><img src="images/qv.png" alt="客服微信二维码" /></div>
+          <p>扫码加客服微信<br/>提供更多<span class="qr-hl">咨询服务</span></p>
         </div>
       </button>
       <button class="sidebar-btn" onclick="openTrialModal()" title="${ctaLabel}">
@@ -458,7 +474,7 @@
           </div>
           <div class="modal-tel">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.45 2 2 0 0 1 3.59 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2z"/></svg>
-            400 898 2016
+            400-898-2016
           </div>
         </div>
         <form class="modal-right" id="trialForm" novalidate>
@@ -532,7 +548,7 @@
         </button>
         <a class="cp-tel" href="tel:4008982016">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.45 2 2 0 0 1 3.59 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2z"/></svg>
-          400 898 2016
+          400-898-2016
         </a>
       </div>`;
 
@@ -549,7 +565,7 @@
       emailInput.addEventListener('input', () => emailInput.setCustomValidity(''));
     }
     if (trialForm) {
-      trialForm.addEventListener('submit', e => {
+      trialForm.addEventListener('submit', async e => {
         e.preventDefault();
         trialForm.classList.add('is-submitted');
         if (emailInput) {
@@ -557,7 +573,48 @@
           const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
           emailInput.setCustomValidity(value && !isEmail ? '请填写正确的邮箱格式' : '');
         }
-        trialForm.reportValidity();
+        if (!trialForm.reportValidity()) return;
+
+        if (!window.DataBakerAPI) {
+          window.alert('提交服务正在加载，请稍后重试');
+          return;
+        }
+
+        const formData = new FormData(trialForm);
+        const lead = {
+          customerName: (formData.get('name') || '').toString().trim(),
+          customerGender: formData.get('gender') === 'f' ? 2 : 1,
+          customerMobile: (formData.get('phone') || '').toString().trim(),
+          customerCompany: (formData.get('company') || '').toString().trim(),
+          customerEmail: (formData.get('email') || '').toString().trim(),
+          customerPosition: (formData.get('position') || '').toString().trim(),
+          demandContent: (formData.get('requirement') || '').toString().trim()
+        };
+        const validationError = window.DataBakerAPI.validateLead(lead);
+        if (validationError) {
+          window.alert(validationError);
+          return;
+        }
+
+        const submitButton = trialForm.querySelector('[type="submit"]');
+        const originalText = submitButton.textContent;
+        submitButton.disabled = true;
+        submitButton.textContent = '提交中…';
+        try {
+          await window.DataBakerAPI.submitForm(lead, {
+            formType: 7,
+            sourceInfo: '桌面端预约试用'
+          });
+          closeTrialModal();
+          trialForm.reset();
+          trialForm.classList.remove('is-submitted');
+          window.alert('留言成功，我们将尽快联系您');
+        } catch (error) {
+          window.alert(error.message || '提交失败，请稍后重试');
+        } finally {
+          submitButton.disabled = false;
+          submitButton.textContent = originalText;
+        }
       });
     }
   }
@@ -702,7 +759,7 @@
     const key = page.getAttribute('data-scene');
     const scene = INDUSTRY_SCENES[key];
     if (!scene) return;
-    const heroImg = page.getAttribute('data-hero-img') || `images/solution/${key}/${key}-hero.png`;
+    const heroImg = page.getAttribute('data-hero-img') || `images/solution/${key}/${key}-hero.jpg`;
     document.title = `${scene.title} · 标贝科技`;
     page.innerHTML = `
       <section class="page-hero has-hero-img" style="--hero-img:url('${heroImg}')">

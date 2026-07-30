@@ -101,7 +101,7 @@
 <body>
 <div id="nav-placeholder"></div>
 
-<section class="page-hero has-hero-img" style="--hero-img:url('images/tool/annotation/annotation-hero.png')">
+<section class="page-hero has-hero-img" style="--hero-img:url('images/tool/annotation/annotation-hero.jpg')">
   <div class="container">
     <span class="eyebrow">Annotation Platform · 标注平台</span>
     <h1 class="display" style="font-size:clamp(2.2rem,4.8vw,4rem);margin:16px 0 20px;">
@@ -247,7 +247,7 @@
         <div>按照部署服务的项目授权计费，具体请对接 <span class="vs-link yellow" onclick="openTrialModal()">商务咨询 &gt;</span></div>
 
         <div class="vs-k">售后服务</div>
-        <div>客户通过在线咨询工具、统一企业微信社群、电话 400 898 2016 进行沟通及售后服务</div>
+        <div>客户通过在线咨询工具、统一企业微信社群、电话 400-898-2016 进行沟通及售后服务</div>
         <div>专属 SVIP 售后专家对接，完善的运维服务支撑，不超过 10 分钟（工作日）的响应处理</div>
       </div>
     </div>
@@ -329,12 +329,12 @@
     return d.scenes.map((scene, i) => {
       if (typeof scene === 'string') {
         const sceneImg = d.sceneImgs && d.sceneImgs[scene];
-        return { name: scene, img: sceneImg || `${imgBase}${d.slug}-scene-${pad(i)}.png` };
+        return { name: scene, img: sceneImg || `${imgBase}${d.slug}-scene-${pad(i)}.jpg` };
       }
-      return Object.assign({ img: `${imgBase}${d.slug}-scene-${pad(i)}.png` }, scene);
+      return Object.assign({ img: `${imgBase}${d.slug}-scene-${pad(i)}.jpg` }, scene);
     });
   }
-  function defaultImg(d){ return d.img || `${imgBase}${d.slug}.png`; }
+  function defaultImg(d){ return d.img || `${imgBase}${d.slug}.jpg`; }
 
   function renderCats(){
     catsEl.innerHTML = REQ.map((cat, i) =>

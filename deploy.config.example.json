@@ -1,0 +1,30 @@
+{
+  "jump_host": {
+    "host": "10.10.50.24",
+    "port": 2222,
+    "username": "sunqi",
+    "password": "<jumpserver-password>",
+    "totp_secret": "<totp-secret>"
+  },
+  "target_host": {
+    "host": "10.10.40.23",
+    "asset_query": "10.10.40.23",
+    "port": 22,
+    "username": "liuyuhang",
+    "password": "<target-password>"
+  },
+  "deploy_host": {
+    "host": "10.10.50.47",
+    "port": 22,
+    "username": "sunqi",
+    "password": "<deploy-host-password>"
+  },
+  "deploy": {
+    "dev": {
+      "remote_path": "/data/wangxiaojing/cvweb/html_dev/app/official-website-desktop"
+    },
+    "fat": {
+      "remote_path": "/data/wangxiaojing/cvweb/html_fat/app/official-website-desktop"
+    }
+  }
+}
