@@ -33,11 +33,8 @@
 .pipe-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
 .pipe-step { position: relative; padding: 24px 20px; border: 1px solid var(--line); border-radius: var(--r-lg); background: linear-gradient(180deg, rgba(13,26,58,0.55), rgba(10,20,46,0.55)); transition: all 240ms ease; }
 .pipe-step:hover { border-color: rgba(76,201,240,0.4); transform: translateY(-4px); }
-.pipe-step .ix { color: var(--text-dim); font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.18em; }
-.pipe-step .ix em { font-style: normal; color: var(--brand-hi); }
-.pipe-step h3 { font-family: var(--font-display); font-size: 1.04rem; font-weight: 600; margin: 14px 0 8px; }
-.pipe-step p { color: var(--text-mute); font-size: 0.84rem; margin: 0 0 12px; line-height: 1.66; }
-.pipe-step .tag { display: inline-block; padding: 3px 8px; border: 1px solid var(--line); border-radius: 3px; background: rgba(76,201,240,0.05); color: var(--brand-hi); font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; }
+.pipe-step h3 { font-family: var(--font-display); font-size: 1.04rem; font-weight: 600; margin: 0 0 8px; }
+.pipe-step p { color: var(--text-mute); font-size: 0.84rem; margin: 0; line-height: 1.66; }
 .pipe-step::after { content: "▎"; position: absolute; right: -10px; top: 50%; transform: translateY(-50%); color: var(--brand-hi); font-size: 18px; opacity: 0.6; z-index: 2; }
 .pipe-step:last-child::after { display: none; }
 
@@ -137,34 +134,24 @@
     </div>
     <div class="pipe-grid" data-reveal>
       <article class="pipe-step">
-        <span class="ix"><em>01</em> · Pretrain</span>
         <h3>预训练语料</h3>
         <p>多源去重、质量分级与有毒过滤后的多语种、多领域语料库</p>
-        <span class="tag">raw →clean</span>
       </article>
       <article class="pipe-step">
-        <span class="ix"><em>02</em> · SFT</span>
         <h3>指令微调</h3>
         <p>多任务指令+ 高质量人写回答，覆盖通用与垂直任务模板</p>
-        <span class="tag">instruction</span>
       </article>
       <article class="pipe-step">
-        <span class="ix"><em>03</em> · RLHF</span>
         <h3>偏好对比</h3>
         <p>同一 Prompt 多回答双盲对比，输出 Chosen / Rejected 偏好对</p>
-        <span class="tag">preference</span>
       </article>
       <article class="pipe-step">
-        <span class="ix"><em>04</em> · Eval</span>
         <h3>评测打分</h3>
         <p>多维度评分（有用 / 真实 / 安全 / 一致），适配在线评测平台</p>
-        <span class="tag">rubric</span>
       </article>
       <article class="pipe-step">
-        <span class="ix"><em>05</em> · Safety</span>
         <h3>红队 & 安全</h3>
         <p>对抗 Prompt、越狱场景与敏感类目的红队样本与人工评估</p>
-        <span class="tag">red-team</span>
       </article>
     </div>
   </div>
@@ -203,7 +190,6 @@
   <div class="container">
     <div class="cta-card" data-reveal>
       <div class="cta-inner">
-        <span class="eyebrow">Next Step</span>
         <h2>开启大模型数据合作</h2>
         <div class="cta-actions">
           <a href="javascript:void(0)" onclick="openTrialModal()" class="btn btn-primary">联系我们<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>        </div>

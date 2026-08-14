@@ -92,7 +92,7 @@
 .dc-media .ph { display:flex; flex-direction:column; align-items:center; gap:10px; color:var(--brand-hi); opacity:0.42; }
 .dc-media .ph svg { width:50px; height:50px; }
 .dc-media .ph span { font-family:var(--font-mono); font-size:11px; letter-spacing:0.16em; }
-.dc-type-eyebrow { font-family:var(--font-mono); font-size:11px; letter-spacing:0.18em; color:var(--brand-hi); text-transform:uppercase; }
+.dc-type-eyebrow { display:none; }
 .dc-type h3 { font-family:var(--font-display); font-size:1.5rem; font-weight:600; color:var(--text-hi); margin:10px 0 12px; }
 .dc-type .dc-desc { color:var(--text-mute); font-size:0.95rem; line-height:1.8; margin:0 0 18px; max-width:580px; }
 .dc-chips { display:flex; flex-wrap:wrap; gap:8px; }
@@ -233,10 +233,10 @@
     <div class="section-head" data-reveal>
       <span class="eyebrow">01 · Types</span>
       <h2 class="display">数据采集<span class="glow-text">类型</span></h2>
-      <p>支持具身人、语音、运动健康、图片、视频、文本等多类型数据定制采集，真实场景，交付能力强</p>
+      <p>支持具身智能、语音、运动健康、图片、视频、文本等多类型数据定制采集，真实场景，交付能力强</p>
     </div>
     <div class="dc-types">
-<div class="dc-type" data-reveal><div class="dc-media"><img src="images/collection/scene-embodied.jpg" alt="具身人数据采集" loading="lazy" onerror="this.style.display='none'"><div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="8" width="14" height="10" rx="2"/><path d="M12 8V4M9 4h6"/><circle cx="9.5" cy="13" r="1"/><circle cx="14.5" cy="13" r="1"/><path d="M3 13v2M21 13v2"/></svg><span>具身人数据采集</span></div></div><div><span class="dc-type-eyebrow">01 · Embodied</span><h3>具身人数据采集</h3><p class="dc-desc">面向机器人、智能终端与具身智能训练场景，采集真实人物动作、交互指令、操作轨迹与多模态环境数据。</p><div class="dc-chips"><span>真人动作采集</span><span>操作轨迹采集</span><span>人机交互指令</span><span>第一视角任务采集</span><span>抓取动作采集</span><span>多模态场景记录</span></div></div></div>
+<div class="dc-type" data-reveal><div class="dc-media"><img src="images/collection/scene-embodied.jpg" alt="具身智能数据采集" loading="lazy" onerror="this.style.display='none'"><div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="8" width="14" height="10" rx="2"/><path d="M12 8V4M9 4h6"/><circle cx="9.5" cy="13" r="1"/><circle cx="14.5" cy="13" r="1"/><path d="M3 13v2M21 13v2"/></svg><span>具身智能数据采集</span></div></div><div><span class="dc-type-eyebrow">01 · Embodied</span><h3>具身智能数据采集</h3><p class="dc-desc">面向机器人、智能终端与具身智能训练场景，采集真实人物动作、交互指令、操作轨迹与多模态环境数据。</p><div class="dc-chips"><span>真人动作采集</span><span>操作轨迹采集</span><span>人机交互指令</span><span>第一视角任务采集</span><span>抓取动作采集</span><span>多模态场景记录</span></div></div></div>
 <div class="dc-type rev" data-reveal><div><span class="dc-type-eyebrow">02 · Audio</span><h3>语音数据采集</h3><p class="dc-desc">支持全球 180+ 个地区的超过 250 种语言方言，为您量身定制全面的语言数据。</p><div class="dc-chips"><span>唤醒词、指令词采集</span><span>多通道远场景录音采集</span><span>儿童/成人/老人语音采集</span><span>方言、外语采集</span><span>自然对话语音采集</span><span>多种风格音色录制</span><span>虚拟偶像音色录制</span><span>平均音色录制</span><span>车载语音采集</span><span>中文男女声录制</span></div></div><div class="dc-media"><img src="images/collection/type-voice.jpg" alt="语音数据采集" loading="lazy" onerror="this.style.display='none'"><div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10a7 7 0 0 1-14 0M12 19v3M8 22h8"/></svg><span>语音数据采集</span></div></div></div>
 <div class="dc-type" data-reveal><div class="dc-media"><img src="images/collection/scene-sport.jpg" alt="运动健康数据采集" loading="lazy" onerror="this.style.display='none'"><div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13h4l2-6 4 12 2-6h6"/><circle cx="7" cy="19" r="2"/><circle cx="17" cy="19" r="2"/><path d="M7 17v-4M17 17v-4"/></svg><span>运动健康数据采集</span></div></div><div><span class="dc-type-eyebrow">03 · Health</span><h3>运动健康数据采集</h3><p class="dc-desc">围绕运动姿态、健康监测、穿戴设备与康复训练场景，采集动作序列、体征记录和环境上下文数据。</p><div class="dc-chips"><span>运动姿态采集</span><span>健身动作采集</span><span>康复训练记录</span><span>可穿戴设备数据</span><span>体征与行为同步</span><span>多机位动作视频</span></div></div></div>
 <div class="dc-type rev" data-reveal><div><span class="dc-type-eyebrow">04 · Image</span><h3>图片数据采集</h3><p class="dc-desc">全球多人种、特定场景及物体、特定语言及载体的采集能力，全方位支持您的图像采集需求。</p><div class="dc-chips"><span>多人种人像采集</span><span>情感图像采集</span><span>手势图像采集</span><span>动作图像采集</span><span>多语言OCR图像采集</span><span>试卷/公式手写采集</span><span>收据/票据采集</span><span>书本/海报/杂志采集</span><span>街景图像采集</span><span>驾驶员采集</span><span>建筑物裂缝采集</span><span>扫地机器人视角采集</span><span>动物图像采集</span><span>通用物体采集</span><span>特定情景采集</span><span>海外情景采集</span><span>3D人脸采集</span><span>3D物体采集</span></div></div><div class="dc-media"><img src="images/collection/type-image.jpg" alt="图片数据采集" loading="lazy" onerror="this.style.display='none'"><div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="12" r="2.5"/><path d="M3 17l5-5 4 4 3-3 6 6"/></svg><span>图片数据采集</span></div></div></div>
@@ -338,7 +338,6 @@
   <div class="container">
     <div class="cta-card" data-reveal>
       <div class="cta-inner">
-        <span class="eyebrow">Next Step</span>
         <h2>启动你的数据采集项目</h2>
         <div class="cta-actions">
           <a href="javascript:void(0)" onclick="openTrialModal()" class="btn btn-primary">联系我们<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>        </div>

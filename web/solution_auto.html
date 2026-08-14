@@ -5,10 +5,148 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>自动驾驶解决方案 · 标贝科技</title>
 <link rel="stylesheet" href="_shared.css" />
+<style>
+.auto-solution{--auto-cyan:#55d8ff;--auto-blue:#4f91ff;--auto-amber:#ffc857;--auto-red:#ff6b5f;--auto-green:#44e08a;overflow:hidden}
+.auto-hero{position:relative;min-height:790px;display:flex;align-items:center;padding:132px 0 96px;background:#050813;overflow:hidden}
+.auto-hero::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,8,19,.99) 0%,rgba(5,8,19,.88) 42%,rgba(5,8,19,.2) 76%),linear-gradient(180deg,rgba(5,8,19,.05) 50%,#050813 100%),url('images/solution/auto/auto-hero.jpg') center/cover no-repeat}
+.auto-hero::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(180deg,transparent 0 5px,rgba(85,216,255,.025) 6px);pointer-events:none}
+.auto-hero .container{position:relative;z-index:2}.hero-copy{max-width:800px}.hero-copy h1{font-size:clamp(2.2rem,4.8vw,4rem);line-height:1.05;margin:16px 0 22px;letter-spacing:-.015em}.hero-copy .lead{max-width:700px;margin:0;color:var(--text-mute);font-size:1.04rem;line-height:1.86}
+.hero-proof{display:grid;grid-template-columns:repeat(3,max-content);margin:30px 0 0}.hero-proof div{padding:5px 24px;border-left:1px solid rgba(85,216,255,.32)}.hero-proof div:first-child{padding-left:0;border-left:0}.hero-proof b{display:block;color:var(--text-hi);font-size:1rem}.hero-proof span{display:block;margin-top:3px;color:var(--text-dim);font-family:var(--font-mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase}
+.hero-hud{position:absolute;z-index:1;right:8%;top:51%;width:420px;height:420px;transform:translateY(-50%);border:1px solid rgba(85,216,255,.18);border-radius:50%;box-shadow:0 0 70px rgba(85,216,255,.08)}.hero-hud::before,.hero-hud::after{content:"";position:absolute;border-radius:50%}.hero-hud::before{inset:42px;border:1px dashed rgba(85,216,255,.28);animation:autoSpin 24s linear infinite}.hero-hud::after{inset:95px;border:1px solid rgba(255,200,87,.22);box-shadow:inset 0 0 40px rgba(79,145,255,.08)}.hud-cross{position:absolute;inset:50%;width:210px;height:210px;transform:translate(-50%,-50%)}.hud-cross::before,.hud-cross::after{content:"";position:absolute;background:linear-gradient(90deg,transparent,var(--auto-cyan),transparent);opacity:.42}.hud-cross::before{left:0;right:0;top:50%;height:1px}.hud-cross::after{top:0;bottom:0;left:50%;width:1px;transform:rotate(90deg)}.hud-point{position:absolute;width:9px;height:9px;border:1px solid var(--auto-cyan);transform:rotate(45deg);box-shadow:0 0 12px var(--auto-cyan)}.hud-point:nth-child(2){left:20px;top:47%}.hud-point:nth-child(3){right:60px;top:38px;border-color:var(--auto-amber);box-shadow:0 0 12px var(--auto-amber)}.hud-point:nth-child(4){right:25px;bottom:88px;border-color:var(--auto-green);box-shadow:0 0 12px var(--auto-green)}
+@keyframes autoSpin{to{transform:rotate(360deg)}}
+.local-nav{position:sticky;top:72px;z-index:20;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:rgba(5,8,19,.84);backdrop-filter:blur(16px)}.local-nav .container{display:flex;gap:26px;overflow-x:auto;scrollbar-width:none}.local-nav a{flex:none;padding:16px 0;color:var(--text-mute);font-size:.82rem;transition:.2s}.local-nav a:hover{color:var(--auto-cyan)}
+.auto-solution .section-head{max-width:860px}.auto-solution .sol-anchor{scroll-margin-top:122px}
+.principle-layout{display:grid;grid-template-columns:.8fr 1.2fr;gap:56px;align-items:center}.principle-copy h2{font-size:clamp(2.2rem,4vw,3.7rem);margin:16px 0 24px}.principle-copy>p{color:var(--text-mute);line-height:1.9;margin:0}.principle-note{margin-top:30px;padding:20px 22px;border-left:2px solid var(--auto-cyan);background:linear-gradient(90deg,rgba(85,216,255,.09),transparent)}.principle-note b{display:block;margin-bottom:5px;color:var(--text-hi)}.principle-note span{color:var(--text-mute);font-size:.86rem}
+.drive-loop{position:relative;min-height:570px;padding:34px;border:1px solid rgba(85,216,255,.2);border-radius:24px;background:radial-gradient(circle at 50% 51%,rgba(79,145,255,.14),transparent 40%),linear-gradient(145deg,rgba(13,26,58,.72),rgba(5,10,24,.92));overflow:hidden}.drive-loop::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(85,216,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(85,216,255,.045) 1px,transparent 1px);background-size:34px 34px}.drive-core{position:absolute;left:50%;top:52%;width:160px;height:160px;transform:translate(-50%,-50%);border:1px solid rgba(85,216,255,.4);border-radius:50%;display:grid;place-items:center;text-align:center;background:rgba(5,12,29,.9);box-shadow:0 0 52px rgba(79,145,255,.24),inset 0 0 28px rgba(85,216,255,.08)}.drive-core::before{content:"";position:absolute;inset:-29px;border:1px dashed rgba(85,216,255,.28);border-radius:50%;animation:autoSpin 24s linear infinite}.drive-core b{display:block;color:var(--text-hi);font-size:1.08rem}.drive-core span{color:var(--auto-cyan);font-family:var(--font-mono);font-size:9px;letter-spacing:.13em}.loop-node{position:absolute;width:194px;padding:18px;border:1px solid var(--line);border-radius:13px;background:rgba(7,16,37,.94);box-shadow:0 16px 34px rgba(0,0,0,.28)}.loop-node::after{content:"";position:absolute;width:8px;height:8px;border-radius:50%;background:var(--node);box-shadow:0 0 12px var(--node)}.loop-node h3{font-size:1rem;margin:0 0 5px}.loop-node p{margin:0;color:var(--text-mute);font-size:.76rem;line-height:1.55}.node-sense{--node:var(--auto-blue);left:50%;top:24px;transform:translateX(-50%)}.node-sense::after{left:calc(50% - 4px);bottom:-5px}.node-mine{--node:var(--auto-cyan);left:24px;top:120px}.node-mine::after{right:-5px;bottom:18px}.node-label{--node:var(--auto-amber);right:24px;top:120px}.node-label::after{left:-5px;bottom:18px}.node-train{--node:var(--auto-red);right:24px;bottom:34px}.node-train::after{left:-5px;top:18px}.node-return{--node:var(--auto-green);left:24px;bottom:34px}.node-return::after{right:-5px;top:18px}
+.collection-board{display:grid;grid-template-columns:.78fr 1.22fr;gap:18px;padding:18px;border:1px solid rgba(85,216,255,.2);border-radius:24px;background:radial-gradient(circle at 18% 8%,rgba(79,145,255,.12),transparent 30%),linear-gradient(145deg,rgba(13,26,58,.72),rgba(5,10,24,.92))}.collection-panel{position:relative;padding:22px;border:1px solid var(--line);border-radius:17px;background:rgba(5,12,29,.62)}.board-label{display:flex;align-items:center;gap:10px;color:var(--auto-cyan);font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase}.board-label::before{content:"";width:22px;height:1px;background:currentColor;box-shadow:0 0 10px currentColor}.method-list,.capability-list{display:grid;gap:12px;margin-top:18px}.method-card{position:relative;min-height:132px;padding:24px;display:flex;flex-direction:column;justify-content:flex-end;border:1px solid rgba(255,255,255,.11);border-radius:13px;overflow:hidden;background:#08142e}.method-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55;transition:transform .55s ease,opacity .55s ease}.method-card::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(4,9,22,.96),rgba(4,9,22,.18)),linear-gradient(180deg,transparent 30%,rgba(4,9,22,.88))}.method-card:hover img{transform:scale(1.04);opacity:.7}.method-card>*{position:relative;z-index:2}.method-card h3{margin:0 0 4px;font-size:1.15rem}.method-card p{max-width:350px;margin:0;color:var(--text-mute);font-size:.78rem;line-height:1.55}.collect-cap{position:relative;display:grid;grid-template-columns:1fr;min-height:102px;padding:20px;border:1px solid var(--line);border-radius:13px;background:linear-gradient(100deg,rgba(85,216,255,.08),rgba(13,26,58,.32) 42%,rgba(7,13,32,.62));overflow:hidden}.collect-cap::before{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--accent);box-shadow:0 0 12px var(--accent)}.collect-cap h3{margin:0 0 6px;font-size:1rem}.collect-cap p{margin:0;color:var(--text-mute);font-size:.8rem;line-height:1.65}
+.annotation-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.annotation-card{position:relative;min-height:260px;padding:28px 25px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(145deg,rgba(13,26,58,.72),rgba(6,12,29,.9));overflow:hidden;transition:transform .24s ease,border-color .24s ease}.annotation-card::before{content:"";position:absolute;left:0;top:0;width:100%;height:2px;background:linear-gradient(90deg,var(--accent),transparent 75%)}.annotation-card:hover{transform:translateY(-5px);border-color:color-mix(in srgb,var(--accent) 40%,transparent)}.annotation-card h3{position:relative;z-index:1;margin:0 0 10px;font-size:1.12rem}.annotation-card p{position:relative;z-index:1;margin:0;color:var(--text-mute);font-size:.82rem;line-height:1.72}
+.service-architecture{position:relative;padding:32px;border:1px solid rgba(85,216,255,.22);border-radius:26px;background:radial-gradient(ellipse at 50% 45%,rgba(26,118,210,.18),transparent 40%),linear-gradient(155deg,#07152f,#030a1a 58%,#07142c);overflow:hidden}.service-architecture::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(85,216,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(85,216,255,.04) 1px,transparent 1px);background-size:32px 32px;mask-image:linear-gradient(#000,transparent)}.architecture-legend{position:relative;display:flex;justify-content:center;align-items:center;gap:9px;margin:4px 0 26px;color:rgba(171,220,248,.65);font-family:var(--font-mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase}.architecture-legend::before{content:"";width:28px;height:1px;background:var(--auto-cyan);box-shadow:0 0 10px var(--auto-cyan)}.arch-stack{position:relative;display:grid;gap:14px}.arch-layer{display:grid;grid-template-columns:200px 1fr;min-height:174px;border:1px solid rgba(85,216,255,.24);border-radius:16px;background:linear-gradient(100deg,rgba(10,42,83,.94),rgba(5,19,43,.88));overflow:hidden}.arch-head{position:relative;padding:28px 24px;display:flex;flex-direction:column;justify-content:center;border-right:1px solid rgba(85,216,255,.2);background:linear-gradient(145deg,color-mix(in srgb,var(--accent) 18%,transparent),transparent)}.arch-head h3{margin:0 0 5px;font-size:1.16rem}.arch-head span{color:var(--text-mute);font-size:.74rem;line-height:1.55}.arch-nodes{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;align-items:stretch;padding:20px}.arch-node{position:relative;padding:19px 16px;border:1px solid rgba(255,255,255,.09);border-radius:10px;background:rgba(5,13,31,.62)}.arch-node::before{content:"";display:block;width:7px;height:7px;margin-bottom:16px;border:1px solid var(--accent);transform:rotate(45deg);box-shadow:0 0 8px var(--accent)}.arch-node b{display:block;margin-bottom:6px;font-size:.86rem}.arch-node span{color:var(--text-mute);font-size:.7rem;line-height:1.5}.flow-link{position:absolute;left:97px;bottom:-23px;z-index:3;width:6px;height:30px;background:linear-gradient(var(--accent),transparent);box-shadow:0 0 14px var(--accent)}
+.why-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.why-card{position:relative;min-height:292px;padding:30px 24px;border:1px solid rgba(85,216,255,.16);border-radius:16px;overflow:hidden;background:radial-gradient(circle at 100% 0%,color-mix(in srgb,var(--accent) 13%,transparent),transparent 42%),linear-gradient(155deg,rgba(12,32,66,.86),rgba(5,13,31,.94));transition:transform .28s ease,border-color .28s ease}.why-card::before{content:"";position:absolute;left:24px;right:24px;top:0;height:2px;background:linear-gradient(90deg,var(--accent),transparent 82%);box-shadow:0 0 12px color-mix(in srgb,var(--accent) 55%,transparent)}.why-card:hover{transform:translateY(-5px);border-color:color-mix(in srgb,var(--accent) 44%,transparent)}.why-copy{position:relative;z-index:1}.why-copy::before{content:"";display:block;width:10px;height:10px;margin-bottom:46px;border:1px solid var(--accent);transform:rotate(45deg);background:color-mix(in srgb,var(--accent) 22%,transparent);box-shadow:0 0 12px var(--accent)}.why-copy h3{margin:10px 0 12px;font-size:1.14rem}.why-copy p{margin:0;color:var(--text-mute);font-size:.78rem;line-height:1.72}
+.flywheel{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}.fly-step{position:relative;min-height:250px;padding:28px 22px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,rgba(13,26,58,.66),rgba(7,13,32,.8));overflow:hidden}.fly-step::after{content:"→";position:absolute;right:-12px;top:50%;z-index:2;color:var(--auto-cyan);font-size:18px}.fly-step:last-child::after{display:none}.fly-step .dot{width:11px;height:11px;border-radius:50%;background:var(--accent);box-shadow:0 0 14px var(--accent);margin-bottom:45px}.fly-step h3{font-size:1.08rem;margin-bottom:9px}.fly-step p{margin:0;color:var(--text-mute);font-size:.82rem;line-height:1.65}
+.scene-mosaic{display:grid;grid-template-columns:1.25fr .75fr .75fr;grid-template-rows:310px 310px;gap:15px}.scene-tile{position:relative;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#071229}.scene-tile:first-child{grid-row:1/3}.scene-tile:last-child{grid-column:2/4}.scene-tile img{width:100%;height:100%;object-fit:cover;opacity:.67;transition:transform .6s ease,opacity .6s ease}.scene-tile::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 24%,rgba(4,9,22,.92) 100%)}.scene-tile:hover img{transform:scale(1.035);opacity:.8}.scene-text{position:absolute;z-index:2;left:26px;right:26px;bottom:24px}.scene-text h3{margin:0 0 6px;font-size:1.25rem}.scene-text p{margin:0;color:rgba(224,235,245,.72);font-size:.78rem;line-height:1.6}.auto-solution .cta-card{background:radial-gradient(circle at 84% 15%,rgba(255,200,87,.16),transparent 30%),radial-gradient(circle at 12% 80%,rgba(85,216,255,.18),transparent 35%),linear-gradient(135deg,rgba(13,35,75,.95),rgba(5,12,29,.98))}
+@media(max-width:980px){.hero-hud{right:-160px;opacity:.45}.principle-layout,.collection-board{grid-template-columns:1fr}.annotation-grid{grid-template-columns:repeat(2,1fr)}.why-grid{grid-template-columns:repeat(2,1fr)}.flywheel{grid-template-columns:repeat(2,1fr)}.fly-step:last-child{grid-column:1/-1}.arch-layer{grid-template-columns:1fr}.arch-head{border-right:0;border-bottom:1px solid rgba(85,216,255,.2)}.arch-nodes{grid-template-columns:repeat(2,1fr)}.flow-link{display:none}}
+@media(max-width:640px){.auto-hero{min-height:720px;padding-top:120px}.hero-hud{display:none}.hero-proof{grid-template-columns:1fr;gap:10px}.hero-proof div,.hero-proof div:first-child{padding:7px 0 7px 14px;border-left:1px solid rgba(85,216,255,.32)}.principle-layout{gap:30px}.drive-loop{min-height:auto;padding:18px}.drive-core{position:relative;left:auto;top:auto;margin:0 auto 18px;transform:none}.loop-node{position:relative;left:auto;right:auto;top:auto;bottom:auto;width:auto;margin:10px 0;transform:none}.annotation-grid,.why-grid,.flywheel{grid-template-columns:1fr}.fly-step:last-child{grid-column:auto}.arch-nodes{grid-template-columns:1fr}.service-architecture{padding:14px}.scene-mosaic{grid-template-columns:1fr;grid-template-rows:repeat(4,290px)}.scene-tile:first-child,.scene-tile:last-child{grid-row:auto;grid-column:auto}}
+</style>
 </head>
-<body>
+<body class="auto-page">
 <div id="nav-placeholder"></div>
-<main id="industryPage" data-scene="auto"></main>
+
+<main class="auto-solution">
+  <section class="auto-hero">
+    <div class="hero-hud" aria-hidden="true"><span class="hud-cross"></span><i class="hud-point"></i><i class="hud-point"></i><i class="hud-point"></i></div>
+    <div class="container">
+      <div class="hero-copy" data-reveal>
+        <h1 class="display">让每一公里数据<br><span class="glow-text">驱动更安全的智能出行</span></h1>
+        <p class="lead">面向智能座舱、辅助驾驶与高阶自动驾驶研发，构建从舱内舱外多传感器采集、场景挖掘、2D / 3D / 4D 标注，到训练评测与难例回流的一站式数据闭环。</p>
+        <div class="hero-proof"><div><b>多传感器融合</b></div><div><b>全栈标注</b></div><div><b>场景化交付</b></div></div>
+        <div class="page-actions"><a href="javascript:void(0)" onclick="openTrialModal()" class="btn btn-primary">获取解决方案<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a><a href="#principle" class="btn btn-ghost">了解数据闭环</a></div>
+      </div>
+    </div>
+  </section>
+
+  <nav class="local-nav" aria-label="本页导航"><div class="container"><a href="#principle">数据闭环</a><a href="#collection">数据采集</a><a href="#annotation">数据标注</a><a href="#services">服务架构</a><a href="#why-us">核心优势</a><a href="#flywheel">迭代流程</a><a href="#scenarios">业务场景</a></div></nav>
+
+  <section id="principle" class="section sol-anchor">
+    <div class="container"><div class="principle-layout">
+      <div class="principle-copy" data-reveal><h2 class="display">从真实道路出发的<br><span class="glow-text">自动驾驶数据闭环</span></h2><p>自动驾驶能力并非由单一算法决定。车辆持续感知道路环境，在海量行驶数据中发现关键场景，经高精度标注形成训练资产，再通过模型训练、仿真与实车验证，把难例重新送回数据生产链路。</p><div class="principle-note"><b>以场景为核心，而不只是堆叠数据量</b><span>围绕 ODD、道路结构、交通参与者、环境条件与车辆行为组织数据，让每个样本都能对应具体研发问题和模型短板。</span></div></div>
+      <div class="drive-loop" data-reveal aria-label="采集、挖掘、标注、训练和回流的自动驾驶数据闭环">
+        <div class="loop-node node-sense"><h3>多源数据采集</h3><p>摄像头、激光雷达、毫米波雷达、定位、惯性测量与车辆总线信号同步记录</p></div>
+        <div class="loop-node node-mine"><h3>场景挖掘切片</h3><p>按设计运行域、事件与模型置信度筛选长尾场景，形成可检索的场景库</p></div>
+        <div class="loop-node node-label"><h3>多模态融合标注</h3><p>完成二维、三维、四维、鸟瞰视角、车道拓扑与多传感器联合标注</p></div>
+        <div class="loop-node node-train"><h3>训练与评测</h3><p>按训练、验证和评测目标构建数据包，支撑感知、预测与规划迭代</p></div>
+        <div class="loop-node node-return"><h3>难例回流</h3><p>回收误检、漏检、规划异常和接管片段，驱动下一轮针对性生产</p></div>
+        <div class="drive-core"><div><b>数据闭环</b><span>ROAD × DATA × MODEL</span></div></div>
+      </div>
+    </div></div>
+  </section>
+
+  <section id="collection" class="section sol-anchor" style="padding-top:10px">
+    <div class="container">
+      <div class="section-head" data-reveal><h2 class="display">覆盖舱内舱外的<span class="glow-text">多模态数据采集</span></h2><p>根据车型、传感器方案和目标 ODD 定制采集路线与执行 SOP，覆盖城市、高速、园区、泊车等道路类型，并对时间同步、设备状态、路线完成度与场景命中率进行全过程质检。</p></div>
+      <div class="collection-board" data-reveal>
+        <div class="collection-panel"><div class="board-label">采集方式</div><div class="method-list">
+          <article class="method-card"><img src="images/collection/scene-driving.jpg" alt="实车道路采集" loading="lazy"><h3>实车道路采集</h3><p>按路线、时段、天气和交通密度组织车队，采集真实道路连续多传感器数据。</p></article>
+          <article class="method-card"><img src="images/scenes/auto03.jpg" alt="智能座舱采集" loading="lazy"><h3>智能座舱采集</h3><p>围绕驾驶员、乘员、语音交互与舱内状态，采集多视角视频、音频和车辆信号。</p></article>
+          <article class="method-card"><img src="images/tool/annotation/req/pointcloud-fusion-scene-01.jpg" alt="多传感器同步采集" loading="lazy"><h3>多传感器同步采集</h3><p>完成相机、激光雷达、毫米波雷达、定位与车辆总线数据的统一时间基准和标定参数管理。</p></article>
+        </div></div>
+        <div class="collection-panel"><div class="board-label">采集能力</div><div class="capability-list">
+          <article class="collect-cap" style="--accent:var(--auto-cyan)"><div><h3>全 ODD 场景覆盖</h3><p>覆盖城市道路、高速公路、园区、隧道、匝道、交叉口、停车场等道路结构，以及昼夜、逆光、雨雪雾等环境变量。</p></div></article>
+          <article class="collect-cap" style="--accent:var(--auto-amber)"><div><h3>多车型与多硬件方案</h3><p>支持乘用车、商用车、无人配送与专用车辆，可按传感器数量、安装位和采样规格完成车辆改装与适配。</p></div></article>
+          <article class="collect-cap" style="--accent:var(--auto-green)"><div><h3>场景定向与长尾补采</h3><p>依据事件清单和命中规则组织定向任务，对施工、异形车、行人横穿、拥堵博弈等稀缺场景进行专项补采。</p></div></article>
+          <article class="collect-cap" style="--accent:var(--auto-red)"><div><h3>端到端质量监控</h3><p>对传感器在线状态、时间戳漂移、画面遮挡、点云密度、路线偏差和有效里程实时检测，确保原始数据可用。</p></div></article>
+        </div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="annotation" class="section sol-anchor">
+    <div class="container">
+      <div class="section-head" data-reveal><h2 class="display">从单帧感知到时空理解的<span class="glow-text">全栈标注</span></h2><p>依托自研 AI 数据平台，统一管理多传感器标定、预标注、人工修正、连续帧追踪与多级质检，让目标、道路、拓扑和行为标签在时间与空间上保持一致。</p></div>
+      <div class="annotation-grid" data-reveal>
+        <article class="annotation-card" style="--accent:var(--auto-cyan)"><h3>二维图像与视频标注</h3><p>支持目标框、关键点、车道线、可行驶区域、语义 / 实例分割和连续帧追踪，覆盖车辆、行人、骑行者、交通标志等类别。</p></article>
+        <article class="annotation-card" style="--accent:var(--auto-blue)"><h3>三维点云标注</h3><p>提供三维目标框、点云分割、目标属性、航向速度与轨迹标注，并保持跨帧编号和遮挡关系一致。</p></article>
+        <article class="annotation-card" style="--accent:var(--auto-amber)"><h3>二维 / 三维融合标注</h3><p>联合相机与点云视图完成目标映射、投影校验和属性同步，服务多传感器融合感知模型训练。</p></article>
+        <article class="annotation-card" style="--accent:var(--auto-green)"><h3>四维时序与鸟瞰标注</h3><p>基于连续帧构建动态目标轨迹、占用空间、场景流和鸟瞰语义，为时空感知与端到端模型提供监督信号。</p></article>
+        <article class="annotation-card" style="--accent:var(--auto-red)"><h3>车道拓扑与地图要素</h3><p>标注车道中心线、边界、连接关系、停止线、路口结构与交通控制要素，支持拓扑推理和规划预测。</p></article>
+        <article class="annotation-card" style="--accent:#ff7da8"><h3>舱内行为与交互标注</h3><p>识别疲劳、分心、视线、手势、乘员状态和语音意图，支撑驾驶员监测、乘员监测、智能座舱与多模态交互模型。</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="services" class="section sol-anchor" style="padding-top:20px">
+    <div class="container">
+      <div class="section-head" data-reveal><h2 class="display">贯穿采、管、标、测的<span class="glow-text">自动驾驶数据服务</span></h2><p>从原始数据进入平台开始，完成清洗脱敏、场景切片、标注质检与数据集编排，按模型任务、版本和研发节奏交付可追溯的数据资产。</p></div>
+      <div class="service-architecture" data-reveal aria-label="自动驾驶数据服务三层架构">
+        <div class="architecture-legend">自动驾驶数据服务架构</div>
+        <div class="arch-stack">
+          <article class="arch-layer" style="--accent:var(--auto-cyan)"><div class="arch-head"><h3>多源数据采集</h3><span>真实道路与智能座舱的同步采集入口</span><i class="flow-link"></i></div><div class="arch-nodes"><div class="arch-node"><b>舱外道路</b><span>城市 / 高速 / 泊车 / 园区</span></div><div class="arch-node"><b>舱内行为</b><span>驾驶员 / 乘员 / 语音交互</span></div><div class="arch-node"><b>多传感器</b><span>摄像头 / 激光雷达 / 毫米波雷达</span></div><div class="arch-node"><b>车辆信号</b><span>车辆总线 / 定位 / 惯性测量 / 标定</span></div></div></article>
+          <article class="arch-layer" style="--accent:var(--auto-amber)"><div class="arch-head"><h3>数据工程与标注</h3><span>把原始里程转化为高价值训练样本</span><i class="flow-link"></i></div><div class="arch-nodes"><div class="arch-node"><b>清洗脱敏</b><span>质量筛查 / 隐私处理 / 格式转换</span></div><div class="arch-node"><b>场景挖掘</b><span>事件切片 / 检索 / 稀缺度分析</span></div><div class="arch-node"><b>全栈标注</b><span>二维 / 三维 / 四维 / 鸟瞰 / 拓扑</span></div><div class="arch-node"><b>质量管理</b><span>预标注 / 多级质检 / 版本追溯</span></div></div></article>
+          <article class="arch-layer" style="--accent:var(--auto-green)"><div class="arch-head"><h3>场景数据资产</h3><span>面向研发任务的标准化数据交付</span></div><div class="arch-nodes"><div class="arch-node"><b>感知数据集</b><span>检测 / 分割 / 跟踪 / 占用网络</span></div><div class="arch-node"><b>预测规划集</b><span>轨迹 / 拓扑 / 交互 / 博弈</span></div><div class="arch-node"><b>端到端数据集</b><span>多模态时序 / 行为监督 / 视觉语言动作</span></div><div class="arch-node"><b>评测与难例库</b><span>基准评测 / 问题回溯 / 定向回流</span></div></div></article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="why-us" class="section sol-anchor" style="padding-top:20px">
+    <div class="container">
+      <div class="section-head" data-reveal><h2 class="display">为什么选择<span class="glow-text">标贝科技</span></h2><p>以成熟的平台工具、工程团队与质量体系承接自动驾驶数据规模化生产，在复杂传感器方案、快速版本迭代和安全合规要求之间保持稳定交付。</p></div>
+      <div class="why-grid" data-reveal>
+        <article class="why-card" style="--accent:var(--auto-cyan)"><div class="why-copy"><h3>采集标注一站式服务</h3><p>从采集方案、车辆与设备适配，到清洗、标注、质检和训练格式交付统一承接，减少多供应商协同成本和数据损耗。</p></div></article>
+        <article class="why-card" style="--accent:var(--auto-amber)"><div class="why-copy"><h3>成熟的多模态工具链</h3><p>平台支持图像、视频、点云与多传感器融合标注，内置预标注、连续帧传播、跨视图联动和版本管理能力。</p></div></article>
+        <article class="why-card" style="--accent:var(--auto-green)"><div class="why-copy"><h3>场景化质量管理</h3><p>不只检查标签准确率，还围绕场景覆盖、类别分布、ID 连贯、传感器对齐和交付一致性建立专项质检策略。</p></div></article>
+        <article class="why-card" style="--accent:var(--auto-red)"><div class="why-copy"><h3>数据安全与合规</h3><p>通过 ISO 系列安全认证并遵循隐私保护要求，支持物理隔离、专属作业区、权限分级与完整操作审计。</p></div></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="flywheel" class="section sol-anchor" style="padding-top:20px">
+    <div class="container">
+      <div class="section-head" data-reveal><h2 class="display">让数据随模型问题<span class="glow-text">持续进化</span></h2><p>用可度量、可回溯的五步流程，把线上问题快速转化为采集与标注任务，缩短从问题发现到新版本验证的周期。</p></div>
+      <div class="flywheel" data-reveal>
+        <article class="fly-step" style="--accent:var(--auto-cyan)"><i class="dot"></i><h3>定义场景</h3><p>拆解 ODD、模型任务和验收指标，形成场景清单、标签规范与数据配比。</p></article>
+        <article class="fly-step" style="--accent:var(--auto-blue)"><i class="dot"></i><h3>采集与挖掘</h3><p>通过定向采集、历史数据检索和模型触发筛选命中目标片段。</p></article>
+        <article class="fly-step" style="--accent:var(--auto-amber)"><i class="dot"></i><h3>标注与质检</h3><p>人机协同完成全栈标注，并按任务特性执行分层质量控制。</p></article>
+        <article class="fly-step" style="--accent:var(--auto-red)"><i class="dot"></i><h3>训练与评测</h3><p>按版本编排训练和评测数据，定位模型在细分场景中的能力缺口。</p></article>
+        <article class="fly-step" style="--accent:var(--auto-green)"><i class="dot"></i><h3>难例再回流</h3><p>把误检、漏检、接管和异常规划样本重新加入生产队列，持续闭环。</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="scenarios" class="section sol-anchor" style="padding-top:30px">
+    <div class="container">
+      <div class="section-head" data-reveal><h2 class="display">面向量产研发的<span class="glow-text">场景化数据建设</span></h2><p>围绕不同自动化等级、车辆形态和量产节点，组合采集范围、标注类型与交付规范，为核心研发场景提供针对性数据支持。</p></div>
+      <div class="scene-mosaic" data-reveal>
+        <article class="scene-tile"><img src="images/scenes/auto.jpg" alt="城市辅助驾驶场景" loading="lazy"><div class="scene-text"><h3>城市辅助驾驶</h3><p>路口通行、行人横穿、加塞博弈、异形障碍物和复杂车道拓扑。</p></div></article>
+        <article class="scene-tile"><img src="images/tool/annotation/req/pointcloud-4d-scene-01.jpg" alt="高阶自动驾驶场景" loading="lazy"><div class="scene-text"><h3>高阶自动驾驶</h3><p>四维时序、鸟瞰占用、轨迹预测与端到端行为监督。</p></div></article>
+        <article class="scene-tile"><img src="images/datasets/cat-auto.jpg" alt="智能座舱场景" loading="lazy"><div class="scene-text"><h3>智能座舱</h3><p>驾驶员与乘员监测、疲劳分心、手势视线与多模态语音交互。</p></div></article>
+        <article class="scene-tile"><img src="images/annotation/scene-driving.jpg" alt="自动泊车与低速无人场景" loading="lazy"><div class="scene-text"><h3>自动泊车与低速无人</h3><p>停车位、可行驶区域、近场障碍物、园区道路与无人配送场景。</p></div></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section"><div class="container"><div class="cta-card" data-reveal><div class="cta-inner"><h2>把真实道路数据转化为可持续迭代的自动驾驶能力</h2><div class="cta-actions"><a href="javascript:void(0)" onclick="openTrialModal()" class="btn btn-primary">联系方案顾问<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a><a href="dataset_image.html" class="btn btn-ghost">查看图像数据集</a></div></div></div></div></section>
+</main>
+
 <div id="footer-placeholder"></div>
 <script src="_shared.js"></script>
 </body>

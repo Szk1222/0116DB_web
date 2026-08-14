@@ -88,7 +88,7 @@
 .dc-media .ph { display:flex; flex-direction:column; align-items:center; gap:10px; color:var(--brand-hi); opacity:0.42; }
 .dc-media .ph svg { width:50px; height:50px; }
 .dc-media .ph span { font-family:var(--font-mono); font-size:11px; letter-spacing:0.16em; }
-.dc-type-eyebrow { font-family:var(--font-mono); font-size:11px; letter-spacing:0.18em; color:var(--brand-hi); text-transform:uppercase; }
+.dc-type-eyebrow { display:none; }
 .dc-type h3 { font-family:var(--font-display); font-size:1.5rem; font-weight:600; color:var(--text-hi); margin:10px 0 12px; }
 .dc-type .dc-desc { color:var(--text-mute); font-size:0.95rem; line-height:1.8; margin:0 0 18px; max-width:580px; }
 .dc-chips { display:flex; flex-wrap:wrap; gap:8px; }
@@ -271,11 +271,11 @@
     </div>
     <div class="flow-rail" data-reveal>
       <div class="flow-steps">
-        <div class="flow-step"><div class="dot">01</div><h4>需求对接</h4><p>明确标注规范、数据类型与验收标准</p><span class="code">scope.json</span></div>
-        <div class="flow-step"><div class="dot">02</div><h4>规范制定</h4><p>制定标注规则、试标校准与样例集</p><span class="code">rule.spec</span></div>
-        <div class="flow-step"><div class="dot">03</div><h4>AI 预标注</h4><p>自研模型自动预标，压缩重复劳动</p><span class="code">preanno.ai</span></div>
-        <div class="flow-step"><div class="dot">04</div><h4>人工精标</h4><p>分领域认证标注员精修与复杂判断</p><span class="code">label.run</span></div>
-        <div class="flow-step"><div class="dot">05</div><h4>质检交付</h4><p>交叉质检 + 客户验收 + 加密交付</p><span class="code">deliver.tar</span></div>
+        <div class="flow-step"><div class="dot">01</div><h4>需求对接</h4><p>明确标注规范、数据类型与验收标准</p></div>
+        <div class="flow-step"><div class="dot">02</div><h4>规范制定</h4><p>制定标注规则、试标校准与样例集</p></div>
+        <div class="flow-step"><div class="dot">03</div><h4>AI 预标注</h4><p>自研模型自动预标，压缩重复劳动</p></div>
+        <div class="flow-step"><div class="dot">04</div><h4>人工精标</h4><p>分领域认证标注员精修与复杂判断</p></div>
+        <div class="flow-step"><div class="dot">05</div><h4>质检交付</h4><p>交叉质检 + 客户验收 + 加密交付</p></div>
       </div>
     </div>
   </div>
@@ -319,7 +319,6 @@
   <div class="container">
     <div class="cta-card" data-reveal>
       <div class="cta-inner">
-        <span class="eyebrow">Next Step</span>
         <h2>启动高质量数据标注</h2>
         <div class="cta-actions">
           <a href="javascript:void(0)" onclick="openTrialModal()" class="btn btn-primary">联系我们<svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>        </div>

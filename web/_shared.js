@@ -23,12 +23,13 @@
   const BRAND_LOGO = 'images/logo.png';
 
   const DATASETS = [
+    { href: 'dataset_embodied.html',    name: '具身智能数据集', en: 'Embodied AI',   icon: 'M5 8h14v10H5zM12 8V4M9 4h6M3 13v2M21 13v2' },
+    { href: 'dataset_llm.html',         name: '大模型数据集',   en: 'LLM Dataset',   icon: 'M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5' },
     { href: 'dataset_speech_asr.html',  name: '语音识别数据集', en: 'ASR Dataset',   icon: 'M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3zm-7 9a7 7 0 0 0 14 0M12 19v3' },
     { href: 'dataset_speech_tts.html',  name: '语音合成数据集', en: 'TTS Dataset',   icon: 'M9 18V5l12-2v13M6 15a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm12-2a3 3 0 1 1 0 6 3 3 0 0 1 0-6z' },
     { href: 'dataset_image.html',       name: '图像数据集',     en: 'Image Dataset', icon: 'M3 5h18M3 12h18M3 19h12' },
     { href: 'dataset_video.html',       name: '视频数据集',     en: 'Video Dataset', icon: 'M15 10l4.553-2.277A1 1 0 0 1 21 8.649v6.702a1 1 0 0 1-1.447.894L15 14M3 8a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8z' },
     { href: 'dataset_text.html',        name: '文本数据集',     en: 'Text Dataset',  icon: 'M4 6h16M4 10h16M4 14h10M4 18h6' },
-    { href: 'dataset_llm.html',         name: '大模型数据集',   en: 'LLM Dataset',   icon: 'M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5' },
   ];
 
   const TOOLS_ANNOTATION = [
@@ -56,7 +57,7 @@
   ];
 
   const SOL_INDUSTRY_SCENES = [
-    { href: 'solution_embodied.html', name: '具身人',   en: 'Embodied AI' },
+    { href: 'solution_embodied.html', name: '具身智能', en: 'Embodied AI' },
     { href: 'solution_auto.html',     name: '自动驾驶', en: 'Autonomous Driving' },
     { href: 'solution_llm.html',      name: '大模型',   en: 'Large Model' },
     { href: 'solution_finance.html',  name: '金融',     en: 'Finance' },
@@ -77,7 +78,7 @@
 
   const INDUSTRY_SCENES = {
     embodied: {
-      title: '具身人解决方案', en: 'Embodied AI', image: 'images/scenes/embodied.jpg',
+      title: '具身智能解决方案', en: 'Embodied AI', image: 'images/scenes/embodied.jpg',
       summary: '面向人形机器人、服务机器人与具身智能训练，构建多模态感知、动作理解、任务执行与人机交互数据闭环。',
       meta: ['多模态采集', '动作指令标注', '机器人评测'],
       services: [
